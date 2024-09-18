@@ -10,8 +10,12 @@ def campourcy():
 def audin():
 
     pass
-def bathatya():
-    pass
+
+def bhatiya(n):
+    total = 0
+    for i in range(1, n+1):
+        total += i
+    return total
 
 def solacroup(a):
     for i in range(a):
@@ -20,3 +24,6 @@ def solacroup(a):
 
 def genConflit():
     pass
+
+resultat = bhatiya(5)
+print(resultat)
