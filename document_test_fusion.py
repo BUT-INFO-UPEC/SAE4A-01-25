@@ -17,12 +17,10 @@ def aydin(a, b):
     return a + b 
 resultat = aydin(3, 8)
 print(f"la somme est : {resultat}")
+pass
 
-def bhatiya(n):
-    total = 0
-    for i in range(1, n+1):
-        total += i
-    return total
+def bathatya():
+    pass
 
 def solacroup(a):
     for i in range(a):
@@ -42,14 +40,9 @@ genConflit(a)
 solacroup()
 campourcy()
 
-resultat = bhatiya(5)
-print(resultat)
 def genConflit(a,b):
         return a + b 
 resultat = aydin(3, 5)
 print(f"la somme est : {resultat}")
-<<<<<<< HEAD
-=======
 
 pass
->>>>>>> 88f5fdeb06c31689c8cdf58aac9a6219fe8bd233
