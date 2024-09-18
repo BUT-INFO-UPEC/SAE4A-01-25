@@ -2,6 +2,7 @@ def sadoudi():
     pass
 
 def bouras():
+    print("Hello world")
     pass
 
 def campourcy(a):
