@@ -15,7 +15,7 @@ Bravo vous avez terminer la partie
 def aydin(a, b):
 
     return a + b 
-resultat = aydin(3, 5)
+resultat = aydin(3, 8)
 print(f"la somme est : {resultat}")
 
 def bhatiya(n):
@@ -48,3 +48,8 @@ def genConflit(a,b):
         return a + b 
 resultat = aydin(3, 5)
 print(f"la somme est : {resultat}")
+<<<<<<< HEAD
+=======
+
+pass
+>>>>>>> 88f5fdeb06c31689c8cdf58aac9a6219fe8bd233
