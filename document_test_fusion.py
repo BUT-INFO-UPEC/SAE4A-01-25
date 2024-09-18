@@ -30,3 +30,6 @@ def genConflit():
     pass
 
 a = int(input("Entrez une valeur positif : "))
+
+solacroup()
+campourcy()
