@@ -26,7 +26,8 @@ def solacroup(a):
         print("Bonjour !", end="")
     return a
 
-def genConflit():
-    pass
+def genConflit(a):
+    return a
 
 a = int(input("Entrez une valeur positif : "))
+genConflit(a)
