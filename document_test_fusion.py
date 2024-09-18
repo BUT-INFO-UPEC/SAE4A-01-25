@@ -2,6 +2,7 @@ def sadoudi():
     pass
 
 def bouras():
+    print("Hello world")
     pass
 
 def campourcy(a):
@@ -26,9 +27,12 @@ def solacroup(a):
         print("Bonjour !", end="")
     return a
 
-def genConflit():
-    pass
+def genConflit(a):
+    print("conflit")
+    return a
 
+a = int(input("Entrez une valeur positif : "))
+genConflit(a)
 
-solacroup(10)
-campourcy(15)
+solacroup()
+campourcy()
