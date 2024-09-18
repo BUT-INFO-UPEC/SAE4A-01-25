@@ -29,7 +29,6 @@ def solacroup(a):
 def genConflit():
     pass
 
-a = int(input("Entrez une valeur positif : "))
 
-solacroup()
-campourcy()
+solacroup(10)
+campourcy(15)
