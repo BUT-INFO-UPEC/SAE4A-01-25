@@ -5,12 +5,20 @@ def bouras():
     print("Hello world")
     pass
 
-def campourcy():
-    pass
+def campourcy(a):
+    for i in range(a):
+        print(i+1)
+    print("""
+Bravo vous avez terminer la partie
+    """)
 
-def audin():
+def aydin(a, b):
 
-    pass
+    return a + b 
+resultat = aydin(3, 5)
+print(f"la somme est : {resultat}")
+pass
+
 def bathatya():
     pass
 
@@ -22,3 +30,8 @@ def solacroup(a):
 def genConflit():
     pass
 bouras()
+
+a = int(input("Entrez une valeur positif : "))
+
+solacroup()
+campourcy()
