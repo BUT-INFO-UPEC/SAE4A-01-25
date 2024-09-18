@@ -2,14 +2,21 @@ def sadoudi():
     pass
 
 def bouras():
+    print("Hello world")
     pass
 
-def campourcy():
-    pass
+def campourcy(a):
+    for i in range(a):
+        print(i+1)
+    print("""
+Bravo vous avez terminer la partie
+    """)
 
-def audin():
+def aydin(a, b):
 
-    pass
+    return a + b 
+resultat = aydin(3, 5)
+print(f"la somme est : {resultat}")
 
 def bhatiya(n):
     total = 0
@@ -22,8 +29,18 @@ def solacroup(a):
         print("Bonjour !", end="")
     return a
 
-def genConflit():
-    pass
+def genConflit(a,b):
+        return a + b 
+resultat = aydin(3, 5)
+print(f"la somme est : {resultat}")
+pass
+
+
+a = int(input("Entrez une valeur positif : "))
+genConflit(a)
+
+solacroup()
+campourcy()
 
 resultat = bhatiya(5)
 print(resultat)
