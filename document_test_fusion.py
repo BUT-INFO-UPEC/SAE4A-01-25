@@ -2,6 +2,7 @@ def sadoudi():
     pass
 
 def bouras():
+    print("Hello world")
     pass
 
 def campourcy():
@@ -20,3 +21,4 @@ def solacroup(a):
 
 def genConflit():
     pass
+bouras()
