@@ -5,7 +5,12 @@ def bouras():
     pass
 
 def campourcy():
-    pass
+    x = int(input("Entrez une valeur positif : "))
+    for i in range(x):
+        print(i+1)
+    print("""
+Bravo vous avez terminer la partie
+    """)
 
 def audin():
 
@@ -15,3 +20,5 @@ def bathatya():
 
 def solacroup():
     pass
+
+campourcy()
