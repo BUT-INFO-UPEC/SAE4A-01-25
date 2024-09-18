@@ -15,7 +15,7 @@ Bravo vous avez terminer la partie
 def aydin(a, b):
 
     return a + b 
-resultat = aydin(3, 5)
+resultat = aydin(3, 8)
 print(f"la somme est : {resultat}")
 pass
 
