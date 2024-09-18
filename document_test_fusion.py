@@ -13,8 +13,10 @@ def audin():
 def bathatya():
     pass
 
-def solacroup():
-    pass
+def solacroup(a):
+    for i in range(a):
+        print("Bonjour !", end="")
+    return a
 
 def genConflit():
     pass
