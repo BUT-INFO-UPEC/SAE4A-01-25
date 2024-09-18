@@ -27,7 +27,11 @@ def solacroup(a):
     return a
 
 def genConflit(a):
+    print("conflit")
     return a
 
 a = int(input("Entrez une valeur positif : "))
 genConflit(a)
+
+solacroup()
+campourcy()
