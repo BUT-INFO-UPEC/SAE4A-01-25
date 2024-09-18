@@ -11,9 +11,13 @@ def campourcy(a):
 Bravo vous avez terminer la partie
     """)
 
-def audin():
+def aydin(a, b):
 
-    pass
+    return a + b 
+resultat = aydin(3, 5)
+print(f"la somme est : {resultat}")
+pass
+
 def bathatya():
     pass
 
