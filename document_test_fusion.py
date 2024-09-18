@@ -15,3 +15,6 @@ def bathatya():
 
 def solacroup():
     pass
+
+def genConflit():
+    pass
