@@ -4,9 +4,8 @@ def sadoudi():
 def bouras():
     pass
 
-def campourcy():
-    x = int(input("Entrez une valeur positif : "))
-    for i in range(x):
+def campourcy(a):
+    for i in range(a):
         print(i+1)
     print("""
 Bravo vous avez terminer la partie
@@ -25,3 +24,5 @@ def solacroup(a):
 
 def genConflit():
     pass
+
+a = int(input("Entrez une valeur positif : "))
