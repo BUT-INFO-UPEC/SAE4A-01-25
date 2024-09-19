@@ -8,7 +8,7 @@ $ch = curl_init();
 // Configurer les options de cURL
 curl_setopt($ch, CURLOPT_URL, $apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Désactiver la vérification SSL (à utiliser avec prudence)
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Désactiver la vérification SSL pour le test
 
 $response = curl_exec($ch);
 
@@ -27,16 +27,25 @@ $data = json_decode($response, true);
 
 // Vérifier si les données sont valides
 if (json_last_error() === JSON_ERROR_NONE) {
-    echo '<h1>Données de l\'API</h1>';
+    echo '<h1>Données météorologiques</h1>';
     echo '<ul>';
 
-    // Assurez-vous de modifier ceci en fonction de la structure de vos données
-    foreach ($data['records'] as $record) {
-        $fields = $record['fields'];
+    // Parcourir les résultats
+    foreach ($data['results'] as $record) {
+        // Extraire les informations du record
+        $nomStation = isset($record['nom']) ? $record['nom'] : 'Nom inconnu';
+        $temperature = isset($record['t']) ? $record['t'] : 'Température inconnue';
+        $pression = isset($record['pres']) ? $record['pres'] : 'Pression inconnue';
+        $ventVitesse = isset($record['ff']) ? $record['ff'] : 'Vitesse du vent inconnue';
+        $longitude = isset($record['longitude']) ? $record['longitude'] : 'Longitude inconnue';
+        $latitude = isset($record['latitude']) ? $record['latitude'] : 'Latitude inconnue';
+
         echo '<li>';
-        echo 'Nom: ' . htmlspecialchars(isset($fields['nom']) ? $fields['nom'] : 'Inconnu') . '<br>';
-        echo 'Température: ' . htmlspecialchars(isset($fields['temperature']) ? $fields['temperature'] : 'Inconnue') . '<br>';
-        // Ajoutez d'autres champs que vous souhaitez afficher
+        echo 'Station : ' . htmlspecialchars($nomStation) . '<br>';
+        echo 'Température : ' . htmlspecialchars($temperature) . ' K<br>';
+        echo 'Pression : ' . htmlspecialchars($pression) . ' hPa<br>';
+        echo 'Vitesse du vent : ' . htmlspecialchars($ventVitesse) . ' m/s<br>';
+        echo 'Coordonnées : (' . htmlspecialchars($latitude) . ', ' . htmlspecialchars($longitude) . ')<br>';
         echo '</li>';
     }
 
