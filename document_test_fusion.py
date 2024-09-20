@@ -1,4 +1,5 @@
 def sadoudi():
+    print("tst")
     pass
 
 def bouras():
@@ -28,22 +29,13 @@ def solacroup(a):
     return a
 
 def genConflit(a,b):
-        return a + b 
-resultat = aydin(3, 5)
-print(f"la somme est : {resultat}")
-pass
+    resultat = aydin(3, 5)
+    print(f"la somme est : {resultat}")
+    pass
 
 
 a = int(input("Entrez une valeur positif : "))
 genConflit(a)
-
 solacroup()
 campourcy()
-
-def genConflit(a,b):
-        return a + b 
-resultat = genConflit(3, 5)
-print(f"la somme est : {resultat}")
-
-pass
-test
+sadoudi()
