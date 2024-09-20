@@ -53,4 +53,5 @@ if (json_last_error() === JSON_ERROR_NONE) {
 } else {
     echo 'Erreur de décodage JSON.';
 }
+echo '';
 ?>
