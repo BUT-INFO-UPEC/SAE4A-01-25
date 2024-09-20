@@ -32,6 +32,7 @@ def genConflit(a,b):
     resultat = aydin(3, 5)
     print(f"la somme est : {resultat}")
     pass
+test
 
 
 a = int(input("Entrez une valeur positif : "))
