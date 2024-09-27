@@ -53,9 +53,5 @@ if (json_last_error() === JSON_ERROR_NONE) {
 } else {
     echo 'Erreur de décodage JSON.';
 }
-<<<<<<< HEAD
 echo '';
 ?>
-=======
-
->>>>>>> ffd45ceec12d226f0e1cb1bc4622894b6e26e3f1
