@@ -33,6 +33,8 @@ if (json_last_error() === JSON_ERROR_NONE) {
     // Parcourir les résultats
     foreach ($data['results'] as $record) {  // Assurez-vous d'utiliser 'records' au lieu de 'results'  =>  ptet que entre quickphph et wampserver c different mais moi au contraire il faut que je mette 'results' au lieu de 'records' [corentin]
         // Extraire les informations du record
+        // numer_sta
+        $numer_sta = $record['numer_sta'];
         $nomStation = isset($record['fields']['nom']) ? $record['fields']['nom'] : 'Nom inconnu';
         $temperature = isset($record['fields']['t']) ? $record['fields']['t'] : 'Température inconnue';
         $pression = isset($record['fields']['pres']) ? $record['fields']['pres'] : 'Pression inconnue';
@@ -40,13 +42,14 @@ if (json_last_error() === JSON_ERROR_NONE) {
         $longitude = isset($record['fields']['longitude']) ? $record['fields']['longitude'] : 'Longitude inconnue';
         $latitude = isset($record['fields']['latitude']) ? $record['fields']['latitude'] : 'Latitude inconnue';
 
-        echo '<li>';
-        echo 'Station : ' . htmlspecialchars($nomStation) . '<br>';
-        echo 'Température : ' . htmlspecialchars($temperature) . ' K<br>';
-        echo 'Pression : ' . htmlspecialchars($pression) . ' hPa<br>';
-        echo 'Vitesse du vent : ' . htmlspecialchars($ventVitesse) . ' m/s<br>';
-        echo 'Coordonnées : (' . htmlspecialchars($latitude) . ', ' . htmlspecialchars($longitude) . ')<br>';
-        echo '</li>';
+        echo '<li>
+        <h2>Station météorologique : ' . $numer_sta . '</h2>
+        <b>Station</b> : ' . htmlspecialchars($nomStation) . '<br>
+        <b>Température</b> : ' . htmlspecialchars($temperature) . ' K<br>
+        <b>Pression</b> : ' . htmlspecialchars($pression) . ' hPa<br>
+        <b>Vitesse du vent</b> : ' . htmlspecialchars($ventVitesse) . ' m/s<br>
+        <b>Coordonnées</b> : (' . htmlspecialchars($latitude) . ', ' . htmlspecialchars($longitude) . ')<br>
+        </li><br><hr><br>';
     }
 
     echo '</ul>';
