@@ -31,14 +31,14 @@ if (json_last_error() === JSON_ERROR_NONE) {
     echo '<ul>';
 
     // Parcourir les résultats
-    foreach ($data['results'] as $record) {
+    foreach ($data['records'] as $record) {  // Assurez-vous d'utiliser 'records' au lieu de 'results'
         // Extraire les informations du record
-        $nomStation = isset($record['nom']) ? $record['nom'] : 'Nom inconnu';
-        $temperature = isset($record['t']) ? $record['t'] : 'Température inconnue';
-        $pression = isset($record['pres']) ? $record['pres'] : 'Pression inconnue';
-        $ventVitesse = isset($record['ff']) ? $record['ff'] : 'Vitesse du vent inconnue';
-        $longitude = isset($record['longitude']) ? $record['longitude'] : 'Longitude inconnue';
-        $latitude = isset($record['latitude']) ? $record['latitude'] : 'Latitude inconnue';
+        $nomStation = isset($record['fields']['nom']) ? $record['fields']['nom'] : 'Nom inconnu';
+        $temperature = isset($record['fields']['t']) ? $record['fields']['t'] : 'Température inconnue';
+        $pression = isset($record['fields']['pres']) ? $record['fields']['pres'] : 'Pression inconnue';
+        $ventVitesse = isset($record['fields']['ff']) ? $record['fields']['ff'] : 'Vitesse du vent inconnue';
+        $longitude = isset($record['fields']['longitude']) ? $record['fields']['longitude'] : 'Longitude inconnue';
+        $latitude = isset($record['fields']['latitude']) ? $record['fields']['latitude'] : 'Latitude inconnue';
 
         echo '<li>';
         echo 'Station : ' . htmlspecialchars($nomStation) . '<br>';
@@ -51,6 +51,6 @@ if (json_last_error() === JSON_ERROR_NONE) {
 
     echo '</ul>';
 } else {
-    echo 'Erreur de décodage JSON.';
+    echo 'Erreur de décodage JSON : ' . json_last_error_msg(); // Afficher le message d'erreur
 }
 ?>
