@@ -31,7 +31,7 @@ if (json_last_error() === JSON_ERROR_NONE) {
     echo '<ul>';
 
     // Parcourir les résultats
-    foreach ($data['records'] as $record) {  // Assurez-vous d'utiliser 'records' au lieu de 'results'
+    foreach ($data['results'] as $record) {  // Assurez-vous d'utiliser 'records' au lieu de 'results'  =>  ptet que entre quickphph et wampserver c different mais moi au contraire il faut que je mette 'results' au lieu de 'records' [corentin]
         // Extraire les informations du record
         $nomStation = isset($record['fields']['nom']) ? $record['fields']['nom'] : 'Nom inconnu';
         $temperature = isset($record['fields']['t']) ? $record['fields']['t'] : 'Température inconnue';
