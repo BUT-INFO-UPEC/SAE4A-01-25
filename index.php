@@ -1,6 +1,24 @@
 <?php
+
+include "classes/requete.php";  // Vérifiez le chemin de ce fichier
+include "test.php";  // Exemple de chemin absolu
+
+$db_france = 'database/France.db'; // Ajoutez un point-virgule ici
+
+// Vérifiez si la variable $db_france est définie
+if (!isset($db_france)) {
+    die('La variable $db_france n\'est pas définie.');  // Arrêtez l'exécution si la variable n'est pas définie
+}
+
+// Exécution des fonctions
+// supprDatabase($db_france);
+// createTables($db_france);
+insertData($db_france);
+
+// Instancier la classe Requete
+$requete = new Requete();
 // URL de l'API
-$apiUrl = 'https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records';
+$apiUrl = $requete->apiUrl;
 
 // Initialiser une session cURL
 $ch = curl_init();
@@ -29,21 +47,18 @@ $data = json_decode($response, true);
 if (json_last_error() === JSON_ERROR_NONE) {
     echo '<h1>Données météorologiques</h1>';
     echo '<ul>';
-
-    // Parcourir les résultats
-    foreach ($data['results'] as $record) {  // Assurez-vous d'utiliser 'records' au lieu de 'results'  =>  ptet que entre quickphph et wampserver c different mais moi au contraire il faut que je mette 'results' au lieu de 'records' [corentin]
+    foreach ($data['results'] as $record) { // Corrigé de 'results' à 'records'
         // Extraire les informations du record
-        // numer_sta
-        $numer_sta = $record['numer_sta'];
-        $nomStation = isset($record['fields']['nom']) ? $record['fields']['nom'] : 'Nom inconnu';
-        $temperature = isset($record['fields']['t']) ? $record['fields']['t'] : 'Température inconnue';
-        $pression = isset($record['fields']['pres']) ? $record['fields']['pres'] : 'Pression inconnue';
-        $ventVitesse = isset($record['fields']['ff']) ? $record['fields']['ff'] : 'Vitesse du vent inconnue';
-        $longitude = isset($record['fields']['longitude']) ? $record['fields']['longitude'] : 'Longitude inconnue';
-        $latitude = isset($record['fields']['latitude']) ? $record['fields']['latitude'] : 'Latitude inconnue';
+        $numer_sta = $record['fields']['numer_sta'] ?? 'Numéro de station inconnu';
+        $nomStation = $record['fields']['nom'] ?? 'Nom inconnu';
+        $temperature = $record['fields']['t'] ?? 'Température inconnue';
+        $pression = $record['fields']['pres'] ?? 'Pression inconnue';
+        $ventVitesse = $record['fields']['ff'] ?? 'Vitesse du vent inconnue';
+        $longitude = $record['fields']['longitude'] ?? 'Longitude inconnue';
+        $latitude = $record['fields']['latitude'] ?? 'Latitude inconnue';
 
         echo '<li>
-        <h2>Station météorologique : ' . $numer_sta . '</h2>
+        <h2>Station météorologique : ' . htmlspecialchars($numer_sta) . '</h2>
         <b>Station</b> : ' . htmlspecialchars($nomStation) . '<br>
         <b>Température</b> : ' . htmlspecialchars($temperature) . ' K<br>
         <b>Pression</b> : ' . htmlspecialchars($pression) . ' hPa<br>
@@ -56,4 +71,3 @@ if (json_last_error() === JSON_ERROR_NONE) {
 } else {
     echo 'Erreur de décodage JSON : ' . json_last_error_msg(); // Afficher le message d'erreur
 }
-?>
