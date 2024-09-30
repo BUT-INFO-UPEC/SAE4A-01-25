@@ -1,0 +1,1 @@
+Les différentes classes php utilisées au long du projet sont stockées dans ce dossier.
