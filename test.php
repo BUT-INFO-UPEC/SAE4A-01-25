@@ -40,7 +40,7 @@ function createTables($db)
             id INTEGER,
             name TEXT NOT NULL,
             reg_id INTEGER,
-            FOREIGN KEY (reg_id) REFERENCES region(id)
+            FOREIGN KEY (reg_id) REFERENCES regions(id)
         );
         ";
         $conn->exec($create_dept_table);
