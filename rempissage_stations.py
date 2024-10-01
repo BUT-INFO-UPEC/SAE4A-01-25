@@ -40,11 +40,12 @@ def request(type = TYPE, parameters=""):
     return data, response.status_code
 
 def get_data(parameters="", type=TYPE):
-    """Permet de récupérer tous les résultat d'une requète a l'API Hub'eau, sauf si une page est spécifiée
+    """Permet de récupérer tous les résultat d'une requète a l'API, sauf si une page est spécifiée
 
     Args:
-        type (STR): "taxons", "indices" ou "stations_hydrobio", en fonction de quelle requète doit ètre éfféctuée
         parameters (str, optional): Les paramètres de filtre a insérer dans la requète. Defaults to "".
+         anciennement : type (STR): "taxons", "indices" ou "stations_hydrobio", en fonction de quelle requète doit ètre éfféctuée
+         maintennant : une seule table (TYPE = "records")
 
     Returns:
         Full_data: Les donées renvoyées par l'API, dans un objet de gestion de ses données
