@@ -15,8 +15,6 @@ URL_API = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/don
 TYPE = "records"
 PARAMS_LISTE_IDS_STATIONS = "?group_by=numer_sta"
 
-NB_WRITE = 0
-NB_EVITES = 0
 DBPATH = "database/france.db"
 
 
@@ -53,7 +51,7 @@ def get_data(params):
         raise Exception(status)
 
 def get_station_geo(station_id):
-    return f"select=numer_sta,nom,libgeo,codegeo,nom_epci,code_epci,nom_dept,code_dept,nom_reg,code_reg&where=numer_sta={station_id}"
+    return f"select=numer_sta,nom,libgeo,codegeo,nom_epci,code_epci,nom_dept,code_dep,nom_reg,code_reg&where=numer_sta={station_id}"
 
 #####################################################################
 # DATABASE ACCES FUNCTIONS
@@ -92,39 +90,36 @@ def fill_DB():
         if db_read(DBPATH, query, parameters)[0][0] == 0:
             station = get_data(get_station_geo(id))
 
-            # ajouter la ville dans la BDD
-            query = """ INSERT OR IGNORE 
-                    INTO ville (id, nomgeo, epci_id)
-                    VALUES (?, ?, ?)"""
-            parameters = (station["codegoe"],station["nomgoe"], station["code_epci"])
-            db_write(DBPATH, query, parameters)
-
-            # ajouter l'epci dans la BDD
-            query = """ INSERT OR IGNORE 
-                    INTO epci (id, nom_epci, dept_id)
-                    VALUES (?, ?, ?)"""
-            parameters = (station["code_epci"],station["nom_epci"], station["code_dept"])
-            db_write(DBPATH, query, parameters)
-
-            # ajouter le departement dans la BDD
-            query = """ INSERT OR IGNORE 
-                    INTO dept (id, nom_dept, reg_id)
-                    VALUES (?, ?, ?)"""
-            parameters = (station["code_dept"],station["nom_dept"], station["code_reg"])
-            db_write(DBPATH, query, parameters)
-
             # ajouter la region dans la BDD
             query = """ INSERT OR IGNORE 
-                    INTO epci (id, nom_reg)
+                    INTO regions (id, name)
                     VALUES (?, ?)"""
             parameters = (station["code_reg"],station["nom_reg"])
             db_write(DBPATH, query, parameters)
 
-            query = """INSERT OR IGNORE 
-                    INTO stations ()
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
-            parameters = (station["numer_sta"], station["nom"], station["latitude"], station["longitude"], station["codegeo"], station["code_epci"], station["code_dept"], station["code_reg"])
+            # ajouter le departement dans la BDD
+            query = """ INSERT OR IGNORE 
+                    INTO depts (id, name, reg_id)
+                    VALUES (?, ?, ?)"""
+            parameters = (station["code_dept"],station["nom_dept"], station["code_reg"])
             db_write(DBPATH, query, parameters)
 
-print(NB_WRITE)
-print(NB_EVITES)
+            # ajouter l'epci dans la BDD
+            query = """ INSERT OR IGNORE 
+                    INTO epcis (id, name, dept_id)
+                    VALUES (?, ?, ?)"""
+            parameters = (station["code_epci"],station["nom_epci"], station["code_dept"])
+            db_write(DBPATH, query, parameters)
+
+            # ajouter la ville dans la BDD
+            query = """ INSERT OR IGNORE 
+                    INTO villes (id, name, epci_id)
+                    VALUES (?, ?, ?)"""
+            parameters = (station["codegoe"],station["nomgoe"], station["code_epci"])
+            db_write(DBPATH, query, parameters)
+
+            query = """INSERT OR IGNORE 
+                    INTO stations ()
+                    VALUES (?, ?, ?, ?, ?)"""
+            parameters = (station["numer_sta"], station["nom"], station["latitude"], station["longitude"], station["codegeo"])
+            db_write(DBPATH, query, parameters)

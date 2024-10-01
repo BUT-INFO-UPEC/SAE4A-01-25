@@ -26,17 +26,17 @@ function createTables($db)
 
         // Création de la table "region"
         $create_region_table = "
-        CREATE TABLE IF NOT EXISTS region (
+        CREATE TABLE IF NOT EXISTS regions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL
         );
         ";
         $conn->exec($create_region_table);
-        echo "Table 'region' créée avec succès.<br>";
+        echo "Table 'regions' créée avec succès.<br>";
 
         // Création de la table "dept"
         $create_dept_table = "
-        CREATE TABLE IF NOT EXISTS dept (
+        CREATE TABLE IF NOT EXISTS depts (
             id INTEGER,
             name TEXT NOT NULL,
             reg_id INTEGER,
@@ -44,31 +44,45 @@ function createTables($db)
         );
         ";
         $conn->exec($create_dept_table);
-        echo "Table 'dept' créée avec succès.<br>";
+        echo "Table 'depts' créée avec succès.<br>";
+
+        // Création de la table "dept"
+        $create_dept_table = "
+        CREATE TABLE IF NOT EXISTS epcis (
+            id INTEGER,
+            name TEXT NOT NULL,
+            dept_id INTEGER,
+            FOREIGN KEY (dept_id) REFERENCES depts(id)
+        );
+        ";
+        $conn->exec($create_dept_table);
+        echo "Table 'epcis' créée avec succès.<br>";
 
         // Création de la table "dept"
         $create_dept_table = "
         CREATE TABLE IF NOT EXISTS villes (
             id INTEGER,
             name TEXT NOT NULL,
-            dept_id_id INTEGER,
-            FOREIGN KEY (reg_id) REFERENCES region(id)
+            epci_id INTEGER,
+            FOREIGN KEY (epci_id) REFERENCES epcis(id)
         );
         ";
         $conn->exec($create_dept_table);
-        echo "Table 'dept' créée avec succès.<br>";
+        echo "Table 'villes' créée avec succès.<br>";
 
         // Création de la table "dept"
         $create_dept_table = "
-        CREATE TABLE IF NOT EXISTS dept (
+        CREATE TABLE IF NOT EXISTS stations (
             id INTEGER,
             name TEXT NOT NULL,
-            _id INTEGER,
-            FOREIGN KEY (reg_id) REFERENCES region(id)
+            latitude INTEGER,
+            longitude INTEGER,
+            ville_id INTEGER,
+            FOREIGN KEY (ville_id) REFERENCES villes(id)
         );
         ";
         $conn->exec($create_dept_table);
-        echo "Table 'dept' créée avec succès.<br>";
+        echo "Table 'stations' créée avec succès.<br>";
 
     } catch (PDOException $e) {
         echo "Erreur lors de la création des tables : " . $e->getMessage() . "<br>";
