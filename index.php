@@ -11,8 +11,8 @@ if (!isset($db_france)) {
 }
 
 // Exécution des fonctions
-// supprDatabase($db_france);
-// createTables($db_france);
+supprDatabase($db_france);
+createTables($db_france);
 // insertData($db_france);
 
 // Instancier la classe Requete

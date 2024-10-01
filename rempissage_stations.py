@@ -94,28 +94,28 @@ def fill_DB():
 
             # ajouter la ville dans la BDD
             query = """ INSERT OR IGNORE 
-                    INTO ville (codegoe, nomgeo)
-                    VALUES (?, ?)"""
-            parameters = (station["codegoe"],station["nomgoe"])
+                    INTO ville (id, nomgeo, epci_id)
+                    VALUES (?, ?, ?)"""
+            parameters = (station["codegoe"],station["nomgoe"], station["code_epci"])
             db_write(DBPATH, query, parameters)
 
             # ajouter l'epci dans la BDD
             query = """ INSERT OR IGNORE 
-                    INTO epci (code_epci, nom_epci)
-                    VALUES (?, ?)"""
-            parameters = (station["code_epci"],station["nom_epci"])
+                    INTO epci (id, nom_epci, dept_id)
+                    VALUES (?, ?, ?)"""
+            parameters = (station["code_epci"],station["nom_epci"], station["code_dept"])
             db_write(DBPATH, query, parameters)
 
             # ajouter le departement dans la BDD
             query = """ INSERT OR IGNORE 
-                    INTO dept (code_dept, nom_dept)
-                    VALUES (?, ?)"""
-            parameters = (station["code_dept"],station["nom_dept"])
+                    INTO dept (id, nom_dept, reg_id)
+                    VALUES (?, ?, ?)"""
+            parameters = (station["code_dept"],station["nom_dept"], station["code_reg"])
             db_write(DBPATH, query, parameters)
 
             # ajouter la region dans la BDD
             query = """ INSERT OR IGNORE 
-                    INTO epci (code_reg, nom_reg)
+                    INTO epci (id, nom_reg)
                     VALUES (?, ?)"""
             parameters = (station["code_reg"],station["nom_reg"])
             db_write(DBPATH, query, parameters)
