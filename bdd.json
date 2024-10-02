@@ -1,0 +1,73 @@
+{
+    "static": {
+        "representations": [
+            "repr_id",
+            "poss_grouping",
+            "poss_grouping",
+            "recomanded_att"
+        ],
+        "attributs": [
+            "value_type",
+            "key",
+            "name",
+            "poss_grouping",
+            "poss_agrement"
+        ],
+        "groupement": [
+            "année",
+            "saisons",
+            "mois",
+            "semaines",
+            "jours",
+            "date [(v_debut, v_fin)]",
+            "reg",
+            "dept",
+            "communes",
+            "id_stations"
+        ],
+        "aggregation": [
+            "min",
+            "max",
+            "moy"
+        ],
+        "dept": [
+            "id",
+            "name",
+            "reg_id"
+        ],
+        "reg": [
+            "id",
+            "name"
+        ]
+    },
+    "dynamic": {
+        "dashboard": [
+            "dashboard_id",
+            "is_private",
+            "composant_list -> composant_id",
+            "creator_id -> user_id",
+            "date_debut",
+            "date_fin",
+            "date_debut_relatif",
+            "date_fin_relatif",
+            "param"
+        ],
+        "user": [
+            "user_id",
+            "user_name",
+            "user_pswd",
+            "user_surname",
+            "user_friend",
+            "user_email"
+        ],
+        "composant": [
+            "composant_id",
+            "repr_type -> repr_id",
+            "attribut",
+            "grouping",
+            "aggregation",
+            "param_affich",
+            "list_station"
+        ]
+    }
+}
