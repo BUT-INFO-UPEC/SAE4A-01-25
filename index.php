@@ -10,10 +10,10 @@ if (!isset($db_france)) {
     die('La variable $db_france n\'est pas définie.');  // Arrêtez l'exécution si la variable n'est pas définie
 }
 
-// Exécution des fonctions
-supprDatabase($db_france);
-createTables($db_france);
-// insertData($db_france);
+// // Exécution des fonctions
+// supprDatabase($db_france);
+// createTables($db_france);
+// // insertData($db_france);
 
 // Instancier la classe Requete
 $requete = new Requete();
