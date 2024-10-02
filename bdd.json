@@ -11,31 +11,46 @@
             "key",
             "name",
             "poss_grouping",
-            "poss_agrement"
+            "poss_agrgation"
         ],
-        "groupement": [
-            "année",
-            "saisons",
-            "mois",
-            "semaines",
-            "jours",
-            "date [(v_debut, v_fin)]",
-            "reg",
-            "dept",
-            "communes",
-            "id_stations"
+        "groupements": {
+            "name": ["année",
+                "saisons",
+                "mois",
+                "semaines",
+                "jours",
+                "date [(v_debut, v_fin)]",
+                "reg",
+                "dept",
+                "communes",
+                "id_stations [id_station]",
+                "total"],
+            "type":["geographique",
+                    "temporel"]
+        },
+        "stations": [
+            "id",
+            "name",
+            "latitude",
+            "longitude",
+            "ville_id"
         ],
-        "aggregation": [
-            "min",
-            "max",
-            "moy"
+        "villes": [
+            "id",
+            "name",
+            "epci_id"
         ],
-        "dept": [
+        "epcis": [
             "id",
             "name",
             "reg_id"
         ],
-        "reg": [
+        "depts": [
+            "id",
+            "name",
+            "reg_id"
+        ],
+        "regions": [
             "id",
             "name"
         ]
