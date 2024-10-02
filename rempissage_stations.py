@@ -5,7 +5,6 @@
 
 import sqlite3
 import requests
-import json
 
 #####################################################################
 # STATICS
@@ -23,10 +22,11 @@ DBPATH = "database/france.db"
 #####################################################################
 
 def request(type = TYPE, parameters=""):
-    """Permet de récupérer le résultat d'une requète spécifique a l'API Hub'eau
+    """Permet de récupérer le résultat d'une requète spécifique a l'API
 
     Args:
-        type (STR): "taxons", "indices" ou "stations_hydrobio", en fonction de quel requète doit ètre éfféctuée
+        anciennement : type (STR): "taxons", "indices" ou "stations_hydrobio", en fonction de quelle requète doit ètre éfféctuée
+        maintennant : une seule table (TYPE = "records")
         parameters (str, optional): Les paramètres de filtre a insérer dans la requète. Defaults to "".
 
     Returns:
@@ -48,7 +48,7 @@ def get_data(parameters="", type=TYPE):
          maintennant : une seule table (TYPE = "records")
 
     Returns:
-        Full_data: Les donées renvoyées par l'API, dans un objet de gestion de ses données
+        full_data: Les donées renvoyées par l'API, dans un dictionnaire
     """
     full_data = []
     i=1
