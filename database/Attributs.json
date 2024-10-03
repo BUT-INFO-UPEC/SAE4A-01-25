@@ -18,10 +18,12 @@
         "name" : "Type de tendance barométrique",
         
     },
+
     {
         "value_type" : "",
         "key" : "",
         "name" : "",
-        
+        "poss_grouping" : "",
+        "poss_agrgation" : ""
     }
 ]
