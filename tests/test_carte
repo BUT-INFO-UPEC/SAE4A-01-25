@@ -1,4 +1,16 @@
-<div id="map"></div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carte de chaleur avec Leaflet</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
 
     <!-- Inclure Leaflet.js -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -28,3 +40,5 @@
             maxZoom: 10
         }).addTo(map);
     </script>
+</body>
+</html>
