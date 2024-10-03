@@ -28,21 +28,54 @@
         "poss_agrgation" : ""
     },
 
+
+
+
+
+
+
+
     {
         "value_type" : "int",
         "key" : "mois_de_l_annee",
-        "name" : "mois_de_l_annee"
+        "name" : "mois_de_l_annee",
+        "example" : "4",
+        "description" : ""
     },
 
     {
         "value_type" : "text",
         "key" : "code_reg",
-        "name" : "region (code)"
+        "name" : "region (code)",
+        "example" : "02",
+        "description" : ""
     },
 
     {
         "value_type" : "text",
         "key" : "nom_reg",
-        "name" : "region (name)"
+        "name" : "region (name)",
+        "example" : "Martinique",
+        "description" : ""
+    },
+
+    {
+        "value_type" : "text",
+        "key" : "code_reg",
+        "name" : "region (code)",
+        "example" : "80",
+        "description" : ""
+    },
+
+    {
+        "value_type" : "text",
+        "key" : "code_dep",
+        "name" : "department (code)"
+    },
+
+    {
+        "value_type" : "text",
+        "key" : "nom_dep",
+        "name" : "department (name)"
     }
 ]
