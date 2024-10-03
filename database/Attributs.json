@@ -28,22 +28,12 @@
         "description" : ""
     },
     {
-        "value_type" : "texte",
-        "key" : "cod_tend",
-        "name" : "Type de tendance barométrique",
-        "example" : "80",
+        "value_type" : "décimal en m/s",
+        "key" : "ff",
+        "name" : "Vitesse du vent en m/s",
+        "example" : "8.3",
         "description" : ""
-    }
-
-
-
-
-
-
-
-
-
-    
+    },
 
     {
         "value_type" : "",
@@ -52,55 +42,369 @@
         "poss_grouping" : "",
         "poss_agrgation" : ""
     },
-
-
-
-
-
-
-
-
     {
-        "value_type" : "int",
-        "key" : "mois_de_l_annee",
-        "name" : "mois_de_l_annee",
-        "example" : "4",
-        "description" : ""
+        "value_type": "decimal K",
+        "key": "t",
+        "name": "Température",
+        "unit": "K",
+        "example": 303.45
     },
-
     {
-        "value_type" : "text",
-        "key" : "code_reg",
-        "name" : "region (code)",
-        "example" : "02",
-        "description" : ""
+        "value_type": "decimal K",
+        "key": "td",
+        "name": "Point de rosée",
+        "unit": "K",
+        "example": 294.25
     },
-
     {
-        "value_type" : "text",
-        "key" : "nom_reg",
-        "name" : "region (name)",
-        "example" : "Martinique",
-        "description" : ""
+        "value_type": "int %",
+        "key": "u",
+        "name": "Humidité",
+        "unit": "%",
+        "example": 58
     },
-
     {
-        "value_type" : "text",
-        "key" : "code_reg",
-        "name" : "region (code)",
-        "example" : "80",
-        "description" : ""
+        "value_type": "decimal m",
+        "key": "vv",
+        "name": "Visibilité horizontale",
+        "unit": "m",
+        "example": 53550
     },
-
     {
-        "value_type" : "text",
-        "key" : "code_dep",
-        "name" : "department (code)"
+        "value_type": "texte",
+        "key": "ww",
+        "name": "Temps présent",
+        "example": ""
     },
-
     {
-        "value_type" : "text",
-        "key" : "nom_dep",
-        "name" : "department (name)"
+        "value_type": "texte",
+        "key": "w1",
+        "name": "Temps passé 1",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "w2",
+        "name": "Temps passé 2",
+        "example": ""
+    },
+    {
+        "value_type": "decimal %",
+        "key": "n",
+        "name": "Nebulosité totale",
+        "unit": "%",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "nbas",
+        "name": "Nébulosité des nuages de l'étage inférieur",
+        "unit": "octa",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m",
+        "key": "hbas",
+        "name": "Hauteur de la base des nuages de l'étage inférieur",
+        "unit": "m",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "cl",
+        "name": "Type des nuages de l'étage inférieur",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "cm",
+        "name": "Type des nuages de l'étage moyen",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "ch",
+        "name": "Type des nuages de l'étage supérieur",
+        "example": ""
+    },
+    {
+        "value_type": "decimal Pa",
+        "key": "pres",
+        "name": "Pression station",
+        "unit": "Pa",
+        "example": 101740
+    },
+    {
+        "value_type": "decimal Pa",
+        "key": "niv_bar",
+        "name": "Niveau barométrique",
+        "unit": "Pa",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "geop",
+        "name": "Géopotentiel",
+        "unit": "m2/s2",
+        "example": ""
+    },
+    {
+        "value_type": "decimal Pa",
+        "key": "tend24",
+        "name": "Variation de pression en 24 heures",
+        "unit": "Pa",
+        "example": -10
+    },
+    {
+        "value_type": "decimal K",
+        "key": "tn12",
+        "name": "Température minimale sur 12 heures",
+        "example": ""
+    },
+    {
+        "value_type": "decimal K",
+        "key": "tn24",
+        "name": "Température minimale sur 24 heures",
+        "example": ""
+    },
+    {
+        "value_type": "decimal K",
+        "key": "tx12",
+        "name": "Température maximale sur 12 heures",
+        "example": ""
+    },
+    {
+        "value_type": "decimal K",
+        "key": "tx24",
+        "name": "Température maximale sur 24 heures",
+        "example": ""
+    },
+    {
+        "value_type": "decimal K",
+        "key": "tminsol",
+        "name": "Température minimale du sol sur 12 heures",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "sw",
+        "name": "Méthode de mesure Température du thermomètre mouillé",
+        "example": ""
+    },
+    {
+        "value_type": "decimal K",
+        "key": "tw",
+        "name": "Température du thermomètre mouillé",
+        "unit": "K",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m/s",
+        "key": "raf10",
+        "name": "Rafale sur les 10 dernières minutes",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m/s",
+        "key": "rafper",
+        "name": "Rafales sur une période",
+        "unit": "m/s",
+        "example": ""
+    },
+    {
+        "value_type": "decimal minutes",
+        "key": "per",
+        "name": "Periode de mesure de la rafale",
+        "unit": "minutes",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "etat_sol",
+        "name": "Etat du sol",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m",
+        "key": "ht_neige",
+        "name": "Hauteur totale de la couche de neige, glace, autre au sol",
+        "unit": "m",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m",
+        "key": "ssfrai",
+        "name": "Hauteur de la neige fraîche",
+        "unit": "m",
+        "example": ""
+    },
+    {
+        "value_type": "decimal 1/10 heure",
+        "key": "perssfrai",
+        "name": "Periode de mesure de la neige fraiche",
+        "example": ""
+    },
+    {
+        "value_type": "decimal mm",
+        "key": "rr1",
+        "name": "Précipitations dans la dernière heure",
+        "unit": "mm",
+        "example": 0
+    },
+    {
+        "value_type": "decimal mm",
+        "key": "rr3",
+        "name": "Précipitations dans les 3 dernières heures",
+        "unit": "mm",
+        "example": 0
+    },
+    {
+        "value_type": "decimal mm",
+        "key": "rr6",
+        "name": "Précipitations dans les 6 dernières heures",
+        "unit": "mm",
+        "example": 0
+    },
+    {
+        "value_type": "decimal mm",
+        "key": "rr12",
+        "name": "Précipitations dans les 12 dernières heures",
+        "unit": "mm",
+        "example": -0.1
+    },
+    {
+        "value_type": "decimal mm",
+        "key": "rr24",
+        "name": "Précipitations dans les 24 dernières heures",
+        "unit": "mm",
+        "example": -0.1
+    },
+    {
+        "value_type": "texte",
+        "key": "phenspe1",
+        "name": "Phénomène spécial 1",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "phenspe2",
+        "name": "Phénomène spécial 2",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "phenspe3",
+        "name": "Phénomène spécial 3",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "phenspe4",
+        "name": "Phénomène spécial 4",
+        "example": ""
+    },
+    {
+        "value_type": "decimal octa",
+        "key": "nnuage1",
+        "name": "Nébulosité couche nuageuse 1",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "ctype1",
+        "name": "Type nuage 1",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m",
+        "key": "hnuage1",
+        "name": "Hauteur de base 1",
+        "unit": "m",
+        "example": ""
+    },
+    {
+        "value_type": "decimal octa",
+        "key": "nnuage2",
+        "name": "Nébulosité couche nuageuse 2",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "ctype2",
+        "name": "Type nuage 2",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m",
+        "key": "hnuage2",
+        "name": "Hauteur de base 2",
+        "unit": "m",
+        "example": ""
+    },
+    {
+        "value_type": "decimal octa",
+        "key": "nnuage3",
+        "name": "Nébulosité couche nuageuse 3",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "ctype3",
+        "name": "Type nuage 3",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m",
+        "key": "hnuage3",
+        "name": "Hauteur de base 3",
+        "unit": "m",
+        "example": ""
+    },
+    {
+        "value_type": "decimal octa",
+        "key": "nnuage4",
+        "name": "Nébulosité couche nuageuse 4",
+        "example": ""
+    },
+    {
+        "value_type": "texte",
+        "key": "ctype4",
+        "name": "Type nuage 4",
+        "example": ""
+    },
+    {
+        "value_type": "decimal m",
+        "key": "hnuage4",
+        "name": "Hauteur de base 4",
+        "unit": "m",
+        "example": ""
+    },
+    {
+        "value_type": "decimal W/m2",
+        "key": "irr_glob",
+        "name": "Irradiation globale",
+        "unit": "W/m2",
+        "example": 117
+    },
+    {
+        "value_type": "decimal W/m2",
+        "key": "irr_dir",
+        "name": "Irradiation directe",
+        "unit": "W/m2",
+        "example": ""
+    },
+    {
+        "value_type": "decimal W/m2",
+        "key": "irr_diff",
+        "name": "Irradiation diffuse",
+        "unit": "W/m2",
+        "example": ""
+    },
+    {
+        "value_type": "decimal W/m2",
+        "key": "irr_ref",
+        "name": "Irradiation réfléchie",
+        "unit": "W/m2",
+        "example": ""
     }
 ]
