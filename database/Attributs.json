@@ -21,6 +21,31 @@
         
     },
     {
+        "value_type" : "int",
+        "key" : "dd",
+        "name" : "degré",
+        "example" : "110",
+        "description" : ""
+    },
+    {
+        "value_type" : "texte",
+        "key" : "cod_tend",
+        "name" : "Type de tendance barométrique",
+        "example" : "80",
+        "description" : ""
+    }
+
+
+
+
+
+
+
+
+
+    
+
+    {
         "value_type" : "",
         "key" : "",
         "name" : "",
