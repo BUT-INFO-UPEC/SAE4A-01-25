@@ -1,6 +1,6 @@
 <?php
 
-include "classes/requete.php";  // Vérifiez le chemin de ce fichier
+include "classes_php/requete.php";  // Vérifiez le chemin de ce fichier
 include "test.php";  // Exemple de chemin absolu
 
 $db_france = 'database/France.db'; // Ajoutez un point-virgule ici
@@ -10,10 +10,10 @@ if (!isset($db_france)) {
     die('La variable $db_france n\'est pas définie.');  // Arrêtez l'exécution si la variable n'est pas définie
 }
 
-// Exécution des fonctions
-supprDatabase($db_france);
-createTables($db_france);
-// insertData($db_france);
+// // Exécution des fonctions
+// supprDatabase($db_france);
+// createTables($db_france);
+// // insertData($db_france);
 
 // Instancier la classe Requete
 $requete = new Requete();
@@ -49,13 +49,13 @@ if (json_last_error() === JSON_ERROR_NONE) {
     echo '<ul>';
     foreach ($data['results'] as $record) { // Corrigé de 'results' à 'records'
         // Extraire les informations du record
-        $numer_sta = $record['fields']['numer_sta'] ?? 'Numéro de station inconnu';
-        $nomStation = $record['fields']['nom'] ?? 'Nom inconnu';
-        $temperature = $record['fields']['t'] ?? 'Température inconnue';
-        $pression = $record['fields']['pres'] ?? 'Pression inconnue';
-        $ventVitesse = $record['fields']['ff'] ?? 'Vitesse du vent inconnue';
-        $longitude = $record['fields']['longitude'] ?? 'Longitude inconnue';
-        $latitude = $record['fields']['latitude'] ?? 'Latitude inconnue';
+        $numer_sta = $record['numer_sta'] ?? 'Numéro de station inconnu';
+        $nomStation = $record['nom'] ?? 'Nom inconnu';
+        $temperature = $record['t'] ?? 'Température inconnue';
+        $pression = $record['pres'] ?? 'Pression inconnue';
+        $ventVitesse = $record['ff'] ?? 'Vitesse du vent inconnue';
+        $longitude = $record['longitude'] ?? 'Longitude inconnue';
+        $latitude = $record['latitude'] ?? 'Latitude inconnue';
 
         echo '<li>
         <h2>Station météorologique : ' . htmlspecialchars($numer_sta) . '</h2>
@@ -71,3 +71,4 @@ if (json_last_error() === JSON_ERROR_NONE) {
 } else {
     echo 'Erreur de décodage JSON : ' . json_last_error_msg(); // Afficher le message d'erreur
 }
+
