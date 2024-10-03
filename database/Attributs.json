@@ -13,12 +13,13 @@
         "description" : ""
     },
     {
-        "value_type" : "",
+        "value_type" : "texte",
         "key" : "cod_tend",
-        "name" : "Type de tendance barométrique"
+        "name" : "Type de tendance barométrique",
+        "example" : "80",
+        "description" : ""
         
     },
-
     {
         "value_type" : "",
         "key" : "",
