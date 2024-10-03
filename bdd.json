@@ -2,7 +2,7 @@
     "static": {
         "representations": [
             "repr_id",
-            "poss_grouping",
+            "name",
             "poss_grouping",
             "recomanded_att"
         ],
