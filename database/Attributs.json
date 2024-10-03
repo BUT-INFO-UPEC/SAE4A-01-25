@@ -86,21 +86,17 @@
 
     {
         "value_type" : "text",
-        "key" : "code_reg",
-        "name" : "region (code)",
-        "example" : "80",
+        "key" : "code_dep",
+        "name" : "department (code)",
+        "example" : "972",
         "description" : ""
     },
 
     {
         "value_type" : "text",
-        "key" : "code_dep",
-        "name" : "department (code)"
-    },
-
-    {
-        "value_type" : "text",
         "key" : "nom_dep",
-        "name" : "department (name)"
+        "name" : "department (name)",
+        "example" : "Martinique",
+        "description" : ""
     }
 ]
