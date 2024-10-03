@@ -6,24 +6,22 @@
         "description" : ""
     },
     {
+        "value_type" : "int Pa",
+        "key" : "tend",
+        "name" : "Variation de pression en 3 heures",
+        "example" : "-100",
+        "description" : ""
+    },
+    {
         "value_type" : "",
-        "key" : "",
-        "name" : "",
-        "poss_grouping" : "",
-        "poss_agrgation" : ""
+        "key" : "cod_tend",
+        "name" : "Type de tendance barométrique",
+        
     },
     {
         "value_type" : "",
         "key" : "",
         "name" : "",
-        "poss_grouping" : "",
-        "poss_agrgation" : ""
-    },
-    {
-        "value_type" : "",
-        "key" : "",
-        "name" : "",
-        "poss_grouping" : "",
-        "poss_agrgation" : ""
+        
     }
 ]
