@@ -1,7 +1,7 @@
 <?php
 
 include "classes_php/requete.php";  // Vérifiez le chemin de ce fichier
-include "test.php";  // Exemple de chemin absolu
+include "database/test.php";  // Exemple de chemin absolu
 
 $db_france = 'database/France.db'; // Ajoutez un point-virgule ici
 

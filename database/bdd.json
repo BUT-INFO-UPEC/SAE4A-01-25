@@ -2,7 +2,7 @@
     "static": {
         "representations": [
             "repr_id",
-            "poss_grouping",
+            "name",
             "poss_grouping",
             "recomanded_att"
         ],
@@ -81,8 +81,7 @@
             "attribut",
             "grouping",
             "aggregation",
-            "param_affich",
-            "list_station"
+            "param_affich"
         ]
     }
 }
