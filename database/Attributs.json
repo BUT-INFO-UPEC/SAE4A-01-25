@@ -1,41 +1,29 @@
-{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-}
+[
+    {
+        "value_type" : "int Pa",
+        "key" : "pmer",
+        "name" : "Pression au niveau mer",
+        "description" : ""
+    },
+    {
+        "value_type" : "",
+        "key" : "",
+        "name" : "",
+        "poss_grouping" : "",
+        "poss_agrgation" : ""
+    },
+    {
+        "value_type" : "",
+        "key" : "",
+        "name" : "",
+        "poss_grouping" : "",
+        "poss_agrgation" : ""
+    },
+    {
+        "value_type" : "",
+        "key" : "",
+        "name" : "",
+        "poss_grouping" : "",
+        "poss_agrgation" : ""
+    }
+]
