@@ -15,7 +15,7 @@
     {
         "value_type" : "",
         "key" : "cod_tend",
-        "name" : "Type de tendance barométrique",
+        "name" : "Type de tendance barométrique"
         
     },
 
@@ -43,5 +43,5 @@
         "value_type" : "text",
         "key" : "nom_reg",
         "name" : "region (name)"
-    },
+    }
 ]
