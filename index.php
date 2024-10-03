@@ -71,3 +71,4 @@ if (json_last_error() === JSON_ERROR_NONE) {
 } else {
     echo 'Erreur de décodage JSON : ' . json_last_error_msg(); // Afficher le message d'erreur
 }
+
