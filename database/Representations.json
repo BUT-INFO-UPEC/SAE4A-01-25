@@ -1,8 +1,8 @@
 [
     {
         "repr_id": 1,
-        "name": "",
-        "poss_grouping": "",
-        "recomanded_att": ""
+        "name": "graphique circulaire",
+        "poss_grouping": "all",
+        "recomanded_att": []
     }
 ]
