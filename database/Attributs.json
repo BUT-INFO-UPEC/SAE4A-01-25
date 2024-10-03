@@ -24,13 +24,13 @@
         "value_type" : "int",
         "key" : "mois_de_l_annee",
         "name" : "mois_de_l_annee"
-    }
+    },
 
     {
         "value_type" : "text",
         "key" : "code_reg",
         "name" : "region (code)"
-    }
+    },
 
     {
         "value_type" : "text",
