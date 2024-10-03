@@ -19,11 +19,22 @@
         "poss_grouping" : "",
         "poss_agrgation" : ""
     },
+
     {
-        "value_type" : "",
-        "key" : "",
-        "name" : "",
-        "poss_grouping" : "",
-        "poss_agrgation" : ""
+        "value_type" : "int",
+        "key" : "mois_de_l_annee",
+        "name" : "mois_de_l_annee"
+    }
+
+    {
+        "value_type" : "text",
+        "key" : "code_reg",
+        "name" : "region (code)"
+    }
+
+    {
+        "value_type" : "text",
+        "key" : "nom_reg",
+        "name" : "region (name)"
     }
 ]
