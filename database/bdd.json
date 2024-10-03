@@ -10,6 +10,7 @@
             "value_type",
             "key",
             "name",
+            "description",
             "poss_grouping",
             "poss_agrgation"
         ],
