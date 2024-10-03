@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carte de chaleur avec Leaflet</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <!-- Inclure Leaflet.js -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <!-- Inclure Leaflet.heat.js pour la carte de chaleur -->
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <script>
+        // Initialisation de la carte Leaflet
+        var map = L.map('map').setView([48.8566, 2.3522], 10); // Paris
+
+        // Ajout des tuiles OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data © OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Ajout de la couche Heatmap
+        var heat = L.heatLayer([
+            [48.8566, 2.3522, 0.5],  // Paris (intensité 0.5)
+            [48.5734, 7.7521, 0.8],  // Strasbourg (intensité 0.8)
+            [45.7640, 4.8357, 0.9],  // Lyon (intensité 0.9)
+            [43.2965, 5.3698, 1.0],  // Marseille (intensité 1.0)
+            [44.8378, -0.5792, 0.7], // Bordeaux (intensité 0.7)
+        ], {
+            radius: 50,
+            blur: 35,
+            maxZoom: 10
+        }).addTo(map);
+    </script>
+</body>
+</html>

@@ -6,12 +6,45 @@
         "description" : ""
     },
     {
-        "value_type" : "",
-        "key" : "",
-        "name" : "",
-        "poss_grouping" : "",
-        "poss_agrgation" : ""
+        "value_type" : "int Pa",
+        "key" : "tend",
+        "name" : "Variation de pression en 3 heures",
+        "example" : "-100",
+        "description" : ""
     },
+    {
+        "value_type" : "texte",
+        "key" : "cod_tend",
+        "name" : "Type de tendance barométrique",
+        "example" : "80",
+        "description" : ""
+        
+    },
+    {
+        "value_type" : "int",
+        "key" : "dd",
+        "name" : "degré",
+        "example" : "110",
+        "description" : ""
+    },
+    {
+        "value_type" : "texte",
+        "key" : "cod_tend",
+        "name" : "Type de tendance barométrique",
+        "example" : "80",
+        "description" : ""
+    }
+
+
+
+
+
+
+
+
+
+    
+
     {
         "value_type" : "",
         "key" : "",
@@ -19,11 +52,51 @@
         "poss_grouping" : "",
         "poss_agrgation" : ""
     },
+
+
+
+
+
+
+
+
     {
-        "value_type" : "",
-        "key" : "",
-        "name" : "",
-        "poss_grouping" : "",
-        "poss_agrgation" : ""
+        "value_type" : "int",
+        "key" : "mois_de_l_annee",
+        "name" : "mois_de_l_annee",
+        "example" : "4",
+        "description" : ""
+    },
+
+    {
+        "value_type" : "text",
+        "key" : "code_reg",
+        "name" : "region (code)",
+        "example" : "02",
+        "description" : ""
+    },
+
+    {
+        "value_type" : "text",
+        "key" : "nom_reg",
+        "name" : "region (name)",
+        "example" : "Martinique",
+        "description" : ""
+    },
+
+    {
+        "value_type" : "text",
+        "key" : "code_dep",
+        "name" : "department (code)",
+        "example" : "972",
+        "description" : ""
+    },
+
+    {
+        "value_type" : "text",
+        "key" : "nom_dep",
+        "name" : "department (name)",
+        "example" : "Martinique",
+        "description" : ""
     }
 ]
