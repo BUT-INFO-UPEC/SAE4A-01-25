@@ -3,7 +3,7 @@
         "representations": [
             "repr_id",
             "name",
-            "poss_grouping",
+            "poss_grouping -> groupping_type",
             "recomanded_atts -> [att_key]",
             "import_files",
             "data_formater",

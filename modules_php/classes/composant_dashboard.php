@@ -7,6 +7,7 @@ class Composant {
     private $attribut;
     private $aggregation;
     private $grouping;
+    private $reprId;
     private $repr;
     private $data;
     private $params;
@@ -17,6 +18,7 @@ class Composant {
 
     // tt les set et gets
     public function setRepr($reprId) {
+        $this->reprId = $reprId;
         // Récupérer les détails de la représentation
         $this->repr = BDD_fetch_visualisation($reprId);
     }
