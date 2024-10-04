@@ -32,7 +32,7 @@ $geoChartData = [
 ];
 
 // Générer les visualisations
-$pieChart = generatePieChart(1, json_encode($pieChartData), []);
+$pieChart = generatePieChart(1, json_encode($pieChartData));
 $barChart = generateBarChart(2, json_encode($barChartData));
 $lineChart = generateLineChart(3, json_encode($lineChartData));
 $geoChart = generateGeoChart(4, json_encode($geoChartData));

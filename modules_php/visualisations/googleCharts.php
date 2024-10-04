@@ -18,14 +18,17 @@ function CSVarray($data, $entete) {
 }
 
 // Générer une visualisation de type 'chart' avec les données injectéses
-function generatePieChart($compId, $data, $paramsAffich) {
+function generatePieChart($compId, $data) {
     $chartId = 'comp' . $compId;
     return "
     <div id='$chartId'></div>
     <script type='text/javascript'>
         google.charts.setOnLoadCallback(function() {
             var data = google.visualization.arrayToDataTable($data);
-            var options = " . json_encode($paramsAffich) . ";
+            var options = {
+                title: 'heures',
+                fontName: 'Poppons'
+            };
             var chart = new google.visualization.PieChart(document.getElementById('$chartId'));
             chart.draw(data, options);
         });
