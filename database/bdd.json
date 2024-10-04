@@ -4,15 +4,16 @@
             "repr_id",
             "name",
             "poss_grouping",
-            "recomanded_att"
+            "recomanded_atts -> [att_key]",
+            "import_files",
+            "data_formater",
+            "visualisation_constructor"
         ],
         "attributs": [
             "value_type",
             "key",
             "name",
-            "description",
-            "poss_grouping",
-            "poss_agrgation"
+            "description"
         ],
         "groupements": {
             "name": ["année",
