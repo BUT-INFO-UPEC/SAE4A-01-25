@@ -1,3 +1,8 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+</script>
+
 <?php
 function CSVarray($data, $entete) {
     // Initialiser le tableau avec les étiquettes des colonnes
@@ -12,7 +17,7 @@ function CSVarray($data, $entete) {
     return json_encode($formattedData);
 }
 
-// Générer une visualisation de type 'chart' avec les données injectées
+// Générer une visualisation de type 'chart' avec les données injectéses
 function generatePieChart($compId, $data, $paramsAffich) {
     $chartId = 'comp' . $compId;
     return "

@@ -29,7 +29,7 @@
     {
         "repr_id": 4,
         "name": "courbe",
-        "poss_grouping": "*",
+        "poss_grouping": "temporel",
         "recomanded_atts": [],
         "import_files": ["googleCharts.php"],
         "data_formater": "CSVarray",
