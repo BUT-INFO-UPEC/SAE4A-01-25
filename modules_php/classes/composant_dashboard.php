@@ -9,7 +9,6 @@ class Composant {
     private $grouping;
     private $reprId;
     private $repr;
-    private $data;
     private $params;
 
     public function __construct($composantId) {
