@@ -9,12 +9,12 @@
 
 <body>
     <header>
-        Header
+        <?php include "Header.php"; ?>
     </header>
 
     <main class="flex">
         <div class="sidebar" style="display: block; width: 6cm;">
-            <p class="changing"> liste retractable de météothèques </p>
+            <?php include "SideBar.php"; ?>
         </div>
 
         <div style="flex-grow: 1; position: relative;">
@@ -23,7 +23,7 @@
     </main>
 
     <footer>
-        Footer
+        <?php include "Footeer.php"; ?>
     </footer>
 </body>
 </html>
