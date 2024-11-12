@@ -1,5 +1,5 @@
 <?php
-require_once '../modules_php/visualisations/googleCharts.php';
+require_once '../Model/visualisations/googleCharts.php';
 
 // Données statiques pour les tests
 $pieChartData = [
