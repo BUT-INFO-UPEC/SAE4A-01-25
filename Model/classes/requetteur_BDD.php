@@ -1,6 +1,13 @@
 <?php
 
-function BDD_fetch_visualisation($reprId){
+/**
+ * Récupère les données de la visualisation dans la BDD a partir de son id
+ *
+ * @param int $numero Le numéro de visualisation à récupérer.
+ * @return mixed Résultat de la fonction BDD_fetch_visualisation.
+ */
+function BDD_fetch_visualisation($reprId)
+{
     // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
@@ -11,7 +18,18 @@ function BDD_fetch_visualisation($reprId){
     return $visuailsationDecodee[$reprId];
 }
 
-function BDD_fetch_component($objectToBuild, $composantId){}
+/**
+ * Récupère les données de la visualisation dans la BDD a partir de son id
+ *
+ * @param int $numero Le numéro de visualisation à récupérer.
+ * @return None Résultat de la fonction BDD_fetch_visualisation.
+ */
+function BDD_fetch_component($composantId) {}
 
-function BDD_fetch_dashboard($objectToBuild, $composantId){}
-?>
+/**
+ * Récupère les données de la visualisation dans la BDD a partir de son id
+ *
+ * @param int $numero Le numéro de visualisation à récupérer.
+ * @return mixed Résultat de la fonction BDD_fetch_visualisation.
+ */
+function BDD_fetch_dashboard($composantId) {}

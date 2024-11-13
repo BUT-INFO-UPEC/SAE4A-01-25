@@ -6,7 +6,7 @@
         "recomanded_att": [],
         "import_files": ["googleCharts.php"],
         "data_formater": "CSVarray",
-        "visualisation_constructor": "generatePieChart"
+        "visualisation_constructor": "generate_pie_chart"
     },
     {
         "repr_id": 2,
@@ -14,8 +14,8 @@
         "poss_grouping": "total",
         "recomanded_atts": [],
         "import_files": ["phpCharts.php"],
-        "data_formater": "uniqueValue",
-        "visualisation_constructor": "generateTextRepresentation"
+        "data_formater": "unique_value",
+        "visualisation_constructor": "generate_text_tepresentation"
     },
     {
         "repr_id": 3,
@@ -24,7 +24,7 @@
         "recomanded_atts": [],
         "import_files": ["googleCharts.php"],
         "data_formater": "CSVarray",
-        "visualisation_constructor": "generateGeoChart"
+        "visualisation_constructor": "generate_geo_chart"
     },
     {
         "repr_id": 4,
@@ -33,7 +33,7 @@
         "recomanded_atts": [],
         "import_files": ["googleCharts.php"],
         "data_formater": "CSVarray",
-        "visualisation_constructor": "generateLineChart"
+        "visualisation_constructor": "generate_line_chart"
     },
     {
         "repr_id": 5,
@@ -42,6 +42,6 @@
         "recomanded_atts": [],
         "import_files": ["googleCharts.php"],
         "data_formater": "CSVarray",
-        "visualisation_constructor": "generateBarChart"
+        "visualisation_constructor": "generate_bar_chart"
     }
 ]
