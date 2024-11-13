@@ -62,7 +62,7 @@
             "dashboard_id",
             "privatisation",
             "composant_list -> composant_id",
-            "creator_id -> utilisateur_id",
+            "createur_id -> utilisateur_id",
             "date_debut",
             "date_fin",
             "date_debut_relatif",
@@ -84,6 +84,10 @@
             "grouping",
             "aggregation",
             "param_affich"
+        ],
+        "suivi_copiright" : [
+            "dashboard_original -> dashboard_id",
+            "dashboard_nouveau -> dashboard_id"
         ]
     }
 }

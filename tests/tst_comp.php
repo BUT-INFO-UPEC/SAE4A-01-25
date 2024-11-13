@@ -2,10 +2,12 @@
 require_once "../Model/classes/requetteur_BDD.php";
 
 // Récupère le numéro envoyé via le formulaire ou utilise "1" par défaut
-$numero = isset($_GET['numero']) ? (int)$_GET['numero'] : 0;
+$numero_visu = isset($_GET['numero_visu']) ? (int)$_GET['numero_visu'] : 0;
+$numero_dash = isset($_GET['numero_dash']) ? (int)$_GET['numero_dash'] : 0;
 
-// Appelle la fonction avec le numéro sélectionné
-$resultat = BDD_fetch_visualisation($numero);
+// Appelle les fonctions avec les numéro sélectionné
+$resultat = BDD_fetch_visualisation($numero_visu);
+$dash = BDD_fetch_dashboard($numero_dash);
 ?>
 
 <!DOCTYPE html>
@@ -19,13 +21,20 @@ $resultat = BDD_fetch_visualisation($numero);
 
     <!-- Formulaire pour saisir le numéro -->
     <form method="get" action="">
-        <label for="numero">Numéro de visualisation :</label>
-        <input type="number" id="numero" name="numero" value="<?php echo htmlspecialchars($numero); ?>" min="0" max="4" required>
+        <label for="numero_visu">Numéro de visualisation :</label>
+        <input type="number" id="numero_visu" name="numero_visu" value="<?php echo htmlspecialchars($numero_visu); ?>" min="0" max="4" required>
+        <button type="submit">Afficher</button>
+
+        </br>
+
+        <label for="numero_dash">Numéro de visualisation :</label>
+        <input type="number" id="numero_dash" name="numero_dash" value="<?php echo htmlspecialchars($numero_dash); ?>" min="0" max="4" required>
         <button type="submit">Afficher</button>
     </form>
 
     <!-- Affichage du résultat -->
     <h2>Résultat :</h2>
     <pre><?php var_dump($resultat); ?></pre>
+    <pre><?php var_dump($dash); ?></pre>
 </body>
 </html>

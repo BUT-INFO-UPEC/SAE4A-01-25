@@ -32,10 +32,10 @@ $geoChartData = [
 ];
 
 // Générer les visualisations
-$pieChart = generatePieChart(1, json_encode($pieChartData));
-$barChart = generateBarChart(2, json_encode($barChartData));
-$lineChart = generateLineChart(3, json_encode($lineChartData));
-$geoChart = generateGeoChart(4, json_encode($geoChartData));
+$pieChart = generate_pie_chart(1, json_encode($pieChartData));
+$barChart = generate_bar_chart(2, json_encode($barChartData));
+$lineChart = generate_line_chart(3, json_encode($lineChartData));
+$geoChart = generate_geo_chart(4, json_encode($geoChartData));
 
 // Démarrer la mise en tampon pour capturer le contenu spécifique
 ob_start();

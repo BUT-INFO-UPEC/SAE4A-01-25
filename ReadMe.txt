@@ -17,6 +17,9 @@ id = identifiant
 pswd = password = mot de passe
 repr = representation
 data = donnée(s)
+override = outrepasser les protocoles de sécurité
+depts = departements
+epcis = tructures administratives permettant à plusieurs communes d'exercer des compétences en commun
 
 mots clés:
 
@@ -35,7 +38,7 @@ representation = mise en forme visuelle des données pour permettre leur compreh
 qqc_id = identifiant (primaire ou secondaire)
 nom_attribut
 
-noms des tables et ses attributs en francais ou mots clés 
+noms des tables et ses attributs en francais ou mots clés, pluriel
 
 (php, javascript):
 

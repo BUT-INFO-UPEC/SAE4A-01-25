@@ -1,0 +1,13 @@
+[
+    {
+        "dashboard_id" : 0,
+        "privatisation" : "Publique",
+        "composant_list" : "[0]",
+        "createur_id" : 0,
+        "date_debut" : "01/00/0000",
+        "date_fin" : "00/00/0000",
+        "date_debut_relatif" : "1",
+        "date_fin_relatif" : "1",
+        "param" : ""
+    }
+]
