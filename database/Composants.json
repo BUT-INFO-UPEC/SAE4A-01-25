@@ -1,0 +1,26 @@
+[
+    {
+        "composant_id" : "0",
+        "repr_type -> repr_id" : "1",
+        "attribut" : "t",
+        "grouping" : "mois",
+        "aggregation" : "MOY",
+        "param_affich" : ""
+    },
+    {
+        "composant_id" : "",
+        "repr_type -> repr_id" : "",
+        "attribut" : "",
+        "grouping" : "",
+        "aggregation" : "",
+        "param_affich" : ""
+    },
+    {
+        "composant_id" : "",
+        "repr_type -> repr_id" : "",
+        "attribut" : "",
+        "grouping" : "",
+        "aggregation" : "",
+        "param_affich" : ""
+    }
+]

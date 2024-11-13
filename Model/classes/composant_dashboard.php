@@ -25,13 +25,13 @@ class Composant {
     // Méthode pour générer la représentation visuelle
     public function generateVisual($data) {
 
-        $formater = $this->repr["data_formater"];
+        $formateur = $this->repr["data_formateur"];
 
-        if (function_exists($formater)) {
+        if (function_exists($formateur)) {
             // Appeler dynamiquement la fonction
-            $formatedData = call_user_func($formater, $data);
+            $donneesFormatees = call_user_func($formateur, $data);
         } else {
-            $formatedData = $data;
+            $donneesFormatees = $data;
         }
 
         // Récupérer le nom de la fonction
@@ -39,7 +39,7 @@ class Composant {
         
         if (function_exists($constructor)) {
             // Appeler dynamiquement la fonction
-            return call_user_func($constructor, $formatedData, $this->params);
+            return call_user_func($constructor, $donneesFormatees, $this->params);
         } else {
             return "<p>Unsupported representation</p>";
         }
