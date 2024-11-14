@@ -3,7 +3,7 @@
 /**
  * Récupère les données de la visualisation dans la BDD a partir de son id
  *
- * @param int $numero Le numéro de visualisation à récupérer.
+ * @param int $reprId Le numéro de visualisation à récupérer.
  * @return mixed Résultat de la fonction BDD_fetch_visualisation.
  */
 function BDD_fetch_visualisation($reprId)
@@ -12,24 +12,33 @@ function BDD_fetch_visualisation($reprId)
 
     // Récupérer le contenu du fichier json et l'interpréter
     $visualisationsJson = file_get_contents('../database/Representations.json');
-    $visuailsationDecodee = json_decode($visualisationsJson);
+    $visualisationsDecodee = json_decode($visualisationsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
-    return $visuailsationDecodee[$reprId];
+    return $visualisationsDecodee[$reprId];
 }
 
 /**
  * Récupère les données de la visualisation dans la BDD a partir de son id
  *
- * @param int $numero Le numéro de visualisation à récupérer.
- * @return None Résultat de la fonction BDD_fetch_visualisation.
+ * @param int $composantId Le numéro du composant à récupérer.
+ * @return mixed Résultat de la fonction BDD_fetch_visualisation.
  */
-function BDD_fetch_component($composantId) {}
+function BDD_fetch_component($composantId) {
+    // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
+
+    // Récupérer le contenu du fichier json et l'interpréter
+    $composantsJson = file_get_contents('../database/Composants.json');
+    $ComposantsDecodes = json_decode($composantsJson);
+
+    // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
+    return $ComposantsDecodes[$composantId];
+}
 
 /**
  * Récupère les données de la visualisation dans la BDD a partir de son id
  *
- * @param int $numero Le numéro de visualisation à récupérer.
+ * @param int $composantId Le numéro du dashboard à récupérer.
  * @return mixed Résultat de la fonction BDD_fetch_visualisation.
  */
 function BDD_fetch_dashboard($composantId)
@@ -37,11 +46,11 @@ function BDD_fetch_dashboard($composantId)
     // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $visualisationsJson = file_get_contents('../database/Dashboards.json');
-    $visuailsationDecodee = json_decode($visualisationsJson);
+    $dashboardsJson = file_get_contents('../database/Dashboards.json');
+    $DashboardsDecodes = json_decode($dashboardsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
-    return $visuailsationDecodee[$composantId];
+    return $DashboardsDecodes[$composantId];
 }
 
 /**

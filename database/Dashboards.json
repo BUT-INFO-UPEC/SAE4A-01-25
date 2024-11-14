@@ -4,10 +4,23 @@
         "privatisation" : "Publique",
         "composant_list" : "[0]",
         "createur_id" : 0,
-        "date_debut" : "01/00/0000",
-        "date_fin" : "00/00/0000",
+        "date_debut" : "0000-00-01",
+        "date_fin" : "0000-00-00",
         "date_debut_relatif" : "1",
         "date_fin_relatif" : "1",
+        "selection_geo" : {},
+        "param" : ""
+    },
+    {
+        "dashboard_id" : 1,
+        "privatisation" : "Publique",
+        "composant_list" : "[0]",
+        "createur_id" : 0,
+        "date_debut" : "2017-04-06",
+        "date_fin" : "2017-04-06",
+        "date_debut_relatif" : "0",
+        "date_fin_relatif" : "0",
+        "selection_geo" : {},
         "param" : ""
     }
 ]

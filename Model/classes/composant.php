@@ -1,6 +1,6 @@
 <?php
 
-require_once 'requetteur_BDD.php';
+require_once '../requetteurs/requetteur_BDD.php';
 
 class Composant
 {
@@ -11,7 +11,6 @@ class Composant
     private $attribut;
     private $aggregation;
     private $grouping;
-    private $reprId;
     private $repr;
     private $params;
 
@@ -20,23 +19,29 @@ class Composant
     // =======================
     public function __construct($composantId)
     {
-        BDD_fetch_component($this, $composantId);
+        $data = BDD_fetch_component($composantId);
+        $this->composantId = $data->composant_id;
+        $this->attribut = $data->attribut;
+        $this->aggregation = $data->aggregation;
+        $this->grouping = $data->grouping;
+        $this->set_repr($data->repr_type);
+        $this->params = $data->param_affich;
     }
 
     // =======================
     //      GETTERS
     // =======================
-    public function getAttribut()
+    public function get_attribut()
     {
         return $this->attribut;
     }
 
-    public function getAggregation()
+    public function get_aggregation()
     {
         return $this->aggregation;
     }
 
-    public function getGrouping()
+    public function get_grouping()
     {
         return $this->grouping;
     }
@@ -46,7 +51,6 @@ class Composant
     // =======================
     public function set_repr($reprId)
     {
-        $this->reprId = $reprId;
         // Récupérer les détails de la représentation
         $this->repr = BDD_fetch_visualisation($reprId);
     }

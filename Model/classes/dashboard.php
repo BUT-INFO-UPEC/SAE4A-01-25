@@ -1,10 +1,7 @@
 <?php
-
-use function PHPSTORM_META\override;
-
-require_once 'requetteur_BDD.php';
-require_once 'requetteur_API.php';
-require_once 'composant_dashboard.php';
+require_once '../requetteurs/requetteur_BDD.php';
+require_once '../requetteurs/requetteur_API.php';
+require_once 'composant.php';
 
 class Dashboard
 {
@@ -13,10 +10,14 @@ class Dashboard
     // =======================
     private $dashboardId;
     private $privatisation;
-    private $composants = [];
+    private $composants = array();
     private $createurId;
+    private $dateDebut;
+    private $dateFin;
+    private $dateDebutRelatif;
+    private $dateFinRelatif;
+    private $selectionGeo;
     private $filtres; // gros point d'interrogation
-
 
     // =======================
     //      CONSTRUCTOR
@@ -24,7 +25,30 @@ class Dashboard
     public function __construct($dashboardId)
     {
         $data = BDD_fetch_dashboard($dashboardId);
-        $this->dashboardId = $dashboardId;
+        $this->dashboardId = $data->dashboard_id;
+
+        // filtre des données a analisées
+        $this->dateDebut = $data->date_debut;
+        $this->dateFin = $data->date_fin;
+        $this->dateDebutRelatif = $data->date_debut_relatif == '1';
+        $this->dateFinRelatif = $data->date_fin_relatif == '1';
+        $this->selectionGeo = $data->selection_geo;
+
+        // construction des composants du dashboard
+        foreach (json_decode($data->composant_list) as $compId){
+            if (isset($tab[0])) {
+                array_push($this->composants, new Composant($compId));
+            } else {
+                $this->composants[0] = new Composant($compId);
+            }
+        }
+    }
+
+    // =======================
+    //    PUBLIC GETTERS
+    // =======================
+    public function get_filters() {
+        // créer une structure de donnée qui contient les filtres
     }
 
     // =======================
@@ -35,12 +59,12 @@ class Dashboard
      * 
      * @return string la chaine de caractères compilant la visualisation des données de chacuns des composants du dashboard
      */
-    public function generateDashboard()
+    public function generate_dashboard()
     {
         $output = "<div class='dashboard'>";
         foreach ($this->composants as $composant) {
-            $data = $this->fetch_data_for_composant($composant);
-            $output .= $composant->generateVisual($data);
+            $data = $this->fetch_data_for_componant($composant);
+            $output .= $composant->generate_visual($data);
         }
         $output .= "</div>";
         return $output;
@@ -76,11 +100,12 @@ class Dashboard
      * @param Composant $composant L'objet dont les données doivent etres récupérées
      * @return array La liste des données selon les critères spécifiés
      */
-    private function fetch_data_for_composant($composant)
+    private function fetch_data_for_componant($composant)
     {
-        $attribute = $composant->getAttribut();
-        $aggregation = $composant->getAggregation();
-        $grouping = $composant->getGrouping();
-        return API_request($this->filtres, $attribute, $aggregation, $grouping);
+        $attribute = $composant->get_attribut();
+        $aggregation = $composant->get_aggregation();
+        $grouping = $composant->get_grouping();
+        $filtres = $this->get_filters();
+        return API_componant_data($filtres, $attribute, $aggregation, $grouping);
     }
 }
