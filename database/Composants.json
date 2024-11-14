@@ -4,7 +4,7 @@
         "repr_type" : "1",
         "attribut" : "t",
         "grouping" : "mois",
-        "aggregation" : "MOY",
+        "aggregation" : "avg",
         "param_affich" : ""
     }
 ]

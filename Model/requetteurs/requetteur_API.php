@@ -16,19 +16,21 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
 
     // filtrer uniquement les resultats correspondants aux critères de la météothèque
     $request.="&where=(";
-    foreach (array_keys($filtres) as $criterGeo) {
-        foreach ($filtres[$criterGeo] as $numSta) {
-            $request.=" ".$criterGeo."=".$numSta." or";
+    foreach (array_keys($filtres["geo"]) as $criterGeo) {
+        if (isset($filtres["geo"][$criterGeo])) {
+            foreach ($filtres["geo"][$criterGeo] as $valeur) {
+                $request.=$criterGeo."=".$valeur." or ";
+            }
         }
     }
     //retirer les deux car de $request car c'est un or
-    substr($request, 0, -2);
-    $request.=") and date>".$filtres["dateDebut"]."and date<".$filtres["datFin"];
+    $request = substr($request, 0, -4);
+    $request.=") and date > ".$filtres["dateDebut"]." and date < ".$filtres["dateFin"];
 
     // grouper par le critère séléctionner pour l'analyse
-    $request.=" &group_by=".$grouping;
+    // $request.=" &group_by=".$grouping;
 
-    echo $request;
+    echo $request."</br>";
     return API_request($request);
 }
 
@@ -43,7 +45,7 @@ function API_request($request) {
     curl_setopt($ch, CURLOPT_URL, $apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Désactiver la vérification SSL pour le test
-
+    var_dump($ch);
     $response = curl_exec($ch);
     // Vérifier si une erreur s'est produite
     if (curl_errno($ch)) {

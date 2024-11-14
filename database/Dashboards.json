@@ -4,11 +4,11 @@
         "privatisation" : "Publique",
         "composant_list" : "[0]",
         "createur_id" : 0,
-        "date_debut" : "0000-00-01",
-        "date_fin" : "0000-00-00",
+        "date_debut" : "0000-00-00",
+        "date_fin" : "0000-00-07",
         "date_debut_relatif" : "1",
         "date_fin_relatif" : "1",
-        "selection_geo" : {},
+        "selection_geo" : {"numer_sta" : ["78925"]},
         "param" : ""
     },
     {

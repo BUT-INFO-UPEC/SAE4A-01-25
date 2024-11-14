@@ -1,6 +1,6 @@
 <?php
-require_once '../requetteurs/requetteur_BDD.php';
-require_once '../requetteurs/requetteur_API.php';
+require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
+require_once __DIR__ . '/../requetteurs/requetteur_API.php';
 require_once 'composant.php';
 
 class Dashboard
@@ -49,6 +49,52 @@ class Dashboard
     // =======================
     public function get_filters() {
         // créer une structure de donnée qui contient les filtres
+
+        if ($this->dateDebutRelatif) {
+            // Extraire les années, mois et jours du laps de temps
+            $annee = (int)substr($this->dateDebut, 0, 4);  // Extraction de l'année (ici "0001")
+            $mois = (int)substr($this->dateDebut, 5, 2);  // Extraction du mois (ici "01")
+            $jours = (int)substr($this->dateDebut, 8, 2); // Extraction du jour (ici "07")
+
+            // Obtenir la date d'aujourd'hui en tant qu'objet DateTime
+            $date = new DateTime();
+
+            // Soustraire les années, mois et jours de la date
+            if ($annee > 0) $date->modify("-$annee year");  // Soustraire l'année
+            if ($mois > 0) $date->modify("-$mois month");  // Soustraire les mois
+            if ($jours > 0) $date->modify("-$jours day");  // Soustraire les jours
+
+            $dateDebut = $date->format("Y-m-d");
+        } else {
+            $dateDebut =$this->dateDebut;
+        }
+
+        if ($this->dateFinRelatif) {
+            // Extraire les années, mois et jours du laps de temps
+            $annee = (int)substr($this->dateFin, 0, 4);  // Extraction de l'année (ici "0001")
+            $mois = (int)substr($this->dateFin, 5, 2);  // Extraction du mois (ici "01")
+            $jours = (int)substr($this->dateFin, 8, 2); // Extraction du jour (ici "07")
+
+            // Obtenir la date d'aujourd'hui en tant qu'objet DateTime
+            $date = new DateTime();
+            
+            // Soustraire les années, mois et jours de la date
+            if ($annee > 0) $date->modify("-$annee year");  // Soustraire l'année
+            if ($mois > 0) $date->modify("-$mois month");  // Soustraire les mois
+            if ($jours > 0) $date->modify("-$jours day");  // Soustraire les jours
+
+            $dateFin = $date->format("Y-m-d");
+        } else {
+            $dateFin =$this->dateFin;
+        }
+
+
+        $filtres = [
+            "dateDebut" => $dateDebut,
+            "dateFin" => $dateFin,
+            "geo" => get_object_vars($this->selectionGeo)
+        ];
+        return $filtres;
     }
 
     // =======================

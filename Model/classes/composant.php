@@ -1,6 +1,6 @@
 <?php
 
-require_once '../requetteurs/requetteur_BDD.php';
+require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
 
 class Composant
 {
