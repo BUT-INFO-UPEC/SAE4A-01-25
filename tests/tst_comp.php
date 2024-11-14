@@ -41,7 +41,6 @@
     <?php
     require_once "../Model/classes/dashboard.php";
     $dash = new Dashboard(0);
-    var_dump($dash);
 
     echo $dash->generate_dashboard();
     ?>

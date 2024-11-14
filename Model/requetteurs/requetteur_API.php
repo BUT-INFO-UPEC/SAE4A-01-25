@@ -19,24 +19,26 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     foreach (array_keys($filtres["geo"]) as $criterGeo) {
         if (isset($filtres["geo"][$criterGeo])) {
             foreach ($filtres["geo"][$criterGeo] as $valeur) {
+                $valeur = $criterGeo == "numer_sta" ? "'".$valeur."'" : $valeur ;
                 $request.=$criterGeo."=".$valeur." or ";
             }
         }
     }
     //retirer les deux car de $request car c'est un or
     $request = substr($request, 0, -4);
-    $request.=") and date > ".$filtres["dateDebut"]." and date < ".$filtres["dateFin"];
+    $request.=") and date >= '".$filtres["dateDebut"]."' and date <= '".$filtres["dateFin"]."'";
 
     // grouper par le critère séléctionner pour l'analyse
     // $request.=" &group_by=".$grouping;
 
-    echo $request."</br>";
+    $request.="&limit=100";
     return API_request($request);
 }
+$str = "?select=avg(t)&where=(numer_sta=78925)%20and%20date%20>=%20%272024-11-14T00:00:00%27%20and%20date%20<=%20%272024-11-07T00:00:00%27&limit=100";
 
 function API_request($request) {
     // URL de l'API
-    $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records/" . $request;
+    $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . urlencode($request);
 
     // Initialiser une session cURL
     $ch = curl_init();
@@ -45,7 +47,6 @@ function API_request($request) {
     curl_setopt($ch, CURLOPT_URL, $apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Désactiver la vérification SSL pour le test
-    var_dump($ch);
     $response = curl_exec($ch);
     // Vérifier si une erreur s'est produite
     if (curl_errno($ch)) {

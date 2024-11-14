@@ -7,7 +7,7 @@ function unique_value($data) {
     return $data["value"];
 }
 
-function generate_text_representation($data) {
+function generate_text_tepresentation($data) {
     return "<p>" . htmlspecialchars($data) . "</p>";
 }
 

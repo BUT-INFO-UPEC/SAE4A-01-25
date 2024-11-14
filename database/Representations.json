@@ -5,7 +5,7 @@
         "poss_grouping": "*",
         "recomanded_att": [],
         "import_files": ["googleCharts.php"],
-        "data_formater": "CSVarray",
+        "data_formateur": "CSVarray",
         "visualisation_constructor": "generate_pie_chart"
     },
     {
@@ -14,7 +14,7 @@
         "poss_grouping": "total",
         "recomanded_atts": [],
         "import_files": ["phpCharts.php"],
-        "data_formater": "unique_value",
+        "data_formateur": "unique_value",
         "visualisation_constructor": "generate_text_tepresentation"
     },
     {
@@ -23,7 +23,7 @@
         "poss_grouping": "geographique",
         "recomanded_atts": [],
         "import_files": ["googleCharts.php"],
-        "data_formater": "CSVarray",
+        "data_formateur": "CSVarray",
         "visualisation_constructor": "generate_geo_chart"
     },
     {
@@ -32,7 +32,7 @@
         "poss_grouping": "temporel",
         "recomanded_atts": [],
         "import_files": ["googleCharts.php"],
-        "data_formater": "CSVarray",
+        "data_formateur": "CSVarray",
         "visualisation_constructor": "generate_line_chart"
     },
     {
@@ -41,7 +41,7 @@
         "poss_grouping": "*",
         "recomanded_atts": [],
         "import_files": ["googleCharts.php"],
-        "data_formater": "CSVarray",
+        "data_formateur": "CSVarray",
         "visualisation_constructor": "generate_bar_chart"
     }
 ]

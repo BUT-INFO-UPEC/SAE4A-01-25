@@ -15,7 +15,7 @@ function BDD_fetch_visualisation($reprId)
     $visualisationsDecodee = json_decode($visualisationsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
-    return $visualisationsDecodee[$reprId];
+    return get_object_vars($visualisationsDecodee[$reprId]);
 }
 
 /**

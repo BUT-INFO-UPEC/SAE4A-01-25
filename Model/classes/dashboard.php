@@ -64,7 +64,7 @@ class Dashboard
             if ($mois > 0) $date->modify("-$mois month");  // Soustraire les mois
             if ($jours > 0) $date->modify("-$jours day");  // Soustraire les jours
 
-            $dateDebut = $date->format("Y-m-d");
+            $dateDebut = $date->format("Y-m-d")."T00:00:00";
         } else {
             $dateDebut =$this->dateDebut;
         }
@@ -83,7 +83,7 @@ class Dashboard
             if ($mois > 0) $date->modify("-$mois month");  // Soustraire les mois
             if ($jours > 0) $date->modify("-$jours day");  // Soustraire les jours
 
-            $dateFin = $date->format("Y-m-d");
+            $dateFin = $date->format("Y-m-d")."T00:00:00";
         } else {
             $dateFin =$this->dateFin;
         }
@@ -110,6 +110,7 @@ class Dashboard
         $output = "<div class='dashboard'>";
         foreach ($this->composants as $composant) {
             $data = $this->fetch_data_for_componant($composant);
+            var_dump($data);
             $output .= $composant->generate_visual($data);
         }
         $output .= "</div>";

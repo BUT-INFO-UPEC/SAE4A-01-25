@@ -78,6 +78,7 @@ class Composant
 
         // Récupérer le nom de la fonction
         $constructor = $this->repr['visualisation_constructor'];
+        echo "<p>$constructor</p>";
 
         if (function_exists($constructor)) {
             // Appeler dynamiquement la fonction
