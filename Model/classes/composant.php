@@ -66,6 +66,9 @@ class Composant
      */
     public function generate_visual($data)
     {
+        foreach ($this->repr["import_files"] as $import) {
+            require_once __DIR__ . "/../visualisations/".$import;
+        }
 
         $formateur = $this->repr["data_formateur"];
 
@@ -74,6 +77,7 @@ class Composant
             $donneesFormatees = call_user_func($formateur, $data);
         } else {
             $donneesFormatees = $data;
+            echo "<p>pas de formateur</p>";
         }
 
         // Récupérer le nom de la fonction
