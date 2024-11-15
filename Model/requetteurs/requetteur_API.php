@@ -32,9 +32,15 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     // $request.=" &group_by=".$grouping;
 
     $request.="&limit=100";
-    return API_request($request);
+    return get_API_data($request, $grouping);
 }
-$str = "?select=avg(t)&where=(numer_sta=78925)%20and%20date%20>=%20%272024-11-14T00:00:00%27%20and%20date%20<=%20%272024-11-07T00:00:00%27&limit=100";
+
+/**
+ * Récupère et mets en forme toutes la totalité des données
+ * 
+ * @param string $donnees_ciblees Le morceau de la requette selectionnant
+ */
+function get_API_data($donnees_ciblees, $grouping) {}
 
 function API_request($request) {
     // URL de l'API
