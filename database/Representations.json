@@ -15,7 +15,7 @@
         "recomanded_atts": [],
         "import_files": ["phpCharts.php"],
         "data_formateur": "unique_value",
-        "visualisation_constructor": "generate_text_tepresentation"
+        "visualisation_constructor": "generate_text_representation"
     },
     {
         "repr_id": 3,
