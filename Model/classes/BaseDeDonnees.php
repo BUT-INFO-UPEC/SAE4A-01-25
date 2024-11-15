@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/User.php';
 
-class Database
+class BaseDeDonnees
 {
     // =======================
     //        ATTRIBUTES

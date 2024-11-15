@@ -1,6 +1,6 @@
 <?php
 session_start();
-class User
+class Utilisateur
 {
     // =======================
     //        ATTRIBUTES
@@ -73,7 +73,7 @@ class User
         $utilisateur_ami
     ) {
         try {
-            $pdo = Database::getDb();
+            $pdo = BaseDeDonnees::getDb();
             $sql = "INSERT INTO utilisateur (utilisateur_nom, utilisateur_pswd, utilisateur_surnom, utilisateur_ami)
                     VALUES (:nom, :pswd, :surnom, :ami)";
             $stmt = $pdo->prepare($sql);

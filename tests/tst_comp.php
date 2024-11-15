@@ -20,7 +20,7 @@
     <h1>Visualisation des données</h1>
 
     <?php
-    require_once "../Model/classes/dashboard.php";
+    require_once "../Model/classes/Dashboard.php";
     $dash = new Dashboard(0);
 
     echo $dash->generate_dashboard();

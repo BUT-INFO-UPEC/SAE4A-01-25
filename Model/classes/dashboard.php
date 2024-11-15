@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
 require_once __DIR__ . '/../requetteurs/requetteur_API.php';
-require_once 'composant.php';
+require_once 'Composant.php';
 
 class Dashboard
 {
