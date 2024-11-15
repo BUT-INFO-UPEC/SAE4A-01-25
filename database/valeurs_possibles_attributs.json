@@ -16,14 +16,14 @@
       "ww": {
         "description": "Temps présent",
         "possible_values": {
-          "00": "Clair",
-          "01": "Nuageux",
-          "02": "Brouillard",
-          "03": "Pluie faible",
-          "04": "Pluie modérée",
-          "05": "Orage",
-          "06": "Neige",
-          "99": "Non observé"
+          "0": "Clair",
+          "1": "Nuageux",
+          "2": "Brouillard",
+          "3": "Pluie faible",
+          "4": "Pluie modérée",
+          "5": "Orage",
+          "6": "Neige",
+          "7": "Non observé"
         }
       },
       "etat_sol": {
