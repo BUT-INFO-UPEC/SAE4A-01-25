@@ -2,20 +2,21 @@
     "static": {
         "representations": [
             "repr_id",
-            "name",
-            "poss_grouping",
-            "recomanded_att"
+            "nom",
+            "poss_grouping -> groupping_type",
+            "recomanded_atts -> [att_cle]",
+            "import_files",
+            "data_formater",
+            "visualisation_constructor"
         ],
         "attributs": [
-            "value_type",
-            "key",
-            "name",
-            "description",
-            "poss_grouping",
-            "poss_agrgation"
+            "type_valeur",
+            "cle",
+            "nom",
+            "description"
         ],
         "groupements": {
-            "name": ["année",
+            "nom": ["année",
                 "saisons",
                 "mois",
                 "semaines",
@@ -24,57 +25,57 @@
                 "reg",
                 "dept",
                 "communes",
-                "id_stations [id_station]",
+                "stations_id [stations_id]",
                 "total"],
             "type":["geographique",
                     "temporel"]
         },
         "stations": [
             "id",
-            "name",
+            "nom",
             "latitude",
             "longitude",
             "ville_id"
         ],
         "villes": [
             "id",
-            "name",
+            "nom",
             "epci_id"
         ],
         "epcis": [
             "id",
-            "name",
+            "nom",
             "reg_id"
         ],
         "depts": [
             "id",
-            "name",
+            "nom",
             "reg_id"
         ],
         "regions": [
             "id",
-            "name"
+            "nom"
         ]
     },
     "dynamic": {
         "dashboard": [
             "dashboard_id",
-            "is_private",
+            "privatisation",
             "composant_list -> composant_id",
-            "creator_id -> user_id",
+            "createur_id -> utilisateur_id",
             "date_debut",
             "date_fin",
             "date_debut_relatif",
             "date_fin_relatif",
             "param"
         ],
-        "user": [
-            "user_id",
-            "user_name",
-            "user_pswd",
-            "user_surname",
-            "user_friend",
-            "user_email"
+        "utilisateur": [
+            "utilisateur_id",
+            "utilisateur_nom",
+            "utilisateur_pswd",
+            "utilisateur_surnom",
+            "utilisateur_ami",
+            "utilisateur_email"
         ],
         "composant": [
             "composant_id",
@@ -83,6 +84,10 @@
             "grouping",
             "aggregation",
             "param_affich"
+        ],
+        "suivi_copiright" : [
+            "dashboard_original -> dashboard_id",
+            "dashboard_nouveau -> dashboard_id"
         ]
     }
 }

@@ -1,3 +1,7 @@
+Fichier contenant les pages finales que l'utilisateur charge (vues)
+contenu d'une vue:
+
+
 <?php
 // POTENTIELS INCLUDES ET CODE PHP
 
@@ -5,20 +9,11 @@
 ob_start();
 ?>
 
-<h1><a href="ReadMe.md"> LISEZ MOI !!! </a></h1>
+CONTENU HTML/PHP
 
-<h2> Vues </h2>
 <?php
-$dossier = "./Vues";
-include "layout/Scandir.php";
-
-echo "<h2> Tests </h2>";
-$dossier = "./tests";
-include "layout/Scandir.php";
-
-
 // Récupération du contenu html/php
 $main = ob_get_clean();
 // Chargement du Layout APRES avoir Récupérer le contenu pour qu'il puisse le mettre en forme
-include "layout/Layout.php";
+include "../layout/Layout.php";
 ?>
