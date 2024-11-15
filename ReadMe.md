@@ -52,6 +52,7 @@ noms de classes en francais ou mots clés avec une majuscule au début
 
 penser a ajouter des docstring au dessu des fonctoins:
 
+```php
 /**
  * Résumé de la fonction.
  *
@@ -63,8 +64,10 @@ penser a ajouter des docstring au dessu des fonctoins:
  * @return type Description
  */
 function my_function() {}
+```
 
 structurer les classes java avec des commentaires:
+```php
 /**
  * Description de la classe
  */
@@ -104,7 +107,7 @@ class MyClass {
     // =======================
 
 }
-
+```
 ## HTML
 
 classes_composees2plusieurs_mots (ou pas en fonction de si l'on utilise des frameworks)
