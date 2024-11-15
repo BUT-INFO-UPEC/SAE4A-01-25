@@ -34,14 +34,6 @@
         "example" : "8.3",
         "description" : ""
     },
-
-    {
-        "value_type" : "",
-        "key" : "",
-        "name" : "",
-        "poss_grouping" : "",
-        "poss_agrgation" : ""
-    },
     {
         "value_type": "decimal K",
         "key": "t",
