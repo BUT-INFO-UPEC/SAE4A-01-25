@@ -9,18 +9,18 @@
     ?> </title>
     <link rel="stylesheet" href="<?php 
         $prefixe = strpos($_SERVER['PHP_SELF'], 'Vues') ? "../" : "";
-        echo $prefixe . 'layout/style.css';
+        echo $prefixe . 'layout/css/style.css';
     ?>">
 </head>
 
 <body>
     <header>
-        <?php include "Header.php"; ?>
+        <?php include "composants_balistiques_communs/Header.php"; ?>
     </header>
 
     <main class="flex">
         <div class="sidebar" style="display: block; width: 6cm;">
-            <?php include "SideBar.php"; ?>
+            <?php include "layout/composants_balistiques_communs/SideBar.php"; ?>
         </div>
 
         <div style="flex-grow: 1; position: relative;">
@@ -29,7 +29,7 @@
     </main>
 
     <footer>
-        <?php include "Footer.php"; ?>
+        <?php include "layout/composants_balistiques_communs/Footer.php"; ?>
     </footer>
 </body>
 

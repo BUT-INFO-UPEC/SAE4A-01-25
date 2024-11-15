@@ -13,7 +13,7 @@ switch ($action) {
         $passwordConfirm = $_POST['passwordConfirm'] ?? null;
 
         if (!empty($name) && !empty($email) && !empty($username) && !empty($password) && !empty($passwordConfirm) && $password === $passwordConfirm) {
-            $user = new User($name, $email, $username, $password);
+            $user = new Utilisateur($name, $email, $username, $password);
             $user->insertUser(
                 $user->getName(),
                 $user->getEmail(),
