@@ -4,8 +4,14 @@ require_once __DIR__ . '/User.php';
 
 class Database
 {
+    // =======================
+    //        ATTRIBUTES
+    // =======================
     private static $pdo = null;
 
+    // =======================
+    //    PUBLIC METHODS
+    // =======================
     /**
      * Méthode pour obtenir une connexion à la base de données
      *

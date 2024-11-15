@@ -2,11 +2,17 @@
 session_start();
 class User
 {
+    // =======================
+    //        ATTRIBUTES
+    // =======================
     private $utilisateur_id;
     private $utilisateur_nom;
     private $utilisateur_pswd;
     private $utilisateur_surnom;
 
+    // =======================
+    //      CONSTRUCTOR
+    // =======================
     public function __construct($nom, $pswd, $surnom)
     {
         $this->utilisateur_nom = $nom;
@@ -14,6 +20,9 @@ class User
         $this->utilisateur_surnom = $surnom;
     }
 
+    // =======================
+    //      GETTERS
+    // =======================
     public function getName()
     {
         return $this->utilisateur_nom;
@@ -30,6 +39,10 @@ class User
     {
         return $this->utilisateur_pswd;
     }
+
+    // =======================
+    //      SETTERS
+    // =======================
     public function setName(string $nom)
     {
         $this->utilisateur_nom = $nom;
@@ -47,7 +60,12 @@ class User
         $this->utilisateur_pswd = $password;
     }
 
-    // Méthode pour insérer un utilisateur dans la base de données SQLite
+    // =======================
+    //    PUBLIC METHODS
+    // =======================
+    /**
+     * Méthode pour insérer un utilisateur dans la base de données SQLite
+     */
     public function insertUser(
         $utilisateur_nom,
         $utilisateur_pswd,
