@@ -8,7 +8,7 @@
         echo isset($titre) ? $titre : "Titre";
     ?> </title>
     <link rel="stylesheet" href="<?php 
-        $prefixe = strpos($_SERVER['PHP_SELF'], 'Vue') ? "../" : "";
+        $prefixe = strpos($_SERVER['PHP_SELF'], 'Vues') ? "../" : "";
         echo $prefixe . 'layout/style.css';
     ?>">
 </head>

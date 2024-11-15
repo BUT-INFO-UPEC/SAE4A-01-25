@@ -5,7 +5,7 @@
 ob_start();
 ?>
 
-<h1><a href="ReadMe.txt"> LISEZ MOI !!! </a></h1>
+<h1><a href="ReadMe.md"> LISEZ MOI !!! </a></h1>
 
 <?php
 $dossier = "./Vues";
