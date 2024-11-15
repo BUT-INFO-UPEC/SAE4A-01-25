@@ -1,5 +1,12 @@
 [
     {
+        "value_type" : "",
+        "key" : "",
+        "name" : "",
+        "poss_grouping" : "",
+        "poss_agrgation" : ""
+    },
+    {
         "value_type" : "int Pa",
         "key" : "pmer",
         "name" : "Pression au niveau mer",
@@ -33,13 +40,6 @@
         "name" : "Vitesse du vent en m/s",
         "example" : "8.3",
         "description" : ""
-    },
-    {
-        "value_type" : "",
-        "key" : "",
-        "name" : "",
-        "poss_grouping" : "",
-        "poss_agrgation" : ""
     },
     {
         "value_type": "decimal K",

@@ -15,10 +15,8 @@ if (!isset($db_france)) {
 // createTables($db_france);
 // // insertData($db_france);
 
-// Instancier la classe Requete
-$requete = new Requete();
 // URL de l'API
-$apiUrl = $requete->apiUrl;
+$apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
 
 // Initialiser une session cURL
 $ch = curl_init();

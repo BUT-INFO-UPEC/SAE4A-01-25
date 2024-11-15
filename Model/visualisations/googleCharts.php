@@ -17,8 +17,7 @@ function CSVarray($data, $entete) {
     return json_encode($formattedData);
 }
 
-// Générer une visualisation de type 'chart' avec les données injectéses
-function generatePieChart($compId, $data) {
+function generate_pie_chart($compId, $data) {
     $chartId = 'comp' . $compId;
     return "
     <div id='$chartId'></div>
@@ -35,7 +34,7 @@ function generatePieChart($compId, $data) {
     </script>";
 }
 
-function generateGeoChart($compId, $data) {
+function generate_geo_chart($compId, $data) {
     $chartId = 'comp' . $compId;
     
     return "
@@ -55,7 +54,7 @@ function generateGeoChart($compId, $data) {
     </script>";
 }
 
-function generateLineChart($compId, $data) {
+function generate_line_chart($compId, $data) {
     $chartId = 'comp' . $compId;
     
     return "
@@ -75,7 +74,7 @@ function generateLineChart($compId, $data) {
     </script>";
 }
 
-function generateBarChart($compId, $data) {
+function generate_bar_chart($compId, $data) {
     $chartId = 'comp' . $compId;
     
     return "
