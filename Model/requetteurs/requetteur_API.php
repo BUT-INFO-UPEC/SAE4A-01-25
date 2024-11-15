@@ -1,6 +1,4 @@
 <?php
-$apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
-
 /**
  * Récupère les données de l'API selon les critères spécifiés
  * 
@@ -12,21 +10,23 @@ $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/don
  */
 function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     // réaliser l'oppération d'aggregation sur l'attribut demandé
-    $request = "?select=".$aggregation."(".$attribut.")";
+    $request = "?select=". $aggregation."(".$attribut.")";
 
+    $criteresGeo = "(";
     // filtrer uniquement les resultats correspondants aux critères de la météothèque
-    $request.="&where=(";
     foreach (array_keys($filtres["geo"]) as $criterGeo) {
         if (isset($filtres["geo"][$criterGeo])) {
             foreach ($filtres["geo"][$criterGeo] as $valeur) {
-                $valeur = $criterGeo == "numer_sta" ? "'".$valeur."'" : $valeur ;
-                $request.=$criterGeo."=".$valeur." or ";
+                $valeur = $criterGeo == "numer_sta" ? "%27".$valeur."%27" : $valeur ;
+                $criteresGeo.=$criterGeo."=".$valeur." or ";
             }
         }
     }
     //retirer les deux car de $request car c'est un or
-    $request = substr($request, 0, -4);
-    $request.=") and date >= '".$filtres["dateDebut"]."' and date <= '".$filtres["dateFin"]."'";
+    $criteresGeo = substr($criteresGeo, 0, -4);
+    $criteresGeo.=")%20and%20date%20>=%20%27".$filtres["dateDebut"]."%27%20and%20date%20<=%20%27".$filtres["dateFin"]."%27";
+
+    $request.="&where=". $criteresGeo;
 
     // grouper par le critère séléctionner pour l'analyse
     // $request.=" &group_by=".$grouping;
@@ -38,7 +38,7 @@ $str = "?select=avg(t)&where=(numer_sta=78925)%20and%20date%20>=%20%272024-11-14
 
 function API_request($request) {
     // URL de l'API
-    $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . urlencode($request);
+    $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . $request;
 
     // Initialiser une session cURL
     $ch = curl_init();
