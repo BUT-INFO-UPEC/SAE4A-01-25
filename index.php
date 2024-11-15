@@ -7,9 +7,15 @@ ob_start();
 
 <h1><a href="ReadMe.md"> LISEZ MOI !!! </a></h1>
 
+<h2> Vues </h2>
 <?php
 $dossier = "./Vues";
 include "layout/Scandir.php";
+
+echo "<h2> Tests </h2>";
+$dossier = "./tests";
+include "layout/Scandir.php";
+
 
 // Récupération du contenu html/php
 $main = ob_get_clean();
