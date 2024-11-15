@@ -33,15 +33,13 @@ representation = mise en forme visuelle des données pour permettre leur compreh
 ----
 
 - Structure de codes:
-(BDD):
-
+## BDD
 qqc_id = identifiant (primaire ou secondaire)
 nom_attribut
 
 noms des tables et ses attributs en francais ou mots clés, pluriel
 
-(php, javascript):
-
+## PHP - JAVASCRIPT
 fonction_composed_of_multiple_words()
 atributCompose2PlusieursMots
 variableComposee2PlusieursMots
@@ -53,6 +51,7 @@ noms de classes en francais ou mots clés avec une majuscule au début
 1 ligne vide entre les fonctions
 
 penser a ajouter des docstring au dessu des fonctoins:
+
 /**
  * Résumé de la fonction.
  *
@@ -106,11 +105,12 @@ class MyClass {
 
 }
 
-(html):
+## HTML
 
 classes_composees2plusieurs_mots (ou pas en fonction de si l'on utilise des frameworks)
 NomOuID
 
+```html
 <balise_parente>
     <balise_parente>
         <balise_sans_enfant> </balise_sans_enfant>
@@ -120,5 +120,7 @@ NomOuID
 
     <balise_sans_enfant> </balise_sans_enfant>
 <balise_parente>
--> pas de saut de ligne entre la balise parente ouvrante et ses balises enfants, juste a la retour a la ligne et tabulation mais entre les différentes balises enfants (maj+alt+F)
+```
+
+- pas de saut de ligne entre la balise parente ouvrante et ses balises enfants, juste a la retour a la ligne et tabulation mais entre les différentes balises enfants (maj+alt+F)
 
