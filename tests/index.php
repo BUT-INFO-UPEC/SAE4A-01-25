@@ -45,7 +45,7 @@ $data = json_decode($response, true);
 if (json_last_error() === JSON_ERROR_NONE) {
     echo '<h1>Données météorologiques</h1>';
     echo '<ul>';
-    foreach ($data['results'] as $record) { // Corrigé de 'results' à 'records'
+    foreach ($data['records'] as $record) { // Correction du tableau à 'records'
         // Extraire les informations du record
         $numer_sta = $record['numer_sta'] ?? 'Numéro de station inconnu';
         $nomStation = $record['nom'] ?? 'Nom inconnu';
@@ -69,4 +69,62 @@ if (json_last_error() === JSON_ERROR_NONE) {
 } else {
     echo 'Erreur de décodage JSON : ' . json_last_error_msg(); // Afficher le message d'erreur
 }
+?>
 
+<!-- Bouton pour ouvrir le popup de connexion -->
+<button onclick="openPopup()">Connexion</button>
+
+<!-- Code HTML du popup de connexion -->
+<div class="popup-overlay" id="popup" style="display: none;">
+    <div class="popup-content">
+        <h2>Connexion</h2>
+        <form action="traitement_connexion.php" method="post">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <button type="submit">Se connecter</button>
+        </form>
+        <button onclick="closePopup()">Fermer</button>
+    </div>
+</div>
+
+<!-- Script pour ouvrir et fermer le popup -->
+<script>
+    function openPopup() {
+        document.getElementById("popup").style.display = "flex";
+    }
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+</script>
+
+<!-- Styles du popup, on peut ajouter sa dans un autre fichier CSS -->
+<style>
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .popup-content {
+        background-color: #fff;
+        padding: 20px;
+        width: 300px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .popup-content input[type="text"],
+    .popup-content input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+    }
+    .popup-content button {
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+</style>
