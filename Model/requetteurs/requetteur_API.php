@@ -6,7 +6,7 @@
  * @param string $attribut La clé de l'attribut a analyser et donc requeter
  * @param string $aggregation La fonction analitique a apliquée sur les groupements de données
  * @param mixed $grouping Le critère de groupement des données pour  analyse
- * @return array La liste des données renvoyée par l'API
+ * @return array La liste des données renvoyée pour cette requette
  */
 function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     // réaliser l'oppération d'aggregation sur l'attribut demandé
@@ -38,10 +38,32 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
 /**
  * Récupère et mets en forme toutes la totalité des données
  * 
- * @param string $donnees_ciblees Le morceau de la requette selectionnant
+ * @param string $donnees_ciblees Le morceau de la requette selectionnant les données et les filtrants
+ * @param mixed $grouping le critère de groupement des données pour  analyse
+ * @return array La liste des données renvoyée pour cette requette
  */
-function get_API_data($donnees_ciblees, $grouping) {}
+function get_API_data($donnees_ciblees, $grouping) {
+    // faire une boucle pour récupérer les données
+    $response = API_request($donnees_ciblees);
 
+    // mettre en forme les données
+    // Décoder les données JSON
+    $data = json_decode($response, true);
+
+    // Vérifier si les données sont valides
+    if (json_last_error() === JSON_ERROR_NONE) {
+        return $data;
+    } else {
+        throw new Exception('Erreur de décodage JSON : ' . json_last_error_msg()); // Afficher le message d'erreur
+    }
+}
+
+/**
+ * Effectue une requette a l'API SYNOP
+ * 
+ * @param string $request La chane de caractère commancant par "?" qui paramètre l'API
+ * @return string le fichier json renvoyé par l'API
+ */
 function API_request($request) {
     // URL de l'API
     $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . $request;
@@ -63,13 +85,5 @@ function API_request($request) {
     // Fermer la session cURL
     curl_close($ch);
 
-    // Décoder les données JSON
-    $data = json_decode($response, true);
-
-    // Vérifier si les données sont valides
-    if (json_last_error() === JSON_ERROR_NONE) {
-        return $data;
-    } else {
-        throw new Exception('Erreur de décodage JSON : ' . json_last_error_msg()); // Afficher le message d'erreur
-    }
+    return $response;
 }
