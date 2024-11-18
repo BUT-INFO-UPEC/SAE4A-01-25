@@ -29,7 +29,7 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     $request.="&where=". $criteresGeo;
 
     // grouper par le critère séléctionner pour l'analyse
-    // $request.=" &group_by=".$grouping;
+    $request.=" &group_by=".$grouping;
 
     $request.="&limit=100";
     return get_API_data($request, $grouping);
@@ -67,6 +67,8 @@ function get_API_data($donnees_ciblees, $grouping) {
 function API_request($request) {
     // URL de l'API
     $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . $request;
+
+    echo "<p>$apiUrl</p>";
 
     // Initialiser une session cURL
     $ch = curl_init();
