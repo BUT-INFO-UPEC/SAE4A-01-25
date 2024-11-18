@@ -52,7 +52,7 @@ function get_API_data($donnees_ciblees, $grouping) {
 
     // Vérifier si les données sont valides
     if (json_last_error() === JSON_ERROR_NONE) {
-        return $data;
+        return $data["results"];
     } else {
         throw new Exception('Erreur de décodage JSON : ' . json_last_error_msg()); // Afficher le message d'erreur
     }

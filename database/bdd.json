@@ -13,7 +13,8 @@
             "type_valeur",
             "cle",
             "nom",
-            "description"
+            "description",
+            "unit"
         ],
         "groupements": {
             "nom": ["année",
