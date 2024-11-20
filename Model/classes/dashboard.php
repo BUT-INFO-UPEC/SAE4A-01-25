@@ -110,7 +110,6 @@ class Dashboard
         $output = "<div class='dashboard'>";
         foreach ($this->composants as $composant) {
             $data = $this->fetch_data_for_componant($composant);
-            var_dump($data);
             $output .= $composant->generate_visual($data);
         }
         $output .= "</div>";
