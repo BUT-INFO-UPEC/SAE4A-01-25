@@ -31,6 +31,7 @@ $prefixe .= 'layout/';
     <link rel="stylesheet" href="<?php 
         echo $prefixe . 'css/style.css';
     ?>">
+    
 </head>
 
 <body>
