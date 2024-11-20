@@ -144,6 +144,7 @@ class Dashboard
      * Récupération des données via l'API 
      * 
      * @param Composant $composant L'objet dont les données doivent etres récupérées
+     * 
      * @return array La liste des données selon les critères spécifiés
      */
     private function fetch_data_for_componant($composant)

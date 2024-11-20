@@ -62,6 +62,7 @@ class Composant
      * Méthode pour générer la représentation visuelle
      * 
      * @param array $data La liste des données a mettre en forme
+     * 
      * @return string Chaine de caractère permétant de représenter les données selon la visualisation parametrée de l'objet
      */
     public function generate_visual($data)

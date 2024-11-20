@@ -6,6 +6,7 @@
  * @param string $attribut La clé de l'attribut a analyser et donc requeter
  * @param string $aggregation La fonction analitique a apliquée sur les groupements de données
  * @param mixed $grouping Le critère de groupement des données pour  analyse
+ * 
  * @return array La liste des données renvoyée pour cette requette
  */
 function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
@@ -40,6 +41,7 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
  * 
  * @param string $donnees_ciblees Le morceau de la requette selectionnant les données et les filtrants
  * @param mixed $grouping le critère de groupement des données pour  analyse
+ * 
  * @return array La liste des données renvoyée pour cette requette
  */
 function get_API_data($donnees_ciblees, $grouping) {
@@ -62,6 +64,7 @@ function get_API_data($donnees_ciblees, $grouping) {
  * Effectue une requette a l'API SYNOP
  * 
  * @param string $request La chane de caractère commancant par "?" qui paramètre l'API
+ * 
  * @return string le fichier json renvoyé par l'API
  */
 function API_request($request) {

@@ -46,7 +46,7 @@ $prefixe .= 'layout/';
             <?php echo $main; ?>
         </div>
     </main>
-    <?php include "composants_balistiques_communs/Footer.php"; ?>
+    <!-- <?php include __DIR__ .  "./composants_balistiques_communs/Footer.php"; ?> -->
 </body>
 
 </html>

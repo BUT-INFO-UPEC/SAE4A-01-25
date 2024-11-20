@@ -8,6 +8,7 @@ header,
 footer {
     text-align: center;
     width: 100%;
+    padding: 1cm;
     background-color: lightgray;
 }
 
@@ -19,8 +20,9 @@ main * * {
 hr {
     margin: 0;
     padding: 0;
+    background-color :#000;
+    height : 5px;
 }
-
 .flex {
     display: flex;
     gap: 10px;
@@ -101,6 +103,7 @@ hr {
 .dashboard-card h3 {
     margin-top: 0;
     color: #333;
+    
 }
 
 .metric {
