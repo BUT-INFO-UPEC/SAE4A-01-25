@@ -30,7 +30,7 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     $request.="&where=". $criteresGeo;
 
     // grouper par le critère séléctionner pour l'analyse
-    $request.=" &group_by=".build_grouping($grouping);
+    // $request.=" &group_by=".build_grouping($grouping);
 
     $request.="&limit=100";
     return get_API_data($request);
