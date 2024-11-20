@@ -1,12 +1,18 @@
 <?php
 session_start();
-class User
+class Utilisateur
 {
+    // =======================
+    //        ATTRIBUTES
+    // =======================
     private $utilisateur_id;
     private $utilisateur_nom;
     private $utilisateur_pswd;
     private $utilisateur_surnom;
 
+    // =======================
+    //      CONSTRUCTOR
+    // =======================
     public function __construct($nom, $pswd, $surnom)
     {
         $this->utilisateur_nom = $nom;
@@ -14,6 +20,9 @@ class User
         $this->utilisateur_surnom = $surnom;
     }
 
+    // =======================
+    //      GETTERS
+    // =======================
     public function getName()
     {
         return $this->utilisateur_nom;
@@ -30,6 +39,10 @@ class User
     {
         return $this->utilisateur_pswd;
     }
+
+    // =======================
+    //      SETTERS
+    // =======================
     public function setName(string $nom)
     {
         $this->utilisateur_nom = $nom;
@@ -47,7 +60,12 @@ class User
         $this->utilisateur_pswd = $password;
     }
 
-    // Méthode pour insérer un utilisateur dans la base de données SQLite
+    // =======================
+    //    PUBLIC METHODS
+    // =======================
+    /**
+     * Méthode pour insérer un utilisateur dans la base de données SQLite
+     */
     public function insertUser(
         $utilisateur_nom,
         $utilisateur_pswd,
@@ -55,7 +73,7 @@ class User
         $utilisateur_ami
     ) {
         try {
-            $pdo = Database::getDb();
+            $pdo = BaseDeDonnees::getDb();
             $sql = "INSERT INTO utilisateur (utilisateur_nom, utilisateur_pswd, utilisateur_surnom, utilisateur_ami)
                     VALUES (:nom, :pswd, :surnom, :ami)";
             $stmt = $pdo->prepare($sql);

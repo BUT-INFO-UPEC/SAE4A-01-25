@@ -1,0 +1,50 @@
+[
+    {
+        "nom" : "anée",
+        "type" : "temporel"
+    },
+    {
+        "nom" : "saisons",
+        "type" : "temporel"
+    },
+    {
+        "nom" : "mois",
+        "type" : "temporel"
+    },
+    {
+        "nom" : "anée",
+        "type" : "temporel"
+    },
+    {
+        "nom" : "semaines",
+        "type" : "temporel"
+    },
+    {
+        "nom" : "jours",
+        "type" : "temporel"
+    },
+    {
+        "nom" : "liste_dates",
+        "type" : "temporel"
+    },
+    {
+        "nom" : "region",
+        "type" : "temporel"
+    },
+    {
+        "nom" : "depertement",
+        "type" : "geographique"
+    },
+    {
+        "nom" : "communes",
+        "type" : "geographique"
+    },
+    {
+        "nom" : "liste_stations",
+        "type" : "geographique"
+    },
+    {
+        "nom" : "total",
+        "type" : ""
+    }
+]

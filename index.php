@@ -10,11 +10,11 @@ ob_start();
 <h2> Vues </h2>
 <?php
 $dossier = "./Vues";
-include "layout/Scandir.php";
+include "layout/composants_balistiques_specifiques/Scandir.php";
 
 echo "<h2> Tests </h2>";
 $dossier = "./tests";
-include "layout/Scandir.php";
+include "layout/composants_balistiques_specifiques/Scandir.php";
 
 
 // Récupération du contenu html/php

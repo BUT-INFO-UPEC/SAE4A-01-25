@@ -14,7 +14,7 @@
     {
         "dashboard_id" : 1,
         "privatisation" : "Publique",
-        "composant_list" : "[0]",
+        "composant_list" : "[0, 1]",
         "createur_id" : 0,
         "date_debut" : "2017-04-06",
         "date_fin" : "2018-04-06",

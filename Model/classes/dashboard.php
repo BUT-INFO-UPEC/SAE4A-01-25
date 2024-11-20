@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
 require_once __DIR__ . '/../requetteurs/requetteur_API.php';
-require_once 'composant.php';
+require_once 'Composant.php';
 
 class Dashboard
 {
@@ -110,7 +110,7 @@ class Dashboard
         $output = "<div class='dashboard'>";
         foreach ($this->composants as $composant) {
             $data = $this->fetch_data_for_componant($composant);
-            $output .= $composant->generate_visual($data);
+            $output .= "<div class='dashboard-card'".$composant->generate_visual($data)."</div>";
         }
         $output .= "</div>";
         return $output;
@@ -144,6 +144,7 @@ class Dashboard
      * Récupération des données via l'API 
      * 
      * @param Composant $composant L'objet dont les données doivent etres récupérées
+     * 
      * @return array La liste des données selon les critères spécifiés
      */
     private function fetch_data_for_componant($composant)

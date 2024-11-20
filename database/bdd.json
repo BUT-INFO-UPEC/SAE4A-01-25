@@ -13,23 +13,13 @@
             "type_valeur",
             "cle",
             "nom",
-            "description"
+            "description",
+            "unit"
         ],
-        "groupements": {
-            "nom": ["année",
-                "saisons",
-                "mois",
-                "semaines",
-                "jours",
-                "date [(v_debut, v_fin)]",
-                "reg",
-                "dept",
-                "communes",
-                "stations_id [stations_id]",
-                "total"],
-            "type":["geographique",
-                    "temporel"]
-        },
+        "groupements": [
+            "nom",
+            "type"
+        ],
         "stations": [
             "id",
             "nom",

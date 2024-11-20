@@ -43,7 +43,7 @@ noms des tables et ses attributs en francais ou mots clés, pluriel
 fonction_composed_of_multiple_words()
 atributCompose2PlusieursMots
 variableComposee2PlusieursMots
-ComposedClassName (a éviter, le plus possible en un mot)
+NomDeClassComposee (a éviter, le plus possible en un mot)
 
 noms de fonction en anglais
 noms de attributs/variables en francais ou mots clés
