@@ -1,4 +1,4 @@
-<img src="account-icon.png" alt="Menu" class="account-icon" id="accountIcon">
+<img src=<?php echo $prefixe."composants_balistiques_communs/account-icon.png"?> alt="Menu" class="account-icon" id="accountIcon">
     <div class="hidden-menu" id="hiddenMenu">
         <a href="#">Sign in</a>
         <br>
