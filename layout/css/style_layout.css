@@ -1,54 +1,40 @@
-header, footer {
-    text-align: center;
+header,
+footer {
     width: 100%;
-    padding: 1cm;
+    padding: 2rem;
     background-color: #999999;
 }
+
 .header-title {
     font-size: 24px;
     font-weight: bold;
     margin: 0;
 }
+
 .account-icon {
-    width: 45px; 
-    height: 45px;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    width: 5vh;
+    height: 5vh;
 }
+
 .hidden-menu {
-    position: absolute;
-    top: 50px;
-    right: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    display: none;
-    flex-direction: column;
-    padding: 10px;
-    box-shadow: 3px 3px 10px #000;
+    position: relative;
+
 }
-.hidden-menu a {
-    text-decoration: none;
-    color: #333;
-    padding: 5px 10px;
-    display: block;
-}
-.hidden-menu a:hover {
-    background-color: #f0f0f0;
-}
+
 .header-menu {
     display: flex;
     justify-content: center;
     margin: 10px 0;
     gap: 20px;
 }
+
 .header-menu a {
-    text-decoration: underline;
+    text-decoration: none;
     color: #000000;
     font-weight: bold;
     transition: color 0.3s;
 }
+
 .header-menu a:hover {
     color: #ffffff;
 }

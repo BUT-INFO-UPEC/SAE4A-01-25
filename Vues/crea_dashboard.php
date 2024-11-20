@@ -15,7 +15,7 @@ ob_start();
     Sauvegarder
 </button>
 
-<h1 class="centered"> 
+<h1 class="centered">
     <label for="nom_meteotheque"> Nom météothèque : </label>
     <input type="text" placeholder="Titre">
 </h1>
@@ -23,7 +23,7 @@ ob_start();
 <div class="container">
     <h3 class="centered"> Stations analysées </h3>
 
-    <hr/>
+    <hr />
 
     <div class="flex">
         <div class="container">
@@ -36,19 +36,19 @@ ob_start();
 
         <div class="container">
             <h3 style="flex-grow: 1"> Periode temporelle </h3>
-            
+
             <div>
                 <label>Date début :</label>
                 <input type="text" placeholder="JJ/MM/AAAA">
 
-                <input type="checkbox"> Dynamique <button> ? </button>
+                <input type="checkbox"> Dynamique <button class="btn indice"> ? </button>
             </div>
 
             <div>
                 <label>Date fin :</label>
                 <input type="text" placeholder="JJ/MM/AAAA">
 
-                <input type="checkbox"> Dynamique <button> ? </button>
+                <input type="checkbox"> Dynamique <button class="btn indice"> ? </button>
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@ ob_start();
         <div class="flex">
             <div>
                 <h3>
-                    <label for="titre_composant"> Titre du composant: </label>  
+                    <label for="titre_composant"> Titre du composant: </label>
                     <input type="text" placeholder="Moyenne Température">
                 </h3>
 

@@ -1,6 +1,11 @@
 <header>
-    <h1 class="titre-header">Nom Du Site</h1>
-    <?php include "icon_account.php"; ?>
+    <div class="d-flex align-items-center justify-content-between position-relative">
+        <!-- Titre centré -->
+        <h1 class="titre-header text-center w-100">Nom Du Site</h1>
+        <!-- Icône alignée à droite -->
+        <?php include "icon_account.php"; ?>
+
+    </div>
     <br>
     <hr>
     <nav class="header-menu">

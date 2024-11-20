@@ -28,7 +28,7 @@ hr {
     gap: 10px;
 }
 
-.flex>.container {
+.flex .container {
     flex-grow: 1;
 }
 
