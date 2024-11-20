@@ -5,59 +5,67 @@ class Utilisateur
     // =======================
     //        ATTRIBUTES
     // =======================
-    private $utilisateur_id;
-    private $utilisateur_nom;
-    private $utilisateur_pswd;
-    private $utilisateur_surnom;
+    private int $utilisateur_id;
+    private string $utilisateur_pseudo;
+    private string $utilisateur_mdp;
+    private string $utilisateur_mail;
+    private array $utilisateur_amis;
 
     // =======================
     //      CONSTRUCTOR
     // =======================
-    public function __construct($nom, $pswd, $surnom)
+    public function __construct(string $pseudo, string $mail, string $mdp, array $amis = [])
     {
-        $this->utilisateur_nom = $nom;
-        $this->utilisateur_pswd = $pswd;
-        $this->utilisateur_surnom = $surnom;
+        $this->utilisateur_pseudo = $pseudo;
+        $this->utilisateur_mail = $mail;
+        $this->utilisateur_mdp = $mdp;
+        $this->utilisateur_amis = $amis;
     }
 
     // =======================
     //      GETTERS
     // =======================
-    public function getName()
+    public function getPseudo(): string
     {
-        return $this->utilisateur_nom;
+        return $this->utilisateur_pseudo;
     }
-    public function getEmail()
+
+    public function getEmail(): string
     {
-        return $this->utilisateur_surnom;
+        return $this->utilisateur_mail;
     }
-    public function getUsername()
+
+    public function getPassword(): string
     {
-        return $this->utilisateur_surnom;
+        return $this->utilisateur_mdp;
     }
-    public function getPassword()
+
+    public function getAmis(): array
     {
-        return $this->utilisateur_pswd;
+        return $this->utilisateur_amis;
     }
 
     // =======================
     //      SETTERS
     // =======================
-    public function setName(string $nom)
+    public function setPseudo(string $pseudo): void
     {
-        $this->utilisateur_nom = $nom;
+        $this->utilisateur_pseudo = $pseudo;
     }
-    public function setEmail(string $email)
+
+    public function setEmail(string $mail): void
     {
-        $this->utilisateur_surnom = $email;
+        $this->utilisateur_mail = $mail;
     }
-    public function setUsername(string $username)
+
+    public function setPassword(string $mdp): void
     {
-        $this->utilisateur_surnom = $username;
+        $this->utilisateur_mdp = $mdp;
     }
-    public function setPassword(string $password)
+
+    public function setAmis(array $amis): void
     {
-        $this->utilisateur_pswd = $password;
+        $this->utilisateur_amis = $amis;
     }
 
     // =======================
@@ -66,21 +74,33 @@ class Utilisateur
     /**
      * Méthode pour insérer un utilisateur dans la base de données SQLite
      */
-    public function insertUser(
-        $utilisateur_nom,
-        $utilisateur_pswd,
-        $utilisateur_surnom,
-        $utilisateur_ami
-    ) {
+    public function insertUser(): void
+    {
         try {
+            // On récupère l'instance PDO depuis la classe BaseDeDonnees
             $pdo = BaseDeDonnees::getDb();
-            $sql = "INSERT INTO utilisateur (utilisateur_nom, utilisateur_pswd, utilisateur_surnom, utilisateur_ami)
-                    VALUES (:nom, :pswd, :surnom, :ami)";
+
+            // Préparation de la requête SQL
+            $sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_amis)
+                    VALUES (:pseudo, :mdp, :mail, :amis)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            echo "Utilisateur '{$this->utilisateur_nom}' inséré avec succès.<br>";
+
+            // Sérialisation du tableau des amis pour le stocker en base
+            $amis_serialises = json_encode($this->utilisateur_amis);
+
+            // Exécution de la requête avec les paramètres
+            $stmt->execute([
+                ':pseudo' => $this->utilisateur_pseudo,
+                ':mdp' => $this->utilisateur_mdp,
+                ':mail' => $this->utilisateur_mail,
+                ':amis' => $amis_serialises
+            ]);
+
+            // Message de succès
+            $_SESSION['success'] = "Utilisateur {$this->utilisateur_pseudo} a été ajouté avec succès.";
         } catch (PDOException $e) {
-            echo "Erreur lors de l'insertion : " . $e->getMessage() . "<br>";
+            // Gestion des erreurs
+            $_SESSION['error'] = "Erreur lors de l'insertion : " . $e->getMessage();
         }
     }
 }
