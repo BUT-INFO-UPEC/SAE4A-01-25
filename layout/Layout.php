@@ -28,6 +28,7 @@ $prefixe .= 'layout/';
             echo isset($titre) ? $titre : "Titre";
             ?> </title>
     <link rel="stylesheet" href="<?php echo $prefixe . 'css/style.css'; ?>">
+    <link rel="stylesheet" href="<?php echo $prefixe . 'css/style_layout.css'; ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
