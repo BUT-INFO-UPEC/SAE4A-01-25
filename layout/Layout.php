@@ -1,4 +1,3 @@
-
 <?php
 // Récupérer le chemin absolu de l'URL
 $phpSelfPath = $_SERVER['PHP_SELF'];
@@ -7,7 +6,7 @@ $phpSelfPath = $_SERVER['PHP_SELF'];
 $pathSegments = explode('/', trim($phpSelfPath, '/'));
 
 // Calculer le nombre de niveaux à remonter
-$numberOfLevelsToGoUp = count($pathSegments)-2;
+$numberOfLevelsToGoUp = count($pathSegments) - 2;
 
 // Construire le préfixe avec "../" répété pour chaque niveau
 $i = 0;
@@ -26,31 +25,28 @@ $prefixe .= 'layout/';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <?php
-        echo isset($titre) ? $titre : "Titre";
-    ?> </title>
-    <link rel="stylesheet" href="<?php 
-        echo $prefixe . 'css/style.css';
-    ?>">
+            echo isset($titre) ? $titre : "Titre";
+            ?> </title>
+    <link rel="stylesheet" href="<?php echo $prefixe . 'css/style.css'; ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
-    <header>
-        <?php include "composants_balistiques_communs/Header.php"; ?>
-    </header>
+    <?php include __DIR__ . "/composants_balistiques_communs/Header.php"; ?>
 
+    <?php include __DIR__ . "/composants_balistiques_communs/Form.php"; ?>
     <main class="flex">
         <div class="sidebar" style="display: block; width: 6cm;">
             <?php include "composants_balistiques_communs/SideBar.php"; ?>
         </div>
 
-        <div style="flex-grow: 1; position: relative;">
+        <div style="flex-grow: 1; position: relative">
             <?php echo $main; ?>
         </div>
     </main>
-
-    <footer>
-        <?php include "composants_balistiques_communs/Footer.php"; ?>
-    </footer>
+    <?php include "composants_balistiques_communs/Footer.php"; ?>
 </body>
 
 </html>
