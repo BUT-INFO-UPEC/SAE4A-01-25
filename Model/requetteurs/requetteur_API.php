@@ -30,21 +30,22 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     $request.="&where=". $criteresGeo;
 
     // grouper par le critère séléctionner pour l'analyse
-    $request.=" &group_by=".$grouping;
+    $request.=" &group_by=".build_grouping($grouping);
 
     $request.="&limit=100";
-    return get_API_data($request, $grouping);
+    return get_API_data($request);
 }
+
+function build_grouping() {}
 
 /**
  * Récupère et mets en forme toutes la totalité des données
  * 
  * @param string $donnees_ciblees Le morceau de la requette selectionnant les données et les filtrants
- * @param mixed $grouping le critère de groupement des données pour  analyse
  * 
  * @return array La liste des données renvoyée pour cette requette
  */
-function get_API_data($donnees_ciblees, $grouping) {
+function get_API_data($donnees_ciblees) {
     // faire une boucle pour récupérer les données
     $response = API_request($donnees_ciblees);
 
