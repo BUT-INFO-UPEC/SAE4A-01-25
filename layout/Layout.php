@@ -34,9 +34,7 @@ $prefixe .= 'layout/';
 </head>
 
 <body>
-    <header>
-        <?php include "composants_balistiques_communs/Header.php"; ?>
-    </header>
+    <?php include "composants_balistiques_communs/Header.php"; ?>
 
     <main class="flex">
         <div class="sidebar" style="display: block; width: 6cm;">
@@ -48,9 +46,7 @@ $prefixe .= 'layout/';
         </div>
     </main>
 
-    <footer>
-        <?php include "composants_balistiques_communs/Footer.php"; ?>
-    </footer>
+    <?php include "composants_balistiques_communs/Footer.php"; ?>
 </body>
 
 </html>
