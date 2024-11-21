@@ -1,6 +1,6 @@
 [
     {
-        "repr_id": 1,
+        "repr_id": 0,
         "name": "graphique circulaire",
         "poss_grouping": "*",
         "recomanded_att": [],
@@ -9,7 +9,7 @@
         "visualisation_constructor": "generate_pie_chart"
     },
     {
-        "repr_id": 2,
+        "repr_id": 1,
         "name": "donnée textuelle",
         "poss_grouping": "total",
         "recomanded_atts": [],
@@ -18,7 +18,7 @@
         "visualisation_constructor": "generate_text_representation"
     },
     {
-        "repr_id": 3,
+        "repr_id": 2,
         "name": "carte",
         "poss_grouping": "geographique",
         "recomanded_atts": [],
@@ -27,7 +27,7 @@
         "visualisation_constructor": "generate_geo_chart"
     },
     {
-        "repr_id": 4,
+        "repr_id": 3,
         "name": "courbe",
         "poss_grouping": "temporel",
         "recomanded_atts": [],
@@ -36,7 +36,7 @@
         "visualisation_constructor": "generate_line_chart"
     },
     {
-        "repr_id": 5,
+        "repr_id": 4,
         "name": "histograme",
         "poss_grouping": "*",
         "recomanded_atts": [],

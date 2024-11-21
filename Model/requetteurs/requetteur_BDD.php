@@ -12,7 +12,7 @@ function BDD_fetch_visualisation($reprId)
     // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $visualisationsJson = file_get_contents('../database/Representations.json');
+    $visualisationsJson = file_get_contents(__DIR__ . '/../../database/Representations.json');
     $visualisationsDecodee = json_decode($visualisationsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
@@ -30,7 +30,7 @@ function BDD_fetch_component($composantId) {
     // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $composantsJson = file_get_contents('../database/Composants.json');
+    $composantsJson = file_get_contents(__DIR__ . '/../../database/Composants.json');
     $ComposantsDecodes = json_decode($composantsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
@@ -38,23 +38,22 @@ function BDD_fetch_component($composantId) {
 }
 
 /**
- * Récupère les données de la visualisation dans la BDD a partir de son id
- *
- * @param int $composantId Le numéro du dashboard à récupérer.
+ * Récupère les dashboards dans la BDD
  * 
  * @return mixed Résultat de la fonction BDD_fetch_visualisation.
  */
-function BDD_fetch_dashboard($composantId)
+function BDD_fetch_dashboards()
 {
     // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $dashboardsJson = file_get_contents('../database/Dashboards.json');
+    $dashboardsJson = file_get_contents(__DIR__ . '/../../database/Dashboards.json');
     $DashboardsDecodes = json_decode($dashboardsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
-    return $DashboardsDecodes[$composantId];
+    return $DashboardsDecodes;
 }
+
 
 /**
  * récupère l'unité de l'attribut
@@ -67,7 +66,7 @@ function BDD_fetch_unit($attribut) {
     // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $attributsJson = file_get_contents('../database/Attributs.json');
+    $attributsJson = file_get_contents(__DIR__ . '/../../database/Attributs.json');
     $attributsDecodes = json_decode($attributsJson, true);
 
     foreach ($attributsDecodes as $att) {
@@ -112,7 +111,7 @@ function get_BDD_grouping_key($grouping) {
     if (is_array($grouping)) {
         // vérifier si c'est une liste de stations ou intervals temporels et construire 
     } else {
-        $groupingsJson = file_get_contents('../database/Groupings.json');
+        $groupingsJson = file_get_contents(__DIR__ . '/../../database/Groupings.json');
         $groupingsDecodes = json_decode($groupingsJson, true);
 
         foreach ($groupingsDecodes as $group) {
