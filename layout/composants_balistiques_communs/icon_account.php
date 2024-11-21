@@ -1,7 +1,7 @@
 <div class="dropdown position-absolute end-0">
 
     <img
-        src="<?php echo $prefixe . 'composants_balistiques_communs/account-icon.png'; ?>"
+        src="<?php echo $prefixe . '../database/images/account-icon.png'; ?>"
         alt="Menu"
         class="account-icon dropdown-toggle"
         id="accountDropdown"
