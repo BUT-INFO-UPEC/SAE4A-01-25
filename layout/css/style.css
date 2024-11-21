@@ -17,12 +17,6 @@ main * * {
     margin: 5px;
 }
 
-hr {
-    margin: 0;
-    padding: 0;
-    background-color :#000;
-    height : 5px;
-}
 .flex {
     display: flex;
     gap: 10px;
