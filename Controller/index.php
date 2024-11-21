@@ -4,7 +4,7 @@ $action = $_GET["action"] ?? 'acceuil';
 
 switch ($action) {
     case 'acceuil':
-        require(__DIR__ . "/../index.php");
+        header("Location: ../index.php"); // redirection
         break;
     case 'signUp':
     case 'signIn':
