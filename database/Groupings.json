@@ -1,50 +1,57 @@
 [
     {
-        "nom" : "anée",
-        "type" : "temporel"
+        "nom" : "ANNEE",
+        "type" : "temporel",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "saisons",
-        "type" : "temporel"
+        "nom" : "SAISONS",
+        "type" : "temporel",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "mois",
-        "type" : "temporel"
+        "nom" : "MOIS",
+        "type" : "temporel",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "anée",
-        "type" : "temporel"
+        "nom" : "SEMAINES",
+        "type" : "temporel",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "semaines",
-        "type" : "temporel"
+        "nom" : "JOURS",
+        "type" : "temporel",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "jours",
-        "type" : "temporel"
+        "nom" : "LISTE_DATES",
+        "type" : "temporel",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "liste_dates",
-        "type" : "temporel"
+        "nom" : "REGION",
+        "type" : "temporel",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "region",
-        "type" : "temporel"
+        "nom" : "DEPARTEMENT",
+        "type" : "geographique",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "depertement",
-        "type" : "geographique"
+        "nom" : "COMMUNES",
+        "type" : "geographique",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "communes",
-        "type" : "geographique"
+        "nom" : "LISTE_STATIONS",
+        "type" : "geographique",
+        "cle" : " &group_by="
     },
     {
-        "nom" : "liste_stations",
-        "type" : "geographique"
-    },
-    {
-        "nom" : "total",
-        "type" : ""
+        "nom" : "*",
+        "type" : "",
+        "cle" : ""
     }
 ]

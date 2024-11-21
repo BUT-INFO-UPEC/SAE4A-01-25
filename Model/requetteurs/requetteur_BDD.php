@@ -97,8 +97,28 @@ function is_saved_dashboard($dashId) {}
  * Ajoute une ligne dans suivi_copiright pour assurer un tracage des origineaux 
  * 
  * @param int $originalId L'id du dashboard original
- * 
  * @param int $nouvId L'id de la "copie"
  */
 function add_tracing($originalId, $nouvId) {}
 
+/**
+ * Récupère la chaine de caractère a insérer pour réaliser un groupement API
+ * 
+ * @param mixed $grouping Le critère de grouppement
+ * 
+ * @return string La chaine de caractère permettant de faire des grouppements selon els paramètres spécifiés
+ */
+function get_BDD_grouping_key($grouping) {
+    if (is_array($grouping)) {
+        // vérifier si c'est une liste de stations ou intervals temporels et construire 
+    } else {
+        $groupingsJson = file_get_contents('../database/Groupings.json');
+        $groupingsDecodes = json_decode($groupingsJson, true);
+
+        foreach ($groupingsDecodes as $group) {
+            if ($group["nom"] == $grouping) {
+                return $group["cle"];
+            }
+        }
+    }
+}
