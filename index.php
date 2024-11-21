@@ -9,10 +9,12 @@ ob_start();
 
 <h2> Vues </h2>
 <?php
+// afficher un liste de liens vers les fichiers du dossier Vues
 $dossier = 'Vues';
 include "layout/composants_balistiques_specifiques/Scandir.php";
 
 echo "<h2> Tests </h2>";
+// afficher un liste de liens vers les fichiers du dossier tests
 $dossier = "tests";
 include "layout/composants_balistiques_specifiques/Scandir.php";
 

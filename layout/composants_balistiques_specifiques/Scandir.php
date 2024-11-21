@@ -10,7 +10,7 @@ if (is_dir($dossier)) {
         // Ignore les liens vers le dossier parent et le dossier courant
         if ($fichier !== '.' && $fichier !== '..') {
             // Crée le lien pour chaque fichier
-            echo '<li><a href="' . $dossier . '/' . $fichier . '">' . $fichier . '</a></li>';
+            echo '<li><a href="' . $dossier . '/' . $fichier . '">' . substr($fichier, 0, -4) . '</a></li>';
         }
     }
     echo '</ul></nav>';
