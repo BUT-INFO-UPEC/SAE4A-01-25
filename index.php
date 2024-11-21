@@ -9,11 +9,11 @@ ob_start();
 
 <h2> Vues </h2>
 <?php
-$dossier = __DIR__ . '/Vues';
+$dossier = 'Vues';
 include "layout/composants_balistiques_specifiques/Scandir.php";
 
 echo "<h2> Tests </h2>";
-$dossier = __DIR__ . "/tests";
+$dossier = "tests";
 include "layout/composants_balistiques_specifiques/Scandir.php";
 
 
