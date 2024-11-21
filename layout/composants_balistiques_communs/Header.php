@@ -11,7 +11,7 @@
     <nav class="header-menu">
         <a href="<?php echo $prefixe . '../index.php'; ?>">Accueil</a>
         <a href="<?php echo $prefixe . '../Vues/visu_dashboard.php'; ?>">visualisation</a>
-        <a href="<?php echo $prefixe . '../Vues/cra_dashboard.php'; ?>">creation</a>
+        <a href="<?php echo $prefixe . '../Vues/crea_dashboard.php'; ?>">creation</a>
         <a href="<?php echo $prefixe . '../Vues/jsp_1.php'; ?>">jsp 1</a>
     </nav>
     <br>
