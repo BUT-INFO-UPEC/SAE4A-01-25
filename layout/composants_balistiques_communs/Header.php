@@ -9,10 +9,10 @@
     <br>
     <hr>
     <nav class="header-menu">
-        <a href="#">jsp 1</a>
-        <a href="#">jsp 2</a>
-        <a href="#">jsp 3</a>
-        <a href="#">jsp 4</a>
+        <a href="<?php echo $prefixe . '../index.php'; ?>">Accueil</a>
+        <a href="<?php echo $prefixe . '../Vues/visu_dashboard.php'; ?>">visualisation</a>
+        <a href="<?php echo $prefixe . '../Vues/cra_dashboard.php'; ?>">creation</a>
+        <a href="<?php echo $prefixe . '../Vues/jsp_1.php'; ?>">jsp 1</a>
     </nav>
     <br>
     <hr>
