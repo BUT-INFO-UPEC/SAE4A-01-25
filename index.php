@@ -10,10 +10,10 @@ ob_start();
 
 <h1><a href="ReadMe.md"> LISEZ MOI !!! </a></h1>
 
-<h2> Vues </h2>
+<h2> Actions </h2>
 <?php
-// afficher un liste de liens vers les fichiers du dossier Vues
-$dossier = 'Vues';
+// afficher un liste de liens vers les fichiers du dossier Actions
+$dossier = 'Actions';
 include "layout/composants_balistiques_specifiques/Scandir.php";
 
 echo "<h2> Tests </h2>";

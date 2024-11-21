@@ -1,5 +1,5 @@
-Fichier contenant les pages finales que l'utilisateur charge (vues)
-contenu d'une vue:
+Fichier contenant les pages finales que l'utilisateur charge
+contenu d'une actions:
 
 
 <?php
