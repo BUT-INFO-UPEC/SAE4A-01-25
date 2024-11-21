@@ -11,11 +11,6 @@ footer {
     height: 5vh;
 }
 
-.hidden-menu {
-    position: relative;
-
-}
-
 .header-menu {
     display: flex;
     justify-content: center;
