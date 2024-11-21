@@ -1,8 +1,9 @@
 <?php
 require_once "../Model/classes/Dashboard.php";
+session_start();
 
 // a changer : essayer de récupérer le dashboardId dans GET, sinon, erreur
-if (!(isset($_SESSION["curent_dashboard"]))) {
+if (!isset($_SESSION["curent_dashboard"])) {
     if (isset($_GET['dashId'])) {
     $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id($_GET['dashId']);
     } else header("Location: ../index.php"); // redirection
