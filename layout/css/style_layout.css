@@ -10,18 +10,16 @@ footer {
     color: #101010;
 }
 
-<<<<<<< HEAD
 .bonjour .dropdown-menu img {
     width: 23px;
     height: 23px;
-=======
+}
 .footer-layout a:hover {
     color:#ffffff;
 }
 .account-icon {
     width: 5vh;
     height: 5vh;
->>>>>>> c34f6e65b48954677129d00305a92204869a05cf
 }
 
 .header-menu {
