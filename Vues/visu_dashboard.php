@@ -3,7 +3,7 @@ require_once "../Model/classes/Dashboard.php";
 
 // a changer : essayer de récupérer le dashboardId dans GET, sinon, erreur
 if (!(isset($_SESSION["curent_dashboard"]))) {
-    $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id(0);
+    $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id($_GET['dashId']);
 }
 // le dashboard a afficher est selui séléctionné (dans la session)
 $dash = $_SESSION["curent_dashboard"];

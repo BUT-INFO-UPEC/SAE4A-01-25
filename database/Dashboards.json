@@ -9,7 +9,7 @@
         "date_debut_relatif" : "1",
         "date_fin_relatif" : "1",
         "selection_geo" : {"numer_sta" : ["78925"]},
-        "param" : ""
+        "param" : "dash1"
     },
     {
         "dashboard_id" : 0,
@@ -21,7 +21,7 @@
         "date_debut_relatif" : "1",
         "date_fin_relatif" : "1",
         "selection_geo" : {"numer_sta" : ["78925"]},
-        "param" : ""
+        "param" : "dash2"
     },
     {
         "dashboard_id" : 1,
@@ -33,6 +33,6 @@
         "date_debut_relatif" : "0",
         "date_fin_relatif" : "0",
         "selection_geo" : {},
-        "param" : ""
+        "param" : "dash3"
     }
 ]

@@ -18,6 +18,7 @@ class Dashboard
     private $dateFinRelatif;
     private $selectionGeo;
     private $filtres; // gros point d'interrogation
+    private $params;
 
     // =======================
     //      CONSTRUCTOR
@@ -41,11 +42,16 @@ class Dashboard
                 $this->composants[0] = new Composant($compId);
             }
         }
+
+        $this->params = $data->param;
     }
 
     // =======================
     //    PUBLIC GETTERS
     // =======================
+    public function get_id() {
+        return $this->dashboardId;
+    }
     public function get_filters() {
         // créer une structure de donnée qui contient les filtres
 
@@ -94,6 +100,10 @@ class Dashboard
             "geo" => get_object_vars($this->selectionGeo)
         ];
         return $filtres;
+    }
+
+    public function get_name() {
+        return $this->params;
     }
 
     // =======================
