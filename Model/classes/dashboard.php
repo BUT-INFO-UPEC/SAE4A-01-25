@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
 require_once __DIR__ . '/../requetteurs/requetteur_API.php';
-require_once 'Composant.php';
+require_once __DIR__ . '/Composant.php';
 
 class Dashboard
 {
@@ -22,9 +22,8 @@ class Dashboard
     // =======================
     //      CONSTRUCTOR
     // =======================
-    public function __construct($dashboardId)
+    public function __construct($data)
     {
-        $data = BDD_fetch_dashboard($dashboardId);
         $this->dashboardId = $data->dashboard_id;
 
         // filtre des données a analisées
@@ -135,6 +134,30 @@ class Dashboard
         }
 
         //exporter et sauvegarder
+    }
+
+    // =======================
+    //    STATIC METHODS
+    // =======================
+    /**
+     * 
+     * @return Dashboard 
+     */
+    static function get_dashboard_by_id($dashboardId) {
+        $data = BDD_fetch_dashboards()[$dashboardId];
+        return new Dashboard($data);
+    }
+
+    /**
+     * 
+     * @return array 
+     */
+    static function get_dashboards() {
+        $r = [];
+        foreach (BDD_fetch_dashboards() as $dash_data) {
+            array_push($r, new Dashboard($dash_data));
+        }
+        return $r;
     }
 
     // =======================

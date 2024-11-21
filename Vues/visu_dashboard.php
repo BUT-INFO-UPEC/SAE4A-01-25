@@ -1,41 +1,12 @@
 <?php
-require_once '../Model/visualisations/googleCharts.php';
+require_once "../Model/classes/Dashboard.php";
 
-// Données statiques pour les tests
-$pieChartData = [
-    ['Task', 'Hours'],
-    ['Work', 5],
-    ['Eat', 2],
-    ['Sleep', 7]
-];
-
-$barChartData = [
-    ['Task', 'Hours'],
-    ['Work', 5],
-    ['Exercise', 1],
-    ['Leisure', 3]
-];
-
-$lineChartData = [
-    ['Date', 'Temperature'],
-    ['2024-01-01', 5],
-    ['2024-01-02', 7],
-    ['2024-01-03', 6],
-    ['2024-01-04', 8]
-];
-
-$geoChartData = [
-    ['Country', 'Value'],
-    ['France', 100],
-    ['USA', 200],
-    ['Brazil', 150]
-];
-
-// Générer les visualisations
-$pieChart = generate_pie_chart(1, json_encode($pieChartData));
-$barChart = generate_bar_chart(2, json_encode($barChartData));
-$lineChart = generate_line_chart(3, json_encode($lineChartData));
-$geoChart = generate_geo_chart(4, json_encode($geoChartData));
+// a changer : essayer de récupérer le dashboardId dans GET, sinon, erreur
+if (!(isset($_SESSION["curent_dashboard"]))) {
+    $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id(0);
+}
+// le dashboard a afficher est selui séléctionné (dans la session)
+$dash = $_SESSION["curent_dashboard"];
 
 // Démarrer la mise en tampon pour capturer le contenu spécifique
 ob_start();
@@ -86,36 +57,7 @@ ob_start();
 
     <hr/>
 
-    <div class="dashboard">
-        <!-- Cartes de mesures principales -->
-        <div class="dashboard-card metric1">
-            <h3>Température Max</h3>
-            <div class="metric">22°C</div>
-        </div>
-
-        <div class="dashboard-card metric2">
-            <h3>Température Min</h3>
-            <div class="metric">15°C</div>
-        </div>
-    
-        <!-- Cartes de graphiques météo -->
-        <div class="dashboard-card chart1">
-            <h2>Carte Géographique</h2>
-            <?php echo $geoChart; ?>
-        </div>
-        <div class="dashboard-card chart2">
-            <h2>Courbe</h2>
-            <?php echo $lineChart; ?>
-        </div>
-        <div class="dashboard-card chart3">
-            <h2>Graphique Circulaire</h2>
-            <?php echo $pieChart; ?>
-        </div>
-        <div class="dashboard-card chart4">
-            <h2>Histogramme</h2>
-            <?php echo $barChart; ?>
-        </div>
-    </div>            
+    <?php echo $dash->generate_dashboard()?>         
 </div>
 
 <?php

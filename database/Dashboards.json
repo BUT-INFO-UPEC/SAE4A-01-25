@@ -12,6 +12,18 @@
         "param" : ""
     },
     {
+        "dashboard_id" : 0,
+        "privatisation" : "Publique",
+        "composant_list" : "[1]",
+        "createur_id" : 0,
+        "date_debut" : "0000-00-14",
+        "date_fin" : "0000-00-07",
+        "date_debut_relatif" : "1",
+        "date_fin_relatif" : "1",
+        "selection_geo" : {"numer_sta" : ["78925"]},
+        "param" : ""
+    },
+    {
         "dashboard_id" : 1,
         "privatisation" : "Publique",
         "composant_list" : "[0, 1]",
