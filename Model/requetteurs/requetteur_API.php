@@ -1,5 +1,5 @@
 <?php
-require_once "requetteur_BDD.php";
+require_once __DIR__ . "/requetteur_BDD.php";
 /**
  * Récupère les données de l'API selon les critères spécifiés
  * 

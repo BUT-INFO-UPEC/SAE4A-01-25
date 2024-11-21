@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
 require_once __DIR__ . '/../requetteurs/requetteur_API.php';
-require_once 'Composant.php';
+require_once __DIR__ . '/Composant.php';
 
 class Dashboard
 {
@@ -18,13 +18,13 @@ class Dashboard
     private $dateFinRelatif;
     private $selectionGeo;
     private $filtres; // gros point d'interrogation
+    private $params;
 
     // =======================
     //      CONSTRUCTOR
     // =======================
-    public function __construct($dashboardId)
+    public function __construct($data)
     {
-        $data = BDD_fetch_dashboard($dashboardId);
         $this->dashboardId = $data->dashboard_id;
 
         // filtre des données a analisées
@@ -42,11 +42,16 @@ class Dashboard
                 $this->composants[0] = new Composant($compId);
             }
         }
+
+        $this->params = $data->param;
     }
 
     // =======================
     //    PUBLIC GETTERS
     // =======================
+    public function get_id() {
+        return $this->dashboardId;
+    }
     public function get_filters() {
         // créer une structure de donnée qui contient les filtres
 
@@ -97,6 +102,10 @@ class Dashboard
         return $filtres;
     }
 
+    public function get_name() {
+        return $this->params;
+    }
+
     // =======================
     //    PUBLIC METHODS
     // =======================
@@ -135,6 +144,30 @@ class Dashboard
         }
 
         //exporter et sauvegarder
+    }
+
+    // =======================
+    //    STATIC METHODS
+    // =======================
+    /**
+     * 
+     * @return Dashboard 
+     */
+    static function get_dashboard_by_id($dashboardId) {
+        $data = BDD_fetch_dashboards()[$dashboardId];
+        return new Dashboard($data);
+    }
+
+    /**
+     * 
+     * @return array 
+     */
+    static function get_dashboards() {
+        $r = [];
+        foreach (BDD_fetch_dashboards() as $dash_data) {
+            array_push($r, new Dashboard($dash_data));
+        }
+        return $r;
     }
 
     // =======================

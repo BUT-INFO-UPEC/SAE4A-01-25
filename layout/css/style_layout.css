@@ -5,15 +5,23 @@ footer {
     background-color: #999999;
 }
 
+.footer-layout a{
+    text-decoration: none;
+    color: #101010;
+}
 
+<<<<<<< HEAD
 .bonjour .dropdown-menu img {
     width: 23px;
     height: 23px;
+=======
+.footer-layout a:hover {
+    color:#ffffff;
 }
-
-.hidden-menu {
-    position: relative;
-
+.account-icon {
+    width: 5vh;
+    height: 5vh;
+>>>>>>> c34f6e65b48954677129d00305a92204869a05cf
 }
 
 .header-menu {
