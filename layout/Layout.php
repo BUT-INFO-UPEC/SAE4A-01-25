@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 // Récupérer le chemin absolu de l'URL
 $phpSelfPath = $_SERVER['PHP_SELF'];
 
