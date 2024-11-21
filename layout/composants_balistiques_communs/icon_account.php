@@ -24,9 +24,3 @@
     </ul>
 </div>
 
-<style>
-    .bonjour .dropdown-menu img {
-        width: 23px;
-        height: 23px;
-    }
-</style>

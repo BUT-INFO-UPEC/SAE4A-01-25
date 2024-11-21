@@ -20,12 +20,15 @@ main * * {
 hr {
     margin: 0;
     padding: 0;
-    background-color :#000;
-    height : 5px;
+    background-color: #000;
+    height: 5px;
 }
+
+/* Ajustement du style pour correspondre à la structure */
 .flex {
     display: flex;
-    gap: 10px;
+    gap: 0;
+    /* Élimine les espaces inutiles autour de la sidebar */
 }
 
 .flex .container {
@@ -45,11 +48,6 @@ hr {
 .changing {
     color: gray;
 }
-
-.sidebar {
-    border: 1px solid black;
-}
-
 
 .dashboard {
     display: grid;
@@ -103,7 +101,7 @@ hr {
 .dashboard-card h3 {
     margin-top: 0;
     color: #333;
-    
+
 }
 
 .metric {
@@ -135,4 +133,8 @@ hr {
             "chart3"
             "chart4";
     }
+}
+
+.main {
+    width: 80vw;
 }

@@ -6,9 +6,9 @@ footer {
 }
 
 
-.account-icon {
-    width: 5vh;
-    height: 5vh;
+.bonjour .dropdown-menu img {
+    width: 23px;
+    height: 23px;
 }
 
 .hidden-menu {
@@ -33,3 +33,4 @@ footer {
 .header-menu a:hover {
     color: #ffffff;
 }
+
