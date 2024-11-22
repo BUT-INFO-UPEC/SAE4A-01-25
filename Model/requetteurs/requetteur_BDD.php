@@ -79,9 +79,15 @@ function BDD_fetch_unit($attribut) {
 }
 
 /**
- * Génére un id inutilisé pour un dashboard
+ * Génére un id inutilisé pour un dashboard et ajouter une ligne dans suivi_copiright
  */
-function generate_dash_id() {}
+function generate_dash_id($originalId) {
+    $newDashboardId = count(BDD_fetch_dashboards());
+    
+    add_tracing($originalId, $newDashboardId);
+
+    return $newDashboardId;
+}
 
 /**
  * Vérifie si ce dashboard existe dans la BDD

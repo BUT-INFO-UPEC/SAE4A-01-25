@@ -1,8 +1,8 @@
 <?php
-require_once "../Model/classes/Dashboard.php";
-session_start();
+require_once "../Model/entete.php";
 
-// a changer : essayer de récupérer le dashboardId dans GET, sinon, erreur
+
+// si le dashboard n'est ni initialisé ni défini par son id, retour a l'acceuil car aucun dashboard n'est séléctionné donc affichable
 if (!isset($_SESSION["curent_dashboard"])) {
     if (isset($_GET['dashId'])) {
     $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id($_GET['dashId']);

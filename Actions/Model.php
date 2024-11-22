@@ -1,6 +1,5 @@
 <?php
-require_once "../Model/classes/Dashboard.php";
-session_start();
+require_once "../Model/entete.php";
 
 // POTENTIELS INCLUDES ET CODE PHP
 

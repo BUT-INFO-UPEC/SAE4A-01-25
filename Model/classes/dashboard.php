@@ -17,7 +17,6 @@ class Dashboard
     private $dateDebutRelatif;
     private $dateFinRelatif;
     private $selectionGeo;
-    private $filtres; // gros point d'interrogation
     private $params;
 
     // =======================
@@ -52,41 +51,47 @@ class Dashboard
     public function get_id() {
         return $this->dashboardId;
     }
-    public function get_filters() {
-        // créer une structure de donnée qui contient les filtres
 
+    /**
+     * Créer une structure de donnée qui contient les filtres des stations a intéroger
+     * 
+     * @return mixed Tableau contenant les dates de début et de fin finales de l'encadremant temporel ainsi que la liste des sations a intérogées
+     */
+    public function get_filters() {
+        // construction de la date de début si elle est dinamique
         if ($this->dateDebutRelatif) {
             // Extraire les années, mois et jours du laps de temps
-            $annee = (int)substr($this->dateDebut, 0, 4);  // Extraction de l'année (ici "0001")
-            $mois = (int)substr($this->dateDebut, 5, 2);  // Extraction du mois (ici "01")
-            $jours = (int)substr($this->dateDebut, 8, 2); // Extraction du jour (ici "07")
+            $annee = (int)substr($this->dateDebut, 0, 4);
+            $mois = (int)substr($this->dateDebut, 5, 2);
+            $jours = (int)substr($this->dateDebut, 8, 2);
 
             // Obtenir la date d'aujourd'hui en tant qu'objet DateTime
             $date = new DateTime();
 
             // Soustraire les années, mois et jours de la date
-            if ($annee > 0) $date->modify("-$annee year");  // Soustraire l'année
-            if ($mois > 0) $date->modify("-$mois month");  // Soustraire les mois
-            if ($jours > 0) $date->modify("-$jours day");  // Soustraire les jours
+            if ($annee > 0) $date->modify("-$annee year");
+            if ($mois > 0) $date->modify("-$mois month");
+            if ($jours > 0) $date->modify("-$jours day");
 
             $dateDebut = $date->format("Y-m-d")."T00:00:00";
         } else {
             $dateDebut =$this->dateDebut;
         }
 
+        // construction de la fin de début si elle est dinamique
         if ($this->dateFinRelatif) {
             // Extraire les années, mois et jours du laps de temps
-            $annee = (int)substr($this->dateFin, 0, 4);  // Extraction de l'année (ici "0001")
-            $mois = (int)substr($this->dateFin, 5, 2);  // Extraction du mois (ici "01")
-            $jours = (int)substr($this->dateFin, 8, 2); // Extraction du jour (ici "07")
+            $annee = (int)substr($this->dateFin, 0, 4);
+            $mois = (int)substr($this->dateFin, 5, 2);
+            $jours = (int)substr($this->dateFin, 8, 2);
 
             // Obtenir la date d'aujourd'hui en tant qu'objet DateTime
             $date = new DateTime();
             
             // Soustraire les années, mois et jours de la date
-            if ($annee > 0) $date->modify("-$annee year");  // Soustraire l'année
-            if ($mois > 0) $date->modify("-$mois month");  // Soustraire les mois
-            if ($jours > 0) $date->modify("-$jours day");  // Soustraire les jours
+            if ($annee > 0) $date->modify("-$annee year");
+            if ($mois > 0) $date->modify("-$mois month");
+            if ($jours > 0) $date->modify("-$jours day");
 
             $dateFin = $date->format("Y-m-d")."T00:00:00";
         } else {
@@ -94,6 +99,7 @@ class Dashboard
         }
 
 
+        // encapsulation dans une structure de données qui sera interprétée par le constructeur de requettes API
         $filtres = [
             "dateDebut" => $dateDebut,
             "dateFin" => $dateFin,
@@ -112,14 +118,14 @@ class Dashboard
     /**
      * Récupérer les données pour chaque composant et générer les visualisations
      * 
-     * @return string la chaine de caractères compilant la visualisation des données de chacuns des composants du dashboard
+     * @return string la chaine de caractères (structure HTML) compilant la visualisation des données de chacuns des composants du dashboard
      */
     public function generate_dashboard()
     {
         $output = "<div class='dashboard'>";
         foreach ($this->composants as $composant) {
             $data = $this->fetch_data_for_componant($composant);
-            $output .= "<div class='dashboard-card'".$composant->generate_visual($data)."</div>";
+            $output .= "<div class='dashboard-card'>".$composant->generate_visual($data)."</div>";
         }
         $output .= "</div>";
         return $output;
@@ -129,29 +135,30 @@ class Dashboard
      * Exporte et sauvegarde le dashboard dans la BDD
      * 
      * @param bool $override L'utilisateur veut écraser l'ancienne version de son Dashboard
+     * 
+     * @exception soulève ue exception si le dashboard existe déja pour confirmation de l'écrasement
      */
     public function save_dashboard($override)
     {
         // Vérifier l'appartenance
-        if ($this->createurId == $_SESSION["userId"]) {
+        if ($this->createurId == get_session_user_id()) {
             // générer un nouvel id et ajouter une ligne dans suivi_copiright
-            $originalId = $this->dashboardId;
-            $this->dashboardId = generate_dash_id();
-            add_tracing($originalId, $this->dashboardId);
+            $this->dashboardId = generate_dash_id($this->dashboardId);
         } elseif ($override && is_saved_dashboard($this->dashboardId)) {
-            // lever une exception pour affichier un message a 'utilisateur pour lui demander confirmation de l'écrasement du dashboard enregistré, et donc everride, si il veut faire une copie auquel cas, lui générer un nouveau id (generate_dash_id()) ou si il veut anuler
+            // lever une exception pour affichier un message a l'utilisateur pour lui demander confirmation de l'écrasement du dashboard enregistré, et donc everride, si il veut faire une copie auquel cas, lui générer un nouveau id (generate_dash_id()) ou si il veut annuler
             throw new Exception("Tentative de sauvegarder un dashboard déja existant.", 301);
         }
 
-        //exporter et sauvegarder
+        //exporter/sauvegarder
     }
 
     // =======================
     //    STATIC METHODS
     // =======================
     /**
+     * Récupère un dashboard dans la BDD grace a son ID
      * 
-     * @return Dashboard 
+     * @return Dashboard l'objet correspondant a la ligne de la BDD
      */
     static function get_dashboard_by_id($dashboardId) {
         $data = BDD_fetch_dashboards()[$dashboardId];
@@ -159,8 +166,11 @@ class Dashboard
     }
 
     /**
+     * FONCTION TEMPORAIRE - Récupère tout les dashboards de la BDD
      * 
-     * @return array 
+     * plus tard, surement passage des paramètres de filtre pour créer les listes de recherche (liste_dashboard.php)
+     * 
+     * @return array liste des dashboards de la BDD
      */
     static function get_dashboards() {
         $r = [];
