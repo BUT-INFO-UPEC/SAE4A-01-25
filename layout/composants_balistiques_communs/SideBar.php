@@ -29,7 +29,6 @@
         /* Largeur ivwnitiale de la sidebar */
         background-color: #343a40;
         color: white;
-        height: 100%;
         transition: width 0.3s ease;
         overflow: hidden;
     }
