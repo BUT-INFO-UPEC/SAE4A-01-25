@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once "../Model/classes/Dashboard.php";
 // Démarrer la mise en tampon pour capturer le contenu spécifique
 ob_start();
