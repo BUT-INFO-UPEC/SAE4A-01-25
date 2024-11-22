@@ -1,7 +1,6 @@
 <?php
-session_start();
-
 require_once "../Model/classes/Dashboard.php";
+session_start();
 
 // a changer : essayer de récupérer le dashboardId dans GET, sinon, erreur
 if (!isset($_SESSION["curent_dashboard"])) {

@@ -1,4 +1,5 @@
 <?php
+require_once "../Model/classes/Dashboard.php";
 session_start();
 
 // Démarrer la mise en tampon pour capturer le contenu spécifique
