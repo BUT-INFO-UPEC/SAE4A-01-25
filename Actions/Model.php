@@ -1,4 +1,7 @@
 <?php
+require_once "../Model/classes/Dashboard.php";
+session_start();
+
 // POTENTIELS INCLUDES ET CODE PHP
 
 // Démarrer la mise en tampon pour capturer le contenu spécifique
