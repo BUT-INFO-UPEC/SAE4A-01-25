@@ -6,7 +6,7 @@ ob_start();
 ?>
 
 <form method="GET" class="dashboard-search">
-    <input type="text" placeholder="Rechercher un Dashboard" required>
+    <input type="text" placeholder="Rechercher un Dashboard">
     <button type="submit">Rechercher</button>
 </form>
 
