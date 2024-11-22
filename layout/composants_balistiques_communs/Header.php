@@ -13,7 +13,7 @@
         <a href="<?php echo $prefixe . '../Actions/visu_dashboard.php'; ?>">Visualisation</a>
         <a href="<?php echo $prefixe . '../Actions/crea_dashboard.php'; ?>">Creation</a>
         <a href="<?php echo $prefixe . '../Actions/Liste_dashboards.php'; ?>">Liste</a>
-        <a href="<?php echo $prefixe . '../Actions/jrecherche_dashboard.php'; ?>">Recherche Dashboard</a>
+        <a href="<?php echo $prefixe . '../Actions/recherche_dashboard.php'; ?>">Recherche Dashboard</a>
     </nav>
     <br>
     <hr>
