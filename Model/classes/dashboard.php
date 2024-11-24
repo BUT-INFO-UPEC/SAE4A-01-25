@@ -122,7 +122,7 @@ class Dashboard
      */
     public function generate_dashboard()
     {
-        $output = "<div class='dashboard'>";
+        $output = "<div id='dashboard'>";
         foreach ($this->composants as $composant) {
             $data = $this->fetch_data_for_componant($composant);
             $output .= "<div class='dashboard-card'>".$composant->generate_visual($data)."</div>";

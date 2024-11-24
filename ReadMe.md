@@ -51,7 +51,6 @@ noms de classes en francais ou mots clés avec une majuscule au début
 1 ligne vide entre les fonctions
 
 penser a ajouter des docstring au dessu des fonctoins:
-
 ```php
 /**
  * Résumé de la fonction.
@@ -75,7 +74,8 @@ class MyClass {
     // =======================
     //        ATTRIBUTES
     // =======================
-
+    #region Attributs
+    #endregion Attributs
 
     // =======================
     //      CONSTRUCTOR
@@ -85,26 +85,48 @@ class MyClass {
     // =======================
     //      GETTERS
     // =======================
+    #region Getters
+
+    #endregion Getters
     
 
     // =======================
     //      SETTERS
     // =======================
+    #region Stters
+
+    #endregion Stters
     
 
     // =======================
     //    PUBLIC METHODS
     // =======================
+    #region Publiques
+
+    #endregion Publiques
     
 
     // =======================
     //    PRIVATE METHODS
     // =======================
+    #region Privees
+
+    #endregion Privees
+
+    // =======================
+    //    STATIC METHODS
+    // =======================
+    #region Statiques
+
+    #endregion Statiques
     
 
     // =======================
     //    OVERIDES
     // =======================
+    #region Overides
+
+    #endregion Overides
 
 }
 ```
@@ -125,5 +147,5 @@ NomOuID
 <balise_parente>
 ```
 
-- pas de saut de ligne entre la balise parente ouvrante et ses balises enfants, juste a la retour a la ligne et tabulation mais entre les différentes balises enfants (maj+alt+F)
+- pas de saut de ligne entre la balise parente ouvrante et ses balises parente et 1er enfant (juste retour a la ligne et tabulation) mais entre les différentes balises enfants (maj+alt+F)
 
