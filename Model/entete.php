@@ -8,4 +8,8 @@ session_start();
  * @return int l'ID du compte de l'utilisateur
  */
 function get_session_user_id() {}
+
+function out($str) {
+    echo "<p> $str </p>";
+}
 ?>

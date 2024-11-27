@@ -14,20 +14,24 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     // réaliser l'oppération d'aggregation sur l'attribut demandé
     $request = "?select=". $aggregation."(".$attribut.")";
 
-    $criteresGeo = "(";
+    $criteresGeo = "";
     // filtrer uniquement les resultats correspondants aux critères de la météothèque
-    foreach (array_keys($filtres["geo"]) as $criterGeo) {
-        if (isset($filtres["geo"][$criterGeo])) {
-            foreach ($filtres["geo"][$criterGeo] as $valeur) {
-                $valeur = $criterGeo == "numer_sta" ? "%27".$valeur."%27" : $valeur ; // "%27" = char espace encodé pour l'url
-                $criteresGeo.=$criterGeo."=".$valeur." or ";
-            }
-        }
+    if (isset($filtres["geo"]) && !empty($filtres["geo"])){
+        $criteresGeo.= "(";
+        foreach (array_keys($filtres["geo"]) as $criterGeo) {
+            if (isset($filtres["geo"][$criterGeo])) {
+                foreach ($filtres["geo"][$criterGeo] as $valeur) {
+                    $valeur = $criterGeo == "numer_sta" ? "%27".$valeur."%27" : $valeur ; // "%27" = char espace encodé pour l'url
+                    $criteresGeo.=$criterGeo."=".$valeur."%20or%20";
+                }
+                //retirer les huix derniers char de $request car c'est un or et deux espaces encodés
+                $criteresGeo = substr($criteresGeo, 0, -8);
+                $criteresGeo.= ")%20and%20";
+            } 
+        } 
     }
-    //retirer les deux derniers char de $request car c'est un or
-    $criteresGeo = substr($criteresGeo, 0, -4);
 
-    $criteresGeo.=")%20and%20date%20>=%20%27".$filtres["dateDebut"]."%27%20and%20date%20<=%20%27".$filtres["dateFin"]."%27"; // "%20" = char guillemets encodé pour l'url
+    $criteresGeo.="date%20>=%20%27".$filtres["dateDebut"]."%27%20and%20date%20<=%20%27".$filtres["dateFin"]."%27"; // "%20" = char guillemets encodé pour l'url
 
     $request.="&where=". $criteresGeo;
 
@@ -52,6 +56,7 @@ function get_API_data($donnees_ciblees) {
     // mettre en forme les données
     // Décoder les données JSON
     $data = json_decode($response, true);
+    // out(json_encode($data));
 
     // Vérifier si les données sont valides
     if (json_last_error() === JSON_ERROR_NONE) {
@@ -72,7 +77,7 @@ function API_request($request) {
     // URL de l'API
     $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . $request;
 
-    echo "<p>$apiUrl</p>";
+    // out()"<p>$apiUrl</p>");
 
     // Initialiser une session cURL
     $ch = curl_init();

@@ -11,7 +11,7 @@
         "composant_id" : 1,
         "repr_type" : "0",
         "attribut" : "t",
-        "grouping" : "mois",
+        "grouping" : "MOIS",
         "aggregation" : "avg",
         "param_affich" : ""
     }
