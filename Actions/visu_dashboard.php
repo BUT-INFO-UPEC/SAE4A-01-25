@@ -40,7 +40,7 @@ ob_start();
             <div class="flex">
                 <h3 style="flex-grow: 1"> Periode temporelle </h3>
 
-                <p> Météothèque <span  class="changing">statique/synamique</span> </p>
+                <p> Météothèque <span  class="changing">statique/dynamique</span> </p>
             </div>
 
             <p> début : <span  class="changing">JJ/MMAAA</span></p>

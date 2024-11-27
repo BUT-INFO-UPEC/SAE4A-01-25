@@ -136,7 +136,7 @@ class Dashboard
      * 
      * @param bool $override L'utilisateur veut écraser l'ancienne version de son Dashboard
      * 
-     * @exception soulève ue exception si le dashboard existe déja pour confirmation de l'écrasement
+     * @throw DashboardDejaExistant Soulève ue exception si le dashboard existe déja pour confirmation de l'écrasement
      */
     public function save_dashboard($override)
     {
