@@ -1,0 +1,31 @@
+{
+    "table_name": "users",
+    "insert": {
+        "columns": [
+            "name",
+            "email"
+        ],
+        "values": [
+            [
+                "John",
+                "john@example.com"
+            ],
+            [
+                "Jane",
+                "jane@example.com"
+            ],
+            [
+                "Bob",
+                "bob@example.com"
+            ],
+            [
+                "Alice",
+                "alice@example.com"
+            ],
+            [
+                "Charlie",
+                "charlie@example.com"
+            ]
+        ]
+    }
+}
