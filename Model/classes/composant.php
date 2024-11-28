@@ -75,7 +75,7 @@ class Composant
 
         if (function_exists($formateur)) {
             // Appeler dynamiquement la fonction
-            $donneesFormatees = call_user_func($formateur, $data, BDD_fetch_unit($this->get_attribut()));
+            $donneesFormatees = call_user_func($formateur, $data, $this);
         } else {
             $donneesFormatees = $data;
             echo "<p>pas de formateur</p>";
