@@ -1,108 +1,109 @@
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <span>Menu</span>
-        <button class="toggle-btn" id="toggleBtn">☰</button>
-    </div>
-    <div class="sidebar-menu">
-        <a href="#"><i class="icon">🏠</i> <span>Accueil</span></a>
-        <a href="#"><i class="icon">🛠️</i> <span>Services</span></a>
-        <a href="#"><i class="icon">ℹ️</i> <span>À propos</span></a>
-        <a href="#"><i class="icon">📞</i> <span>Contact</span></a>
+<div class="side">
+    <button class="navbar-toggler" type="button" id="openBtn">
+        X
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header d-flex justify-content-between">
+            <span class="text-white">Menu</span>
+            <button class="btn btn-link text-white" id="closeBtn">X</button>
+        </div>
+        <div class="sidebar-content">
+            <ul>
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">À propos</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const sidebar = document.getElementById("sidebar");
-        const toggleBtn = document.getElementById("toggleBtn");
-
-        toggleBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("collapsed");
-        });
-    });
-</script>
-
 <style>
-    /* Sidebar dans style_layout.css */
-    #sidebar {
-        width: 10%;
-        /* Largeur ivwnitiale de la sidebar */
-        background-color: #343a40;
-        color: white;
-        transition: width 0.3s ease;
-        overflow: hidden;
+    .side {
+        top: 0;
+        left: 0;
+        
+        background-color: #333;
+        transition: left 0.3s ease;  /* Smooth transition */
     }
 
-    .sidebar.collapsed {
-        display: none;
-        transition: ease 5s;
-        /* Largeur réduite lorsqu'elle est rétractée */
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
 
     .sidebar-header {
+        padding: 10px;
+        background-color: #444;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px;
-        background-color: #495057;
-        font-size: 1.5rem;
     }
 
-    .sidebar-menu {
-        margin-top: 10px;
+    .sidebar-content ul {
+        padding: 0;
+        list-style: none;
+        margin: 0;
+        padding-left: 20px;
     }
 
-    .sidebar-menu a {
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        color: #adb5bd;
+    .sidebar-content ul li {
+        margin: 10px 0;
+    }
+
+    .sidebar-content ul li a {
+        color: white;
         text-decoration: none;
-        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    .sidebar-menu a:hover {
-        background-color: #6c757d;
-        color: white;
+    .navbar-toggler-icon {
+        background-color: #fff;
+        width: 30px;
+        height: 3px;
+        display: block;
+        position: relative;
     }
 
-    .sidebar-menu .icon {
-        margin-right: 10px;
-        font-size: 1.5rem;
+    .navbar-toggler-icon:before,
+    .navbar-toggler-icon:after {
+        content: '';
+        background-color: #fff;
+        width: 30px;
+        height: 3px;
+        display: block;
+        position: absolute;
+        left: 0;
     }
 
-    .sidebar.collapsed .sidebar-menu a span {
-        display: none;
-        /* Cacher le texte des liens en mode rétracté */
+    .navbar-toggler-icon:before {
+        top: -10px;
     }
 
-    .sidebar.collapsed .sidebar-menu .icon {
-        margin: 0 auto;
+    .navbar-toggler-icon:after {
+        bottom: -10px;
     }
 
-    .toggle-btn {
-        background-color: #495057;
-        border: none;
-        color: white;
-        cursor: pointer;
-        padding: 5px 10px;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-
-    .toggle-btn:hover {
-        background-color: #6c757d;
-    }
-
-    /* Style pour le contenu principal */
-    main>div {
-        flex-grow: 1;
-        padding: 20px;
-        transition: margin-left 0.3s ease;
-    }
-
-    .sidebar.collapsed~div {
-        margin-left: 60px;
-        /* Ajustement du contenu principal quand la sidebar est rétractée */
+    /* The "open" class makes the sidebar visible */
+    .open {
+        left: 0; /* Show sidebar */
     }
 </style>
+
+<script>
+    // Get the elements
+    const openBtn = document.getElementById('openBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    // Open the sidebar
+    openBtn.addEventListener('click', function() {
+        sidebar.classList.add('open');
+    });
+
+    // Close the sidebar
+    closeBtn.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+    });
+</script>

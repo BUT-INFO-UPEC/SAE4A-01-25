@@ -42,9 +42,10 @@ $prefixe .= 'layout/';
     <?php include __DIR__ . "/composants_balistiques_specifiques/Form.php"; ?>
 
     <main class="flex">
-        <?php include __DIR__ . "/composants_balistiques_communs/SideBar.php"; ?>
 
+        <?php include __DIR__ . "/composants_balistiques_communs/sidebar/sidebar-05/index.html"; ?>
         <div class="main" style="flex-grow: 1; position: relative">
+
             <?php echo $main; ?>
         </div>
     </main>
