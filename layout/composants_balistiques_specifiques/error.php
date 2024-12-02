@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<?php include __DIR__ . '/../composants_balistiques_communs/'; ?>
+<?php include __DIR__ . '/../composants_balistiques_communs/head.php'; ?>
 
 <body>
     <?php
@@ -27,13 +27,13 @@
                     <p class="card-text text-danger">
                         <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
                     </p>
-                    <a href="?action=readAll" class="btn btn-primary mt-3">Retour à la liste</a>
+                    <a href="/sae/Controller/?action=accueil" class="btn btn-primary mt-3">Retour à la liste</a>
                 </div>
             </div>
         </div>
     <?php else: ?>
         <!-- Si aucun message d'erreur n'est défini, rediriger vers la page principale -->
-        <?php header('Location: ?action=readAll'); exit; ?>
+        <?php header('Location: /Controller/?action=accueil'); exit; ?>
     <?php endif; ?>
 </body>
 

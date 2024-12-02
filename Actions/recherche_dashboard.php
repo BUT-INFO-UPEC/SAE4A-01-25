@@ -1,6 +1,5 @@
 <?php
 require_once "../Model/entete.php";
-
 // Démarrer la mise en tampon pour capturer le contenu spécifique
 ob_start();
 ?>
@@ -47,6 +46,9 @@ ob_start();
     }
 </style>
 
+<form action="/Controller/?action=search_dasbord">
+
+</form>
 
 <?php
 // Récupération du contenu html/php

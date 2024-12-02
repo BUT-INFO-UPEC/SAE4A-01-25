@@ -54,6 +54,11 @@
                             <label for="signup-mdp" class="form-label">Mot de Passe :</label>
                             <input type="password" name="mdp" id="signup-mdp" class="form-control" minlength="1" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="passwordConfirm" class="form-label">Confirmer le mot de Passe :</label>
+                            <input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control" minlength="1" required>
+                        </div>
+
                         <!-- Boutons du modal -->
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">Créer un compte</button>

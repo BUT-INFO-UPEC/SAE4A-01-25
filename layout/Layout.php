@@ -16,6 +16,7 @@ while ($i < $numberOfLevelsToGoUp) {
     $i++;
 }
 $prefixe .= 'layout/';
+
 ?>
 
 <!DOCTYPE html>
@@ -33,19 +34,17 @@ $prefixe .= 'layout/';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
-
-
 <?php include __DIR__ . "/composants_balistiques_communs/Header.php"; ?>
 
 <body>
-
-    <?php include __DIR__ . "/composants_balistiques_specifiques/Form.php"; ?>
-
+    
     <main class="flex">
+        <button class="btn btn-primary" id="toggleSidebar">
+            &equiv;
+        </button>
+        <?php include __DIR__ . "/composants_balistiques_communs/SideBar.php"; ?>
 
-        <?php include __DIR__ . "/composants_balistiques_communs/sidebar/sidebar-05/index.html"; ?>
         <div class="main" style="flex-grow: 1; position: relative">
-
             <?php echo $main; ?>
         </div>
     </main>
