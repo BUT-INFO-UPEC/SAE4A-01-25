@@ -21,7 +21,7 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
         foreach (array_keys($filtres["geo"]) as $criterGeo) {
             if (isset($filtres["geo"][$criterGeo])) {
                 foreach ($filtres["geo"][$criterGeo] as $valeur) {
-                    $valeur = $criterGeo == "numer_sta" ? "%27".$valeur."%27" : $valeur ; // "%27" = char espace encodé pour l'url
+                    $valeur = $criterGeo == "numer_sta" ? "%27".$valeur."%27" : $valeur ; // "%27" = char ' encodé pour l'url
                     $criteresGeo.=$criterGeo."=".$valeur."%20or%20";
                 }
                 //retirer les huix derniers char de $request car c'est un or et deux espaces encodés
@@ -31,7 +31,7 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
         } 
     }
 
-    $criteresGeo.="date%20>=%20%27".$filtres["dateDebut"]."%27%20and%20date%20<=%20%27".$filtres["dateFin"]."%27"; // "%20" = char guillemets encodé pour l'url
+    $criteresGeo.="date%20>=%20%27".$filtres["dateDebut"]."%27%20and%20date%20<=%20%27".$filtres["dateFin"]."%27"; // "%20" = char espace encodé pour l'url
 
     $request.="&where=". $criteresGeo;
 
