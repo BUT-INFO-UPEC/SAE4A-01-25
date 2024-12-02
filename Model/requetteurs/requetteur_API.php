@@ -12,7 +12,8 @@ require_once __DIR__ . "/../classes/Requette_API.php";
  * 
  * @return array La liste des données renvoyée pour cette requette
  */
-function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
+function API_componant_data($filtres, $attribut, $aggregation, $grouping)
+{
     $request = new Requette_API();
 
     // réaliser l'oppération d'aggregation sur l'attribut demandé
@@ -20,7 +21,7 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
 
     // constyuit le tableau de conditions a passer en argument a buildConditions()
     // filtrer uniquement les resultats correspondants aux critères de la météothèque
-    if (isset($filtres["geo"]) && !empty($filtres["geo"])){
+    if (isset($filtres["geo"]) && !empty($filtres["geo"])) {
         //initialiser le tableau structuré
         $criteresGeo = ["or", []];
 
@@ -36,16 +37,16 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
 
             // ajouter le critère structuré aux critères géographiques
             array_push($criteresGeo[1], ["or",  [[$criterGeo, "=", $tab]]]);
-        } 
+        }
     }
 
     // out($criteresGeo);
 
     $tab = ["and", [
-            $criteresGeo,
-            ["date", ">=", "\"".$filtres["dateDebut"]."\""], 
-            ["date", "<=", "\"".$filtres["dateFin"]."\""]
-        ]];
+        $criteresGeo,
+        ["date", ">=", "\"" . $filtres["dateDebut"] . "\""],
+        ["date", "<=", "\"" . $filtres["dateFin"] . "\""]
+    ]];
     // out(json_encode($criteresGeo));
 
     $request->setConditions($tab);
@@ -53,9 +54,9 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
     $r = $request->buildRequest();
 
     // grouper par le critère séléctionner pour l'analyse
-    $r.= get_BDD_grouping_key($grouping);
+    $r .= get_BDD_grouping_key($grouping);
 
-    $r.="&limit=100";
+    $r .= "&limit=100";
     return get_API_data($r);
 }
 
@@ -66,7 +67,8 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
  * 
  * @return array La liste des données renvoyée pour cette requette
  */
-function get_API_data($donnees_ciblees) {
+function get_API_data($donnees_ciblees)
+{
     // faire une boucle pour récupérer les données
     $response = API_request($donnees_ciblees);
 
@@ -90,7 +92,8 @@ function get_API_data($donnees_ciblees) {
  * 
  * @return string le fichier json renvoyé par l'API
  */
-function API_request($request) {
+function API_request($request)
+{
     // URL de l'API
     $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . $request;
 
