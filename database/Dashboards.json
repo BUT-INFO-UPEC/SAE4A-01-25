@@ -20,7 +20,7 @@
         "date_fin" : "0000-00-07",
         "date_debut_relatif" : "1",
         "date_fin_relatif" : "1",
-        "selection_geo" : {"numer_sta" : ["78925"]},
+        "selection_geo" : {"numer_sta" : ["78925", "07139"]},
         "param" : "dash2"
     },
     {
@@ -32,7 +32,7 @@
         "date_fin" : "2018-04-06",
         "date_debut_relatif" : "0",
         "date_fin_relatif" : "0",
-        "selection_geo" : {},
+        "selection_geo" : {"numer_sta" : ["78925", "07139"]},
         "param" : "dash3"
     }
 ]

@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . "/requetteur_BDD.php";
+require_once __DIR__ . "/../classes/Requette_API.php";
+
 /**
  * Récupère les données de l'API selon les critères spécifiés
  * 
@@ -11,35 +13,50 @@ require_once __DIR__ . "/requetteur_BDD.php";
  * @return array La liste des données renvoyée pour cette requette
  */
 function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
-    // réaliser l'oppération d'aggregation sur l'attribut demandé
-    $request = "?select=". $aggregation."(".$attribut.")";
+    $request = new Requette_API();
 
-    $criteresGeo = "";
+    // réaliser l'oppération d'aggregation sur l'attribut demandé
+    $request->addSelect($attribut, $aggregation);
+
+    // constyuit le tableau de conditions a passer en argument a buildConditions()
     // filtrer uniquement les resultats correspondants aux critères de la météothèque
     if (isset($filtres["geo"]) && !empty($filtres["geo"])){
-        $criteresGeo.= "(";
+        //initialiser le tableau structuré
+        $criteresGeo = ["or", []];
+
+        // parcourir les différentes clés du tableau (les différents attributs géographiques a constraindres)
         foreach (array_keys($filtres["geo"]) as $criterGeo) {
-            if (isset($filtres["geo"][$criterGeo])) {
-                foreach ($filtres["geo"][$criterGeo] as $valeur) {
-                    $valeur = $criterGeo == "numer_sta" ? "%27".$valeur."%27" : $valeur ; // "%27" = char espace encodé pour l'url
-                    $criteresGeo.=$criterGeo."=".$valeur."%20or%20";
-                }
-                //retirer les huix derniers char de $request car c'est un or et deux espaces encodés
-                $criteresGeo = substr($criteresGeo, 0, -8);
-                $criteresGeo.= ")%20and%20";
-            } 
+            // initialiser le sous sous tableau
+            $tab = [];
+
+            // parcourir les valeurs a constraindre pour chaque attribut et les ajouter a la liste
+            foreach ($filtres["geo"][$criterGeo] as $valeur) {
+                array_push($tab, $valeur);
+            }
+
+            // ajouter le critère structuré aux critères géographiques
+            array_push($criteresGeo[1], ["or",  [[$criterGeo, "=", $tab]]]);
         } 
     }
 
-    $criteresGeo.="date%20>=%20%27".$filtres["dateDebut"]."%27%20and%20date%20<=%20%27".$filtres["dateFin"]."%27"; // "%20" = char guillemets encodé pour l'url
+    // out($criteresGeo);
 
-    $request.="&where=". $criteresGeo;
+    $tab = ["and", [
+            $criteresGeo,
+            ["date", ">=", "\"".$filtres["dateDebut"]."\""], 
+            ["date", "<=", "\"".$filtres["dateFin"]."\""]
+        ]];
+    // out(json_encode($criteresGeo));
+
+    $request->setConditions($tab);
+
+    $r = $request->buildRequest();
 
     // grouper par le critère séléctionner pour l'analyse
-    $request.= get_BDD_grouping_key($grouping);
+    $r.= get_BDD_grouping_key($grouping);
 
-    $request.="&limit=100";
-    return get_API_data($request);
+    $r.="&limit=100";
+    return get_API_data($r);
 }
 
 /**
@@ -77,7 +94,7 @@ function API_request($request) {
     // URL de l'API
     $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . $request;
 
-    out("<p>$apiUrl</p>");
+    out($apiUrl);
 
     // Initialiser une session cURL
     $ch = curl_init();
