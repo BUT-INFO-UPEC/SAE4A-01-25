@@ -61,7 +61,7 @@ class Requette_API {
         foreach ($this->select as $value) {
             $selectString.= $value;
         }
-        return "/?" . $selectString . "&where=". $this->buildConditions();
+        return "/?select=" . $selectString . "&where=". $this->buildConditions();
     }
     #endregion Publiques
     
@@ -139,7 +139,7 @@ class Requette_API {
                     // Ajout de la condition à la chaîne avec la porte logique
                     $condition = $this->buildSimpleCondition($currentCondition, $logicOperator);
                     if ($result !== '' && $result[-1] !== "(") {
-                        $result .= " {$logicOperator} {$condition}";
+                        $result .= "\27{$logicOperator}\27{$condition}";
                     } else {
                         $result.=$condition;
                     }
@@ -163,9 +163,9 @@ class Requette_API {
             out($condition[2]);
             foreach ($condition[2] as $v) {
                 if ($r !== '') {
-                    $r .= " {$logicOperator} {$key} {$operator} {$v}";
+                    $r .= "\20{$logicOperator}\20{$key}\20{$operator}\20{$v}";
                 } else {
-                    $r.="{$key} {$operator} {$v}";
+                    $r.="{$key}\28{$operator}\28{$v}";
                 }
             }
             return $r;
