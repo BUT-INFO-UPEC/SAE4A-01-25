@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/requetteur_BDD.php";
+require_once __DIR__ . "/../classes/Requette_API.php";
 /**
  * Récupère les données de l'API selon les critères spécifiés
  * 
@@ -11,13 +12,14 @@ require_once __DIR__ . "/requetteur_BDD.php";
  * @return array La liste des données renvoyée pour cette requette
  */
 function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
-    // réaliser l'oppération d'aggregation sur l'attribut demandé
-    $request = "?select=". $aggregation."(".$attribut.")";
+    $request = new Requette_API();
 
-    $criteresGeo = "";
+    // réaliser l'oppération d'aggregation sur l'attribut demandé
+    $request->addSelect($attribut, $aggregation); 
+
     // filtrer uniquement les resultats correspondants aux critères de la météothèque
     if (isset($filtres["geo"]) && !empty($filtres["geo"])){
-        $criteresGeo.= "(";
+        $request->beginSubCondition();
         foreach (array_keys($filtres["geo"]) as $criterGeo) {
             if (isset($filtres["geo"][$criterGeo])) {
                 foreach ($filtres["geo"][$criterGeo] as $valeur) {
@@ -28,7 +30,8 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
                 $criteresGeo = substr($criteresGeo, 0, -8);
                 $criteresGeo.= ")%20and%20";
             } 
-        } 
+        }
+        $request->endSubCondition();
     }
 
     $criteresGeo.="date%20>=%20%27".$filtres["dateDebut"]."%27%20and%20date%20<=%20%27".$filtres["dateFin"]."%27"; // "%20" = char guillemets encodé pour l'url
