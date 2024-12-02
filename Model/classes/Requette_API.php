@@ -139,17 +139,17 @@ class Requette_API {
                     // Ajout de la condition à la chaîne avec la porte logique
                     $condition = $this->buildSimpleCondition($currentCondition, $logicOperator);
                     if ($result !== '' && $result[-1] !== "(") {
-                        $result .= "\27{$logicOperator}\27{$condition}";
+                        $result .= "%20{$logicOperator}%20{$condition}";
                     } else {
                         $result.=$condition;
                     }
-                    out($result);
+                    // out($result);
                 }
             } else {
                 $result.=")";
             }
         }
-        out($result);
+        // out($result);
         return $result;
     }
     
@@ -160,19 +160,19 @@ class Requette_API {
         $operator = $condition[1];
         if (is_array($condition[2])) {
             $r="";
-            out($condition[2]);
+            // out($condition[2]);
             foreach ($condition[2] as $v) {
                 if ($r !== '') {
-                    $r .= "\20{$logicOperator}\20{$key}\20{$operator}\20{$v}";
+                    $r .= "%20{$logicOperator}%20{$key}%20{$operator}%20{$v}";
                 } else {
-                    $r.="{$key}\28{$operator}\28{$v}";
+                    $r.="{$key}%20{$operator}%20{$v}";
                 }
             }
             return $r;
         }
     
         // Retourne la chaîne représentant la condition simple
-        return "{$key} {$operator} {$condition[2]}";
+        return "{$key}%20{$operator}%20{$condition[2]}";
     }
 
     #endregion Privees
