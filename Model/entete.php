@@ -1,6 +1,6 @@
 <?php
-require_once "../Model/classes/Dashboard.php";
-session_start();
+require_once __DIR__ . "/../Model/classes/Dashboard.php";
+if (!isset($_SESSION)){session_start();}
 
 /**
  * Retourne l'ID de l'utilisateur si il  est connécté, sinon 0
@@ -10,6 +10,11 @@ session_start();
 function get_session_user_id() {}
 
 function out($str) {
-    echo "<p> $str </p>";
+    // Si $str est un tableau, on utilise print_r() pour l'afficher
+    if (is_array($str)) {
+        echo "<p><pre>" . json_encode($str) . "</pre></p>";
+    } else {
+        echo "<p>$str</p>";
+    }
 }
 ?>
