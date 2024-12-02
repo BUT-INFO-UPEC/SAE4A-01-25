@@ -96,8 +96,8 @@ class Requette_API {
      */
     private function buildConditions(): string {
         $conditions = $this->where;
-        out("condition init:");
-        out(json_encode($conditions));
+        // out("condition init:");
+        // out(json_encode($conditions));
 
         // Initialisation de la pile
         $stack = [];
@@ -107,6 +107,7 @@ class Requette_API {
         if (in_array($conditions[0], ['and', 'or'])) {
             // Empile la porte logique et la liste des sous-conditions
             array_push($stack, [$conditions[0], $conditions[1], 0]);
+            $result.='(';
         } else {
             // Sinon c'est une condition simple
             $result .= $this->buildSimpleCondition($conditions, "");
@@ -114,17 +115,17 @@ class Requette_API {
     
         // Tant que la pile n'est pas vide
         while (!empty($stack)) {
-            out("stack:");
-            out($stack);
+            // out("stack:");
+            // out($stack);
             // Dépile l'élément supérieur de la pile
             list($logicOperator, $subConditions, $index) = array_pop($stack);
     
             // Si l'index est plus petit que la taille de la liste des sous-conditions
             if ($index < count($subConditions)) {
-                out("sub, curent:");
-                out($subConditions);
+                // out("sub, curent:");
+                // out($subConditions);
                 $currentCondition = $subConditions[$index];
-                out($currentCondition);
+                // out($currentCondition);
 
                 // Rempile la stack avec l'index suivant
                 array_push($stack, [$logicOperator, $subConditions, $index + 1]);
@@ -133,7 +134,7 @@ class Requette_API {
                     // ajouter l'encapsulation dans la porte logique
                     array_push($stack, [$currentCondition[0], $currentCondition[1], 0]);
                     $result.="(";
-                    out("add to stack");
+                    // out("add to stack");
                 } else {
                     // Ajout de la condition à la chaîne avec la porte logique
                     $condition = $this->buildSimpleCondition($currentCondition, $logicOperator);
@@ -154,7 +155,7 @@ class Requette_API {
     
     // Méthode pour traiter une condition simple (clé, opérateur, valeur)
     private function buildSimpleCondition(array $condition, string $logicOperator): string {
-        out($condition);
+        // out($condition);
         $key = $condition[0];
         $operator = $condition[1];
         if (is_array($condition[2])) {
