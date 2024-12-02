@@ -12,7 +12,7 @@ function get_session_user_id() {}
 function out($str) {
     // Si $str est un tableau, on utilise print_r() pour l'afficher
     if (is_array($str)) {
-        echo "<p><pre>" . json_encode($str) . "</pre></p>";
+        echo "<p>" . json_encode($str) . "</p>";
     } else {
         echo "<p>$str</p>";
     }

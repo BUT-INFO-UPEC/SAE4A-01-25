@@ -35,7 +35,7 @@ function API_componant_data($filtres, $attribut, $aggregation, $grouping) {
             }
 
             // ajouter le critère structuré aux critères géographiques
-            array_push($criteresGeo[1], ["and", [$criterGeo, "=", $tab]]);
+            array_push($criteresGeo[1], ["and",  [[$criterGeo, "=", $tab]]]);
         } 
     }
 

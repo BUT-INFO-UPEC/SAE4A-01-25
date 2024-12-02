@@ -96,6 +96,7 @@ class Requette_API {
      */
     private function buildConditions(): string {
         $conditions = $this->where;
+        out("condition init:");
         out(json_encode($conditions));
 
         // Initialisation de la pile
@@ -108,40 +109,43 @@ class Requette_API {
             array_push($stack, [$conditions[0], $conditions[1], 0]);
         } else {
             // Sinon c'est une condition simple
-            $result .= $this->buildSimpleCondition($conditions);
+            $result .= $this->buildSimpleCondition($conditions, "");
         }
     
         // Tant que la pile n'est pas vide
         while (!empty($stack)) {
-            out("stack");
+            out("stack:");
             out($stack);
             // Dépile l'élément supérieur de la pile
             list($logicOperator, $subConditions, $index) = array_pop($stack);
-            // Réempile la condition avec l'index suivant
-            array_push($stack, [$logicOperator, $subConditions, $index + 1]);
     
             // Si l'index est plus petit que la taille de la liste des sous-conditions
             if ($index < count($subConditions)) {
-                out(json_encode($subConditions));
+                out("sub, curent:");
+                out($subConditions);
                 $currentCondition = $subConditions[$index];
-                out(json_encode($currentCondition));
+                out($currentCondition);
+
+                // Rempile la stack avec l'index suivant
+                array_push($stack, [$logicOperator, $subConditions, $index + 1]);
     
-                if ($currentCondition[0] == 'and' || $currentCondition[0] == 'or') {
-                    // 
+                if (isset($currentCondition[0]) &&$currentCondition[0] == 'and' || $currentCondition[0] == 'or') {
+                    // ajouter l'encapsulation dans la porte logique
                     array_push($stack, [$currentCondition[0], $currentCondition[1], 0]);
+                    $result.="(";
+                    out("add to stack");
                 } else {
                     // Ajout de la condition à la chaîne avec la porte logique
-                    $condition = $this->buildSimpleCondition($currentCondition);
-                    if ($result !== '' && $result[-1] !== "(" && $result[-1] !== ")") {
+                    $condition = $this->buildSimpleCondition($currentCondition, $logicOperator);
+                    if ($result !== '' && $result[-1] !== "(") {
                         $result .= " {$logicOperator} {$condition}";
                     } else {
                         $result.=$condition;
                     }
+                    out($result);
                 }
-            }
-            // Ajouter une parenthèse fermante si nécessaire (après traitement des sous-conditions imbriquées)
-            if (in_array($logicOperator, ['and', 'or'])) {
-                $result = "({$result})";
+            } else {
+                $result.=")";
             }
         }
         out($result);
@@ -149,13 +153,25 @@ class Requette_API {
     }
     
     // Méthode pour traiter une condition simple (clé, opérateur, valeur)
-    private function buildSimpleCondition(array $condition): string {
+    private function buildSimpleCondition(array $condition, string $logicOperator): string {
+        out($condition);
         $key = $condition[0];
         $operator = $condition[1];
-        $value = is_array($condition[2]) ? '(' . implode(',', $condition[2]) . ')' : $condition[2];
+        if (is_array($condition[2])) {
+            $r="";
+            out($condition[2]);
+            foreach ($condition[2] as $v) {
+                if ($r !== '') {
+                    $r .= " {$logicOperator} {$key} {$operator} {$v}";
+                } else {
+                    $r.="{$key} {$operator} {$v}";
+                }
+            }
+            return $r;
+        }
     
         // Retourne la chaîne représentant la condition simple
-        return "{$key} {$operator} {$value}";
+        return "{$key} {$operator} {$condition[2]}";
     }
 
     #endregion Privees
