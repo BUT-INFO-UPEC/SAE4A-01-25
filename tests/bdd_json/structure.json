@@ -1,23 +1,68 @@
 {
-    "table_name": "users",
-    "columns": [
-        {"name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY AUTOINCREMENT"},
-        {"name": "name", "type": "TEXT", "constraints": "NOT NULL"},
-        {"name": "email", "type": "TEXT", "constraints": "UNIQUE NOT NULL"},
-        {"name": "created_at", "type": "TEXT", "constraints": "DEFAULT CURRENT_TIMESTAMP"}
-    ],
-    "triggers": [
+    "tables": [
         {
-            "name": "before_insert_users",
-            "timing": "BEFORE",
-            "event": "INSERT",
-            "statement": "BEGIN SELECT CASE WHEN NEW.email IS NULL THEN RAISE(ABORT, 'Email cannot be null') END; END;"
+            "table_name": "users",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "constraints": "PRIMARY KEY AUTOINCREMENT"
+                },
+                {
+                    "name": "name",
+                    "type": "TEXT",
+                    "constraints": "NOT NULL"
+                },
+                {
+                    "name": "email",
+                    "type": "TEXT",
+                    "constraints": "UNIQUE NOT NULL"
+                },
+                {
+                    "name": "created_at",
+                    "type": "TEXT",
+                    "constraints": "DEFAULT CURRENT_TIMESTAMP"
+                }
+            ],
+            "triggers": [
+                {
+                    "name": "before_insert_users",
+                    "timing": "BEFORE",
+                    "event": "INSERT",
+                    "statement": "BEGIN SELECT CASE WHEN NEW.email IS NULL THEN RAISE(ABORT, 'Email cannot be null') END; END;"
+                },
+                {
+                    "name": "after_update_users",
+                    "timing": "AFTER",
+                    "event": "UPDATE",
+                    "statement": "BEGIN INSERT INTO logs (user_id, action, timestamp) VALUES (NEW.id, 'update', CURRENT_TIMESTAMP); END;"
+                }
+            ]
         },
         {
-            "name": "after_update_users",
-            "timing": "AFTER",
-            "event": "UPDATE",
-            "statement": "BEGIN INSERT INTO logs (user_id, action, timestamp) VALUES (NEW.id, 'update', CURRENT_TIMESTAMP); END;"
+            "table_name": "logs",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "constraints": "PRIMARY KEY AUTOINCREMENT"
+                },
+                {
+                    "name": "user_id",
+                    "type": "INTEGER",
+                    "constraints": "REFERENCES users(id)"
+                },
+                {
+                    "name": "action",
+                    "type": "TEXT",
+                    "constraints": "NOT NULL"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "TEXT",
+                    "constraints": "DEFAULT CURRENT_TIMESTAMP"
+                }
+            ]
         }
     ]
 }

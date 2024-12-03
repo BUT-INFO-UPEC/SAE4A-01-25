@@ -1,25 +1,51 @@
+# insert_user.py
+
 import json
 import sqlite3
 import os
 
-# Chemin vers le fichier JSON
-json_file_path = r"C:\WAMP64\WWW\SAE\TESTS\bdd_json\integrer_user.json"
+# Chemin vers les fichiers JSON
+structure_file_path = r"TESTS\bdd_json\structure.json"
+insert_file_path = r"TESTS\bdd_json\integrer_user.json"
 
 # Connexion à la base de données SQLite
-db_file_path = r"C:\WAMP64\WWW\SAE\TESTS\bdd_json\database.db"
-
-# Connexion à la base de données
+db_file_path = r"TESTS\bdd_json\database.db"
 connection = sqlite3.connect(db_file_path)
 cursor = connection.cursor()
 
-# Lecture du fichier JSON
-with open(json_file_path, 'r') as json_file:
-    data = json.load(json_file)
+# Création des tables et des triggers à partir du fichier structure.json
+with open(structure_file_path, 'r') as structure_file:
+    structure_data = json.load(structure_file)
 
-# Extraction des colonnes et des valeurs
-table_name = data['table_name']
-columns = data['insert']['columns']
-values = data['insert']['values']
+for table in structure_data['tables']:
+    table_name = table['table_name']
+    columns_definitions = ', '.join(
+        f"{col['name']} {col['type']} {col['constraints']}" for col in table['columns']
+    )
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {
+        table_name} ({columns_definitions});"
+    cursor.execute(create_table_query)
+
+    # Création des triggers si définis
+    for trigger in table.get('triggers', []):
+        create_trigger_query = f"""
+        CREATE TRIGGER IF NOT EXISTS {trigger['name']}
+        {trigger['timing']} {trigger['event']} ON {table_name}
+        {trigger['statement']}
+        """
+        cursor.execute(create_trigger_query)
+
+# Validation des changements
+connection.commit()
+
+# Insertion des données à partir du fichier integrer_user.json
+with open(insert_file_path, 'r') as insert_file:
+    insert_data = json.load(insert_file)
+
+# Récupération des informations pour l'insertion
+table_name = insert_data['table_name']
+columns = insert_data['insert']['columns']
+values = insert_data['insert']['values']
 
 # Préparation de la requête d'insertion avec IGNORE pour éviter les doublons
 columns_str = ', '.join(columns)
@@ -42,3 +68,5 @@ connection.commit()
 # Fermeture de la connexion
 cursor.close()
 connection.close()
+
+
