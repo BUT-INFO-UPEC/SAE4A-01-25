@@ -7,7 +7,7 @@
         id="accountDropdown"
         data-bs-toggle="dropdown"
         aria-expanded="false"
-        style="cursor: pointer;">
+        style="cursor: pointer; width: 10vh; height: 10vh;">
     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
         <li>
             <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">
