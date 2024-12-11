@@ -1,68 +1,85 @@
 {
+    "db_path": "database/France.db",
     "tables": [
         {
-            "table_name": "users",
+            "table_name": "representations",
             "columns": [
-                {
-                    "name": "id",
-                    "type": "INTEGER",
-                    "constraints": "PRIMARY KEY AUTOINCREMENT"
-                },
-                {
-                    "name": "name",
-                    "type": "TEXT",
-                    "constraints": "NOT NULL"
-                },
-                {
-                    "name": "email",
-                    "type": "TEXT",
-                    "constraints": "UNIQUE NOT NULL"
-                },
-                {
-                    "name": "created_at",
-                    "type": "TEXT",
-                    "constraints": "DEFAULT CURRENT_TIMESTAMP"
-                }
+                "repr_id",
+                "nom",
+                "poss_grouping -> groupping_type",
+                "recomanded_atts -> [att_cle]",
+                "import_files",
+                "data_formater",
+                "visualisation_constructor"
             ],
-            "triggers": [
-                {
-                    "name": "before_insert_users",
-                    "timing": "BEFORE",
-                    "event": "INSERT",
-                    "statement": "BEGIN SELECT CASE WHEN NEW.email IS NULL THEN RAISE(ABORT, 'Email cannot be null') END; END;"
-                },
-                {
-                    "name": "after_update_users",
-                    "timing": "AFTER",
-                    "event": "UPDATE",
-                    "statement": "BEGIN INSERT INTO logs (user_id, action, timestamp) VALUES (NEW.id, 'update', CURRENT_TIMESTAMP); END;"
-                }
-            ]
+            "triggers": [],
+            "keys":[]
         },
         {
-            "table_name": "logs",
-            "columns": [
-                {
-                    "name": "id",
-                    "type": "INTEGER",
-                    "constraints": "PRIMARY KEY AUTOINCREMENT"
-                },
-                {
-                    "name": "user_id",
-                    "type": "INTEGER",
-                    "constraints": "REFERENCES users(id)"
-                },
-                {
-                    "name": "action",
-                    "type": "TEXT",
-                    "constraints": "NOT NULL"
-                },
-                {
-                    "name": "timestamp",
-                    "type": "TEXT",
-                    "constraints": "DEFAULT CURRENT_TIMESTAMP"
-                }
-            ]
+            "table_name": "attributs",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "groupements",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "stations",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "villes",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "epcis",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "depts",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "regions",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "dashboard",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "utilisateur",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "composant",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "suivi_copiright",
+            "columns": [],
+            "triggers": [],
+            "key":[]
         }
     ]
 }
