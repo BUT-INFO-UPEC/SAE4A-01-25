@@ -75,7 +75,7 @@
             "aggregation",
             "param_affich"
         ],
-        "suivi_copiright" : [
+        "suivi_copiright": [
             "dashboard_original -> dashboard_id",
             "dashboard_nouveau -> dashboard_id"
         ]

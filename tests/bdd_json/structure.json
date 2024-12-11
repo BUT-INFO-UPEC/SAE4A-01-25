@@ -1,0 +1,85 @@
+{
+    "db_path": "database/France.db",
+    "tables": [
+        {
+            "table_name": "representations",
+            "columns": [
+                "repr_id",
+                "nom",
+                "poss_grouping -> groupping_type",
+                "recomanded_atts -> [att_cle]",
+                "import_files",
+                "data_formater",
+                "visualisation_constructor"
+            ],
+            "triggers": [],
+            "keys":[]
+        },
+        {
+            "table_name": "attributs",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "groupements",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "stations",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "villes",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "epcis",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "depts",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "regions",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "dashboard",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "utilisateur",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "composant",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        },
+        {
+            "table_name": "suivi_copiright",
+            "columns": [],
+            "triggers": [],
+            "key":[]
+        }
+    ]
+}

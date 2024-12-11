@@ -3,7 +3,8 @@
 // -----
 // DONEE TEXTUELLE
 // -----
-function unique_value($data, $unite) {
+function unique_value($data, $comp) {
+    $unite = BDD_fetch_unit($comp->get_attribut());
     // var_dump($data);
     return array_values($data[0])[0].$unite;
 }

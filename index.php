@@ -1,7 +1,7 @@
 <?php
 session_start();
 // POTENTIELS INCLUDES ET CODE PHP
-require_once "Model/classes/Dashboard.php";
+require_once __DIR__ . "/Model/entete.php";
 $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id(0);
 
 // Démarrer la mise en tampon pour capturer le contenu spécifique

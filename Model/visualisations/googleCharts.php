@@ -4,13 +4,15 @@
 </script>
 
 <?php
-function CSVarray($data, $entete) {
+require_once __DIR__ . "/phpCharts.php";
+function CSVarray($data, $comp) {
+    $entete = ""; // Construire l'entête a partir du groupping
     // Initialiser le tableau avec les étiquettes des colonnes
     $formattedData = [$entete];
     
     // Ajouter chaque entrée du dictionnaire au tableau
-    foreach ($data as $task => $hours) {
-        $formattedData[] = [$task, $hours];
+    foreach ($data as $cle => $val) {
+        $formattedData[] = [$cle, unique_value($val, $comp)];
     }
     
     // Retourner les données sous forme de JSON pour utilisation avec Google Charts

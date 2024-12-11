@@ -5,7 +5,7 @@
         &copy; tout droit résérvé
         <br>
         API :
-        <a href="https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/information/?sort=date" targer = blank>Cliquez ici !</a>
+        <a href="https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/information/?sort=date" target="_blank">Cliquez ici !</a>
         <br>
         Projet académique (UPEC IUT de Créteil-Vitry - Département informatique)
     </p>

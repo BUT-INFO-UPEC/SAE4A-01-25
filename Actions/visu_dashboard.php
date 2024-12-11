@@ -3,12 +3,13 @@ require_once "../Model/entete.php";
 
 
 // si le dashboard n'est ni initialisé ni défini par son id, retour a l'acceuil car aucun dashboard n'est séléctionné donc affichable
-if (!isset($_SESSION["curent_dashboard"])) {
-    if (isset($_GET['dashId'])) {
+if (isset($_GET['dashId'])) {
     $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id($_GET['dashId']);
-    } else header("Location: ../index.php"); // redirection
-
+} else if (!isset($_SESSION["curent_dashboard"])) {
+    // out("pas de d'idDashboard");
+    header("Location: ../index.php"); // redirection
 }
+// var_dump($_SESSION["curent_dashboard"]);
 // le dashboard a afficher est selui séléctionné (dans la session)
 $dash = $_SESSION["curent_dashboard"];
 
@@ -40,7 +41,7 @@ ob_start();
             <div class="flex">
                 <h3 style="flex-grow: 1"> Periode temporelle </h3>
 
-                <p> Météothèque <span  class="changing">statique/synamique</span> </p>
+                <p> Météothèque <?php out($dash->dateFinRelatif)?></p>
             </div>
 
             <p> début : <span  class="changing">JJ/MMAAA</span></p>

@@ -26,7 +26,8 @@ function BDD_fetch_visualisation($reprId)
  * 
  * @return mixed Résultat de la fonction BDD_fetch_visualisation.
  */
-function BDD_fetch_component($composantId) {
+function BDD_fetch_component($composantId)
+{
     // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
@@ -62,7 +63,8 @@ function BDD_fetch_dashboards()
  * 
  * @return string l'unité associé aux mesures de l'attribut passé en paramètre
  */
-function BDD_fetch_unit($attribut) {
+function BDD_fetch_unit($attribut)
+{
     // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
@@ -81,9 +83,10 @@ function BDD_fetch_unit($attribut) {
 /**
  * Génére un id inutilisé pour un dashboard et ajouter une ligne dans suivi_copiright
  */
-function generate_dash_id($originalId) {
+function generate_dash_id($originalId)
+{
     $newDashboardId = count(BDD_fetch_dashboards());
-    
+
     add_tracing($originalId, $newDashboardId);
 
     return $newDashboardId;
@@ -113,7 +116,8 @@ function add_tracing($originalId, $nouvId) {}
  * 
  * @return string La chaine de caractère permettant de faire des grouppements selon els paramètres spécifiés
  */
-function get_BDD_grouping_key($grouping) {
+function get_BDD_grouping_key($grouping)
+{
     if (is_array($grouping)) {
         // vérifier si c'est une liste de stations ou intervals temporels et construire 
     } else {
@@ -126,4 +130,19 @@ function get_BDD_grouping_key($grouping) {
             }
         }
     }
+}
+
+function conn_sqlite()
+{
+    $db = new PDO('sqlite:' . __DIR__ . '/../../database/France.db');
+    return $db;
+}
+
+function get_station()
+{
+    $db = conn_sqlite();
+    $query = $db->prepare("SELECT * FROM stations");
+    $query->execute();
+    $result = $query->fetchAll();
+    return $result;
 }
