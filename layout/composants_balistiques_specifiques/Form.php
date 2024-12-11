@@ -69,4 +69,40 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="UpdateUserModal" tabindex="-1" aria-labelledby="UpdateUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- En-tête du modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="UpdateUserModalLabel">Modifier Utilisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+
+                <!-- Contenu du modal -->
+                <div class="modal-body">
+                    <form action="?action=updateUser" method="post" class="d-flex">
+                        <div class="">
+                            <div class="mb-3">
+                                <label for="name">Nom :</label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mail">Mail :</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photo">Photo de profil</label>
+                        </div>
+                        <!-- Boutons du modal -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Se Connecter</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
