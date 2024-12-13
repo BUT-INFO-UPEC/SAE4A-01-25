@@ -1,13 +1,13 @@
 <div class="dropdown position-absolute end-0 bonjour">
 
     <img
-        src="<?php echo $prefixe . '../database/Images/account-icon.png'; ?>"
+        src="<?php echo $prefixe . '../../database/Images/account-icon.png'; ?>"
         alt="Menu"
         class="account-icon dropdown-toggle"
         id="accountDropdown"
         data-bs-toggle="dropdown"
         aria-expanded="false"
-        style="cursor: pointer; width: 10vh; height: 10vh;">
+        style="cursor: pointer; width: 70px; height: 70px;">
     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
         <li>
             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#signInModal">

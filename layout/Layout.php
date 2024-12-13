@@ -39,14 +39,21 @@ $prefixe .= 'layout/';
 
 <body>
 
-    <main class="flex">
+    <div class="flex">
         <?php include __DIR__ . "/composants_balistiques_communs/SideBar.php"; ?>
-
-        <div class="main" style="flex-grow: 1; position: relative">
+        <main style="flex-grow: 1; position: relative">
             <?php echo $main; ?>
-        </div>
-    </main>
+        </main>
+    </div>
     <?php include __DIR__ .  "/composants_balistiques_communs/Footer.php"; ?>
 </body>
 
 </html>
+
+<style>
+    main {
+        position: relative;
+        padding: 20px;
+        margin: 2;
+    }
+</style>
