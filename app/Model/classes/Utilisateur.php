@@ -1,5 +1,9 @@
 <?php
-session_start();
+
+namespace App\Model\Classes;
+
+use PDOException;
+
 class Utilisateur
 {
     // =======================

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model\Classes;
+
 require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
 
 class Composant

@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Model\Classes;
+
+use PDO, PDOException;
+
 require_once __DIR__ . '/User.php';
 
 class BaseDeDonnees

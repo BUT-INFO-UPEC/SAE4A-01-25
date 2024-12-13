@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
-require_once __DIR__ . '/../requetteurs/requetteur_API.php';
-require_once __DIR__ . '/Composant.php';
+
+namespace App\Model\Classes;
+
+use DateTime, Exception;
 
 class Dashboard
 {
@@ -34,7 +35,7 @@ class Dashboard
         $this->selectionGeo = $data->selection_geo;
 
         // construction des composants du dashboard
-        foreach (json_decode($data->composant_list) as $compId){
+        foreach (json_decode($data->composant_list) as $compId) {
             if (isset($tab[0])) {
                 array_push($this->composants, new Composant($compId));
             } else {
@@ -48,7 +49,8 @@ class Dashboard
     // =======================
     //    PUBLIC GETTERS
     // =======================
-    public function get_id() {
+    public function get_id()
+    {
         return $this->dashboardId;
     }
 
@@ -57,7 +59,8 @@ class Dashboard
      * 
      * @return mixed Tableau contenant les dates de début et de fin finales de l'encadremant temporel ainsi que la liste des sations a intérogées
      */
-    public function get_filters() {
+    public function get_filters()
+    {
         // construction de la date de début si elle est dinamique
         if ($this->dateDebutRelatif) {
             // Extraire les années, mois et jours du laps de temps
@@ -73,9 +76,9 @@ class Dashboard
             if ($mois > 0) $date->modify("-$mois month");
             if ($jours > 0) $date->modify("-$jours day");
 
-            $dateDebut = $date->format("Y-m-d")."T00:00:00";
+            $dateDebut = $date->format("Y-m-d") . "T00:00:00";
         } else {
-            $dateDebut =$this->dateDebut;
+            $dateDebut = $this->dateDebut;
         }
 
         // construction de la fin de début si elle est dinamique
@@ -87,15 +90,15 @@ class Dashboard
 
             // Obtenir la date d'aujourd'hui en tant qu'objet DateTime
             $date = new DateTime();
-            
+
             // Soustraire les années, mois et jours de la date
             if ($annee > 0) $date->modify("-$annee year");
             if ($mois > 0) $date->modify("-$mois month");
             if ($jours > 0) $date->modify("-$jours day");
 
-            $dateFin = $date->format("Y-m-d")."T00:00:00";
+            $dateFin = $date->format("Y-m-d") . "T00:00:00";
         } else {
-            $dateFin =$this->dateFin;
+            $dateFin = $this->dateFin;
         }
 
 
@@ -108,7 +111,8 @@ class Dashboard
         return $filtres;
     }
 
-    public function get_name() {
+    public function get_name()
+    {
         return $this->params;
     }
 
@@ -125,7 +129,7 @@ class Dashboard
         $output = "<div id='dashboard'>";
         foreach ($this->composants as $composant) {
             $data = $this->fetch_data_for_componant($composant);
-            $output .= "<div class='dashboard-card'>".$composant->generate_visual($data)."</div>";
+            $output .= "<div class='dashboard-card'>" . $composant->generate_visual($data) . "</div>";
         }
         $output .= "</div>";
         return $output;
@@ -160,7 +164,8 @@ class Dashboard
      * 
      * @return Dashboard l'objet correspondant a la ligne de la BDD
      */
-    static function get_dashboard_by_id($dashboardId) {
+    static function get_dashboard_by_id($dashboardId)
+    {
         $data = BDD_fetch_dashboards()[$dashboardId];
         return new Dashboard($data);
     }
@@ -172,7 +177,8 @@ class Dashboard
      * 
      * @return array liste des dashboards de la BDD
      */
-    static function get_dashboards() {
+    static function get_dashboards()
+    {
         $r = [];
         foreach (BDD_fetch_dashboards() as $dash_data) {
             array_push($r, new Dashboard($dash_data));

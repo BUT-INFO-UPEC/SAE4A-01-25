@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Views;
+
+use App\Model\Classes\Dashboard;
+
 // POTENTIELS INCLUDES ET CODE PHP
 require_once __DIR__ . "/Model/entete.php";
 $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id(0);
