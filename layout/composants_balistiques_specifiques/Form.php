@@ -19,6 +19,10 @@
                             <label for="mdp" class="form-label">Mot de Passe :</label>
                             <input type="password" name="mdp" id="mdp" class="form-control" minlength="1" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="confirm_mdp" class="form-label">Confirmer Mot de Passe :</label>
+                            <input type="password" name="confirm_mdp" id="confirm_mdp" class="form-control" minlength="1" required>
+                        </div>
                         <!-- Boutons du modal -->
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">Se Connecter</button>

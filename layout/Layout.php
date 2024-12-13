@@ -40,9 +40,6 @@ $prefixe .= 'layout/';
 <body>
 
     <main class="flex">
-        <button class="btn btn-primary" id="toggleSidebar">
-            &equiv;
-        </button>
         <?php include __DIR__ . "/composants_balistiques_communs/SideBar.php"; ?>
 
         <div class="main" style="flex-grow: 1; position: relative">
