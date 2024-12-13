@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Views;
-
 use App\Model\Classes\Dashboard;
+session_start();
 
 // POTENTIELS INCLUDES ET CODE PHP
 require_once __DIR__ . "/Model/entete.php";
@@ -29,5 +28,5 @@ include "layout/composants_balistiques_specifiques/Scandir.php";
 // Récupération du contenu html/php
 $main = ob_get_clean();
 // Chargement du Layout APRES avoir Récupérer le contenu pour qu'il puisse le mettre en forme
-include "layout/Layout.php";
+include "Layout.php";
 ?>

@@ -1,21 +1,22 @@
 <?php
+require_once __DIR__ . '/../lib/Psr4AutoloaderClass.php';  // Inclure le fichier Psr4AutoloaderClass.php
 
 use Lib\Psr4AutoloaderClass;
-session_start();
 
+session_start();
 
 // Initialisation de l'autoloader
 $loader = new Psr4AutoloaderClass();
 $loader->register();
 $loader->addNamespace('app\Models', __DIR__ . '/../app/Models');
 
-define("HOME_PAGE", "")
+define("HOME_PAGE", "app\Views\index.php");
 
 $action = $_GET["action"] ?? 'acceuil';
 
 switch ($action) {
     case 'accueil':
-        header("Location: ../index.php"); // redirection
+        header("Location: /" . HOME_PAGE); // redirection
         break;
     case 'signUp':
         require(__DIR__ . '/../Model/Actions/inscription.php');
