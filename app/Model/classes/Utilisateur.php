@@ -82,7 +82,7 @@ class Utilisateur
     {
         try {
             // On récupère l'instance PDO depuis la classe BaseDeDonnees
-            $pdo = BaseDeDonnees::getDb();
+            $pdo = BDD::getDb();
 
             // Préparation de la requête SQL
             $sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_amis)

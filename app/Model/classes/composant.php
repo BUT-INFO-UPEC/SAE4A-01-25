@@ -2,6 +2,8 @@
 
 namespace App\Model\Classes;
 
+use App\Model\Requetteurs\Requetteur_BDD;
+
 require_once __DIR__ . '/../requetteurs/requetteur_BDD.php';
 
 class Composant
@@ -21,7 +23,7 @@ class Composant
     // =======================
     public function __construct($composantId)
     {
-        $data = BDD_fetch_component($composantId);
+        $data = Requetteur_BDD::BDD_fetch_component($composantId);
         $this->composantId = $data->composant_id;
         $this->attribut = $data->attribut;
         $this->aggregation = $data->aggregation;
@@ -54,7 +56,7 @@ class Composant
     public function set_repr($reprId)
     {
         // Récupérer les détails de la représentation
-        $this->repr = BDD_fetch_visualisation($reprId);
+        $this->repr = Requetteur_BDD::BDD_fetch_visualisation($reprId);
     }
 
     // =======================

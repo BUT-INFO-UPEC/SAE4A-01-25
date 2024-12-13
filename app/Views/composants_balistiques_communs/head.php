@@ -9,7 +9,7 @@ $pathSegments = explode('/', $phpSelfPath);
 $numberOfLevelsToGoUp = count($pathSegments) - 2;
 
 // Build the prefix using str_repeat
-$prefixe = str_repeat('../', $numberOfLevelsToGoUp) . 'layout/';
+$prefixe = str_repeat('../', $numberOfLevelsToGoUp) . 'Views/';
 ?>
 
 <head>

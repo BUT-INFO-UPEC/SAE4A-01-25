@@ -1,10 +1,13 @@
 <?php
+
 namespace App\Views;
+
 use App\Model\Classes\Dashboard;
+
 session_start();
 
 // POTENTIELS INCLUDES ET CODE PHP
-require_once __DIR__ . "/Model/entete.php";
+require_once __DIR__ . "../../Model/entete.php";
 $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id(0);
 
 // Démarrer la mise en tampon pour capturer le contenu spécifique
@@ -17,12 +20,12 @@ ob_start();
 <?php
 // afficher un liste de liens vers les fichiers du dossier Actions
 $dossier = 'Actions';
-include "layout/composants_balistiques_specifiques/Scandir.php";
+include "composants_balistiques_specifiques/Scandir.php";
 
 echo "<h2> Tests </h2>";
 // afficher un liste de liens vers les fichiers du dossier tests
-$dossier = "tests";
-include "layout/composants_balistiques_specifiques/Scandir.php";
+$dossier = "../tests";
+include "composants_balistiques_specifiques/Scandir.php";
 
 
 // Récupération du contenu html/php

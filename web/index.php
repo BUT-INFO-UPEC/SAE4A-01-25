@@ -10,24 +10,25 @@ $loader = new Psr4AutoloaderClass();
 $loader->register();
 $loader->addNamespace('app\Models', __DIR__ . '/../app/Models');
 
-define("HOME_PAGE", "app\Views\index.php");
+
 
 $action = $_GET["action"] ?? 'acceuil';
+
 
 switch ($action) {
     case 'accueil':
         header("Location: /" . HOME_PAGE); // redirection
         break;
     case 'signUp':
-        require(__DIR__ . '/../Model/Actions/inscription.php');
+        require(__DIR__ . MODEL_ACTION . 'inscription.php');
     case 'signIn':
-        require(__DIR__ . '/../Model/Actions/connexion.php');
+        require(__DIR__ . MODEL_ACTION . 'connexion.php');
     case 'profil':
         header('Location : sae/Actions/Profil.php');
     case 'crea_dasbord':
-        require(__DIR__ . '/../Model/Actions/crea_dasbord.php');
+        require(__DIR__ . MODEL_ACTION . '/crea_dasbord.php');
     case 'search_dasbord':
-        require(__DIR__ . '/../Model/Actions/search_dasbord.php');
+        require(__DIR__ . MODEL_ACTION . '/search_dasbord.php');
     default:
         $_SESSION["error"] = "Action non reconnue !";
         require(__DIR__ . "/../layout/composants_balistiques_specifiques/error.php");

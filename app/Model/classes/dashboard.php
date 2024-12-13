@@ -2,6 +2,15 @@
 
 namespace App\Model\Classes;
 
+require_once __DIR__ . "/composant.php";
+require_once __DIR__ . "/../requetteurs/requetteur_API.php";
+require_once __DIR__ . "/../requetteurs/requetteur_BDD.php";
+
+
+use App\Model\Requetteurs\Requetteur_API;
+use App\Model\Requetteurs\Requetteur_BDD;
+
+use App\Model\Entete;
 use DateTime, Exception;
 
 class Dashboard
@@ -11,7 +20,7 @@ class Dashboard
     // =======================
     private $dashboardId;
     private $privatisation;
-    private $composants = array();
+    private $composants = [];
     private $createurId;
     private $dateDebut;
     private $dateFin;
@@ -27,20 +36,16 @@ class Dashboard
     {
         $this->dashboardId = $data->dashboard_id;
 
-        // filtre des données a analisées
+        // Filtre des données à analyser
         $this->dateDebut = $data->date_debut;
         $this->dateFin = $data->date_fin;
         $this->dateDebutRelatif = $data->date_debut_relatif == '1';
         $this->dateFinRelatif = $data->date_fin_relatif == '1';
         $this->selectionGeo = $data->selection_geo;
 
-        // construction des composants du dashboard
+        // Construction des composants du dashboard
         foreach (json_decode($data->composant_list) as $compId) {
-            if (isset($tab[0])) {
-                array_push($this->composants, new Composant($compId));
-            } else {
-                $this->composants[0] = new Composant($compId);
-            }
+            $this->composants[] = new Composant($compId);
         }
 
         $this->params = $data->param;
@@ -55,60 +60,24 @@ class Dashboard
     }
 
     /**
-     * Créer une structure de donnée qui contient les filtres des stations a intéroger
+     * Crée une structure de données qui contient les filtres des stations à interroger
      * 
-     * @return mixed Tableau contenant les dates de début et de fin finales de l'encadremant temporel ainsi que la liste des sations a intérogées
+     * @return array Tableau contenant les dates de début et de fin finales de l'encadrement temporel ainsi que la liste des stations à interroger
      */
     public function get_filters()
     {
-        // construction de la date de début si elle est dinamique
-        if ($this->dateDebutRelatif) {
-            // Extraire les années, mois et jours du laps de temps
-            $annee = (int)substr($this->dateDebut, 0, 4);
-            $mois = (int)substr($this->dateDebut, 5, 2);
-            $jours = (int)substr($this->dateDebut, 8, 2);
+        // Construction de la date de début si elle est dynamique
+        $dateDebut = $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
 
-            // Obtenir la date d'aujourd'hui en tant qu'objet DateTime
-            $date = new DateTime();
+        // Construction de la date de fin si elle est dynamique
+        $dateFin = $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
 
-            // Soustraire les années, mois et jours de la date
-            if ($annee > 0) $date->modify("-$annee year");
-            if ($mois > 0) $date->modify("-$mois month");
-            if ($jours > 0) $date->modify("-$jours day");
-
-            $dateDebut = $date->format("Y-m-d") . "T00:00:00";
-        } else {
-            $dateDebut = $this->dateDebut;
-        }
-
-        // construction de la fin de début si elle est dinamique
-        if ($this->dateFinRelatif) {
-            // Extraire les années, mois et jours du laps de temps
-            $annee = (int)substr($this->dateFin, 0, 4);
-            $mois = (int)substr($this->dateFin, 5, 2);
-            $jours = (int)substr($this->dateFin, 8, 2);
-
-            // Obtenir la date d'aujourd'hui en tant qu'objet DateTime
-            $date = new DateTime();
-
-            // Soustraire les années, mois et jours de la date
-            if ($annee > 0) $date->modify("-$annee year");
-            if ($mois > 0) $date->modify("-$mois month");
-            if ($jours > 0) $date->modify("-$jours day");
-
-            $dateFin = $date->format("Y-m-d") . "T00:00:00";
-        } else {
-            $dateFin = $this->dateFin;
-        }
-
-
-        // encapsulation dans une structure de données qui sera interprétée par le constructeur de requettes API
-        $filtres = [
+        // Encapsulation dans une structure de données
+        return [
             "dateDebut" => $dateDebut,
             "dateFin" => $dateFin,
             "geo" => get_object_vars($this->selectionGeo)
         ];
-        return $filtres;
     }
 
     public function get_name()
@@ -120,15 +89,15 @@ class Dashboard
     //    PUBLIC METHODS
     // =======================
     /**
-     * Récupérer les données pour chaque composant et générer les visualisations
+     * Récupère les données pour chaque composant et génère les visualisations
      * 
-     * @return string la chaine de caractères (structure HTML) compilant la visualisation des données de chacuns des composants du dashboard
+     * @return string Structure HTML compilant la visualisation des données de chacun des composants du dashboard
      */
     public function generate_dashboard()
     {
         $output = "<div id='dashboard'>";
         foreach ($this->composants as $composant) {
-            $data = $this->fetch_data_for_componant($composant);
+            $data = $this->fetch_data_for_composant($composant);
             $output .= "<div class='dashboard-card'>" . $composant->generate_visual($data) . "</div>";
         }
         $output .= "</div>";
@@ -138,50 +107,50 @@ class Dashboard
     /**
      * Exporte et sauvegarde le dashboard dans la BDD
      * 
-     * @param bool $override L'utilisateur veut écraser l'ancienne version de son Dashboard
+     * @param bool $override Indique si l'utilisateur veut écraser l'ancienne version de son Dashboard
      * 
-     * @throw DashboardDejaExistant Soulève une exception si le dashboard existe déja pour confirmation de l'écrasement
+     * @throws Exception Si le dashboard existe déjà et que l'utilisateur n'a pas confirmé l'écrasement
      */
     public function save_dashboard($override)
     {
         // Vérifier l'appartenance
-        if ($this->createurId == get_session_user_id()) {
-            // générer un nouvel id et ajouter une ligne dans suivi_copiright
-            $this->dashboardId = generate_dash_id($this->dashboardId);
-        } elseif ($override && is_saved_dashboard($this->dashboardId)) {
-            // lever une exception pour affichier un message a l'utilisateur pour lui demander confirmation de l'écrasement du dashboard enregistré, et donc everride, si il veut faire une copie auquel cas, lui générer un nouveau id (generate_dash_id()) ou si il veut annuler
-            throw new Exception("Tentative de sauvegarder un dashboard déja existant.", 301);
+        if ($this->createurId == Entete::get_session_user_id()) {
+            // Générer un nouvel ID pour le dashboard
+            $this->dashboardId = Requetteur_BDD::generate_dash_id($this->dashboardId);
+        } elseif ($override && Requetteur_BDD::is_saved_dashboard($this->dashboardId)) {
+            // Lever une exception pour demander confirmation d'écrasement
+            throw new Exception("Tentative de sauvegarder un dashboard déjà existant.", 301);
         }
 
-        //exporter/sauvegarder
+        // Sauvegarde/exportation du dashboard
     }
 
     // =======================
     //    STATIC METHODS
     // =======================
     /**
-     * Récupère un dashboard dans la BDD grace a son ID
+     * Récupère un dashboard dans la BDD grâce à son ID
      * 
-     * @return Dashboard l'objet correspondant a la ligne de la BDD
+     * @param string $dashboardId L'ID du dashboard
+     * 
+     * @return Dashboard L'objet correspondant à la ligne de la BDD
      */
     static function get_dashboard_by_id($dashboardId)
     {
-        $data = BDD_fetch_dashboards()[$dashboardId];
+        $data = Requetteur_BDD::BDD_fetch_dashboards()[$dashboardId];
         return new Dashboard($data);
     }
 
     /**
-     * FONCTION TEMPORAIRE - Récupère tout les dashboards de la BDD
+     * Récupère tous les dashboards de la BDD
      * 
-     * plus tard, surement passage des paramètres de filtre pour créer les listes de recherche (liste_dashboard.php)
-     * 
-     * @return array liste des dashboards de la BDD
+     * @return array Liste des dashboards de la BDD
      */
     static function get_dashboards()
     {
         $r = [];
-        foreach (BDD_fetch_dashboards() as $dash_data) {
-            array_push($r, new Dashboard($dash_data));
+        foreach (Requetteur_BDD::BDD_fetch_dashboards() as $dash_data) {
+            $r[] = new Dashboard($dash_data);
         }
         return $r;
     }
@@ -189,19 +158,40 @@ class Dashboard
     // =======================
     //    PRIVATE METHODS
     // =======================
-    /** 
-     * Récupération des données via l'API 
+    /**
+     * Calcule une date relative à partir de la date actuelle
      * 
-     * @param Composant $composant L'objet dont les données doivent etres récupérées
+     * @param string $relativeDate Date au format AAAA-MM-JJ
      * 
-     * @return array La liste des données selon les critères spécifiés
+     * @return string Date calculée au format "Y-m-d\TH:i:s"
      */
-    private function fetch_data_for_componant($composant)
+    private function calculate_relative_date($relativeDate)
+    {
+        $annee = (int)substr($relativeDate, 0, 4);
+        $mois = (int)substr($relativeDate, 5, 2);
+        $jours = (int)substr($relativeDate, 8, 2);
+
+        $date = new DateTime();
+        if ($annee > 0) $date->modify("-$annee year");
+        if ($mois > 0) $date->modify("-$mois month");
+        if ($jours > 0) $date->modify("-$jours day");
+
+        return $date->format("Y-m-d") . "T00:00:00";
+    }
+
+    /**
+     * Récupère les données via l'API pour un composant donné
+     * 
+     * @param Composant $composant L'objet dont les données doivent être récupérées
+     * 
+     * @return array Liste des données selon les critères spécifiés
+     */
+    private function fetch_data_for_composant($composant)
     {
         $attribute = $composant->get_attribut();
         $aggregation = $composant->get_aggregation();
         $grouping = $composant->get_grouping();
         $filtres = $this->get_filters();
-        return API_componant_data($filtres, $attribute, $aggregation, $grouping);
+        return Requetteur_API::API_componant_data($filtres, $attribute, $aggregation, $grouping);
     }
 }

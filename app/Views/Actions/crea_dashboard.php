@@ -1,15 +1,21 @@
 <?php
-require_once "../Model/entete.php";
-require_once __DIR__ . "/../Model/requetteurs/requetteur_BDD.php";
 
-$station = get_station();
+namespace App\Views\Actions;
+
+require_once __DIR__  . "/../../Model/entete.php";
+require_once __DIR__ . "/../../Model/requetteurs/requetteur_BDD.php";
+
+use App\Model\Requetteurs\Requetteur_BDD;
+
+
+$station = Requetteur_BDD::get_station();
 
 
 // Démarrer la mise en tampon pour capturer le contenu spécifique
 ob_start();
 ?>
 
-<form action="/Controller/?action=crea_dasbord">
+<form action="/?action=crea_dasbord">
     <div class="dropdown" style="position: absolute; right: 0;">
         <label>Visibilité :</label>
 
@@ -147,5 +153,5 @@ ob_start();
 // Récupération du contenu html/php
 $main = ob_get_clean();
 // Chargement du Layout APRES avoir Récupérer le contenu pour qu'il puisse le mettre en forme
-include "../layout/Layout.php";
+include "../Layout.php";
 ?>

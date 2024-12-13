@@ -1,5 +1,6 @@
 <?php
-require_once "../Model/entete.php";
+require_once __DIR__ . "/../../Model/entete.php";
+
 // Démarrer la mise en tampon pour capturer le contenu spécifique
 ob_start();
 ?>
@@ -46,7 +47,7 @@ ob_start();
     }
 </style>
 
-<form action="/Controller/?action=search_dasbord">
+<form action="/web/?action=search_dasbord">
 
 </form>
 
@@ -54,5 +55,5 @@ ob_start();
 // Récupération du contenu html/php
 $main = ob_get_clean();
 // Chargement du Layout APRES avoir Récupérer le contenu pour qu'il puisse le mettre en forme
-include "../layout/Layout.php";
+include "../Layout.php";
 ?>

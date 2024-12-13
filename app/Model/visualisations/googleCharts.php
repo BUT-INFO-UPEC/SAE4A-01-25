@@ -1,25 +1,25 @@
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-</script>
-
 <?php
+
+namespace App\Model\Visualisations;
+
 require_once __DIR__ . "/phpCharts.php";
-function CSVarray($data, $comp) {
+function CSVarray($data, $comp)
+{
     $entete = ""; // Construire l'entête a partir du groupping
     // Initialiser le tableau avec les étiquettes des colonnes
     $formattedData = [$entete];
-    
+
     // Ajouter chaque entrée du dictionnaire au tableau
     foreach ($data as $cle => $val) {
         $formattedData[] = [$cle, unique_value($val, $comp)];
     }
-    
+
     // Retourner les données sous forme de JSON pour utilisation avec Google Charts
     return json_encode($formattedData);
 }
 
-function generate_pie_chart($compId, $data) {
+function generate_pie_chart($compId, $data)
+{
     $chartId = 'comp' . $compId;
     return "
     <div id='$chartId'></div>
@@ -36,9 +36,10 @@ function generate_pie_chart($compId, $data) {
     </script>";
 }
 
-function generate_geo_chart($compId, $data) {
+function generate_geo_chart($compId, $data)
+{
     $chartId = 'comp' . $compId;
-    
+
     return "
     <div id='$chartId'></div>
     <script type='text/javascript'>
@@ -56,9 +57,10 @@ function generate_geo_chart($compId, $data) {
     </script>";
 }
 
-function generate_line_chart($compId, $data) {
+function generate_line_chart($compId, $data)
+{
     $chartId = 'comp' . $compId;
-    
+
     return "
     <div id='$chartId'></div>
     <script type='text/javascript'>
@@ -76,9 +78,10 @@ function generate_line_chart($compId, $data) {
     </script>";
 }
 
-function generate_bar_chart($compId, $data) {
+function generate_bar_chart($compId, $data)
+{
     $chartId = 'comp' . $compId;
-    
+
     return "
     <div id='$chartId'></div>
     <script type='text/javascript'>
@@ -98,3 +101,10 @@ function generate_bar_chart($compId, $data) {
 }
 
 ?>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
+</script>

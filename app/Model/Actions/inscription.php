@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../../Model/classes/User.php';
+namespace App\Model\Actions;
 
+use App\Model\Classes\Utilisateur;
+use Exception;
 
 // Récupération des données du formulaire
 $password = $_POST['password'] ?? null;
@@ -12,11 +14,9 @@ $passwordConfirm = $_POST['passwordConfirm'] ?? null;
 if (!empty($name) && !empty($email) && !empty($username) && !empty($password) && !empty($passwordConfirm)) {
     if ($password !== $passwordConfirm) {
         $_SESSION['error'] = "Les mots de passe ne correspondent pas.";
-        break;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = "L'email n'est pas valide.";
-        break;
     }
 
     // Hachage du mot de passe avant de l'enregistrer
@@ -27,12 +27,7 @@ if (!empty($name) && !empty($email) && !empty($username) && !empty($password) &&
 
     // Tentative d'insertion de l'utilisateur dans la base de données
     try {
-        $user->insertUser(
-            $user->getPseudo(),
-            $user->getEmail(),
-            $user->getPassword(),
-            $user->getAmis()
-        );
+        $user->insertUser();
 
         // Message de succès et redirection
         $_SESSION['success'] = "Utilisateur inscrit avec succès.";

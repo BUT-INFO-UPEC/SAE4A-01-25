@@ -1,13 +1,17 @@
 <?php
-require_once "../Model/entete.php";
 
+namespace App\Views\Actions;
+
+require_once __DIR__ .  "/../../Model/entete.php";
+
+use App\Model\Classes\Dashboard;
 
 // si le dashboard n'est ni initialisé ni défini par son id, retour a l'acceuil car aucun dashboard n'est séléctionné donc affichable
 if (isset($_GET['dashId'])) {
     $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id($_GET['dashId']);
 } else if (!isset($_SESSION["curent_dashboard"])) {
     // out("pas de d'idDashboard");
-    header("Location: ../index.php"); // redirection
+    header("Location: " . HOME_PAGE); // redirection
 }
 // var_dump($_SESSION["curent_dashboard"]);
 // le dashboard a afficher est selui séléctionné (dans la session)
@@ -26,7 +30,7 @@ ob_start();
 <div class="container">
     <h3 class="centered"> Stations analysées </h3>
 
-    <hr/>
+    <hr />
 
     <div class="flex">
         <div class="container">
@@ -41,12 +45,12 @@ ob_start();
             <div class="flex">
                 <h3 style="flex-grow: 1"> Periode temporelle </h3>
 
-                <p> Météothèque <?php out($dash->dateFinRelatif)?></p>
+                <p> Météothèque <?php echo htmlspecialchars($dash->dateFinRelatif ? 'Oui' : 'Non'); ?></p>
             </div>
 
-            <p> début : <span  class="changing">JJ/MMAAA</span></p>
+            <p> début : <span class="changing">JJ/MMAAA</span></p>
 
-            <p> fin : <span  class="changing">JJ/MMAAA</span></p>
+            <p> fin : <span class="changing">JJ/MMAAA</span></p>
         </div>
     </div>
 </div>
@@ -60,14 +64,14 @@ ob_start();
 <div class="container centered">
     <h3> Visualisation du dashboard </h3>
 
-    <hr/>
+    <hr />
 
-    <?php echo $dash->generate_dashboard()?>         
+    <?php echo $dash->generate_dashboard() ?>
 </div>
 
 <?php
 // Récupération du contenu html/php
 $main = ob_get_clean();
 // Chargement du Layout APRES avoir Récupérer le contenu pour qu'il puisse le mettre en forme
-include "../layout/Layout.php";
+include "../Layout.php";
 ?>

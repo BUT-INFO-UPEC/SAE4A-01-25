@@ -15,7 +15,7 @@ while ($i < $numberOfLevelsToGoUp) {
     $prefixe .= '../';
     $i++;
 }
-$prefixe .= 'layout/';
+$prefixe .= 'Views/';
 
 ?>
 
@@ -54,6 +54,6 @@ $prefixe .= 'layout/';
     main {
         position: relative;
         padding: 20px;
-        margin: 2;
+        margin: 1.5%;
     }
 </style>
