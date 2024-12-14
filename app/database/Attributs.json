@@ -6,26 +6,33 @@
         "poss_grouping" : "",
         "poss_agrgation" : ""
     },
+
     {
-        "value_type" : "int Pa",
-        "key" : "pmer",
-        "name" : "Pression au niveau mer",
+        "value_type" : "datetime",
+        "key" : "date",
+        "name" : "Date",
         "description" : ""
     },
     {
-        "value_type" : "int Pa",
+        "value_type" : "int",
+        "key" : "pmer",
+        "name" : "Pression au niveau mer",
+        "description" : "Pa"
+    },
+    {
+        "value_type" : "décimal",
         "key" : "tend",
         "name" : "Variation de pression en 3 heures",
-        "example" : "-100",
-        "description" : ""
+        "example" : "-10",
+        "description" : "Pa"
     },
     {
         "value_type" : "texte",
         "key" : "cod_tend",
         "name" : "Type de tendance barométrique",
-        "example" : "80",
+        "example" : "8",
         "description" : ""
-        
+     
     },
     {
         "value_type" : "int",
@@ -35,14 +42,14 @@
         "description" : ""
     },
     {
-        "value_type" : "décimal en m/s",
+        "value_type" : "décimal",
         "key" : "ff",
-        "name" : "Vitesse du vent en m/s",
+        "name" : "Vitesse du vent moyen 10mn",
         "example" : "8.3",
-        "description" : ""
+        "description" : "m/s"
     },
     {
-        "value_type": "decimal K",
+        "value_type": "decimal ",
         "key": "t",
         "name": "Température",
         "unit": "K",
@@ -52,82 +59,74 @@
         "value_type": "decimal K",
         "key": "td",
         "name": "Point de rosée",
-        "unit": "K",
-        "example": 294.25
+        "example": 294.25,
+        "description": "K"
     },
     {
-        "value_type": "int %",
+        "value_type": "int",
         "key": "u",
         "name": "Humidité",
-        "unit": "%",
-        "example": 58
+        "example": 58,
+        "description": "%"
+
     },
     {
-        "value_type": "decimal m",
+        "value_type": "decimal",
         "key": "vv",
         "name": "Visibilité horizontale",
-        "unit": "m",
-        "example": 53550
+        "example": 53550,
+        "description": "m",
     },
     {
         "value_type": "texte",
         "key": "ww",
-        "name": "Temps présent",
-        "example": ""
+        "name": "Temps présent"
     },
     {
         "value_type": "texte",
         "key": "w1",
         "name": "Temps passé 1",
-        "example": ""
     },
     {
         "value_type": "texte",
         "key": "w2",
         "name": "Temps passé 2",
-        "example": ""
     },
     {
-        "value_type": "decimal %",
+        "value_type": "decimal",
         "key": "n",
         "name": "Nebulosité totale",
-        "unit": "%",
-        "example": ""
+        "description": "%"
     },
     {
         "value_type": "texte",
         "key": "nbas",
         "name": "Nébulosité des nuages de l'étage inférieur",
-        "unit": "octa",
-        "example": ""
+        "description": "octa"
     },
     {
-        "value_type": "decimal m",
+        "value_type": "decimal",
         "key": "hbas",
         "name": "Hauteur de la base des nuages de l'étage inférieur",
-        "unit": "m",
-        "example": ""
+        "description": "m"
     },
     {
         "value_type": "texte",
         "key": "cl",
-        "name": "Type des nuages de l'étage inférieur",
-        "example": ""
+        "name": "Type des nuages de l'étage inférieur"
     },
     {
         "value_type": "texte",
         "key": "cm",
-        "name": "Type des nuages de l'étage moyen",
-        "example": ""
+        "name": "Type des nuages de l'étage moyen"
     },
     {
         "value_type": "texte",
         "key": "ch",
-        "name": "Type des nuages de l'étage supérieur",
-        "example": ""
+        "name": "Type des nuages de l'étage supérieur"
     },
     {
-        "value_type": "decimal Pa",
+        "value_type": "decimal",
         "key": "pres",
         "name": "Pression station",
         "unit": "Pa",
@@ -137,52 +136,50 @@
         "value_type": "decimal Pa",
         "key": "niv_bar",
         "name": "Niveau barométrique",
-        "unit": "Pa",
-        "example": ""
+        "unit": "Pa"
     },
     {
         "value_type": "texte",
         "key": "geop",
         "name": "Géopotentiel",
-        "unit": "m2/s2",
-        "example": ""
+        "description": "m2/s2"
     },
     {
-        "value_type": "decimal Pa",
+        "value_type": "decimal",
         "key": "tend24",
         "name": "Variation de pression en 24 heures",
         "unit": "Pa",
         "example": -10
     },
     {
-        "value_type": "decimal K",
+        "value_type": "decimal",
         "key": "tn12",
         "name": "Température minimale sur 12 heures",
-        "example": ""
+        "description": "K"
     },
     {
-        "value_type": "decimal K",
+        "value_type": "decimal",
         "key": "tn24",
         "name": "Température minimale sur 24 heures",
-        "example": ""
+        "description": "K"
     },
     {
-        "value_type": "decimal K",
+        "value_type": "decimal",
         "key": "tx12",
         "name": "Température maximale sur 12 heures",
-        "example": ""
+        "description": "K"
     },
     {
-        "value_type": "decimal K",
+        "value_type": "decimal",
         "key": "tx24",
         "name": "Température maximale sur 24 heures",
-        "example": ""
+        "description": "K"
     },
     {
-        "value_type": "decimal K",
+        "value_type": "decimal",
         "key": "tminsol",
         "name": "Température minimale du sol sur 12 heures",
-        "example": ""
+        "description": "K"
     },
     {
         "value_type": "texte",
@@ -191,31 +188,30 @@
         "example": ""
     },
     {
-        "value_type": "decimal K",
+        "value_type": "decimal",
         "key": "tw",
         "name": "Température du thermomètre mouillé",
-        "unit": "K",
-        "example": ""
+        "description": "K"
     },
     {
-        "value_type": "decimal m/s",
+        "value_type": "decimal",
         "key": "raf10",
         "name": "Rafale sur les 10 dernières minutes",
-        "example": ""
+        "description": "m/s"
     },
     {
         "value_type": "decimal m/s",
         "key": "rafper",
         "name": "Rafales sur une période",
         "unit": "m/s",
-        "example": ""
+        "description": "m/s"
     },
     {
-        "value_type": "decimal minutes",
+        "value_type": "decimal",
         "key": "per",
         "name": "Periode de mesure de la rafale",
         "unit": "minutes",
-        "example": ""
+        "description": "min"
     },
     {
         "value_type": "texte",
@@ -224,108 +220,111 @@
         "example": ""
     },
     {
-        "value_type": "decimal m",
+        "value_type": "decimal",
         "key": "ht_neige",
         "name": "Hauteur totale de la couche de neige, glace, autre au sol",
         "unit": "m",
-        "example": ""
+        "description": "m"
     },
     {
-        "value_type": "decimal m",
+        "value_type": "decimal",
         "key": "ssfrai",
         "name": "Hauteur de la neige fraîche",
         "unit": "m",
-        "example": ""
+        "description": "m"
     },
     {
-        "value_type": "decimal 1/10 heure",
+        "value_type": "decimal",
         "key": "perssfrai",
         "name": "Periode de mesure de la neige fraiche",
-        "example": ""
+        "description": "1/10 heure"
     },
     {
-        "value_type": "decimal mm",
+        "value_type": "decimal",
         "key": "rr1",
         "name": "Précipitations dans la dernière heure",
         "unit": "mm",
-        "example": 0
+        "example": 0,
+        "description": "mm"
     },
     {
-        "value_type": "decimal mm",
+        "value_type": "decimal",
         "key": "rr3",
         "name": "Précipitations dans les 3 dernières heures",
         "unit": "mm",
-        "example": 0
+        "example": 0,
+        "description": "mm"
     },
     {
-        "value_type": "decimal mm",
+        "value_type": "decimal",
         "key": "rr6",
         "name": "Précipitations dans les 6 dernières heures",
         "unit": "mm",
-        "example": 0
+        "example": 0,
+        "description": "mm"
     },
     {
-        "value_type": "decimal mm",
+        "value_type": "decimal",
         "key": "rr12",
         "name": "Précipitations dans les 12 dernières heures",
         "unit": "mm",
-        "example": -0.1
+        "example": -0.1,
+        "description": "mm"
+
     },
     {
-        "value_type": "decimal mm",
+        "value_type": "decimal",
         "key": "rr24",
         "name": "Précipitations dans les 24 dernières heures",
         "unit": "mm",
-        "example": -0.1
+        "example": -0.1,
+        "description": "mm"
     },
     {
-        "value_type": "texte",
+        "value_type": "décimal",
         "key": "phenspe1",
-        "name": "Phénomène spécial 1",
-        "example": ""
+        "name": "Phénomène spécial 1"
     },
     {
-        "value_type": "texte",
+        "value_type": "décimal",
         "key": "phenspe2",
-        "name": "Phénomène spécial 2",
-        "example": ""
+        "name": "Phénomène spécial 2"
+
     },
     {
-        "value_type": "texte",
+        "value_type": "décimal",
         "key": "phenspe3",
-        "name": "Phénomène spécial 3",
-        "example": ""
+        "name": "Phénomène spécial 3"
+
     },
     {
         "value_type": "texte",
         "key": "phenspe4",
-        "name": "Phénomène spécial 4",
-        "example": ""
+        "name": "Phénomène spécial 4"
     },
     {
-        "value_type": "decimal octa",
+        "value_type": "decimal",
         "key": "nnuage1",
         "name": "Nébulosité couche nuageuse 1",
-        "example": ""
+        "description": "octa"
     },
     {
         "value_type": "texte",
         "key": "ctype1",
-        "name": "Type nuage 1",
-        "example": ""
+        "name": "Type nuage 1"
     },
     {
         "value_type": "decimal m",
         "key": "hnuage1",
         "name": "Hauteur de base 1",
         "unit": "m",
-        "example": ""
+        "description": "m"
     },
     {
-        "value_type": "decimal octa",
+        "value_type": "decimal",
         "key": "nnuage2",
         "name": "Nébulosité couche nuageuse 2",
-        "example": ""
+        "description": "octa"
     },
     {
         "value_type": "texte",
