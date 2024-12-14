@@ -68,14 +68,13 @@
         "name": "Humidité",
         "example": 58,
         "description": "%"
-
     },
     {
         "value_type": "decimal",
         "key": "vv",
         "name": "Visibilité horizontale",
         "example": 53550,
-        "description": "m",
+        "description": "m"
     },
     {
         "value_type": "texte",
@@ -85,12 +84,12 @@
     {
         "value_type": "texte",
         "key": "w1",
-        "name": "Temps passé 1",
+        "name": "Temps passé 1"
     },
     {
         "value_type": "texte",
         "key": "w2",
-        "name": "Temps passé 2",
+        "name": "Temps passé 2"
     },
     {
         "value_type": "decimal",
@@ -410,43 +409,110 @@
     {
         "value_type": "décimal",
         "key": "tc",
-        "name": "Température ",
+        "name": "Température",
         "unit": "°C",
         "example": "0.30000000000001"
     },
-
-
-
-
-
-    
-    
     {
-        "value_type": "decimal",
-        "key": "irr_glob",
-        "name": "Irradiation globale",
-        "unit": "W/m2",
-        "example": 117
+        "value_type": "décimal",
+        "key": "tn12c",
+        "name": "Température minimale sur 12 heures",
+        "unit": "°C"
     },
     {
-        "value_type": "decimal W/m2",
-        "key": "irr_dir",
-        "name": "Irradiation directe",
-        "unit": "W/m2",
-        "example": ""
+        "value_type": "décimal",
+        "key": "tn24c",
+        "name": "Température minimale sur 24 heures",
+        "unit": "°C"
     },
     {
-        "value_type": "decimal W/m2",
-        "key": "irr_diff",
-        "name": "Irradiation diffuse",
-        "unit": "W/m2",
-        "example": ""
+        "value_type": "décimal",
+        "key": "tx12c",
+        "name": "Température maximale sur 12 heures",
+        "unit": "°C"
     },
     {
-        "value_type": "decimal W/m2",
-        "key": "irr_ref",
-        "name": "Irradiation réfléchie",
-        "unit": "W/m2",
-        "example": ""
+        "value_type": "décimal",
+        "key": "tx24c",
+        "name": "Température maximale sur 12 heures",
+        "unit": "°C"
+    },
+    {
+        "value_type": "décimal",
+        "key": "tminsolc",
+        "name": "Température minimale du sol sur 12 heures",
+        "unit": "°C"
+    },
+    {
+        "value_type": "décimal",
+        "key": "latitude",
+        "name": "Latitude",
+        "example": "14.595333"
+    },
+    {
+        "value_type": "décimal",
+        "key": "longitude",
+        "name": "Longitude",
+        "example": "-60.995667"
+    },
+    {
+        "value_type": "int",
+        "key": "altitude",
+        "name": "Altitude",
+        "example": "3"
+    },
+    {
+        "value_type": "décimal",
+        "key": "longitude",
+        "name": "Longitude",
+        "example": "-60.995667"
+    },
+    {
+        "value_type": "texte",
+        "key": "libgeo",
+        "name": "communes (name)",
+        "example": "Le Lamentin"
+    },
+    {
+        "value_type": "texte",
+        "key": "codegeo",
+        "name": "communes (code)",
+        "example": "97213"
+    },
+    {
+        "value_type": "texte",
+        "key": "nom_epci",
+        "name": "EPCI (name)",
+        "example": "CA du Centre de la Martinique"
+    },
+    {
+        "value_type": "texte",
+        "key": "code_epci",
+        "name": "EPCI (code)",
+        "example": "249720061"
+    },
+    {
+        "value_type": "texte",
+        "key": "code_dep",
+        "name": "department (code)",
+        "example": "972"
+    },
+    {
+        "value_type": "texte",
+        "key": "nom_reg",
+        "name": "region (name)",
+        "example": "Martinique"
+    },
+    {
+        "value_type": "texte",
+        "key": "CODE_reg",
+        "name": "region (code)",
+        "example": "02"
+    },
+    {
+        "value_type": "int",
+        "key": "mois_de_l_annee",
+        "name": "mois_de_l_annee",
+        "example": "4"
     }
 ]
