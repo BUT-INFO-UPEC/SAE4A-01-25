@@ -337,13 +337,13 @@
         "key": "hnuage2",
         "name": "Hauteur de base 2",
         "unit": "m",
-        "example": ""
+        "description": "m"
     },
     {
-        "value_type": "decimal octa",
+        "value_type": "decimal",
         "key": "nnuage3",
         "name": "Nébulosité couche nuageuse 3",
-        "example": ""
+        "description": "octa"
     },
     {
         "value_type": "texte",
@@ -352,17 +352,19 @@
         "example": ""
     },
     {
-        "value_type": "decimal m",
+        "value_type": "decimal",
         "key": "hnuage3",
         "name": "Hauteur de base 3",
         "unit": "m",
-        "example": ""
+        "description": "m"
     },
     {
-        "value_type": "decimal octa",
+        "value_type": "texte",
         "key": "nnuage4",
         "name": "Nébulosité couche nuageuse 4",
-        "example": ""
+        "example": "",
+        "description": "octa"
+
     },
     {
         "value_type": "texte",
@@ -371,14 +373,56 @@
         "example": ""
     },
     {
-        "value_type": "decimal m",
+        "value_type": "decimal",
         "key": "hnuage4",
         "name": "Hauteur de base 4",
         "unit": "m",
-        "example": ""
+        "description": "m"
     },
     {
-        "value_type": "decimal W/m2",
+        "value_type": "geo_point_2d",
+        "key": "coordonnees",
+        "name": "Coordonnees",
+        "example": [14.595333,-60.995667]
+    },
+    {
+        "value_type": "texte",
+        "key": "nom",
+        "name": "Nom",
+        "example": "LAMENTIN-AERO"
+    },
+    {
+        "value_type": "texte",
+        "key": "type_de_tendance_barometrique",
+        "name": "Type de tendance barométrique",
+        "example": "Stationnaire ou en hausse, puis en baisse, ou en baisse, puis en baisse plus rapide"
+    },
+    {
+        "value_type": "texte",
+        "key": "temps_passe_1",
+        "name": "Temps présent"
+    },
+    {
+        "value_type": "texte",
+        "key": "temps_present",
+        "name": "Temps passé 1"
+    },
+    {
+        "value_type": "décimal",
+        "key": "tc",
+        "name": "Température ",
+        "unit": "°C",
+        "example": "0.30000000000001"
+    },
+
+
+
+
+
+    
+    
+    {
+        "value_type": "decimal",
         "key": "irr_glob",
         "name": "Irradiation globale",
         "unit": "W/m2",
