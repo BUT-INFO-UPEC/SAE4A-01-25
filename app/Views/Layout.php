@@ -15,7 +15,7 @@ while ($i < $numberOfLevelsToGoUp) {
     $prefixe .= '../';
     $i++;
 }
-$prefixe .= 'Views/';
+$prefixe .= 'app/Views/';
 
 ?>
 
