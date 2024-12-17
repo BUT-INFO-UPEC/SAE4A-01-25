@@ -15,7 +15,9 @@ class Entete
      * 
      * @return int l'ID du compte de l'utilisateur
      */
-    public static function get_session_user_id() {}
+    public static function get_session_user_id() {
+        // 
+    }
     public static function out($str)
     {
         // Si $str est un tableau, on utilise print_r() pour l'afficher

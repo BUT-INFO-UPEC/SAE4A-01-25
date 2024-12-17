@@ -107,7 +107,9 @@ class Requetteur_BDD
      * 
      * @return bool Le dashboard existe?
      */
-    public static function is_saved_dashboard($dashId) {}
+    public static function is_saved_dashboard($dashId) {
+        // todo
+    }
 
     /**
      * Ajoute une ligne dans suivi_copiright pour assurer un tracage des origineaux 
