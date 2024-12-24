@@ -2,6 +2,8 @@
 
 namespace App\Model\Classes;
 
+require_once __DIR__ . "/../../Controller/Controller.php";
+
 use PDO;
 use PDOException;
 use App\Controller\Controller;
@@ -10,14 +12,13 @@ use App\Controller\Controller;
  * Classe BDD
  * 
  * Gère la connexion à une base de données SQLite et fournit des méthodes pour exécuter des requêtes SQL.
- * En cas d'erreur ou de succès, des messages sont envoyés via la région Message du Controller.
  */
 class BDD
 {
     /**
      * @var PDO|null Instance de la connexion PDO
      */
-    private ?PDO $pdo;
+    private ?PDO $pdo = null;
 
     /**
      * Constructeur de la classe BDD.
@@ -28,7 +29,12 @@ class BDD
     {
         try {
             // Chemin absolu vers la base de données SQLite
-            $dbPath = __DIR__ . '/../../../database/France.db';
+            $dbPath = __DIR__ . '/../../database/France.db';
+
+            // Vérifie si le fichier de base de données existe
+            if (!file_exists($dbPath)) {
+                throw new PDOException("Le fichier de base de données est introuvable : $dbPath");
+            }
 
             // Initialisation de la connexion PDO
             $this->pdo = new PDO('sqlite:' . $dbPath, null, null, [
@@ -37,11 +43,15 @@ class BDD
             ]);
 
             // Message de succès
-            Controller::setSuccess("Connexion à la base de données établie avec succès.");
+            if (class_exists('\App\Controller\Controller')) {
+                Controller::setSuccess("Connexion à la base de données établie avec succès.");
+            }
         } catch (PDOException $e) {
-            // Message d'erreur via le Controller
-            Controller::setError("Erreur de connexion à la base de données : " . $e->getMessage());
-            exit;
+            // Gestion des erreurs de connexion
+            if (class_exists('\App\Controller\Controller')) {
+                Controller::setError("Erreur de connexion à la base de données : " . $e->getMessage());
+            }
+            exit("Erreur : Connexion à la base de données impossible. Détails : " . $e->getMessage());
         }
     }
 
@@ -60,7 +70,7 @@ class BDD
             $stmt->execute($params);
             return $stmt->fetchAll();
         } catch (PDOException $e) {
-            Controller::setError("Erreur lors de l'exécution de fetchAll : " . $e->getMessage());
+            $this->handleError("Erreur lors de l'exécution de fetchAll : " . $e->getMessage());
             return [];
         }
     }
@@ -81,7 +91,7 @@ class BDD
             $result = $stmt->fetch();
             return $result ?: null;
         } catch (PDOException $e) {
-            Controller::setError("Erreur lors de l'exécution de fetchOne : " . $e->getMessage());
+            $this->handleError("Erreur lors de l'exécution de fetchOne : " . $e->getMessage());
             return null;
         }
     }
@@ -98,9 +108,10 @@ class BDD
     {
         try {
             $stmt = $this->pdo->prepare($query);
-            return $stmt->execute($params);
+            $stmt->execute($params);
+            return $stmt->rowCount();
         } catch (PDOException $e) {
-            Controller::setError("Erreur lors de l'exécution de la requête : " . $e->getMessage());
+            $this->handleError("Erreur lors de l'exécution de la requête : " . $e->getMessage());
             return 0;
         }
     }
@@ -111,6 +122,22 @@ class BDD
     public function closeConnection(): void
     {
         $this->pdo = null;
-        Controller::setSuccess("Connexion à la base de données fermée avec succès.");
+        if (class_exists('\App\Controller\Controller')) {
+            Controller::setSuccess("Connexion à la base de données fermée avec succès.");
+        }
+    }
+
+    /**
+     * Gère les erreurs et envoie un message via le Controller si disponible.
+     * 
+     * @param string $message Le message d'erreur.
+     */
+    private function handleError(string $message): void
+    {
+        if (class_exists('\App\Controller\Controller')) {
+            Controller::setError($message);
+        } else {
+            error_log($message);
+        }
     }
 }

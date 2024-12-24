@@ -16,36 +16,54 @@ $loader->addNamespace('App\Controller', __DIR__ . '/../app/Controller');
 // Test d'instanciation de la classe Controller
 $controller = new Controller();
 
+// Vérifie si les constantes sont définies
+if (!defined('MODEL_ACTION')) {
+    define('MODEL_ACTION', '/../app/Model/Actions/'); // Chemin par défaut
+}
+if (!defined('HOME_PAGE')) {
+    define('HOME_PAGE', 'index.php'); // Page d'accueil par défaut
+}
 
-$action = $_GET["action"] ?? 'acceuil';
+// Récupération et sécurisation de l'action
+$action = htmlspecialchars($_GET["action"] ?? 'accueil');
 
-
+// Gestion des différentes actions
 switch ($action) {
     case 'accueil':
-        header("Location: /" . HOME_PAGE); // redirection
-        break;
+        header("Location: /" . HOME_PAGE); // Redirection vers la page d'accueil
+        exit;
+
     case 'signUp':
-        require(__DIR__ . MODEL_ACTION . 'inscription.php');
+        require __DIR__ . MODEL_ACTION . 'inscription.php';
         break;
+
     case 'signIn':
-        require(__DIR__ . MODEL_ACTION . 'connexion.php');
+        require __DIR__ . MODEL_ACTION . 'connexion.php';
         break;
+
     case 'profil':
-        header('Location: sae/Actions/Profil.php');
-        break;
+        header('Location: /sae/Actions/Profil.php'); // Assurez-vous du chemin correct
+        exit;
+
     case 'crea_dasbord':
-        require(__DIR__ . MODEL_ACTION . '/crea_dasbord.php');
+        require __DIR__ . MODEL_ACTION . 'crea_dasbord.php';
         break;
+
     case 'liste':
         session_start(); // Démarre la session si ce n'est pas déjà fait
-        $_SESSION['stations'] = Controller::getStations();
-        require(__DIR__ . MODEL_ACTION . 'Liste_dashboards.php');
+        if (!isset($_SESSION['stations'])) {
+            $_SESSION['stations'] = Controller::getStations();
+        }
+        require __DIR__ . MODEL_ACTION . 'Liste_dashboards.php';
         exit;
+
     case 'search_dasbord':
-        require(__DIR__ . MODEL_ACTION . '/search_dasbord.php');
+        require __DIR__ . MODEL_ACTION . 'search_dasbord.php';
         break;
+
     default:
+        session_start(); // Assure que la session est active pour stocker l'erreur
         $_SESSION["error"] = "Action non reconnue !";
-        require(__DIR__ . "/../layout/composants_balistiques_specifiques/error.php");
+        require __DIR__ . "/../layout/composants_balistiques_specifiques/error.php";
         break;
 }

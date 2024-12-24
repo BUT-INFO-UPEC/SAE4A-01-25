@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+require_once __DIR__ . "/../Model/classes/Msg.php";
+
 use App\Model\Classes\BDD;
 use App\Model\Classes\Msg;
 use App\Model\Requetteurs\Requetteur_BDD;
