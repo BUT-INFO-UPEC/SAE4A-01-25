@@ -2,7 +2,10 @@
 
 namespace App\Model\Requetteurs;
 
-use PDO;
+require_once __DIR__ . "/../classes/BaseDeDonnees.php";
+
+use App\Model\Classes\BDD;
+
 
 class Requetteur_BDD
 {
@@ -25,6 +28,10 @@ class Requetteur_BDD
 
         // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
         return get_object_vars($visualisationsDecodee[$reprId]);
+        /**
+         * $query = "SELECT * FROM Representations WHERE id = :i";
+         * 
+         */
     }
 
     /**
@@ -88,17 +95,6 @@ class Requetteur_BDD
         return "";
     }
 
-    /**
-     * Génére un id inutilisé pour un dashboard et ajouter une ligne dans suivi_copiright
-     */
-    public static function generate_dash_id($originalId)
-    {
-        $newDashboardId = count(self::BDD_fetch_dashboards());
-
-        self::add_tracing($originalId, $newDashboardId);
-
-        return $newDashboardId;
-    }
 
     /**
      * Vérifie si ce dashboard existe dans la BDD
@@ -107,9 +103,7 @@ class Requetteur_BDD
      * 
      * @return bool Le dashboard existe?
      */
-    public static function is_saved_dashboard($dashId) {
-        // todo
-    }
+    public static function is_saved_dashboard($dashId) {}
 
     /**
      * Ajoute une ligne dans suivi_copiright pour assurer un tracage des origineaux 
@@ -142,18 +136,10 @@ class Requetteur_BDD
         }
     }
 
-    public static function conn_sqlite()
-    {
-        $db = new PDO('sqlite:' . __DIR__ . '/../../database/France.db');
-        return $db;
-    }
-
     public static function get_station()
     {
-        $db = self::conn_sqlite();
-        $query = $db->prepare("SELECT * FROM stations");
-        $query->execute();
-        $result = $query->fetchAll();
-        return $result;
+        $query = "select * from stations";
+        $pdo = new BDD();
+        return $pdo->fetchAll($query, []);
     }
 }

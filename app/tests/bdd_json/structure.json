@@ -1,85 +1,184 @@
 {
-    "db_path": "database/France.db",
-    "tables": [
+  "db_path": "database/France.db",
+  "tables": [
+    {
+      "table_name": "utilisateur",
+      "columns": [
         {
-            "table_name": "representations",
-            "columns": [
-                "repr_id",
-                "nom",
-                "poss_grouping -> groupping_type",
-                "recomanded_atts -> [att_cle]",
-                "import_files",
-                "data_formater",
-                "visualisation_constructor"
-            ],
-            "triggers": [],
-            "keys":[]
+          "name": "id",
+          "type": "int",
+          "nullable": false,
+          "default": null,
+          "primary_key": true,
+          "auto_increment": true
         },
         {
-            "table_name": "attributs",
-            "columns": [],
-            "triggers": [],
-            "key":[]
+          "name": "nom",
+          "type": "varchar(255)",
+          "nullable": false
         },
         {
-            "table_name": "groupements",
-            "columns": [],
-            "triggers": [],
-            "key":[]
+          "name": "prenom",
+          "type": "varchar(255)",
+          "nullable": false
         },
         {
-            "table_name": "stations",
-            "columns": [],
-            "triggers": [],
-            "key":[]
+          "name": "email",
+          "type": "varchar(255)",
+          "nullable": false,
+          "unique": true
         },
         {
-            "table_name": "villes",
-            "columns": [],
-            "triggers": [],
-            "key":[]
+          "name": "password",
+          "type": "varchar(255)",
+          "nullable": false
         },
         {
-            "table_name": "epcis",
-            "columns": [],
-            "triggers": [],
-            "key":[]
+          "name": "role",
+          "type": "int",
+          "nullable": false
         },
         {
-            "table_name": "depts",
-            "columns": [],
-            "triggers": [],
-            "key":[]
-        },
-        {
-            "table_name": "regions",
-            "columns": [],
-            "triggers": [],
-            "key":[]
-        },
-        {
-            "table_name": "dashboard",
-            "columns": [],
-            "triggers": [],
-            "key":[]
-        },
-        {
-            "table_name": "utilisateur",
-            "columns": [],
-            "triggers": [],
-            "key":[]
-        },
-        {
-            "table_name": "composant",
-            "columns": [],
-            "triggers": [],
-            "key":[]
-        },
-        {
-            "table_name": "suivi_copiright",
-            "columns": [],
-            "triggers": [],
-            "key":[]
+          "name": "created_at",
+          "type": "datetime",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP"
         }
-    ]
+      ],
+      "keys": [
+        {
+          "name": "primary",
+          "type": "primary",
+          "fields": ["id"]
+        },
+        {
+          "name": "unique_email",
+          "type": "unique",
+          "fields": ["email"]
+        },
+        {
+          "name": "fk_role",
+          "type": "foreign",
+          "fields": ["role"],
+          "reference_table": "roles",
+          "reference_fields": ["role_valeur"],
+          "on_delete": "CASCADE",
+          "on_update": "CASCADE"
+        }
+      ],
+      "triggers": []
+    },
+    {
+      "table_name": "roles",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "nullable": false,
+          "default": null,
+          "primary_key": true,
+          "auto_increment": true
+        },
+        {
+          "name": "role_name",
+          "type": "varchar(50)",
+          "nullable": false,
+          "unique": true
+        },
+        {
+          "name": "role_valeur",
+          "type": "int",
+          "nullable": false,
+          "default": 0
+        }
+      ],
+      "keys": [
+        {
+          "name": "primary",
+          "type": "primary",
+          "fields": ["id"]
+        },
+        {
+          "name": "unique_role_name",
+          "type": "unique",
+          "fields": ["role_name"]
+        }
+      ],
+      "triggers": []
+    },
+    {
+      "table_name": "representations",
+      "columns": [
+        "repr_id",
+        "nom",
+        "poss_grouping -> groupping_type",
+        "recomanded_atts -> [att_cle]",
+        "import_files",
+        "data_formater",
+        "visualisation_constructor"
+      ],
+      "triggers": [],
+      "keys": []
+    },
+    {
+      "table_name": "attributs",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "groupements",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "stations",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "villes",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "epcis",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "depts",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "regions",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "dashboard",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "composant",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    },
+    {
+      "table_name": "suivi_copiright",
+      "columns": [],
+      "triggers": [],
+      "key": []
+    }
+  ]
 }

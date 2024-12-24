@@ -2,110 +2,115 @@
 
 namespace App\Model\Classes;
 
-use PDO, PDOException;
-
-require_once __DIR__ . '/User.php';
+use PDO;
+use PDOException;
+use App\Controller\Controller;
 
 /**
- * Classe BaseDeDonnees
+ * Classe BDD
  * 
- * Cette classe est responsable de la gestion des interactions avec la base de données SQLite.
+ * Gère la connexion à une base de données SQLite et fournit des méthodes pour exécuter des requêtes SQL.
+ * En cas d'erreur ou de succès, des messages sont envoyés via la région Message du Controller.
  */
 class BDD
 {
-    // =======================
-    //        ATTRIBUTS
-    // =======================
     /**
-     * Instance unique de la connexion PDO.
-     * 
-     * @var PDO|null
+     * @var PDO|null Instance de la connexion PDO
      */
-    private static $pdo = null;
-
-    // =======================
-    //    METHODES PUBLIQUES
-    // =======================
+    private ?PDO $pdo;
 
     /**
-     * Méthode statique pour obtenir une connexion unique à la base de données.
-     * Si la connexion n'existe pas encore, elle est créée.
+     * Constructeur de la classe BDD.
      * 
-     * @return PDO|null Instance de la connexion à la base de données ou null en cas d'erreur.
+     * Initialise la connexion à la base de données SQLite. En cas d'échec, un message d'erreur est généré.
      */
-    public static function getDb()
+    public function __construct()
     {
-        // Vérifie si la connexion n'a pas encore été initialisée
-        if (self::$pdo === null) {
-            // Chemin vers le fichier de la base de données SQLite
-            $dbPath = __DIR__ . '/../../database/France.db';
+        try {
+            // Chemin absolu vers la base de données SQLite
+            $dbPath = __DIR__ . '/../../../database/France.db';
 
-            try {
-                // Création d'une connexion PDO avec SQLite
-                self::$pdo = new PDO("sqlite:" . $dbPath);
+            // Initialisation de la connexion PDO
+            $this->pdo = new PDO('sqlite:' . $dbPath, null, null, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]);
 
-                // Configuration du mode de gestion des erreurs pour PDO
-                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                // Gestion des erreurs de connexion
-                echo "Erreur de connexion à la base de données : " . $e->getMessage();
-                return null;
-            }
+            // Message de succès
+            Controller::setSuccess("Connexion à la base de données établie avec succès.");
+        } catch (PDOException $e) {
+            // Message d'erreur via le Controller
+            Controller::setError("Erreur de connexion à la base de données : " . $e->getMessage());
+            exit;
         }
-        // Retourne l'instance de connexion
-        return self::$pdo;
     }
 
     /**
-     * Exécute une requête SQL et retourne tous les résultats sous forme de tableau associatif.
+     * Récupère plusieurs enregistrements depuis la base de données.
      * 
      * @param string $query La requête SQL à exécuter.
-     * @param array $params Paramètres à lier à la requête SQL.
+     * @param array $params Les paramètres associés à la requête SQL.
      * 
-     * @return array Tableau des résultats. Retourne un tableau vide si aucun résultat.
+     * @return array Retourne un tableau contenant tous les enregistrements.
      */
     public function fetchAll(string $query, array $params = []): array
     {
-        // Préparation et exécution de la requête
-        $stmt = self::getDb()->prepare($query);
-        $stmt->execute($params);
-
-        // Récupération de tous les résultats
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        try {
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($params);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            Controller::setError("Erreur lors de l'exécution de fetchAll : " . $e->getMessage());
+            return [];
+        }
     }
 
     /**
-     * Exécute une requête SQL et retourne un seul résultat sous forme de tableau associatif.
+     * Récupère un seul enregistrement depuis la base de données.
      * 
      * @param string $query La requête SQL à exécuter.
-     * @param array $params Paramètres à lier à la requête SQL.
+     * @param array $params Les paramètres associés à la requête SQL.
      * 
-     * @return array|null Tableau associatif représentant le résultat ou null si aucun résultat.
+     * @return array|null Retourne un tableau associatif contenant l'enregistrement ou null si aucun résultat n'est trouvé.
      */
     public function fetchOne(string $query, array $params = []): ?array
     {
-        // Préparation et exécution de la requête
-        $stmt = self::getDb()->prepare($query);
-        $stmt->execute($params);
-
-        // Récupération du premier résultat
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        try {
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($params);
+            $result = $stmt->fetch();
+            return $result ?: null;
+        } catch (PDOException $e) {
+            Controller::setError("Erreur lors de l'exécution de fetchOne : " . $e->getMessage());
+            return null;
+        }
     }
 
     /**
-     * Exécute une requête SQL (INSERT, UPDATE, DELETE) et retourne un booléen indiquant le succès de l'opération.
+     * Exécute une requête SQL (INSERT, UPDATE, DELETE).
      * 
      * @param string $query La requête SQL à exécuter.
-     * @param array $params Paramètres à lier à la requête SQL.
+     * @param array $params Les paramètres associés à la requête SQL.
      * 
-     * @return bool True si l'exécution a réussi, False sinon.
+     * @return int Retourne le nombre de lignes affectées par la requête.
      */
-    public function execute(string $query, array $params = []): bool
+    public function execute(string $query, array $params = []): int
     {
-        // Préparation de la requête
-        $stmt = self::getDb()->prepare($query);
+        try {
+            $stmt = $this->pdo->prepare($query);
+            return $stmt->execute($params);
+        } catch (PDOException $e) {
+            Controller::setError("Erreur lors de l'exécution de la requête : " . $e->getMessage());
+            return 0;
+        }
+    }
 
-        // Exécution de la requête et retour du succès
-        return $stmt->execute($params);
+    /**
+     * Ferme explicitement la connexion à la base de données.
+     */
+    public function closeConnection(): void
+    {
+        $this->pdo = null;
+        Controller::setSuccess("Connexion à la base de données fermée avec succès.");
     }
 }

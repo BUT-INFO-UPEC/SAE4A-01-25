@@ -7,6 +7,12 @@ require_once __DIR__ . "/../../Model/Entete.php";
 
 use App\Model\Classes\Dashboard;
 
+
+$stations = $_SESSION['stations'] ?? [];
+
+// Nettoyer la session après utilisation (optionnel)
+unset($_SESSION['stations']);
+
 // Démarrer la mise en tampon pour capturer le contenu spécifique
 ob_start();
 ?>
@@ -22,6 +28,11 @@ ob_start();
             </li>
         <?php endforeach; ?>
     </ul>
+<!-- Votre boucle foreach -->
+<?php foreach ($stations as $station): ?>
+    <p><?= htmlspecialchars($station['name'] ?? 'Nom inconnu') ?></p>
+<?php endforeach; ?>
+
 </div>
 
 <?php

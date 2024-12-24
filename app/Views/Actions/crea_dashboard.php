@@ -15,7 +15,7 @@ $station = Requetteur_BDD::get_station();
 ob_start();
 ?>
 
-<form action="/?action=crea_dasbord">
+<form action="/?action=crea_dasbord" methods="POST">
     <div class="dropdown" style="position: absolute; right: 0;">
         <label>Visibilité :</label>
 
@@ -43,15 +43,12 @@ ob_start();
                 <h3> Zone(s) géographique(s) </h3>
 
                 <div class="zone_geo">
-                    <label for="stations">
-                        <input type="checkbox" id="stations" name="zones[]" value="stations"> Stations
-                    </label>
-                    <label for="communes">
-                        <input type="checkbox" id="communes" name="zones[]" value="communes"> Communes
-                    </label>
-                    <label for="departement">
-                        <input type="checkbox" id="departement" name="zones[]" value="departement"> Département
-                    </label>
+                    <select name="Stations" id="Stations" class="form-control">
+                        <option value="">Liste des stations</option>
+                        <?php foreach ($stations as $station) : ?>
+                            <option value="<?php echo  $station ['id']?>"><?php echo htmlspecialchars($station['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
                 <a href="">liste des ...</a>
