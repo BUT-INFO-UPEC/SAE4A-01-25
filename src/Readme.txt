@@ -1,0 +1,1 @@
+Le dossier 'src' contient les elements de fonctionnemment interne du site.

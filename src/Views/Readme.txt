@@ -1,0 +1,1 @@
+Le dossier 'views' contient les scripts qui génèrent l'interface utilisateur.

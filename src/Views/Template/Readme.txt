@@ -1,0 +1,1 @@
+Le dossier 'template' contient les elements statiques récurents de l'interface du site.

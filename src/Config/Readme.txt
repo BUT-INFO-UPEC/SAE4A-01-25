@@ -1,0 +1,1 @@
+Le dossier 'config' contiens les parramètres (par défaut ou internes) su site, ils sont utilisés pour configuurer les actions du serveur.

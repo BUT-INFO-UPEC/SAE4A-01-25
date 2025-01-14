@@ -1,0 +1,1 @@
+Le dossier 'Repository' prends en charge la persistance des données et initialise les données dynamique a partir de requettes a des données statiques.
