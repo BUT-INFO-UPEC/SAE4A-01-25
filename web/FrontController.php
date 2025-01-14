@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . "/../src/Controllers/ControllerGeneral.php";
-require_once __DIR__ . "/../src/Controllers/ControllerVoitures.php";
 
 // On recupère l'action passés dans l'URL ou on définit l'action par défaut
 $action = $_GET["action"] ?? "default";

@@ -1,0 +1,150 @@
+{
+  "cod_tend": {
+    "description": "Type de tendance barométrique",
+    "possible_values": {
+      "0": "Augmente régulièrement",
+      "1": "Augmente puis stationnaire ou baisse",
+      "2": "Stationnaire",
+      "3": "Diminue puis stationnaire ou augmente",
+      "4": "Diminue régulièrement",
+      "5": "Variable",
+      "6": "Inconnu",
+      "7": "Manquant"
+    }
+  },
+  "ww": {
+    "description": "Temps présent",
+    "possible_values": {
+      "0": "Clair",
+      "1": "Nuageux",
+      "2": "Brouillard",
+      "3": "Pluie faible",
+      "4": "Pluie modérée",
+      "5": "Orage",
+      "6": "Neige",
+      "7": "Non observé"
+    }
+  },
+  "etat_sol": {
+    "description": "État du sol",
+    "possible_values": {
+      "0": "Sec",
+      "1": "Humide",
+      "2": "Boueux",
+      "3": "Couvert de neige",
+      "4": "Gelé",
+      "5": "Inondé",
+      "9": "Non défini"
+    }
+  },
+  "cl": {
+    "description": "Type des nuages bas",
+    "possible_values": {
+      "0": "Aucun nuage bas",
+      "1": "Cumulus humilis",
+      "2": "Cumulus congestus",
+      "3": "Stratus",
+      "4": "Stratocumulus",
+      "9": "Non observé"
+    }
+  },
+  "cm": {
+    "description": "Type des nuages moyens",
+    "possible_values": {
+      "0": "Aucun nuage moyen",
+      "1": "Altostratus",
+      "2": "Altocumulus",
+      "9": "Non observé"
+    }
+  },
+  "ch": {
+    "description": "Type des nuages élevés",
+    "possible_values": {
+      "0": "Aucun nuage élevé",
+      "1": "Cirrus",
+      "2": "Cirrostratus",
+      "3": "Cirrocumulus",
+      "9": "Non observé"
+    }
+  },
+  "ctype1": {
+    "description": "Type de nuage couche 1",
+    "possible_values": {
+      "0": "Inconnu",
+      "1": "Cumulus",
+      "2": "Stratus",
+      "3": "Cirrus",
+      "9": "Non observé"
+    }
+  },
+  "ctype2": {
+    "description": "Type de nuage couche 2",
+    "possible_values": {
+      "0": "Inconnu",
+      "1": "Cumulus",
+      "2": "Stratus",
+      "3": "Cirrus",
+      "9": "Non observé"
+    }
+  },
+  "ctype3": {
+    "description": "Type de nuage couche 3",
+    "possible_values": {
+      "0": "Inconnu",
+      "1": "Cumulus",
+      "2": "Stratus",
+      "3": "Cirrus",
+      "9": "Non observé"
+    }
+  },
+  "ctype4": {
+    "description": "Type de nuage couche 4",
+    "possible_values": {
+      "0": "Inconnu",
+      "1": "Cumulus",
+      "2": "Stratus",
+      "3": "Cirrus",
+      "9": "Non observé"
+    }
+  },
+  "nnuage1": {
+    "description": "Nébulosité couche nuageuse 1",
+    "possible_values": {
+      "0": "Ciel clair",
+      "1": "1 octa",
+      "2": "2 octas",
+      "8": "Couvert",
+      "9": "Non observé"
+    }
+  },
+  "nnuage2": {
+    "description": "Nébulosité couche nuageuse 2",
+    "possible_values": {
+      "0": "Ciel clair",
+      "1": "1 octa",
+      "2": "2 octas",
+      "8": "Couvert",
+      "9": "Non observé"
+    }
+  },
+  "nnuage3": {
+    "description": "Nébulosité couche nuageuse 3",
+    "possible_values": {
+      "0": "Ciel clair",
+      "1": "1 octa",
+      "2": "2 octas",
+      "8": "Couvert",
+      "9": "Non observé"
+    }
+  },
+  "nnuage4": {
+    "description": "Nébulosité couche nuageuse 4",
+    "possible_values": {
+      "0": "Ciel clair",
+      "1": "1 octa",
+      "2": "2 octas",
+      "8": "Couvert",
+      "9": "Non observé"
+    }
+  }
+}

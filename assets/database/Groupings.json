@@ -1,0 +1,62 @@
+[
+    {
+        "nom" : "ANNEE",
+        "type" : "temporel",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "SAISONS",
+        "type" : "temporel",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "SOMMEPARMOIS",
+        "type" : "temporel",
+        "cle" : "&group_by=MONTH(date)"
+    },
+    {
+        "nom" : "MOIS",
+        "type" : "temporel",
+        "cle" : "&group_by=YEAR(date),MONTH(date)"
+    },
+    {
+        "nom" : "SEMAINES",
+        "type" : "temporel",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "JOURS",
+        "type" : "temporel",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "LISTE_DATES",
+        "type" : "temporel",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "REGION",
+        "type" : "temporel",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "DEPARTEMENT",
+        "type" : "geographique",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "COMMUNES",
+        "type" : "geographique",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "LISTE_STATIONS",
+        "type" : "geographique",
+        "cle" : "&group_by="
+    },
+    {
+        "nom" : "*",
+        "type" : "",
+        "cle" : ""
+    }
+]

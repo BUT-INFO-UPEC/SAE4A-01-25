@@ -1,0 +1,47 @@
+[
+    {
+        "repr_id": 0,
+        "name": "graphique circulaire",
+        "poss_grouping": "*",
+        "recomanded_att": [],
+        "import_files": ["googleCharts.php"],
+        "data_formateur": "CSVarray",
+        "visualisation_constructor": "generate_pie_chart"
+    },
+    {
+        "repr_id": 1,
+        "name": "donnée textuelle",
+        "poss_grouping": "total",
+        "recomanded_atts": [],
+        "import_files": ["phpCharts.php"],
+        "data_formateur": "unique_value",
+        "visualisation_constructor": "generate_text_representation"
+    },
+    {
+        "repr_id": 2,
+        "name": "carte",
+        "poss_grouping": "geographique",
+        "recomanded_atts": [],
+        "import_files": ["googleCharts.php"],
+        "data_formateur": "CSVarray",
+        "visualisation_constructor": "generate_geo_chart"
+    },
+    {
+        "repr_id": 3,
+        "name": "courbe",
+        "poss_grouping": "temporel",
+        "recomanded_atts": [],
+        "import_files": ["googleCharts.php"],
+        "data_formateur": "CSVarray",
+        "visualisation_constructor": "generate_line_chart"
+    },
+    {
+        "repr_id": 4,
+        "name": "histograme",
+        "poss_grouping": "*",
+        "recomanded_atts": [],
+        "import_files": ["googleCharts.php"],
+        "data_formateur": "CSVarray",
+        "visualisation_constructor": "generate_bar_chart"
+    }
+]
