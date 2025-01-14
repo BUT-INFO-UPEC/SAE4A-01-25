@@ -1,0 +1,1 @@
+Le dossier 'DataObject' contient la gestion des données dinamiques du site.
