@@ -1,6 +1,13 @@
 <?php
 require_once __DIR__ . "/../src/Controllers/ControllerGeneral.php";
 
+// DEFINITION DES CHEMINS
+$originalPath = rtrim(dirname($_SERVER['SCRIPT_NAME'], 2), '/'); // Récupère le chemin relatif sans le dernier segmet
+define('BASE_URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $originalPath . '/'); // définir BASE_URL
+
+define('CONTROLLER_URL', BASE_URL . "web/FrontController.php"); // définire CONTROLLER_URL
+
+
 // On recupère l'action passés dans l'URL ou on définit l'action par défaut
 $action = $_GET["action"] ?? "default";
 
@@ -19,7 +26,7 @@ if (isset($_COOKIE['acceptationCookies'])) {
   if ($_COOKIE['acceptationCookies']) {
     // Comme le fichier est une etape obligée, on initialise la session
     session_start();
-  
+
   
     // On recupère le controleur
     $defaultController = $_COOKIE["CurrentContoller"] ?? "ControllerGeneral"; // Vérifier si l'utilisateur a déja été sur le site, si oui, il retourne sur ce qu'il etait en train de faire, sinon, page d'accueil
