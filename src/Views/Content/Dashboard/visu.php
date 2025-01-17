@@ -1,25 +1,3 @@
-<?php
-
-namespace App\Views\Actions;
-
-require_once __DIR__ .  "/../../Model/entete.php";
-
-use App\Model\Classes\Dashboard;
-
-// si le dashboard n'est ni initialisé ni défini par son id, retour a l'acceuil car aucun dashboard n'est séléctionné donc affichable
-if (isset($_GET['dashId'])) {
-    $_SESSION["curent_dashboard"] = Dashboard::get_dashboard_by_id($_GET['dashId']);
-} else if (!isset($_SESSION["curent_dashboard"])) {
-    // out("pas de d'idDashboard");
-    header("Location: " . HOME_PAGE); // redirection
-}
-// var_dump($_SESSION["curent_dashboard"]);
-// le dashboard a afficher est selui séléctionné (dans la session)
-$dash = $_SESSION["curent_dashboard"];
-
-// Démarrer la mise en tampon pour capturer le contenu spécifique
-ob_start();
-?>
 
 <button class="dropdown" style="position: absolute; right: 0;">
     modifier
@@ -68,10 +46,3 @@ ob_start();
 
     <?php echo $dash->generate_dashboard() ?>
 </div>
-
-<?php
-// Récupération du contenu html/php
-$main = ob_get_clean();
-// Chargement du Layout APRES avoir Récupérer le contenu pour qu'il puisse le mettre en forme
-include "../Layout.php";
-?>

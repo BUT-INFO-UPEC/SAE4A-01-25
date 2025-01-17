@@ -1,19 +1,3 @@
-<?php
-
-namespace App\Views\Actions;
-
-require_once __DIR__  . "/../../Model/entete.php";
-require_once __DIR__ . "/../../Model/requetteurs/requetteur_BDD.php";
-
-use App\Model\Requetteurs\Requetteur_BDD;
-
-
-$station = Requetteur_BDD::get_station();
-
-
-// Démarrer la mise en tampon pour capturer le contenu spécifique
-ob_start();
-?>
 
 <form action="/?action=crea_dasbord" methods="POST">
     <div class="dropdown" style="position: absolute; right: 0;">
@@ -146,9 +130,3 @@ ob_start();
     </div>
 
 </form>
-<?php
-// Récupération du contenu html/php
-$main = ob_get_clean();
-// Chargement du Layout APRES avoir Récupérer le contenu pour qu'il puisse le mettre en forme
-include "../Layout.php";
-?>

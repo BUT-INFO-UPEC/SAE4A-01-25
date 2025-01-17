@@ -1,9 +1,4 @@
 <?php
-
-namespace App\Model\Classes;
-
-use ArrayAccess, Stringable;
-
 /**
  * Description de la classe
  */

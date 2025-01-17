@@ -1,13 +1,5 @@
 <?php
 
-namespace App\Model\Classes;
-
-require_once __DIR__ . "/../../Controller/Controller.php";
-
-use PDO;
-use PDOException;
-use App\Controller\Controller;
-
 /**
  * Classe BDD
  * 
@@ -42,15 +34,15 @@ class BDD
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);
 
-            // Message de succès
-            if (class_exists('\App\Controller\Controller')) {
-                Controller::setSuccess("Connexion à la base de données établie avec succès.");
-            }
+            // // Message de succès
+            // if (class_exists('\App\Controller\Controller')) {
+            //     Controller::setSuccess("Connexion à la base de données établie avec succès.");
+            // }
         } catch (PDOException $e) {
             // Gestion des erreurs de connexion
-            if (class_exists('\App\Controller\Controller')) {
-                Controller::setError("Erreur de connexion à la base de données : " . $e->getMessage());
-            }
+            // if (class_exists('\App\Controller\Controller')) {
+            //     Controller::setError("Erreur de connexion à la base de données : " . $e->getMessage());
+            // }
             exit("Erreur : Connexion à la base de données impossible. Détails : " . $e->getMessage());
         }
     }
@@ -123,7 +115,7 @@ class BDD
     {
         $this->pdo = null;
         if (class_exists('\App\Controller\Controller')) {
-            Controller::setSuccess("Connexion à la base de données fermée avec succès.");
+            // Controller::setSuccess("Connexion à la base de données fermée avec succès.");
         }
     }
 
@@ -135,7 +127,7 @@ class BDD
     private function handleError(string $message): void
     {
         if (class_exists('\App\Controller\Controller')) {
-            Controller::setError($message);
+            // Controller::setError($message);
         } else {
             error_log($message);
         }

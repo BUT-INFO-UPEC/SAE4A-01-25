@@ -1,13 +1,6 @@
 <?php
-
-namespace App\Model\Requetteurs;
-
-require_once __DIR__ . "/../classes/Requette_API.php";
-
-use App\Model\Classes\Requette_API;
-use App\Model\Entete;
-use Exception;
-
+require_once __DIR__ . "/../DataObject/Requette_API.php";
+require_once __DIR__ . "/requetteur_BDD.php";
 
 class Requetteur_API
 {
@@ -106,8 +99,8 @@ class Requetteur_API
         // URL de l'API
         $apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records" . $request;
 
-        $entete = new Entete();
-        $entete->out($apiUrl);
+        // $entete = new Entete();
+        // $entete->out($apiUrl);
 
         // Initialiser une session cURL
         $ch = curl_init();

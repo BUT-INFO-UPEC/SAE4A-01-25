@@ -1,17 +1,8 @@
 <?php
-
-namespace App\Model\Classes;
-
 require_once __DIR__ . "/composant.php";
-require_once __DIR__ . "/../requetteurs/requetteur_API.php";
-require_once __DIR__ . "/../requetteurs/requetteur_BDD.php";
+require_once __DIR__ . '/../Repository/requetteur_API.php';
+require_once __DIR__ . '/../Repository/requetteur_BDD.php';
 
-
-use App\Model\Requetteurs\Requetteur_API;
-use App\Model\Requetteurs\Requetteur_BDD;
-
-use App\Model\Entete;
-use DateTime, Exception;
 
 class Dashboard
 {
@@ -114,9 +105,9 @@ class Dashboard
     public function save_dashboard($override)
     {
         // Vérifier l'appartenance
-        if ($this->createurId == Entete::get_session_user_id()) {
+        if ($this->createurId == $_SESSION['userId']) {
             // Générer un nouvel ID pour le dashboard
-            $this->dashboardId = Requetteur_BDD::generate_dash_id($this->dashboardId);
+            // $this->dashboardId = Requetteur_BDD::generate_dash_id($this->dashboardId);
         } elseif ($override && Requetteur_BDD::is_saved_dashboard($this->dashboardId)) {
             // Lever une exception pour demander confirmation d'écrasement
             throw new Exception("Tentative de sauvegarder un dashboard déjà existant.", 301);
