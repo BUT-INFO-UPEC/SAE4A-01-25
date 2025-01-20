@@ -10,6 +10,10 @@
         {
             "name": "Kirito140",
             "email": "maxence.campourcy@gmail.com"
+        },
+        {
+          "name": "Mrcotin",
+          "email": "corentin.solacroup@etu.u-pec.fr"
         }
     ],
     "minimum-stability": "stable",
