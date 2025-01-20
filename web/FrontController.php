@@ -45,9 +45,9 @@ if (isset($_COOKIE['acceptationCookies'])) {
     $_SESSION['controller'] = substr($controller, 10);
 
     // Ajouter le namespace au contrôleur
-    $controller = "Src\\Controllers\\" . $controller;
+    // $controller = "Src\Controllers\" . $controller;
 
-    // echo $controller . "::" . $action . "() <br>";
+    echo $controller . "::" . $action . "() <br>";
 
     // Vérification de l'existence de la classe
     if (class_exists($controller)) {
