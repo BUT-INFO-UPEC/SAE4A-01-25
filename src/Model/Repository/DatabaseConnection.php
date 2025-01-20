@@ -8,7 +8,7 @@ use PDOException;
 use PDOStatement;
 
 /**
- * Gestion des connexions a la BDD (CRUD)
+ * Gestion des connexions a la BDD_ (CRUD)
  */
 class DatabaseConnection
 {
