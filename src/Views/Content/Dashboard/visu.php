@@ -44,5 +44,13 @@
 
     <hr />
 
-    <?php echo $dash->generate_dashboard() ?>
+    <?php
+    $output = "<div id='dashboard'>";
+        foreach ($this->composants as $composant) {
+            $data = $this->fetch_data_for_composant($composant);
+            $output .= "<div class='dashboard-card'>" . $composant->generate_visual($data) . "</div>";
+        }
+        $output .= "</div>";
+        return $output;
+      ?>
 </div>

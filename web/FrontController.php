@@ -42,6 +42,7 @@ if (isset($_COOKIE['acceptationCookies'])) {
     $_SESSION['controller'] = substr($controller, 10);
   
     // Appel de la méthode statique $action du controleur actif
+    echo $controller . "::" . $action . "()";
     $controller::$action();
   } else {
     require('../src/Views/Template/cookiesRefused.php');
