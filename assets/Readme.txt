@@ -1,0 +1,1 @@
+Le dossier 'assets' contient les ressources que l'utilisateur peut récupérer pour les charger coté client tel que les scripts javascript, les feuilles de style css et les images.

@@ -1,0 +1,1 @@
+Le dossier 'plugins' contient les scripts des elements modulables importables dans les différentes parties du site.

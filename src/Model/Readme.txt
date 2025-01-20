@@ -1,0 +1,1 @@
+Le dossier 'model' contient les fichiers de gestion des données statiques et dinamiques.
