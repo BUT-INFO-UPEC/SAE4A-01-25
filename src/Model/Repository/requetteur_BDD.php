@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . "/BDD.php";
+
+namespace Src\Model\Repository;
 
 class Requetteur_BDD
 {

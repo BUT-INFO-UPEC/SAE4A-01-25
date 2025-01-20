@@ -1,6 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../../Config/Conf.php';
+namespace Src\Model\Repository;
+
+use Conf;
+use PDO;
+use PDOException;
+use PDOStatement;
 
 /**
  * Gestion des connexions a la BDD (CRUD)

@@ -1,5 +1,10 @@
 <?php
 
+namespace Src\Model\Repository;
+
+use PDO;
+use PDOException;
+
 /**
  * Classe BDD
  * 

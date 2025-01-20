@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/AbstractController.php";
 
+namespace Src\Controllers;
 
 class ControllerGeneral extends AbstractController
 {

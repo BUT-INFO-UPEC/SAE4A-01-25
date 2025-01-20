@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . "/../DataObject/Requette_API.php";
-require_once __DIR__ . "/requetteur_BDD.php";
+
+namespace Src\Model\Repository;
+
+use Exception;
+use Src\Model\DataObject\Requette_API;
 
 class Requetteur_API
 {

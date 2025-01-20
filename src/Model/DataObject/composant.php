@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/../Repository/requetteur_BDD.php';
+namespace Src\Model\DataObject;
 
+use Src\Model\Repository\Requetteur_BDD;
 class Composant
 {
   // =======================

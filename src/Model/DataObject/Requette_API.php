@@ -1,5 +1,7 @@
 <?php
 
+namespace Src\Model\DataObject;
+
 /**
  * Description de la classe
  */

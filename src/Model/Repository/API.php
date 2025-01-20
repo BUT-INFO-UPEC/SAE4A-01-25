@@ -1,5 +1,5 @@
 <?php
-
+namespace Src\Model\Repository;
 class API
 {
   // Fetch data from an API with parameters

@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . "/AbstractController.php";
-require_once __DIR__ . "/../Model/DataObject/dashboard.php";
-require_once __DIR__ . "/../Model/repository/requetteur_BDD.php";
+namespace Src\Controllers;
+
+use Src\Model\DataObject\Dashboard;
+use Src\Model\Repository\Requetteur_BDD;
 
 class ControllerDashboard extends AbstractController
 {

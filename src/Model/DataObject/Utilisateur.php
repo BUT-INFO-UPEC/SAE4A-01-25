@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Model\Classes;
+namespace Src\Model\DataObject;
 
 use PDOException;
+use Src\Model\Repository\BDD;
 
 class Utilisateur
 {
@@ -82,18 +83,17 @@ class Utilisateur
   {
     try {
       // On récupère l'instance PDO depuis la classe BaseDeDonnees
-      $pdo = BDD::getDb();
+      $pdo = new BDD();
 
       // Préparation de la requête SQL
       $sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_amis)
                     VALUES (:pseudo, :mdp, :mail, :amis)";
-      $stmt = $pdo->prepare($sql);
 
       // Sérialisation du tableau des amis pour le stocker en base
       $amis_serialises = json_encode($this->utilisateur_amis);
 
       // Exécution de la requête avec les paramètres
-      $stmt->execute([
+      $pdo->execute($sql, [
         ':pseudo' => $this->utilisateur_pseudo,
         ':mdp' => $this->utilisateur_mdp,
         ':mail' => $this->utilisateur_mail,
