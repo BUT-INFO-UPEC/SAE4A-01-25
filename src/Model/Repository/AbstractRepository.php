@@ -1,6 +1,8 @@
 <?php
-require_once __DIR__ . "/DatabaseConnection.php";
+namespace Src\Model\Repository;
 
+use PDO;
+use Src\Model\DataObject\AbstractDataObject;
 /**
  * classe mêre de toutes les données statiques du site pour eviter la redondance.
  */

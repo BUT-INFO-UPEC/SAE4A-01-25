@@ -26,7 +26,7 @@ if (!defined('CONTROLLER_URL')) {
     <p class="lead">
       Pour accéder au site, merci d'accepter les cookies :
     </p>
-    <a class="btn btn-primary btn-lg" href="<?= CONTROLLER_URL ?>?action=setCookies">Accepter les cookies</a>
+    <a class="btn btn-primary btn-lg" href="?controller=ControllerGeneral&action=setCookies">Accepter les cookies</a>
   </div>
 
   <!-- Bootstrap JS -->

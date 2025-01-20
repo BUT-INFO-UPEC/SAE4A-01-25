@@ -1,8 +1,11 @@
 <?php
-require_once __DIR__ . "/composant.php";
-require_once __DIR__ . '/../Repository/requetteur_API.php';
-require_once __DIR__ . '/../Repository/requetteur_BDD.php';
 
+namespace Src\Model\DataObject;
+
+use DateTime;
+use Exception;
+use Src\Model\Repository\Requetteur_API;
+use Src\Model\Repository\Requetteur_BDD;
 
 class Dashboard
 {

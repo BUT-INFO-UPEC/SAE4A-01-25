@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Model\Classes;
-
+namespace Src\Model\DataObject;
 /**
  * Utility class for managing session messages and redirections.
  */
@@ -27,7 +26,7 @@ class Msg
    */
   public function redirectToPreviousPage(): void
   {
-    $redirectUrl = $_SERVER['HTTP_REFERER'] ?? HOME_PAGE;
+    $redirectUrl = $_SERVER['HTTP_REFERER'];
     header('Location: ' . $redirectUrl);
     exit;
   }

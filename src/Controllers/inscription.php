@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Model\Actions;
-
-use App\Model\Classes\Utilisateur;
+namespace Src\Controllers;
 use Exception;
+use Src\Model\DataObject\Utilisateur;
 
 // Récupération des données du formulaire
 $password = $_POST['password'] ?? null;

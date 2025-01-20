@@ -1,5 +1,5 @@
 <?php
-
+namespace Src\Model\DataObject;
 /**Classe mêre de toutes les données dynamiques du site pour eviter la redondance.
  */
 abstract class AbstractDataObject

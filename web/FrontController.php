@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . "/../src/Controllers/ControllerGeneral.php";
-require_once __DIR__ . "/../src/Controllers/ControllerDashboard.php";
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Src\Controllers\ControllerDashboard;
+use Src\Controllers\ControllerGeneral;
+
 
 // DEFINITION DES CHEMINS
 $originalPath = rtrim(dirname($_SERVER['SCRIPT_NAME'], 2), '/'); // Récupère le chemin relatif sans le dernier segmet
@@ -43,7 +46,16 @@ if (isset($_COOKIE['acceptationCookies'])) {
 
     // Appel de la méthode statique $action du controleur actif
     // echo $controller . "::" . $action . "()";
-    $controller::$action();
+    switch ($controller) {
+      case "ControllerGeneral":
+        $controller = new ControllerGeneral();
+        $controller::$action();
+        break;
+      case "ControllerDashboard":
+        $controller = new ControllerDashboard();
+        $controller::$action();
+        break;
+    }
   } else {
     require('../src/Views/Template/cookiesRefused.php');
   }
