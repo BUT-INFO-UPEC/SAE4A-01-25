@@ -26,18 +26,17 @@ class Dashboard
   // =======================
   //      CONSTRUCTOR
   // =======================
+
+  
   public function __construct($data)
   {
     $this->dashboardId = $data->dashboard_id;
-
-    // Filtre des données à analyser
     $this->dateDebut = $data->date_debut;
     $this->dateFin = $data->date_fin;
     $this->dateDebutRelatif = $data->date_debut_relatif == '1';
     $this->dateFinRelatif = $data->date_fin_relatif == '1';
     $this->selectionGeo = $data->selection_geo;
 
-    // Construction des composants du dashboard
     foreach (json_decode($data->composant_list) as $compId) {
       $this->composants[] = new Composant($compId);
     }
@@ -53,20 +52,11 @@ class Dashboard
     return $this->dashboardId;
   }
 
-  /**
-   * Crée une structure de données qui contient les filtres des stations à interroger
-   * 
-   * @return array Tableau contenant les dates de début et de fin finales de l'encadrement temporel ainsi que la liste des stations à interroger
-   */
   public function get_filters()
   {
-    // Construction de la date de début si elle est dynamique
     $dateDebut = $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
-
-    // Construction de la date de fin si elle est dynamique
     $dateFin = $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
 
-    // Encapsulation dans une structure de données
     return [
       "dateDebut" => $dateDebut,
       "dateFin" => $dateFin,
@@ -78,15 +68,34 @@ class Dashboard
   {
     return $this->params;
   }
+  public function get_region()
+  {
+    return $this->selectionGeo;
+  }
+
+
+  /**
+   * Retourne la date de début ou de fin
+   * 
+   * @param string $type 'debut' pour la date de début, 'fin' pour la date de fin
+   * 
+   * @return string La date correspondante
+   * 
+   * @throws Exception Si le type est invalide
+   */
+  public function get_date($type = 'debut')
+  {
+    if ($type === 'debut') {
+      return $this->dateDebut;
+    } elseif ($type === 'fin') {
+      return $this->dateFin;
+    }
+    throw new Exception("Type de date invalide : utilisez 'debut' ou 'fin'.");
+  }
 
   // =======================
   //    PUBLIC METHODS
   // =======================
-  /**
-   * Récupère les données pour chaque composant et génère les visualisations
-   * 
-   * @return string Structure HTML compilant la visualisation des données de chacun des composants du dashboard
-   */
   public function generate_dashboard()
   {
     $output = "<div id='dashboard'>";
@@ -98,48 +107,25 @@ class Dashboard
     return $output;
   }
 
-  /**
-   * Exporte et sauvegarde le dashboard dans la BDD
-   * 
-   * @param bool $override Indique si l'utilisateur veut écraser l'ancienne version de son Dashboard
-   * 
-   * @throws Exception Si le dashboard existe déjà et que l'utilisateur n'a pas confirmé l'écrasement
-   */
   public function save_dashboard($override)
   {
-    // Vérifier l'appartenance
     if ($this->createurId == $_SESSION['userId']) {
       // Générer un nouvel ID pour le dashboard
       // $this->dashboardId = Requetteur_BDD::generate_dash_id($this->dashboardId);
     } elseif ($override && Requetteur_BDD::is_saved_dashboard($this->dashboardId)) {
-      // Lever une exception pour demander confirmation d'écrasement
       throw new Exception("Tentative de sauvegarder un dashboard déjà existant.", 301);
     }
-
-    // Sauvegarde/exportation du dashboard
   }
 
   // =======================
   //    STATIC METHODS
   // =======================
-  /**
-   * Récupère un dashboard dans la BDD_ grâce à son ID
-   * 
-   * @param string $dashboardId L'ID du dashboard
-   * 
-   * @return Dashboard L'objet correspondant à la ligne de la BDD
-   */
   static function get_dashboard_by_id($dashboardId)
   {
     $data = Requetteur_BDD::BDD_fetch_dashboards()[$dashboardId];
     return new Dashboard($data);
   }
 
-  /**
-   * Récupère tous les dashboards de la BDD
-   * 
-   * @return array Liste des dashboards de la BDD
-   */
   static function get_dashboards()
   {
     $r = [];
@@ -152,13 +138,6 @@ class Dashboard
   // =======================
   //    PRIVATE METHODS
   // =======================
-  /**
-   * Calcule une date relative à partir de la date actuelle
-   * 
-   * @param string $relativeDate Date au format AAAA-MM-JJ
-   * 
-   * @return string Date calculée au format "Y-m-d\TH:i:s"
-   */
   private function calculate_relative_date($relativeDate)
   {
     $annee = (int)substr($relativeDate, 0, 4);
@@ -173,13 +152,6 @@ class Dashboard
     return $date->format("Y-m-d") . "T00:00:00";
   }
 
-  /**
-   * Récupère les données via l'API pour un composant donné
-   * 
-   * @param Composant $composant L'objet dont les données doivent être récupérées
-   * 
-   * @return array Liste des données selon les critères spécifiés
-   */
   private function fetch_data_for_composant($composant)
   {
     $attribute = $composant->get_attribut();
@@ -189,3 +161,6 @@ class Dashboard
     return Requetteur_API::API_componant_data($filtres, $attribute, $aggregation, $grouping);
   }
 }
+
+
+
