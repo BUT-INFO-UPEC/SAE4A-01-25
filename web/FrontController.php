@@ -55,6 +55,9 @@ if (isset($_COOKIE['acceptationCookies'])) {
         $controller = new ControllerDashboard();
         $controller::$action();
         break;
+      default:
+      $error = "Ce controller n'existe pas";
+      require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
     }
   } else {
     require('../src/Views/Template/cookiesRefused.php');
