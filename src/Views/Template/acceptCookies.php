@@ -12,8 +12,10 @@ if (!defined('CONTROLLER_URL')) {
 <html lang="fr">
 
 <head>
-  <?php include __DIR__ . '/../Template/head.php'; ?>
-  <!-- Lien vers Bootstrap -->
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demande Cookies</title>
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 </head>
@@ -31,8 +33,8 @@ if (!defined('CONTROLLER_URL')) {
     </p>
 
     <div class="d-flex gap-3">
-      <a class="btn btn-success" href="<?= CONTROLLER_URL ?>?action=setCookies">Accepter les cookies</a>
-      <a class="btn btn-danger" href="<?= CONTROLLER_URL ?>?action=refuseCookies">Refuser les cookies</a>
+      <a class="btn btn-success" href="?controller=ControllerGeneral&action=setCookies">Accepter les cookies</a>
+      <a class="btn btn-danger" href="?controller=ControllerGeneral&action=refuseCookies">Refuser les cookies</a>
     </div>
   </div>
 
