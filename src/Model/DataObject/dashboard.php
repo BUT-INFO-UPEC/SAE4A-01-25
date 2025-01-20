@@ -120,7 +120,7 @@ class Dashboard
   //    STATIC METHODS
   // =======================
   /**
-   * Récupère un dashboard dans la BDD grâce à son ID
+   * Récupère un dashboard dans la BDD_ grâce à son ID
    * 
    * @param string $dashboardId L'ID du dashboard
    * 

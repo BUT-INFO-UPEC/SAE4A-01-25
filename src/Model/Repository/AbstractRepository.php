@@ -42,7 +42,7 @@ abstract class AbstractRepository
   }
 
   /**
-   * Selectionne un objet de la BDD selon un critère de clé primaire et le renvoie construit
+   * Selectionne un objet de la BDD_ selon un critère de clé primaire et le renvoie construit
    * 
    * @param string $valeurClePrimaire
    * 
@@ -67,7 +67,7 @@ abstract class AbstractRepository
   }
 
   /**
-   * Selectionne tout les objets correspondants de la BDD et les construits pour en renvoyer le tableau
+   * Selectionne tout les objets correspondants de la BDD_ et les construits pour en renvoyer le tableau
    * 
    * @return AbstractDataObject[]
    */
@@ -113,7 +113,7 @@ abstract class AbstractRepository
   }
 
   /**
-   * détruit un objet de la BDD selon un critère de clé primaire
+   * détruit un objet de la BDD_ selon un critère de clé primaire
    * 
    * @param string $valeurClePrimaire
    * 
@@ -138,7 +138,7 @@ abstract class AbstractRepository
   // =======================
   #region abstraites
   /**
-   * Définie le nom de la table de la BDD correspondant au type d'objet
+   * Définie le nom de la table de la BDD_ correspondant au type d'objet
    * 
    * @return string
    */

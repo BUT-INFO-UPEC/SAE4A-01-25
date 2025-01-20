@@ -5,7 +5,7 @@
  * 
  * Gère la connexion à une base de données SQLite et fournit des méthodes pour exécuter des requêtes SQL.
  */
-class BDD
+class BDD_
 {
   /**
    * @var PDO|null Instance de la connexion PDO

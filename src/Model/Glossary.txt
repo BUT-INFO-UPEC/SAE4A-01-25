@@ -1,5 +1,5 @@
 Acronymes:
-BDD = base de données
+BDD_ = base de données
 
 ---
 

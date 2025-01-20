@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../../Config/Conf.php';
 
 /**
- * Gestion des connexions a la BDD (CRUD)
+ * Gestion des connexions a la BDD_ (CRUD)
  */
 class DatabaseConnection
 {

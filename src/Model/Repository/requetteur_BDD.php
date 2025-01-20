@@ -6,7 +6,7 @@ class Requetteur_BDD
 
 
   /**
-   * Récupère les données de la visualisation dans la BDD a partir de son id
+   * Récupère les données de la visualisation dans la BDD_ a partir de son id
    *
    * @param int $reprId Le numéro de visualisation à récupérer.
    * 
@@ -14,7 +14,7 @@ class Requetteur_BDD
    */
   public static function BDD_fetch_visualisation($reprId)
   {
-    // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
+    // methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
     $visualisationsJson = file_get_contents(__DIR__ . '/../../../assets/database/Representations.json');
@@ -29,7 +29,7 @@ class Requetteur_BDD
   }
 
   /**
-   * Récupère les données de la visualisation dans la BDD a partir de son id
+   * Récupère les données de la visualisation dans la BDD_ a partir de son id
    *
    * @param int $composantId Le numéro du composant à récupérer.
    * 
@@ -37,7 +37,7 @@ class Requetteur_BDD
    */
   public static function BDD_fetch_component($composantId)
   {
-    // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
+    // methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
     $composantsJson = file_get_contents(__DIR__ . '/../../../assets/database/Composants.json');
@@ -54,7 +54,7 @@ class Requetteur_BDD
    */
   public static function BDD_fetch_dashboards()
   {
-    // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
+    // methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
     $dashboardsJson = file_get_contents(__DIR__ . '/../../../assets/database/Dashboards.json');
@@ -74,7 +74,7 @@ class Requetteur_BDD
    */
   public static function BDD_fetch_unit($attribut)
   {
-    // methode temporaire(?) tant que la BDD est pas debout (plus lent?)
+    // methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
     $attributsJson = file_get_contents(__DIR__ . '/../../../assets/database/Attributs.json');
