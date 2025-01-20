@@ -31,7 +31,7 @@ if (!defined('CONTROLLER_URL')) {
     </p>
 
     <div class="d-flex gap-3">
-      <a class="btn btn-success" href="<?= CONTROLLER_URL ?>?controller=general">Accepter les cookies</a>
+      <a class="btn btn-success" href="<?= CONTROLLER_URL ?>?controller=general&action=setCookies">Accepter les cookies</a>
       <a class="btn btn-danger" href="<?= CONTROLLER_URL ?>?controller=general&action=refuseCookies">Refuser les cookies</a>
     </div>
   </div>
