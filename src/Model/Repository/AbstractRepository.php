@@ -37,7 +37,7 @@ abstract class AbstractRepository
     $cles = substr($cles, 0, -1); // retirer la virgule finale
 
     $query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles);";
-    $pdoStatement = DatabaseConnection::getPdo()->prepare($query); 
+    $pdoStatement = DatabaseConnection::getPdo()->prepare($query);
     $pdoStatement->execute($tableau); // on donne les valeurs et on exécute la requête
   }
 
@@ -101,17 +101,17 @@ abstract class AbstractRepository
     // Construire les différentes valeurs a mettre a jour
     $valeurs = "";
     foreach ($nomsColones as $colone) {
-      $valeurs .= "$colone = :".$colone."Tag,";
+      $valeurs .= "$colone = :" . $colone . "Tag,";
     }
     $valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
 
-    $query = "UPDATE $nomTable SET $valeurs WHERE $nomClePrimaire = :OLD".$nomClePrimaire."Tag;";
-    $pdoStatement = DatabaseConnection::getPdo()->prepare($query); 
+    $query = "UPDATE $nomTable SET $valeurs WHERE $nomClePrimaire = :OLD" . $nomClePrimaire . "Tag;";
+    $pdoStatement = DatabaseConnection::getPdo()->prepare($query);
     $tableau = $object->formatTableau();
-    $tableau[":OLD".$nomClePrimaire."Tag"] = $ancienneClePrimaire;
+    $tableau[":OLD" . $nomClePrimaire . "Tag"] = $ancienneClePrimaire;
     $pdoStatement->execute($tableau); // on donne les valeurs et on exécute la requête
   }
-  
+
   /**
    * détruit un objet de la BDD selon un critère de clé primaire
    * 
@@ -138,33 +138,33 @@ abstract class AbstractRepository
   // =======================
   #region abstraites
   /**
-    * Définie le nom de la table de la BDD correspondant au type d'objet
-    * 
-    * @return string
-    */
+   * Définie le nom de la table de la BDD correspondant au type d'objet
+   * 
+   * @return string
+   */
   protected abstract function getTableName(): string;
 
   /**
-    * Construit l'instance dynamique a partir des données statiques
-    * 
-    * @param array $objetFormatTableau
-    * 
-    * @return AbstractDataObject
-    */
+   * Construit l'instance dynamique a partir des données statiques
+   * 
+   * @param array $objetFormatTableau
+   * 
+   * @return AbstractDataObject
+   */
   protected abstract function arrayConstructor(array $objetFormatTableau): AbstractDataObject;
 
   /**
-    * Définie le nom de la clé primaire du type d'objet dans la BDD
-    * 
-    * @return string
-    */
+   * Définie le nom de la clé primaire du type d'objet dans la BDD
+   * 
+   * @return string
+   */
   protected abstract function getNomClePrimaire(): string;
 
   /**
-    * Définie les différentes données présentes dans la BDD
-    * 
-    * @return array
-    */
+   * Définie les différentes données présentes dans la BDD
+   * 
+   * @return array
+   */
   protected abstract function getNomsColonnes(): array;
   #endregion abstraites
 }

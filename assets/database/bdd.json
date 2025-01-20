@@ -1,83 +1,53 @@
 {
-    "static": {
-        "representations": [
-            "repr_id",
-            "nom",
-            "poss_grouping -> groupping_type",
-            "recomanded_atts -> [att_cle]",
-            "import_files",
-            "data_formater",
-            "visualisation_constructor"
-        ],
-        "attributs": [
-            "type_valeur",
-            "cle",
-            "nom",
-            "description",
-            "unit"
-        ],
-        "groupements": [
-            "nom",
-            "type"
-        ],
-        "stations": [
-            "id",
-            "nom",
-            "latitude",
-            "longitude",
-            "ville_id"
-        ],
-        "villes": [
-            "id",
-            "nom",
-            "epci_id"
-        ],
-        "epcis": [
-            "id",
-            "nom",
-            "reg_id"
-        ],
-        "depts": [
-            "id",
-            "nom",
-            "reg_id"
-        ],
-        "regions": [
-            "id",
-            "nom"
-        ]
-    },
-    "dynamic": {
-        "dashboard": [
-            "dashboard_id",
-            "privatisation",
-            "composant_list -> composant_id",
-            "createur_id -> utilisateur_id",
-            "date_debut",
-            "date_fin",
-            "date_debut_relatif",
-            "date_fin_relatif",
-            "param"
-        ],
-        "utilisateur": [
-            "utilisateur_id",
-            "utilisateur_nom",
-            "utilisateur_pswd",
-            "utilisateur_surnom",
-            "utilisateur_ami",
-            "utilisateur_email"
-        ],
-        "composant": [
-            "composant_id",
-            "repr_type -> repr_id",
-            "attribut",
-            "grouping",
-            "aggregation",
-            "param_affich"
-        ],
-        "suivi_copiright": [
-            "dashboard_original -> dashboard_id",
-            "dashboard_nouveau -> dashboard_id"
-        ]
-    }
+  "static": {
+    "representations": [
+      "repr_id",
+      "nom",
+      "poss_grouping -> groupping_type",
+      "recomanded_atts -> [att_cle]",
+      "import_files",
+      "data_formater",
+      "visualisation_constructor"
+    ],
+    "attributs": ["type_valeur", "cle", "nom", "description", "unit"],
+    "groupements": ["nom", "type"],
+    "stations": ["id", "nom", "latitude", "longitude", "ville_id"],
+    "villes": ["id", "nom", "epci_id"],
+    "epcis": ["id", "nom", "reg_id"],
+    "depts": ["id", "nom", "reg_id"],
+    "regions": ["id", "nom"]
+  },
+  "dynamic": {
+    "dashboard": [
+      "dashboard_id",
+      "privatisation",
+      "composant_list -> composant_id",
+      "createur_id -> utilisateur_id",
+      "date_debut",
+      "date_fin",
+      "date_debut_relatif",
+      "date_fin_relatif",
+      "param"
+    ],
+    "utilisateur": [
+      "utilisateur_id",
+      "utilisateur_nom",
+      "utilisateur_pswd",
+      "utilisateur_surnom",
+      "utilisateur_ami",
+      "utilisateur_email"
+    ],
+    "composant": [
+      "composant_id",
+      "repr_type -> repr_id",
+      "attribut",
+      "grouping",
+      "aggregation",
+      "param_affich"
+    ],
+    "suivi_copiright": [
+      "dashboard_original -> dashboard_id",
+      "dashboard_nouveau -> dashboard_id"
+    ]
+  }
 }

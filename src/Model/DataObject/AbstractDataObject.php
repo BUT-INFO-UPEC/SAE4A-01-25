@@ -49,10 +49,10 @@ abstract class AbstractDataObject
   // =======================
   #region abstraites
   /**
-    * Mets en forme l'objets en extrayant ses données au format tableau pour enregistrement dans la BDD
-    * 
-    * @return array
-    */
+   * Mets en forme l'objets en extrayant ses données au format tableau pour enregistrement dans la BDD
+   * 
+   * @return array
+   */
   public abstract function formatTableau(): array;
   #endregion abstraites
 

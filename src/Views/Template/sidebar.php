@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <button class="btn btn-primary" id="toggleSidebar"> 
+  <button class="btn btn-primary" id="toggleSidebar">
     &Chi;
   </button>
 

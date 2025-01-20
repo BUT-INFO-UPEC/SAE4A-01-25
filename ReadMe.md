@@ -1,10 +1,10 @@
-perso je ne ferais pas de retour a la ligne même quand la ligne fait des miliers de caractères car j'ai actionné le retour a la ligne en fin de page, dites moi ce que vous en pensez, si vous voulez acitver/désactiver cette fonctionnalité: 
+perso je ne ferais pas de retour a la ligne même quand la ligne fait des miliers de caractères car j'ai actionné le retour a la ligne en fin de page, dites moi ce que vous en pensez, si vous voulez acitver/désactiver cette fonctionnalité:
 alt + z
 
 ---
 
 - Acronymes et mots clé:
-Acronymes:
+  Acronymes:
 
 BDD = Base De Données
 
@@ -30,16 +30,19 @@ aggregation = fonction analytique appliquée sun un tableau de données pour en 
 fetch = récupération d'informations depuis la BDD
 representation = mise en forme visuelle des données pour permettre leur comprehension (sous forme de graphique par exemple)
 
-----
+---
 
 - Structure de codes:
+
 ## BDD
+
 qqc_id = identifiant (primaire ou secondaire)
 nom_attribut
 
 noms des tables et ses attributs en francais ou mots clés, pluriel
 
 ## PHP - JAVASCRIPT
+
 fonction_composed_of_multiple_words()
 atributCompose2PlusieursMots
 variableComposee2PlusieursMots
@@ -51,6 +54,7 @@ noms de classes en francais ou mots clés avec une majuscule au début
 1 ligne vide entre les fonctions
 
 penser a ajouter des docstring au dessu des fonctoins:
+
 ```php
 /**
  * Résumé de la fonction.
@@ -59,13 +63,14 @@ penser a ajouter des docstring au dessu des fonctoins:
  *
  * liste(
  * @param type $nomAttribut Description
- * ) 
+ * )
  * @return type Description
  */
 function my_function() {}
 ```
 
 structurer les classes java avec des commentaires:
+
 ```php
 /**
  * Description de la classe
@@ -80,7 +85,7 @@ class MyClass {
     // =======================
     //      CONSTRUCTOR
     // =======================
-    
+
 
     // =======================
     //      GETTERS
@@ -88,7 +93,7 @@ class MyClass {
     #region Getters
 
     #endregion Getters
-    
+
 
     // =======================
     //      SETTERS
@@ -96,7 +101,7 @@ class MyClass {
     #region Stters
 
     #endregion Stters
-    
+
 
     // =======================
     //    PUBLIC METHODS
@@ -104,7 +109,7 @@ class MyClass {
     #region Publiques
 
     #endregion Publiques
-    
+
 
     // =======================
     //    PRIVATE METHODS
@@ -119,7 +124,7 @@ class MyClass {
     #region Statiques
 
     #endregion Statiques
-    
+
 
     // =======================
     //    OVERIDES
@@ -130,6 +135,7 @@ class MyClass {
 
 }
 ```
+
 ## HTML
 
 classes_composees2plusieurs_mots (ou pas en fonction de si l'on utilise des frameworks)
@@ -137,15 +143,15 @@ NomOuID
 
 ```html
 <balise_parente>
-    <balise_parente>
-        <balise_sans_enfant> </balise_sans_enfant>
-        
-        <balise_sans_enfant> </balise_sans_enfant>
-    </balise_parente>
+  <balise_parente>
+    <balise_sans_enfant> </balise_sans_enfant>
 
     <balise_sans_enfant> </balise_sans_enfant>
-<balise_parente>
+  </balise_parente>
+
+  <balise_sans_enfant> </balise_sans_enfant>
+  <balise_parente></balise_parente
+></balise_parente>
 ```
 
 - pas de saut de ligne entre la balise parente ouvrante et ses balises parente et 1er enfant (juste retour a la ligne et tabulation) mais entre les différentes balises enfants (maj+alt+F)
-

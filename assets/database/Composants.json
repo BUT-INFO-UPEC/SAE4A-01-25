@@ -1,18 +1,18 @@
 [
-    {
-        "composant_id" : 0,
-        "repr_type" : "1",
-        "attribut" : "t",
-        "grouping" : "*",
-        "aggregation" : "avg",
-        "param_affich" : ""
-    },
-    {
-        "composant_id" : 1,
-        "repr_type" : "0",
-        "attribut" : "t",
-        "grouping" : "MOIS",
-        "aggregation" : "avg",
-        "param_affich" : ""
-    }
+  {
+    "composant_id": 0,
+    "repr_type": "1",
+    "attribut": "t",
+    "grouping": "*",
+    "aggregation": "avg",
+    "param_affich": ""
+  },
+  {
+    "composant_id": 1,
+    "repr_type": "0",
+    "attribut": "t",
+    "grouping": "MOIS",
+    "aggregation": "avg",
+    "param_affich": ""
+  }
 ]

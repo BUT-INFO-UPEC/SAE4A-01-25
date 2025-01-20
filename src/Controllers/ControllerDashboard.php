@@ -28,7 +28,8 @@ class ControllerDashboard extends AbstractController
     require('../src/Views/Template/views.php');
   }
 
-  static function create(): void {
+  static function create(): void
+  {
     $station = Requetteur_BDD::get_station();
 
     $titrePage = "Edition d'un Dashboard";

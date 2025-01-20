@@ -1,4 +1,3 @@
-
 <ul class="list-dash">
   <?php foreach ($dashboards as $dash) : ?>
     <?php $lien = CONTROLLER_URL . "?action=visu_dashboard&dashId=" . $dash->get_id(); ?>

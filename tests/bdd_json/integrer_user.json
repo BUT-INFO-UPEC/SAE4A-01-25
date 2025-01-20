@@ -1,23 +1,23 @@
 {
-    "table_name": "users",
-    "insert": {
-        "columns": ["name", "email" ],
-        "values": [
-            ["John","john@example.com"],
-            ["Jane", "jane@example.com"],
-            ["Bob", "bob@example.com"],
-            ["Alice", "alice@example.com"],
-            ["Charlie", "charlie@example.com"],
-            ["David", "david@example.com"],
-            ["Eve", "eve@example.com"],
-            ["Frank", "frank@example.com"],
-            ["Grace", "grace@example.com"],
-            ["Helen", "helen@example.com"],
-            ["Ivan", "ivan@example.com"],
-            ["Julia", "julia@example.com"],
-            ["Kevin", "kevin@example.com"],
-            ["Lily", "lily@example.com"],
-            ["Mike", "mike@example.com"]
-        ]
-    }
+  "table_name": "users",
+  "insert": {
+    "columns": ["name", "email"],
+    "values": [
+      ["John", "john@example.com"],
+      ["Jane", "jane@example.com"],
+      ["Bob", "bob@example.com"],
+      ["Alice", "alice@example.com"],
+      ["Charlie", "charlie@example.com"],
+      ["David", "david@example.com"],
+      ["Eve", "eve@example.com"],
+      ["Frank", "frank@example.com"],
+      ["Grace", "grace@example.com"],
+      ["Helen", "helen@example.com"],
+      ["Ivan", "ivan@example.com"],
+      ["Julia", "julia@example.com"],
+      ["Kevin", "kevin@example.com"],
+      ["Lily", "lily@example.com"],
+      ["Mike", "mike@example.com"]
+    ]
+  }
 }
