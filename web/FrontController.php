@@ -45,24 +45,27 @@ if (isset($_COOKIE['acceptationCookies'])) {
     $_SESSION['controller'] = substr($controller, 10);
 
     // Ajouter le namespace au contrôleur
-    // $controller = "Src\Controllers\" . $controller;
+    $controller = "Src\\Controllers\\" . $controller;
 
     echo $controller . "::" . $action . "() <br>";
 
     // Vérification de l'existence de la classe
     if (class_exists($controller)) {
       // Vérification de l'existence de la méthode
-      if (!method_exists($controller, $action)) {
+      if (method_exists($controller, $action)) {
         // Appel de la méthode statique $action du controleur actif
         $controller::$action();
+
       } else {
         $error = "Erreur: La méthode $action du controller '$controller' n'existe pas.";
         require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
       }
+
     } else {
       $error = "Erreur: Le controller '$controller' n'existe pas.";
       require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
     }
+
   } else {
     require('../src/Views/Template/cookiesRefused.php');
   }
