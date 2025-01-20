@@ -33,6 +33,19 @@ $controller = $_SESSION['controller']
   </div>
 
   <?php require __DIR__ . "/footer.php"; ?>
+
+  <style>
+    main {
+      width: 100%;
+      margin: 1%;
+      padding: 1%;
+      /**
+      * bordures
+       */
+      border: 1px solid #000;
+      border-radius: 15px
+    }
+  </style>
 </body>
 
 </html>

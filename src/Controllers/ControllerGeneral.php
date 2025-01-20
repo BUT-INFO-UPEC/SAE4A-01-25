@@ -29,5 +29,11 @@ class ControllerGeneral extends AbstractController
     $cheminVueBody = "home.php";
     require('../src/Views/Template/views.php');
   }
+
+  public static function carte_region() {
+    $titrePage = "Carte Regions";
+    $cheminVueBody = "carte_regions.php";
+    require('../src/Views/Template/views.php');
+  }
   #endregion entry
 }

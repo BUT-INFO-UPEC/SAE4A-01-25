@@ -10,7 +10,7 @@ use PDOException;
  * 
  * Gère la connexion à une base de données SQLite et fournit des méthodes pour exécuter des requêtes SQL.
  */
-class BDD_
+class BDD
 {
   /**
    * @var PDO|null Instance de la connexion PDO
