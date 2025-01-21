@@ -10,7 +10,7 @@
 
         <!-- Contenu du modal -->
         <div class="modal-body">
-          <form action="?action=signIn" method="post">
+          <form action="?action=signIn&controller=ControllerGeneral" method="post">
             <div class="mb-3">
               <label for="mail" class="form-label">Mail :</label>
               <input type="email" name="mail" id="mail" class="form-control" required>
@@ -19,13 +19,9 @@
               <label for="mdp" class="form-label">Mot de Passe :</label>
               <input type="password" name="mdp" id="mdp" class="form-control" minlength="1" required>
             </div>
-            <div class="mb-3">
-              <label for="confirm_mdp" class="form-label">Confirmer Mot de Passe :</label>
-              <input type="password" name="confirm_mdp" id="confirm_mdp" class="form-control" minlength="1" required>
-            </div>
             <!-- Boutons du modal -->
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success">Se Connecter</button>
+              <button type="submit" class="btn btn-success">Connexion</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
             </div>
           </form>
@@ -45,7 +41,26 @@
 
         <!-- Contenu du modal -->
         <div class="modal-body">
-          <form action="?action=signUp" method="post">
+          <form action="?action=signUp&controller=ControllerGeneral" method="post">
+            <div class="mb-3">
+              <label for="signup-nom" class="form-label">Nom :</label>
+              <input
+                type="text"
+                class="form-control"
+                name="signup-nom"
+                id="signup-nom"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="signup-prenom" class="form-label">Prenom :</label>
+              <input
+                type="text"
+                class="form-control"
+                name="signup-prenom"
+                id="signup-prenom"
+              />
+            </div>
+            
             <div class="mb-3">
               <label for="signup-pseudo" class="form-label">Pseudo :</label>
               <input type="text" name="pseudo" id="signup-pseudo" class="form-control" minlength="1" required>

@@ -21,7 +21,6 @@ $svgContent = preg_replace_callback(
 ?>
 
 
-<?= $svgContent ?><br>
 <?= $svgContent ?>
 
 <?php

@@ -1,5 +1,5 @@
 <?php
-class Conf
+class ConfBDD
 {
   static private array $databases = array(
     'hostname' => 'localhost',

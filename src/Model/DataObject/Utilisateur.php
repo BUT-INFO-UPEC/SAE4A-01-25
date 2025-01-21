@@ -10,7 +10,6 @@ class Utilisateur
   // =======================
   //        ATTRIBUTES
   // =======================
-  private int $utilisateur_id;
   private string $utilisateur_pseudo;
   private string $utilisateur_mdp;
   private string $utilisateur_mail;
@@ -19,12 +18,11 @@ class Utilisateur
   // =======================
   //      CONSTRUCTOR
   // =======================
-  public function __construct(string $pseudo, string $mail, string $mdp, array $amis = [])
+  public function __construct(string $pseudo, string $mail, string $mdp)
   {
     $this->utilisateur_pseudo = $pseudo;
     $this->utilisateur_mail = $mail;
     $this->utilisateur_mdp = $mdp;
-    $this->utilisateur_amis = $amis;
   }
 
   // =======================
@@ -45,10 +43,6 @@ class Utilisateur
     return $this->utilisateur_mdp;
   }
 
-  public function getAmis(): array
-  {
-    return $this->utilisateur_amis;
-  }
 
   // =======================
   //      SETTERS
@@ -68,10 +62,6 @@ class Utilisateur
     $this->utilisateur_mdp = $mdp;
   }
 
-  public function setAmis(array $amis): void
-  {
-    $this->utilisateur_amis = $amis;
-  }
 
   // =======================
   //    PUBLIC METHODS
@@ -89,15 +79,12 @@ class Utilisateur
       $sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_amis)
                     VALUES (:pseudo, :mdp, :mail, :amis)";
 
-      // Sérialisation du tableau des amis pour le stocker en base
-      $amis_serialises = json_encode($this->utilisateur_amis);
 
       // Exécution de la requête avec les paramètres
       $pdo->execute($sql, [
         ':pseudo' => $this->utilisateur_pseudo,
         ':mdp' => $this->utilisateur_mdp,
         ':mail' => $this->utilisateur_mail,
-        ':amis' => $amis_serialises
       ]);
 
       // Message de succès

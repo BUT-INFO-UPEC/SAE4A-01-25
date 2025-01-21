@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use Src\Config\ConfAPP;
 use Src\Controllers\ControllerDashboard;
 use Src\Controllers\ControllerGeneral;
 
@@ -11,18 +12,17 @@ define('BASE_URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . 
 
 define('CONTROLLER_URL', BASE_URL . "web/FrontController.php"); // définire CONTROLLER_URL
 
-
 // On recupère l'action passés dans l'URL ou on définit l'action par défaut
 $action = $_GET["action"] ?? "default";
 
 // actions spéciales pour l'accéptation des cookies
 if ($action == 'setCookies') {
-  setcookie("acceptationCookies", True, time() + 3600 * 24 * 7);
+  setcookie("acceptationCookies", True, ConfAPP::$tCookies);
   $_COOKIE['acceptationCookies'] = True;
   $action = "default";
 }
 if ($action == 'refuseCookies') {
-  setcookie("acceptationCookies", False, time() + 3600 * 24 * 7);
+  setcookie("acceptationCookies", False, ConfAPP::$tCookies);
   $_COOKIE['acceptationCookies'] = False;
   $action = "default";
 }

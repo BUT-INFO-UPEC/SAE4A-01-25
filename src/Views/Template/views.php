@@ -23,6 +23,7 @@ $controller = $_SESSION['controller']
 
 <body>
   <?php require __DIR__ . "/header.php"; ?>
+  <?php require __DIR__ . "/../Plugins/composants_balistiques_specifiques/Form.php"; ?>
 
   <div class="flex">
     <?php require __DIR__ . "/sidebar.php"; ?>
