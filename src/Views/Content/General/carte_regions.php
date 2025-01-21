@@ -18,12 +18,18 @@ $svgContent = preg_replace_callback(
     },
     $svgContent
 );
+?>
 
-// Afficher le SVG modifié
-echo $svgContent;
 
+<?= $svgContent ?><br>
+<?= $svgContent ?>
+
+<?php
 // Si une région est cliquée, elle sera disponible dans $_GET['region']
 if (isset($_GET['region'])) {
     $region = htmlspecialchars($_GET['region']);
     echo "Région sélectionnée : " . $region;
 }
+
+?>
+

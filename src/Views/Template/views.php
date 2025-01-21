@@ -27,25 +27,14 @@ $controller = $_SESSION['controller']
   <div class="flex">
     <?php require __DIR__ . "/sidebar.php"; ?>
 
-    <main>
-      <?php require __DIR__ . "/../Content/$controller/$cheminVueBody"; ?>
-    </main>
+    <div class="bonjour">
+      <main>
+        <?php require __DIR__ . "/../Content/$controller/$cheminVueBody"; ?>
+      </main>
+    </div>
   </div>
 
   <?php require __DIR__ . "/footer.php"; ?>
-
-  <style>
-    main {
-      width: 100%;
-      margin: 1%;
-      padding: 1%;
-      /**
-      * bordures
-       */
-      border: 1px solid #000;
-      border-radius: 15px
-    }
-  </style>
 </body>
 
 </html>
