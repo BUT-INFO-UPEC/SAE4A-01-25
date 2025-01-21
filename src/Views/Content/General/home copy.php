@@ -2,7 +2,7 @@
 
 namespace App\Views;
 
-use App\Model\Classes\Dashboard;
+use Src\Model\DataObject\Dashboard;
 
 session_start();
 

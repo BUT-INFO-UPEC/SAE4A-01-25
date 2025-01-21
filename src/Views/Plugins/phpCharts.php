@@ -2,7 +2,8 @@
 
 namespace App\Model\Visualisations;
 
-use App\Model\Requetteurs\Requetteur_BDD;
+
+use Src\Model\Repository\Requetteur_BDD;
 
 // -----
 // DONEE TEXTUELLE

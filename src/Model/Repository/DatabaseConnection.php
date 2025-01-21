@@ -2,7 +2,7 @@
 
 namespace Src\Model\Repository;
 
-use Conf;
+use ConfBDD;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -28,10 +28,10 @@ class DatabaseConnection
    */
   private function __construct()
   {
-    $hostname = Conf::getHostname();
-    $databaseName = Conf::getDatabase();
-    $login = Conf::getLogin();
-    $password = Conf::getPassword();
+    $hostname = ConfBDD::getHostname();
+    $databaseName = ConfBDD::getDatabase();
+    $login = ConfBDD::getLogin();
+    $password = ConfBDD::getPassword();
 
     // Connexion à la base de données
     // Le dernier argument sert à ce que toutes les chaines de caractères en entrée et sortie de MySql soit dans le codage UTF-8
