@@ -2,7 +2,7 @@
 
 // Exemple de données utilisateur (à remplacer par une récupération depuis une base de données ou session)
 $user = [
-	'nom' => 'Amine',
+	'nom' => $_SESSION['login'],
 	'email' => 'amine@example.com',
 	'role' => 'Utilisateur',
 	'date_inscription' => '2024-01-01',

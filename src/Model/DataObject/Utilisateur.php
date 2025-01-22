@@ -10,15 +10,19 @@ class Utilisateur
   // =======================
   //        ATTRIBUTES
   // =======================
+  private string $utilisateur_nom;
+  private string $utilisateur_prenom;
   private string $utilisateur_pseudo;
   private string $utilisateur_mdp;
   private string $utilisateur_mail;
-  private array $utilisateur_amis;
 
   // =======================
   //      CONSTRUCTOR
   // =======================
-  public function __construct(string $pseudo, string $mail, string $mdp)
+  public function __construct(
+    string $nom,
+    string $prenom,
+    string $pseudo, string $mail, string $mdp)
   {
     $this->utilisateur_pseudo = $pseudo;
     $this->utilisateur_mail = $mail;
@@ -76,8 +80,8 @@ class Utilisateur
       $pdo = new BDD();
 
       // Préparation de la requête SQL
-      $sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_amis)
-                    VALUES (:pseudo, :mdp, :mail, :amis)";
+      $sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail)
+                    VALUES (:pseudo, :mdp, :mail)";
 
 
       // Exécution de la requête avec les paramètres
