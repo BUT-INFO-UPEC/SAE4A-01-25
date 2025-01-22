@@ -5,7 +5,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Src\Config\ConfAPP;
 use Src\Controllers\ControllerDashboard;
 use Src\Controllers\ControllerGeneral;
-ConfAPP::init();
 
 
 // DEFINITION DES CHEMINS
@@ -19,12 +18,12 @@ $action = $_GET["action"] ?? "default";
 
 // actions spéciales pour l'accéptation des cookies
 if ($action == 'setCookies') {
-	setcookie("acceptationCookies", True, ConfAPP::$tCookies);
+	setcookie("acceptationCookies", True, ConfAPP::tCookies);
 	$_COOKIE['acceptationCookies'] = True;
 	$action = "default";
 }
 if ($action == 'refuseCookies') {
-	setcookie("acceptationCookies", False, ConfAPP::$tCookies);
+	setcookie("acceptationCookies", False, ConfAPP::tCookies);
 	$_COOKIE['acceptationCookies'] = False;
 	$action = "default";
 }

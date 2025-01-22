@@ -69,7 +69,7 @@ class ControllerGeneral extends AbstractController
 				// connexion ok
 				$user = UtilisateurRepository::getUserByMailMdp($email, $mdp);
 				$_SESSION['login'] = $user['utilisateur_pseudo'];
-				setcookie('CurentLogin', $_SESSION['login'], ConfAPP::$tCookies);
+				setcookie('CurentLogin', $_SESSION['login'], ConfAPP::tCookies);
 			}
 			$msg = new Msg("Connexion réussie");
 			$msg->setSuccess();

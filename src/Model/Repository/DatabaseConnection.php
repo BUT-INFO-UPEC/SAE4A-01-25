@@ -2,7 +2,7 @@
 
 namespace Src\Model\Repository;
 
-use ConfBDD;
+use Src\Config\ConfBDD;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -28,17 +28,14 @@ class DatabaseConnection
 	 */
 	private function __construct()
 	{
-		$hostname = ConfBDD::getHostname();
-		$databaseName = ConfBDD::getDatabase();
-		$login = ConfBDD::getLogin();
-		$password = ConfBDD::getPassword();
 
 		// Connexion à la base de données
 		// Le dernier argument sert à ce que toutes les chaines de caractères en entrée et sortie de MySql soit dans le codage UTF-8
-		$this->pdo = new PDO("mysql:host=$hostname;dbname=$databaseName", $login, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-
-		//On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
-		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$dbpath = __DIR__  . "/../../../database/DATABASE.db";
+		$this->pdo = new PDO('sqlite:' . $dbpath, null, null, [
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+		]);
 	}
 
 	// =======================

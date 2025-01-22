@@ -45,7 +45,7 @@
 
 	<?php
 	$output = "<div id='dashboard'>";
-	foreach ($dash->composantsData as $composant) { // parcourir les composants
+	foreach ($dash->get_composants() as $composant) { // parcourir les composants
 		// récupérer les données de paramétrage et de visualisation
 		$visualisation_file = $composant->get_visu_file();
 		$data = $composant->get_data(); // construit les données en fesant une requette a l'API dans la classe composant
