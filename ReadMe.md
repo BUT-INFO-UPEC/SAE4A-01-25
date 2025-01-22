@@ -6,7 +6,7 @@ alt + z
 - Acronymes et mots clé:
   Acronymes:
 
-BDD_ = Base De Données
+BDD\_ = Base De Données
 
 abréviations:
 

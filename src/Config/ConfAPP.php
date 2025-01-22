@@ -1,9 +1,6 @@
 <?php
 
 namespace Src\Config;
-
-use Directory;
-
 class ConfAPP
 {
     // Durée des cookies (7 jours)

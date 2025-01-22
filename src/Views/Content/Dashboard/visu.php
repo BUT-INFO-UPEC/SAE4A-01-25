@@ -1,55 +1,59 @@
 <button class="dropdown" style="position: absolute; right: 0;">
-  modifier
+	modifier
 </button>
 
 <h1 class="centered"> Nom météothèque </h1>
 
 <div class="container">
-  <h3 class="centered"> Stations analysées </h3>
+	<h3 class="centered"> Stations analysées </h3>
 
-  <hr />
+	<hr />
 
-  <div class="flex">
-    <div class="container">
-      <h3> Zone(s) géographique(s) </h3>
+	<div class="flex">
+		<div class="container">
+			<h3> Zone(s) géographique(s) </h3>
 
-      <p class="changing"> liste noms stations/ communes/ départements </p>
+			<p class="changing"> liste noms stations/ communes/ départements </p>
 
-      <button> Accéder a la liste des stations </button>
-    </div>
+			<button> Accéder a la liste des stations </button>
+		</div>
 
-    <div class="container">
-      <div class="flex">
-        <h3 style="flex-grow: 1"> Periode temporelle </h3>
+		<div class="container">
+			<div class="flex">
+				<h3 style="flex-grow: 1"> Periode temporelle </h3>
 
-        <p> Météothèque <?php echo htmlspecialchars($dash->dateFinRelatif ? 'Oui' : 'Non'); ?></p>
-      </div>
+				<p> Météothèque dynamique ? <?php echo htmlspecialchars($dash->dateFinRelatif ? 'Oui' : 'Non'); ?></p>
+			</div>
 
-      <p> début : <span class="changing">JJ/MMAAA</span></p>
+			<p> début : <span class="changing">JJ/MMAAA</span></p>
 
-      <p> fin : <span class="changing">JJ/MMAAA</span></p>
-    </div>
-  </div>
+			<p> fin : <span class="changing">JJ/MMAAA</span></p>
+		</div>
+	</div>
 </div>
 
 <div class="container">
-  <h3> Commentaires </h3>
+	<h3> Commentaires </h3>
 
-  <p class="changing"> Explication des analyses de la météothèque par le créateur </p>
+	<p class="changing"> Explication des analyses de la météothèque par le créateur </p>
 </div>
 
 <div class="container centered">
-  <h3> Visualisation du dashboard </h3>
+	<h3> Visualisation du dashboard </h3>
 
-  <hr />
+	<hr />
 
-  <?php
-  $output = "<div id='dashboard'>";
-  foreach ($this->composants as $composant) {
-    $data = $this->fetch_data_for_composant($composant);
-    $output .= "<div class='dashboard-card'>" . $composant->generate_visual($data) . "</div>";
-  }
-  $output .= "</div>";
-  return $output;
-  ?>
+	<?php
+	$output = "<div id='dashboard'>";
+	foreach ($dash->get_composants() as $composant) { // parcourir les composants
+		// récupérer les données de paramétrage et de visualisation
+		$visualisation_file = $composant->get_visu_file();
+		$data = $composant->get_data(); // construit les données en fesant une requette a l'API dans la classe composant
+		$params = $composant->get_params();
+		// appeler la visualisation correspondante
+		require  __DIR__ . "/Visualisations/$visualisation_file";
+	}
+	$output .= "</div>";
+	return $output;
+	?>
 </div>

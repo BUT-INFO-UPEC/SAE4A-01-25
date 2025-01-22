@@ -12,10 +12,10 @@ use PDOException;
  */
 class BDD
 {
-  /**
-   * @var PDO|null Instance de la connexion PDO
-   */
-  private ?PDO $pdo = null;
+	/**
+	 * @var PDO|null Instance de la connexion PDO
+	 */
+	private ?PDO $pdo = null;
 
   /**
    * Constructeur de la classe BDD.
@@ -28,10 +28,10 @@ class BDD
       // Chemin absolu vers la base de données SQLite
       $dbPath = __DIR__ . '/../../../assets/database/France.db';
 
-      // Vérifie si le fichier de base de données existe
-      if (!file_exists($dbPath)) {
-        throw new PDOException("Le fichier de base de données est introuvable : $dbPath");
-      }
+			// Vérifie si le fichier de base de données existe
+			if (!file_exists($dbPath)) {
+				throw new PDOException("Le fichier de base de données est introuvable : $dbPath");
+			}
 
       // Initialisation de la connexion PDO
       $this->pdo = new PDO("sqlite:$dbPath");

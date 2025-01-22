@@ -16,65 +16,66 @@ $action = $_GET["action"] ?? "default";
 
 // actions spéciales pour l'accéptation des cookies
 if ($action == 'setCookies') {
-  ConfAPP::setCookie(
-    "acceptationCookies",
-    True,
-  );
-  $_COOKIE['acceptationCookies'] = True;
-  $action = "default";
+	ConfAPP::setCookie(
+		"acceptationCookies",
+		True,
+	);
+	$_COOKIE['acceptationCookies'] = True;
+	$action = "default";
 }
 if ($action == 'refuseCookies') {
-  ConfAPP::setCookie(
-    "acceptationCookies",
-    False,
-  );
-  $_COOKIE['acceptationCookies'] = False;
-  $action = "default";
+	ConfAPP::setCookie(
+		"acceptationCookies",
+		False,
+	);
+	$_COOKIE['acceptationCookies'] = False;
+	$action = "default";
 }
 
 // Vérification de l'accépatation des cookies et lancement de l'action
 if (isset($_COOKIE['acceptationCookies'])) {
-  if ($_COOKIE['acceptationCookies']) {
-    // Comme le fichier est une etape obligée (rte d'entrée), on initialise la session (pour etre sur que c fait)
-    session_start();
-    // On recupère le controleur
-    $defaultController = $_COOKIE["CurrentContoller"] ?? "ControllerGeneral"; // Vérifier si l'utilisateur a déja été sur le site, si oui, il retourne sur ce qu'il etait en train de faire, sinon, page d'accueil
-    $controller = $_GET["controller"] ?? $defaultController; // On vérifie si l'utilisateur se dirige vers un autre controleur spéxifié, sion on le mets sur celui décidé précédament
+	if ($_COOKIE['acceptationCookies']) {
+		// Comme le fichier est une etape obligée (rte d'entrée), on initialise la session (pour etre sur que c fait)
+		session_start();
+		echo $_SESSION['login'] ?? '';
+		// On recupère le controleur
+		$defaultController = $_COOKIE["CurrentContoller"] ?? "ControllerGeneral"; // Vérifier si l'utilisateur a déja été sur le site, si oui, il retourne sur ce qu'il etait en train de faire, sinon, page d'accueil
+		$controller = $_GET["controller"] ?? $defaultController; // On vérifie si l'utilisateur se dirige vers un autre controleur spéxifié, sion on le mets sur celui décidé précédament
 
-    ConfAPP::setCookie("CurrentContoller", $controller);
-    $_COOKIE["CurrentContoller"] = $controller; //ajout manuel pour utilisation immédiate
+		ConfAPP::setCookie("CurrentContoller", $controller);
+		$_COOKIE["CurrentContoller"] = $controller; //ajout manuel pour utilisation immédiate
 
-    // Extraire la partie du contrôleur apres'Controller' pour définir le model avec lequel on travail
-    $_SESSION['controller'] = substr($controller, 10);
+		// Extraire la partie du contrôleur apres'Controller' pour définir le model avec lequel on travail
+		$_SESSION['controller'] = substr($controller, 10);
 
-    // Ajouter le namespace au contrôleur
-    $controller = "Src\\Controllers\\" . $controller;
+		// Ajouter le namespace au contrôleur
+		$controller = "Src\\Controllers\\" . $controller;
 
-    if (isset($_COOKIE['CurentLogin'])) {
-      $_SESSION['login'] = $_COOKIE['CurentLogin'];
-    } else {
-      $_SESSION['login'] = null;
-    }
+		if (isset($_COOKIE['CurentLogin'])) {
+			$_SESSION['login'] = $_COOKIE['CurentLogin'];
+		} else {
+			$_SESSION['login'] = null;
+		}
 
-    // echo $controller . "::" . $action . "() <br>";
+		// echo $controller . "::" . $action . "() <br>";
 
-    // Vérification de l'existence de la classe
-    if (class_exists($controller)) {
-      // Vérification de l'existence de la méthode
-      if (method_exists($controller, $action)) {
-        // Appel de la méthode statique $action du controleur actif
-        $controller::$action();
-      } else {
-        $error = "Erreur: La méthode $action du controller '$controller' n'existe pas.";
-        require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
-      }
-    } else {
-      $error = "Erreur: Le controller '$controller' n'existe pas.";
-      require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
-    }
-  } else {
-    require('../src/Views/Template/cookiesRefused.php');
-  }
+		// Vérification de l'existence de la classe
+		if (class_exists($controller)) {
+			// Vérification de l'existence de la méthode
+			if (method_exists($controller, $action)) {
+				// Appel de la méthode statique $action du controleur actif
+				$controller::$action();
+			} else {
+				$error = "Erreur: La méthode $action du controller '$controller' n'existe pas.";
+				require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
+			}
+		} else {
+			$error = "Erreur: Le controller '$controller' n'existe pas.";
+			require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
+		}
+	} else {
+		require('../src/Views/Template/cookiesRefused.php');
+	}
 } else {
-  require('../src/Views/Template/acceptCookies.php');
+	require('../src/Views/Template/acceptCookies.php');
 }

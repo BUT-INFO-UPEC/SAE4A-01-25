@@ -6,24 +6,24 @@ $controller = $_SESSION['controller']
 <html>
 
 <head>
-  <meta charset="UTF-8">
+	<meta charset="UTF-8">
 
-  <title><?= $titrePage; ?></title>
+	<title><?= $titrePage; ?></title>
 
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_layout.css">
-  <!-- jQuery, Popper.js, et Bootstrap JS (nécessaires pour le modal Bootstrap) -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_layout.css">
+	<!-- jQuery, Popper.js, et Bootstrap JS (nécessaires pour le modal Bootstrap) -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Bootstrap JS (inclut Popper.js) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap JS (inclut Popper.js) -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-  <?php require __DIR__ . "/header.php"; ?>
-  <?php require __DIR__ . "/../Plugins/composants_balistiques_specifiques/Form.php"; ?>
+	<?php require __DIR__ . "/header.php"; ?>
+	<?php require __DIR__ . "/../Plugins/composants_balistiques_specifiques/Form.php"; ?>
 
   <div class="flex">
     
@@ -36,7 +36,7 @@ $controller = $_SESSION['controller']
     </div>
   </div>
 
-  <?php require __DIR__ . "/footer.php"; ?>
+	<?php require __DIR__ . "/footer.php"; ?>
 </body>
 
 </html>
