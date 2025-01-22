@@ -5,6 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Src\Config\ConfAPP;
 use Src\Controllers\ControllerDashboard;
 use Src\Controllers\ControllerGeneral;
+ConfAPP::init();
 
 
 // DEFINITION DES CHEMINS
