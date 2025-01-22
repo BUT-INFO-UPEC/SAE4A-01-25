@@ -1,7 +1,5 @@
 <?php
 
-echo time(); // Test time
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Src\Config\ConfAPP;
