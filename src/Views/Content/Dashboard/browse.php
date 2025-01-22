@@ -1,95 +1,51 @@
 <!--Ajout d'un style simple efficasse pour le filtrage-->
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-    }
-
-	.filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: center; /* Aligne les éléments verticalement */
-    background: #f8f8f8;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-	}
-
-	.filters label {
-    font-weight: bold;
-    margin-right: 10px;
-	}
-
-	.filters input[type="date"],
-	.filters select {
-    flex: 1; /* Permet aux éléments d’avoir une taille proportionnelle */
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: auto; /* Empêche le champ de date de s'étendre trop */
-	}
-
-	#custom-dates {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-	}
-
-	button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: auto; /* Évite l'étirement */
-	}
-
-	button:hover {
-    background-color: #0056b3;
-	}
-
-
-    .list-dash {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .list-dash .card {
-        background: #fff;
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center; /* Aligne les éléments verticalement */
+        background: #f8f8f8;
         padding: 15px;
-        margin: 10px 0;
         border: 1px solid #ddd;
         border-radius: 5px;
-        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .list-dash .card:hover {
-        transform: scale(1.02);
-        box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+    .filters label {
+        font-weight: bold;
+        margin-right: 10px;
     }
 
-    .list-dash .card-body {
-        text-decoration: none;
-        color: #333;
-        font-size: 16px;
+    .filters input[type="date"],
+    .filters select {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: auto; /* Empêche les champs de s'étendre trop */
     }
 
-    .list-dash .card-body:hover {
-        text-decoration: underline;
+    #custom-dates {
+        display: flex;
+        gap: 15px;
+        align-items: center;
     }
 
-    @media (max-width: 768px) {
-        .filters {
-            flex-direction: column;
-            gap: 10px;
-        }
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        width: auto; /* Évite l'étirement */
+    }
+
+    button:hover {
+        background-color: #0056b3;
     }
 </style>
 <!-- Interface utilisateur pour les filtres -->
