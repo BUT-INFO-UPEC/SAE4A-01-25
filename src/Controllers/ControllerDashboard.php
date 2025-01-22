@@ -23,16 +23,17 @@ class ControllerDashboard extends AbstractController
     #region entry
     static public function browse(): void
     {
+        // Récupération des filtres depuis la requête GET
+        $region = $_GET['region'] ?? '';
+        $order = $_GET['order'] ?? 'recent';
+        $dateFilter = $_GET['date'] ?? 'today';
+        $customStartDate = $_GET['start_date'] ?? '';
+        $customEndDate = $_GET['end_date'] ?? '';
+
+        // Récupération de tous les tableaux de bord
         $dashboards = Dashboard::get_dashboards();
 
-        // Ajout des filtres et tri pour les tableaux de bord
-        $region = $_GET['region'] ?? null;
-        $order = $_GET['order'] ?? 'recent'; // Valeurs possibles : recent, most_viewed
-        $dateFilter = $_GET['date'] ?? 'today';
-        $customStartDate = $_GET['start_date'] ?? null;
-        $customEndDate = $_GET['end_date'] ?? null;
-
-        // Filtrage des tableaux de bord
+        // Logique de filtrage des tableaux de bord
         $filteredDashboards = array_filter($dashboards, function ($dash) use ($region, $dateFilter, $customStartDate, $customEndDate) {
             $passesRegionFilter = $region ? $dash->get_region() === $region : true;
             $passesDateFilter = true;
@@ -50,7 +51,7 @@ class ControllerDashboard extends AbstractController
             return $passesRegionFilter && $passesDateFilter;
         });
 
-        // Tri des tableaux de bord
+        // Logique de tri des tableaux de bord
         usort($filteredDashboards, function ($a, $b) use ($order) {
             if ($order === 'most_viewed') {
                 return $b->get_views() - $a->get_views();
@@ -59,8 +60,11 @@ class ControllerDashboard extends AbstractController
             }
         });
 
+        // Préparation des variables pour la vue
         $titrePage = "Liste Des Dashboards";
         $cheminVueBody = "browse.php";
+
+        // Inclusion de la vue avec les données filtrées
         require('../src/Views/Template/views.php');
     }
 
