@@ -20,15 +20,17 @@ footer {
 main * * {
   padding: 1%;
 }
+
 .bonjour {
   margin: 1%;
   padding: 1%;
   width: 100%;
   /**
-   * bordures
+   * Ombrage
    */
-  border: 1px solid #000;
-  border-radius: 15px;
+
+  border-radius: 0px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   overflow: auto;
   max-height: 61.15vh;
   min-height: 61.15vh;
@@ -37,6 +39,7 @@ main * * {
 .bonjour::-webkit-scrollbar {
   display: none;
 }
+
 hr {
   margin: 0;
   padding: 0;
@@ -224,8 +227,10 @@ hr {
 
 /* carte region */
 #map {
-  width: 50%; /* Prend toute la largeur disponible */
-  height: 50%; /* Ajuste la hauteur */
+  width: 50%;
+  /* Prend toute la largeur disponible */
+  height: 50%;
+  /* Ajuste la hauteur */
 }
 
 #map path {
