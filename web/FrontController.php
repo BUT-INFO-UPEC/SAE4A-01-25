@@ -37,7 +37,7 @@ if (isset($_COOKIE['acceptationCookies'])) {
 	if ($_COOKIE['acceptationCookies']) {
 		// Comme le fichier est une etape obligée (rte d'entrée), on initialise la session (pour etre sur que c fait)
 		session_start();
-		echo $_SESSION['login'] ?? '';
+		// echo $_SESSION['login'] ?? '';
 		// On recupère le controleur
 		$defaultController = $_COOKIE["CurrentContoller"] ?? "ControllerGeneral"; // Vérifier si l'utilisateur a déja été sur le site, si oui, il retourne sur ce qu'il etait en train de faire, sinon, page d'accueil
 		$controller = $_GET["controller"] ?? $defaultController; // On vérifie si l'utilisateur se dirige vers un autre controleur spéxifié, sion on le mets sur celui décidé précédament

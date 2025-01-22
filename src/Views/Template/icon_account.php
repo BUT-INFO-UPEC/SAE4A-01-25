@@ -24,7 +24,7 @@
       </li>
     <?php else : ?>
       <li>
-        <a class="dropdown-item d-flex align-items-center" href="<?= BASE_URL . '../Actions/Profil.php'; ?>">
+        <a class="dropdown-item d-flex align-items-center" href="<?= CONTROLLER_URL . '?controller=ControllerGeneral&action=profile'; ?>">
           <img src="<?= BASE_URL . 'assets/img/account-icon.png'; ?>" alt="Profil" class="me-2" style="width: 20px; height: 20px;">
           Profil
         </a>

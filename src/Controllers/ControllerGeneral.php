@@ -97,4 +97,11 @@ class ControllerGeneral extends AbstractController
       $msg->setErrorAndRedirect(); // Utilisation de la méthode setErrorAndRedirect()
     }
   }
+
+	public static function profile() {
+		
+    $titrePage = "Profile";
+    $cheminVueBody = "profil.php";
+    require('../src/Views/Template/views.php');
+	}
 }
