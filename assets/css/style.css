@@ -10,9 +10,6 @@ footer {
   width: 100%;
   padding: 1cm;
   background-color: lightgray;
-}
-
-footer {
   position: sticky;
   bottom: 0;
 }
