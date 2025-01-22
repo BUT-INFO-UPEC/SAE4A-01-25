@@ -26,7 +26,7 @@ class BDD
 	{
 		try {
 			// Chemin absolu vers la base de données SQLite
-			$dbPath = __DIR__ . '/../../database/France.db';
+			$dbPath = __DIR__  . "/../../../database/DATABASE.db";
 
 			// Vérifie si le fichier de base de données existe
 			if (!file_exists($dbPath)) {

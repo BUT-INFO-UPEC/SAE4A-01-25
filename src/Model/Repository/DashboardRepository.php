@@ -60,7 +60,7 @@ class DashboardRepository extends AbstractRepository
 	public function get_dashboards(): array
 	{
 		// construire les paramètres where et ajouter des paramètres a mettre dans une liste associative pour filtrer par visibilité entre autre
-		return $this->selectAll(null, null);
+		return $this->selectAll(null, []);
 	}
 	#endregion Publiques
 
