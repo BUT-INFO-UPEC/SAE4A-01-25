@@ -25,7 +25,7 @@
 			if (sidebar.classList.contains('collapsed')) {
 				toggleButton.innerHTML = '&#9776;'; // Icône menu hamburger (ouvrir)
 			} else {
-				toggleButton.innerHTML = '<'; // Icône croix (fermer)
+				toggleButton.innerHTML = '&Chi;'; // Icône croix (fermer)
 			}
 		});
 	</script>
