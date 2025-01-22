@@ -6,7 +6,7 @@
     "recomanded_att": [],
     "import_files": ["googleCharts.php"],
     "data_formateur": "CSVarray",
-    "visualisation_constructor": "generate_pie_chart"
+    "visualisation_constructor": "generate_pie_chart.php"
   },
   {
     "repr_id": 1,
@@ -15,7 +15,7 @@
     "recomanded_atts": [],
     "import_files": ["phpCharts.php"],
     "data_formateur": "unique_value",
-    "visualisation_constructor": "generate_text_representation"
+    "visualisation_constructor": "generate_text_representation.php"
   },
   {
     "repr_id": 2,
@@ -24,7 +24,7 @@
     "recomanded_atts": [],
     "import_files": ["googleCharts.php"],
     "data_formateur": "CSVarray",
-    "visualisation_constructor": "generate_geo_chart"
+    "visualisation_constructor": "generate_geo_chart.php"
   },
   {
     "repr_id": 3,
@@ -33,7 +33,7 @@
     "recomanded_atts": [],
     "import_files": ["googleCharts.php"],
     "data_formateur": "CSVarray",
-    "visualisation_constructor": "generate_line_chart"
+    "visualisation_constructor": "generate_line_chart.php"
   },
   {
     "repr_id": 4,
@@ -42,6 +42,6 @@
     "recomanded_atts": [],
     "import_files": ["googleCharts.php"],
     "data_formateur": "CSVarray",
-    "visualisation_constructor": "generate_bar_chart"
+    "visualisation_constructor": "generate_bar_chart.php"
   }
 ]

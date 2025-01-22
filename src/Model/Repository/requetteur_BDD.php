@@ -18,7 +18,7 @@ class Requetteur_BDD
     // methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $visualisationsJson = file_get_contents(__DIR__ . '/../../../assets/database/Representations.json');
+    $visualisationsJson = file_get_contents(__DIR__ . '/../../../database/Representations.json');
     $visualisationsDecodee = json_decode($visualisationsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
@@ -41,7 +41,7 @@ class Requetteur_BDD
     // methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $composantsJson = file_get_contents(__DIR__ . '/../../../assets/database/Composants.json');
+    $composantsJson = file_get_contents(__DIR__ . '/../../../database/Composants.json');
     $ComposantsDecodes = json_decode($composantsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
@@ -58,7 +58,7 @@ class Requetteur_BDD
     // methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $dashboardsJson = file_get_contents(__DIR__ . '/../../../assets/database/Dashboards.json');
+    $dashboardsJson = file_get_contents(__DIR__ . '/../../../database/Dashboards.json');
     $DashboardsDecodes = json_decode($dashboardsJson);
 
     // Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
@@ -78,7 +78,7 @@ class Requetteur_BDD
     // methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
     // Récupérer le contenu du fichier json et l'interpréter
-    $attributsJson = file_get_contents(__DIR__ . '/../../../assets/database/Attributs.json');
+    $attributsJson = file_get_contents(__DIR__ . '/../../../database/Attributs.json');
     $attributsDecodes = json_decode($attributsJson, true);
 
     foreach ($attributsDecodes as $att) {
@@ -120,7 +120,7 @@ class Requetteur_BDD
     if (is_array($grouping)) {
       // vérifier si c'est une liste de stations ou intervals temporels et construire 
     } else {
-      $groupingsJson = file_get_contents(__DIR__ . '/../../../assets/database/Groupings.json');
+      $groupingsJson = file_get_contents(__DIR__ . '/../../../database/Groupings.json');
       $groupingsDecodes = json_decode($groupingsJson, true);
 
       foreach ($groupingsDecodes as $group) {

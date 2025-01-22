@@ -1,5 +1,12 @@
 [
   {
+    "value_type": "decimal ",
+    "key": "t",
+    "name": "Température",
+    "unit": "K",
+    "example": 303.45
+  },
+  {
     "value_type": "",
     "key": "",
     "name": "",
@@ -46,13 +53,6 @@
     "name": "Vitesse du vent moyen 10mn",
     "example": "8.3",
     "description": "m/s"
-  },
-  {
-    "value_type": "decimal ",
-    "key": "t",
-    "name": "Température",
-    "unit": "K",
-    "example": 303.45
   },
   {
     "value_type": "decimal K",
