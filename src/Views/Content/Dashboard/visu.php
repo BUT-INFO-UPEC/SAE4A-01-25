@@ -22,7 +22,7 @@
 			<div class="flex">
 				<h3 style="flex-grow: 1"> Periode temporelle </h3>
 
-				<p> Météothèque <?php echo htmlspecialchars($dash->dateFinRelatif ? 'Oui' : 'Non'); ?></p>
+				<p> Météothèque dynamique ? <?php echo htmlspecialchars($dash->dateFinRelatif ? 'Oui' : 'Non'); ?></p>
 			</div>
 
 			<p> début : <span class="changing">JJ/MMAAA</span></p>
