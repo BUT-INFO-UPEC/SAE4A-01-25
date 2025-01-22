@@ -25,7 +25,7 @@
 			if (sidebar.classList.contains('collapsed')) {
 				toggleButton.innerHTML = '&#9776;'; // Icône menu hamburger (ouvrir)
 			} else {
-				toggleButton.innerHTML = '&Chi;'; // Icône croix (fermer)
+				toggleButton.innerHTML = '<'; // Icône croix (fermer)
 			}
 		});
 	</script>
@@ -33,7 +33,8 @@
 
 <style>
 	#toggleSidebar {
-		height: 55px;
+		height: 25px;
+		width: 25px;
 		margin-top: 20px;
 		margin-left: -5%;
 	}
