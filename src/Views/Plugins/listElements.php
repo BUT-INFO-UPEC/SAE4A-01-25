@@ -6,6 +6,6 @@
 
 echo '<ul>';
 foreach ($elements as $ele) {
-  echo "<li> $ele </li>";
+	echo "<li> $ele </li>";
 }
 echo '</ul>';

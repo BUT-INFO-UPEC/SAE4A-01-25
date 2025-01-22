@@ -1,21 +1,21 @@
 {
-	"name": "but/sae",
-	"description": "SAE 3.A.01",
-	"autoload": {
-			"psr-4": {
-					"Src\\": "src/"
-			}
-	},
-	"authors": [
-			{
-					"name": "Kirito140",
-					"email": "maxence.campourcy@gmail.com"
-			},
-			{
-				"name": "Mrcotin",
-				"email": "corentin.solacroup@etu.u-pec.fr"
-			}
-	],
-	"minimum-stability": "stable",
-	"require": {}
+  "name": "but/sae",
+  "description": "SAE 3.A.01",
+  "autoload": {
+    "psr-4": {
+      "Src\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Kirito140",
+      "email": "maxence.campourcy@gmail.com"
+    },
+    {
+      "name": "Mrcotin",
+      "email": "corentin.solacroup@etu.u-pec.fr"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {}
 }
