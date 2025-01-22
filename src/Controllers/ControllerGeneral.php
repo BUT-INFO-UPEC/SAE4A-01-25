@@ -58,8 +58,8 @@ class ControllerGeneral extends AbstractController
 	public static function signIn()
 	{
 		try {
-			$email = $_POST['email'];
-			$mdp = $_POST['password'];
+			$email = $_POST['mail'];
+			$mdp = $_POST['mdp'];
 
 			$check_mdp = UtilisateurRepository::checkUserMailMdp(
 				$email,
