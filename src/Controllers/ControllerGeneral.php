@@ -61,7 +61,6 @@ class ControllerGeneral extends AbstractController
       // Vérification des données envoyées par le formulaire
       $email = trim($_POST['email'] ?? '');
       $mdp = trim($_POST['password'] ?? '');
-
       // Vérification que les champs sont remplis
       if (empty($email) || empty($mdp)) {
         $msg = new Msg("Veuillez remplir tous les champs.");
