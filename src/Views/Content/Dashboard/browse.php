@@ -5,7 +5,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
-        align-items: center; /* Aligne les éléments verticalement */
+        align-items: center;
         background: #f8f8f8;
         padding: 15px;
         border: 1px solid #ddd;
@@ -24,7 +24,7 @@
         font-size: 14px;
         border: 1px solid #ccc;
         border-radius: 4px;
-        width: auto; /* Empêche les champs de s'étendre trop */
+        width: auto;
     }
 
     #custom-dates {
@@ -41,13 +41,42 @@
         font-size: 14px;
         border-radius: 5px;
         cursor: pointer;
-        width: auto; /* Évite l'étirement */
+        width: auto;
     }
 
     button:hover {
         background-color: #0056b3;
     }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+        .filters {
+            flex-direction: column; /* Empile les éléments */
+            align-items: flex-start;
+        }
+
+        #custom-dates {
+            flex-direction: column; /* Empile les champs de date */
+        }
+
+        button {
+            width: 100%; /* Le bouton prend toute la largeur */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .filters select,
+        .filters input[type="date"] {
+            width: 100%; /* Les champs prennent toute la largeur */
+        }
+
+        .filters label {
+            margin-right: 0;
+            margin-bottom: 5px;
+        }
+    }
 </style>
+
 <!-- Interface utilisateur pour les filtres -->
 <form method="GET" class="filters">
 	<label for="region">Filtrer par région :</label>
