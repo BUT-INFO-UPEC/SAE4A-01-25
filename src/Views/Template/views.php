@@ -26,10 +26,11 @@ $controller = $_SESSION['controller']
 	<?php require __DIR__ . "/../Plugins/composants_balistiques_specifiques/Form.php"; ?>
 
   <div class="flex">
-    
     <?php require __DIR__ . "/sidebar.php"; ?>
+
     <div class="bonjour">
       <?php require __DIR__ . "/message.php"; ?>
+			
       <main>
         <?php require __DIR__ . "/../Content/$controller/$cheminVueBody"; ?>
       </main>
