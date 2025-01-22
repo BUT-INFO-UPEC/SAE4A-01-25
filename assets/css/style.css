@@ -13,7 +13,7 @@ footer {
 }
 
 footer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
 }
 
