@@ -12,7 +12,7 @@
 				<p class="card-text text-danger">
 					<?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
 				</p>
-				<a href="/sae/Controller/?action=accueil" class="btn btn-primary mt-3">Retour à la liste</a>
+				<a href="?controller=ControllerGeneral&action=home" class="btn btn-primary mt-3">Retour à l'accueil'</a>
 			</div>
 		</div>
 	</div>

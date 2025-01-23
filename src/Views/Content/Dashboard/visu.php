@@ -43,8 +43,8 @@
 
 	<hr />
 
+	<div id='dashboard'>
 	<?php
-	$output = "<div id='dashboard'>";
 	foreach ($dash->get_composants() as $composant) { // parcourir les composants
 		// récupérer les données de paramétrage et de visualisation
 		$visualisation_file = $composant->get_visu_file();
@@ -53,7 +53,6 @@
 		// appeler la visualisation correspondante
 		require  __DIR__ . "/Visualisations/$visualisation_file";
 	}
-	$output .= "</div>";
-	return $output;
 	?>
+	</div>
 </div>

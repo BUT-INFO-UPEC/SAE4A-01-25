@@ -171,3 +171,17 @@ abstract class AbstractRepository
 	protected abstract function getNomsColonnes(): array;
 	#endregion abstraites
 }
+
+
+// public  function arrayConstructor(array $objetFormatTableau): AbstractDataObject {
+// 	return new AbstractDataObject($objetFormatTableau);
+// }
+// public  function getNomClePrimaire(): string {
+// 	return "";
+// }
+// public  function getNomsColonnes(): array {
+// 	return ["id"];
+// }
+// public  function getTableName(): string {
+// 	return "Table";
+// }
