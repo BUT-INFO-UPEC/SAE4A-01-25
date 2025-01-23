@@ -37,7 +37,7 @@ class DashboardRepository extends AbstractRepository
 		$constructeur = new ComposantRepository();
 		$composants = [];
 		foreach ($composantsId as $compId) {
-			$composants[] = $constructeur->get_composant_by_id($compId);
+			$composants[] = $constructeur->get_composant_by_id($compId['composant_id']);
 		}
 		return $composants;
 	}

@@ -9,6 +9,7 @@ class RepresentationRepository extends AbstractRepository
 {
 	public function get_representation_by_id($id): Representation
 	{
+		// créer une liste statique (genre PDO) et vérifier sil'attribut est déja initialisé, auquel cas donner l'instance, sinon, instancier
 		return $this->select($id);
 	}
 

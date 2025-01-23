@@ -9,6 +9,7 @@ class AggregationRepository extends AbstractRepository
 {
 	public function get_aggregation_by_id($id): Aggregation
 	{
+		// créer une liste statique (genre PDO) et vérifier sil'attribut est déja initialisé, auquel cas donner l'instance, sinon, instancier
 		return $this->select($id);
 	}
 	public  function arrayConstructor(array $objetFormatTableau): Aggregation 

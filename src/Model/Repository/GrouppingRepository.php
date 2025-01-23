@@ -9,6 +9,7 @@ class GrouppingRepository extends AbstractRepository
 {
 	public function get_groupping_by_id($id): Groupping
 	{
+		// créer une liste statique (genre PDO) et vérifier sil'attribut est déja initialisé, auquel cas donner l'instance, sinon, instancier
 		return $this->select($id);
 	}
 	public  function arrayConstructor(array $objetFormatTableau): Groupping 
