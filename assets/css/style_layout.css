@@ -1,17 +1,21 @@
 header,
 footer {
   width: 100%;
-  padding: 2rem;
+  padding: 1rem;
   background-color: #a1a8b0;
   text-align: center;
   width: 100%;
-  padding: 1cm;
   bottom: 0;
 }
 
 footer a {
   color: #007bff;
   text-decoration: none;
+}
+
+footer p {
+	margin: 0;
+	padding: 0;
 }
 
 .titre-header {
