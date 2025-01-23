@@ -101,7 +101,6 @@ class ControllerGeneral extends AbstractController
 
   public static function profile()
   {
-
     $titrePage = "Profile";
     $cheminVueBody = "profil.php";
     require('../src/Views/Template/views.php');
