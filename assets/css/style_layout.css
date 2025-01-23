@@ -1,14 +1,4 @@
-header {
-  width: 100%;
-  padding: 2rem;
-  background-color: #868e96;
-  text-align: center;
-  width: 100%;
-  padding: 1cm;
-  position: sticky;
-  bottom: 0;
-}
-
+header,
 footer {
   width: 100%;
   padding: 2rem;
@@ -28,7 +18,7 @@ footer {
   padding: 0;
   /* Supprime les espacements internes si présents */
   font-size: 2rem;
-  color: #000;
+  color: #343a40;
 }
 
 .footer-layout a {
@@ -68,7 +58,7 @@ footer {
 .header-menu a {
   position: relative;
   text-decoration: none;
-  color: #000;
+  color: #343a40;
   font-weight: 500;
   margin-left: 20px;
 }
@@ -80,7 +70,7 @@ footer {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #000;
+  background-color: #343a40;
   transition: width 0.3s;
 }
 
