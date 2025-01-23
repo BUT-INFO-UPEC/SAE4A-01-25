@@ -1,6 +1,6 @@
 <div class="dropdown position-relative">
   <img
-    src="<?= BASE_URL . 'assets/img/account-icon2.png'; ?>"
+    src="<?= BASE_URL . 'assets/img/account-icon2.webp'; ?>"
     alt="Menu"
     class="account-icon dropdown-toggle"
     id="accountDropdown"
