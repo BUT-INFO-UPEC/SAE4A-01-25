@@ -7,12 +7,12 @@ use Src\Model\DataObject\Aggregation;
 
 class AggregationRepository extends AbstractRequestComponant
 {
-	public function get_attribut_by_id($id): Aggregation
+	public function get_aggregation_by_id($id): Aggregation
 	{
 		return $this->get_object_by_id($id);
 	}
 
-	public function get_attributs(): array
+	public function get_aggregations(): array
 	{
     return $this->get_static_objects_list();
 	}

@@ -2,6 +2,7 @@
 
 namespace Src\Model\Repository;
 
+use Src\Model\DataObject\AbstractDataObject;
 use Src\Model\Repository\AbstractRepository;
 
 /**
@@ -9,60 +10,88 @@ use Src\Model\Repository\AbstractRepository;
  */
 abstract class AbstractRequestComponant extends AbstractRepository
 {
-    protected static array $cache = [];  // Cache statique propre à chaque classe fille
-    protected static bool $cache_full = false;
 
-    function get_object_by_id($id)
-    {
-        // Vérifie si l'objet est déjà dans le cache spécifique à cette classe
-        if (isset(static::$cache[$id])) {  // Utilisation de static::$cache
-            return static::$cache[$id]; // Retourne l'instance déjà initialisée
-        }
+	// Ce cache est partagé par toutes les classes filles
+	protected static $sharedCache = [];
 
-        // Sinon, récupère l'objet depuis la base de données
-        $objet = $this->select($id);
+	// Méthode pour obtenir ou manipuler le cache
+	protected function getCache(string $key)
+	{
+		$className = get_called_class();  // Récupère le nom de la classe fille actuelle
+		if (!isset(self::$sharedCache[$className])) {
+			self::$sharedCache[$className] = [];  // Initialiser le cache pour cette classe fille
+		}
+		return self::$sharedCache[$className][$key] ?? null;
+	}
 
-        // Stocke l'instance dans le cache de la classe
-        static::$cache[$id] = $objet;  // Utilisation de static::$cache
+	protected function setCache(string $key, $value)
+	{
+		$className = get_called_class();
+		if (!isset(self::$sharedCache[$className])) {
+			self::$sharedCache[$className] = [];
+		}
+		self::$sharedCache[$className][$key] = $value;
+	}
 
-        return $objet;
-    }
+	protected function getCacheFull() {
+		$className = get_called_class();  // Récupère le nom de la classe fille actuelle
+		if (!isset(self::$sharedCache[$className])) {
+			self::$sharedCache[$className] = [];  // Initialiser le cache pour cette classe fille
+		}
+		return self::$sharedCache[$className] ?? null;
+	}
 
-    public function get_static_objects_list()
-    {
-        // Initialise les objets avec le cache spécifique à cette classe
-        $objet = static::$cache;  // Utilisation de static::$cache
+	function get_object_by_id($id): AbstractDataObject
+	{
+		// Vérifie si l'objet est déjà dans le cache spécifique à cette classe
+		if ($this->getCache($id) != null) {  // Utilisation de static::$cache
+			return $this->getCache($id); // Retourne l'instance déjà initialisée
+		}
 
-        // Si le cache complet n'est pas chargé
-        if (!static::$cache_full) {
-            if (!empty(static::$cache)) {
-                // Construire les placeholders pour les IDs déjà en cache
-                $whereQuery = "WHERE id NOT IN (";
-                $i = 0;
-                $values = [];
-                foreach (static::$cache as $id => $value) {
-                    $whereQuery .= ":id$i";
-                    if ($i != sizeof(static::$cache) - 1) {
-                        $whereQuery .= ", ";
-                    }
-                    $values["id$i"] = $id;
-                    $i++;
-                }
-                $whereQuery .= ");";
-            } else {
-                // Pas de condition si le cache est vide
-                $whereQuery = "";
-                $values = [];
-            }
-            // Récupérer les objets manquants depuis la base de données
-            $newObjets = $this->selectAll($whereQuery, $values);
+		// Sinon, récupère l'objet depuis la base de données
+		$objet = $this->select($id);
 
-            // Fusionner les nouveaux objets avec ceux du cache
-            $objet = array_merge($objet, $newObjets);
+		// Stocke l'instance dans le cache de la classe
+		$this->setCache($id, $objet);  // Utilisation de static::$cache
 
-            // Marquer le cache comme complet
-            static::$cache_full = true;  // Utilisation de static::$cache_full
-        }
-        return $objet;
-    }
+		return $objet;
+	}
+
+	public function get_static_objects_list()
+	{
+		// Initialise les objets avec le cache spécifique à cette classe
+		$objet = $this->getCacheFull();  // Utilisation de static::$cache
+
+		// Si le cache complet n'est pas chargé
+		if (!$this->getCache("full")) {
+			if (!empty($this->getCacheFull())) {
+				// Construire les placeholders pour les IDs déjà en cache
+				$whereQuery = "WHERE id NOT IN (";
+				$i = 0;
+				$values = [];
+				foreach ($this->getCacheFull() as $id => $value) {
+					$whereQuery .= ":id$i";
+					if ($i != sizeof($this->getCacheFull()) - 1) {
+						$whereQuery .= ", ";
+					}
+					$values["id$i"] = $id;
+					$i++;
+				}
+				$whereQuery .= ");";
+			} else {
+				// Pas de condition si le cache est vide
+				$whereQuery = "";
+				$values = [];
+			}
+			// Récupérer les objets manquants depuis la base de données
+			$newObjets = $this->selectAll($whereQuery, $values);
+
+			// Fusionner les nouveaux objets avec ceux du cache
+			$objet = array_merge($objet, $newObjets);
+
+			// Marquer le cache comme complet
+			$this->setCache("full", true);  // Utilisation de static::$cache_full
+		}
+		return $objet;
+	}
 }
