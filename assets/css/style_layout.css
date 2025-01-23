@@ -1,8 +1,34 @@
-header,
+header {
+  width: 100%;
+  padding: 2rem;
+  background-color: #868e96;
+  text-align: center;
+  width: 100%;
+  padding: 1cm;
+  position: sticky;
+  bottom: 0;
+}
+
 footer {
   width: 100%;
   padding: 2rem;
-  background-color: #999999;
+  background-color: #868e96;
+  text-align: center;
+  width: 100%;
+  padding: 1cm;
+  position: sticky;
+  bottom: 0;
+}
+
+.titre-header {
+  text-align: left;
+  width: 100%;
+  margin: 10px;
+  /* Supprime les marges par défaut */
+  padding: 0;
+  /* Supprime les espacements internes si présents */
+  font-size: 2rem;
+  color: #000;
 }
 
 .footer-layout a {
@@ -24,20 +50,40 @@ footer {
   height: 5vh;
 }
 
+
+.header-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 .header-menu {
   display: flex;
-  justify-content: center;
-  margin: 10px 0;
   gap: 20px;
+  margin: 0;
+  margin-left: auto;
+  margin-right: 50px;
 }
 
 .header-menu a {
+  position: relative;
   text-decoration: none;
-  color: #000000;
-  font-weight: bold;
-  transition: color 0.3s;
+  color: #000;
+  font-weight: 500;
+  margin-left: 20px;
 }
 
-.header-menu a:hover {
-  color: #ffffff;
+.header-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #000;
+  transition: width 0.3s;
+}
+
+.header-menu a:hover::after {
+  width: 100%;
 }

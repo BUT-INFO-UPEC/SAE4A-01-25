@@ -9,24 +9,6 @@ body {
   /* Gris foncé pour le texte */
 }
 
-header {
-  background-color: #0066cc;
-  /* Bleu vif pour l'en-tête */
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-
-footer {
-  text-align: center;
-  padding: 10px;
-  background-color: #0066cc;
-  /* Bleu vif pour le pied de page */
-  color: white;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-}
 
 main {
   max-width: 900px;

@@ -4,16 +4,6 @@ body {
   padding: 0;
 }
 
-header,
-footer {
-  text-align: center;
-  width: 100%;
-  padding: 1cm;
-  background-color: lightgray;
-  position: sticky;
-  bottom: 0;
-}
-
 main * * {
   padding: 1%;
 }
