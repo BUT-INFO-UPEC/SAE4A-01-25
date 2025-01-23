@@ -46,6 +46,7 @@ class ControllerGeneral extends AbstractController
   #endregion entry
 
   #region utilisateur
+
   /**
    * Summary of signIn
    * @return void
@@ -98,10 +99,13 @@ class ControllerGeneral extends AbstractController
     }
   }
 
-	public static function profile() {
-		
+  public static function profile()
+  {
+
     $titrePage = "Profile";
     $cheminVueBody = "profil.php";
     require('../src/Views/Template/views.php');
-	}
+  }
+
+  #endregion
 }
