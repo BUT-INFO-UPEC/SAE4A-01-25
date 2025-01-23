@@ -134,7 +134,6 @@ class Requetteur_BDD
 	public static function get_station()
 	{
 		$query = "select * from stations";
-		$pdo = new BDD();
-		return $pdo->fetchAll($query, []);
+		return DatabaseConnection::fetchAll($query, []);
 	}
 }
