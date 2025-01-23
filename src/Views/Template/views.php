@@ -1,6 +1,6 @@
 <?php
 $controller = $_SESSION['controller']
-?>
+	?>
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,6 @@ $controller = $_SESSION['controller']
 	<title><?= $titrePage; ?></title>
 
 	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
-	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_layout.css">
 	<!-- jQuery, Popper.js, et Bootstrap JS (nécessaires pour le modal Bootstrap) -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- Bootstrap CSS -->

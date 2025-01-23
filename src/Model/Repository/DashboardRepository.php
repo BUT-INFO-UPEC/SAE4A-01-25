@@ -63,5 +63,6 @@ class DashboardRepository extends AbstractRepository
 		return $this->selectAll(null, []);
 	}
 	#endregion Publiques
+	
 
 }

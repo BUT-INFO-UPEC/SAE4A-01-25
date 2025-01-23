@@ -3,26 +3,12 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4; /* Gris clair pour le fond */
-  color: #333; /* Gris foncé pour le texte */
+  background-color: #f4f4f4;
+  /* Gris clair pour le fond */
+  color: #333;
+  /* Gris foncé pour le texte */
 }
 
-header {
-  background-color: #0066cc; /* Bleu vif pour l'en-tête */
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-
-footer {
-  text-align: center;
-  padding: 10px;
-  background-color: #0066cc; /* Bleu vif pour le pied de page */
-  color: white;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-}
 
 main {
   max-width: 900px;
@@ -64,14 +50,16 @@ section {
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  border: 5px solid #272626; /* Bordure orange vif */
+  border: 5px solid #272626;
+  /* Bordure orange vif */
   object-fit: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Bouton Modifier la photo */
 #modify-photo-btn {
-  background-color: #272626; /* Orange vif */
+  background-color: #272626;
+  /* Orange vif */
   color: white;
   padding: 8px 20px;
   border: none;
@@ -82,7 +70,8 @@ section {
 }
 
 #modify-photo-btn:hover {
-  background-color: #e65c00; /* Orange foncé au survol */
+  background-color: #e65c00;
+  /* Orange foncé au survol */
 }
 
 /* Options pour modifier la photo */
@@ -99,7 +88,8 @@ section {
 }
 
 #photo-options button {
-  background-color: #00cc66; /* Vert vif */
+  background-color: #00cc66;
+  /* Vert vif */
   color: white;
   border: none;
   padding: 8px 20px;
@@ -109,7 +99,8 @@ section {
 }
 
 #photo-options button:hover {
-  background-color: #00b359; /* Vert foncé au survol */
+  background-color: #00b359;
+  /* Vert foncé au survol */
 }
 
 /* Informations personnelles */
@@ -117,14 +108,16 @@ section {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  color: #555; /* Gris clair pour les textes */
+  color: #555;
+  /* Gris clair pour les textes */
 }
 
 #user-info h2 {
   color: #333;
   font-size: 1.6rem;
   margin-bottom: 15px;
-  border-bottom: 2px solid #0066cc; /* Ligne bleue sous le titre */
+  border-bottom: 2px solid #0066cc;
+  /* Ligne bleue sous le titre */
   padding-bottom: 10px;
 }
 
@@ -135,14 +128,16 @@ section {
 
 /* Liens de navigation */
 a {
-  color: #0066cc; /* Bleu vif */
+  color: #0066cc;
+  /* Bleu vif */
   text-decoration: none;
   font-weight: bold;
 }
 
 a:hover {
   text-decoration: underline;
-  color: #004a99; /* Bleu plus foncé au survol */
+  color: #004a99;
+  /* Bleu plus foncé au survol */
 }
 
 /* Actions (Modifier Profil, Changer Mot de Passe, Se Déconnecter) */
@@ -161,7 +156,8 @@ a:hover {
 
 #user-actions a {
   display: inline-block;
-  background-color: #ff6600; /* Boutons orange vif */
+  background-color: #ff6600;
+  /* Boutons orange vif */
   color: white;
   padding: 10px 20px;
   border-radius: 50px;
@@ -173,5 +169,6 @@ a:hover {
 
 #user-actions a:hover {
   background-color: #e65c00;
-  transform: translateY(-2px); /* Légère animation de bouton au survol */
+  transform: translateY(-2px);
+  /* Légère animation de bouton au survol */
 }

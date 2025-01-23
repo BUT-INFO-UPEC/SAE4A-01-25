@@ -33,7 +33,8 @@
 
 <style>
 	#toggleSidebar {
-		height: 55px;
+		height: 25px;
+		width: 25px;
 		margin-top: 20px;
 		margin-left: -5%;
 	}
