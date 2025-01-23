@@ -26,7 +26,7 @@ if (isset($_SESSION['warning'])) {
             setTimeout(() => {
                 alertMessage.classList.add('fade'); // Ajoute une transition de disparition
                 setTimeout(() => alertMessage.remove(), 500); // Supprime complètement après 0.5s
-            }, 3000);
+            }, 10000);
         }
     });
 </script>

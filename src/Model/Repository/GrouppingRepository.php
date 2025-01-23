@@ -2,15 +2,19 @@
 
 namespace Src\Model\Repository;
 
-use Src\Model\Repository\AbstractRepository;
+use Src\Model\Repository\AbstractRequestComponant;
 use Src\Model\DataObject\Groupping;
 
-class GrouppingRepository extends AbstractRepository
+class GrouppingRepository extends AbstractRequestComponant
 {
 	public function get_groupping_by_id($id): Groupping
 	{
-		// créer une liste statique (genre PDO) et vérifier sil'attribut est déja initialisé, auquel cas donner l'instance, sinon, instancier
-		return $this->select($id);
+		return $this->get_object_by_id($id);
+	}
+
+	public function get_grouppings(): array
+	{
+    return $this->get_static_objects_list();
 	}
 	public  function arrayConstructor(array $objetFormatTableau): Groupping 
 	{
