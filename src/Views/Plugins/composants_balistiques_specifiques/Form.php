@@ -1,4 +1,4 @@
-<div id="popups">
+<div>
 	<div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -10,14 +10,14 @@
 
 				<!-- Contenu du modal -->
 				<div class="modal-body">
-					<form action="?action=signIn&controller=ControllerGeneral" method="post">
+					<form action="?action=connexion&controller=ControllerGeneral" method="post">
 						<div class="mb-3">
-							<label for="mail" class="form-label">Mail :</label>
-							<input type="email" name="mail" id="mail" class="form-control" required>
+							<label for="email" class="form-label">Mail :</label>
+							<input type="email" name="email" id="email" class="form-control" required>
 						</div>
 						<div class="mb-3">
-							<label for="mdp" class="form-label">Mot de Passe :</label>
-							<input type="password" name="mdp" id="mdp" class="form-control" minlength="1" required>
+							<label for="password" class="form-label">Mot de Passe :</label>
+							<input type="password" name="password" id="password" class="form-control" minlength="1" required>
 						</div>
 						<!-- Boutons du modal -->
 						<div class="modal-footer">
@@ -41,7 +41,7 @@
 
 				<!-- Contenu du modal -->
 				<div class="modal-body">
-					<form action="?action=signUp&controller=ControllerGeneral" method="post">
+					<form action="?action=inscription&controller=ControllerGeneral" method="post">
 						<div class="mb-3">
 							<label for="signup-nom" class="form-label">Nom :</label>
 							<input
@@ -120,6 +120,4 @@
 			</div>
 		</div>
 	</div>
-
-
 </div>

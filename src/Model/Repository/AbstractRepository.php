@@ -25,7 +25,7 @@ abstract class AbstractRepository
 	{
 		$nomTable = $this->getTableName();
 		$nomsColones = $this->getNomsColonnes();
-		$tableau = $object->formatTableau();
+		$values = $object->formatTableau();
 
 		// Construire les différentes valeurs a mettre a jour
 		$valeurs = "";
@@ -35,14 +35,13 @@ abstract class AbstractRepository
 		$valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
 
 		$cles = "";
-		foreach ($tableau as $key => $value) {
+		foreach ($values as $key => $value) {
 			$cles .= ":$key,";
 		}
 		$cles = substr($cles, 0, -1); // retirer la virgule finale
 
 		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles);";
-		$pdoStatement = DatabaseConnection::getPdo()->prepare($query);
-		$pdoStatement->execute($tableau); // on donne les valeurs et on exécute la requête
+		DatabaseConnection::executeQuery($query, $values);
 	}
 
 	/**
@@ -57,12 +56,11 @@ abstract class AbstractRepository
 		$nomTable = $this->getTableName();
 		$nomClePrimaire = $this->getNomClePrimaire();
 
-		$sql = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
-		$pdoStatement = DatabaseConnection::getPdo()->prepare($sql); // préparation de la requête
-		$values = array( // préparation des valeurs
+		$query = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
+		$values = [ // préparation des valeurs
 			"clePrimaire" => $valeurClePrimaire,
-		);
-		$pdoStatement->execute($values); // exécution de la requête
+		];
+		$pdoStatement = DatabaseConnection::executeQuery($query, $values);
 
 		// On récupère les résultats
 		$objet = $pdoStatement->fetch(PDO::FETCH_ASSOC);
@@ -75,12 +73,13 @@ abstract class AbstractRepository
 	 * 
 	 * @return AbstractDataObject[]
 	 */
-	public function selectAll(): array
+	public function selectAll($whereQuery, $values): array
 	{
-		$objets = array();
+		$objets = [];
 		$nomTable = $this->getTableName();
 
-		$pdoStatement = DatabaseConnection::getPdo()->query("SELECT * FROM $nomTable"); // récupéraiton des objets de la BDD
+		$query = "SELECT * FROM $nomTable $whereQuery;";
+		$pdoStatement = DatabaseConnection::executeQuery($query, $values); // récupéraiton des objets de la BDD
 
 		foreach ($pdoStatement as $objetFormatTableau) { // itération pour construction
 			$objets[] = $this->arrayConstructor($objetFormatTableau);
@@ -110,10 +109,9 @@ abstract class AbstractRepository
 		$valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
 
 		$query = "UPDATE $nomTable SET $valeurs WHERE $nomClePrimaire = :OLD" . $nomClePrimaire . "Tag;";
-		$pdoStatement = DatabaseConnection::getPdo()->prepare($query);
-		$tableau = $object->formatTableau();
-		$tableau[":OLD" . $nomClePrimaire . "Tag"] = $ancienneClePrimaire;
-		$pdoStatement->execute($tableau); // on donne les valeurs et on exécute la requête
+		$values = $object->formatTableau();
+		$values[":OLD" . $nomClePrimaire . "Tag"] = $ancienneClePrimaire;
+		DatabaseConnection::executeQuery($query, $values);
 	}
 
 	/**
@@ -128,12 +126,13 @@ abstract class AbstractRepository
 		$nomTable = $this->getTableName();
 		$nomClePrimaire = $this->getNomClePrimaire();
 
-		$sql = "DELETE from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
-		$pdoStatement = DatabaseConnection::getPdo()->prepare($sql); // préparation de la requête
-		$values = array( // préparation des valeurs
+		$query = "DELETE from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
+		$values = [ // préparation des valeurs
 			"clePrimaire" => $valeurClePrimaire,
-		);
-		$pdoStatement->execute($values); // exécution de la requête
+	];
+		// $pdoStatement = DatabaseConnection::getPdo()->prepare($sql); // préparation de la requête
+		// $pdoStatement->execute($values); // exécution de la requête
+		DatabaseConnection::executeQuery($query, $values);
 	}
 	#endregion CRUD
 
