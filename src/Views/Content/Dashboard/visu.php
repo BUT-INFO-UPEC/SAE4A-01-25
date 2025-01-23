@@ -45,9 +45,13 @@
 
 	<?php
 	$output = "<div id='dashboard'>";
-	foreach ($this->composants as $composant) {
-		$data = $this->fetch_data_for_composant($composant);
-		$output .= "<div class='dashboard-card'>" . $composant->generate_visual($data) . "</div>";
+	foreach ($dash->get_composants() as $composant) { // parcourir les composants
+		// récupérer les données de paramétrage et de visualisation
+		$visualisation_file = $composant->get_visu_file();
+		$data = $composant->get_data(); // construit les données en fesant une requette a l'API dans la classe composant
+		$params = $composant->get_params();
+		// appeler la visualisation correspondante
+		require  __DIR__ . "/Visualisations/$visualisation_file";
 	}
 	$output .= "</div>";
 	return $output;

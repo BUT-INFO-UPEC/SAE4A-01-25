@@ -17,9 +17,9 @@ class Requetteur_BDD
 	{
 		// methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
-		// Récupérer le contenu du fichier json et l'interpréter
-		$visualisationsJson = file_get_contents(__DIR__ . '/../../../assets/database/Representations.json');
-		$visualisationsDecodee = json_decode($visualisationsJson);
+    // Récupérer le contenu du fichier json et l'interpréter
+    $visualisationsJson = file_get_contents(__DIR__ . '/../../../database/OLD/Representations.json');
+    $visualisationsDecodee = json_decode($visualisationsJson);
 
 		// Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
 		return get_object_vars($visualisationsDecodee[$reprId]);
@@ -40,9 +40,9 @@ class Requetteur_BDD
 	{
 		// methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
-		// Récupérer le contenu du fichier json et l'interpréter
-		$composantsJson = file_get_contents(__DIR__ . '/../../../assets/database/Composants.json');
-		$ComposantsDecodes = json_decode($composantsJson);
+    // Récupérer le contenu du fichier json et l'interpréter
+    $composantsJson = file_get_contents(__DIR__ . '/../../../database/OLD/Composants.json');
+    $ComposantsDecodes = json_decode($composantsJson);
 
 		// Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
 		return $ComposantsDecodes[$composantId];
@@ -57,9 +57,9 @@ class Requetteur_BDD
 	{
 		// methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
-		// Récupérer le contenu du fichier json et l'interpréter
-		$dashboardsJson = file_get_contents(__DIR__ . '/../../../assets/database/Dashboards.json');
-		$DashboardsDecodes = json_decode($dashboardsJson);
+    // Récupérer le contenu du fichier json et l'interpréter
+    $dashboardsJson = file_get_contents(__DIR__ . '/../../../database/OLD/Dashboards.json');
+    $DashboardsDecodes = json_decode($dashboardsJson);
 
 		// Renvoyer les informations de la visualisation dont l'indice correspond a l'id demandé
 		return $DashboardsDecodes;
@@ -77,9 +77,9 @@ class Requetteur_BDD
 	{
 		// methode temporaire(?) tant que la BDD_ est pas debout (plus lent?)
 
-		// Récupérer le contenu du fichier json et l'interpréter
-		$attributsJson = file_get_contents(__DIR__ . '/../../../assets/database/Attributs.json');
-		$attributsDecodes = json_decode($attributsJson, true);
+    // Récupérer le contenu du fichier json et l'interpréter
+    $attributsJson = file_get_contents(__DIR__ . '/../../../database/OLD/Attributs.json');
+    $attributsDecodes = json_decode($attributsJson, true);
 
 		foreach ($attributsDecodes as $att) {
 			if ($att["key"] == $attribut) {
@@ -108,20 +108,20 @@ class Requetteur_BDD
 	 */
 	public static function add_tracing($originalId, $nouvId) {}
 
-	/**
-	 * Récupère la chaine de caractère a insérer pour réaliser un groupement API
-	 * 
-	 * @param mixed $grouping Le critère de grouppement
-	 * 
-	 * @return string La chaine de caractère permettant de faire des grouppements selon els paramètres spécifiés
-	 */
-	public static function get_BDD_grouping_key($grouping)
-	{
-		if (is_array($grouping)) {
-			// vérifier si c'est une liste de stations ou intervals temporels et construire 
-		} else {
-			$groupingsJson = file_get_contents(__DIR__ . '/../../../assets/database/Groupings.json');
-			$groupingsDecodes = json_decode($groupingsJson, true);
+  /**
+   * Récupère la chaine de caractère a insérer pour réaliser un groupement API
+   * 
+   * @param mixed $grouping Le critère de grouppement
+   * 
+   * @return string La chaine de caractère permettant de faire des grouppements selon els paramètres spécifiés
+   */
+  public static function get_BDD_grouping_key($grouping)
+  {
+    if (is_array($grouping)) {
+      // vérifier si c'est une liste de stations ou intervals temporels et construire 
+    } else {
+      $groupingsJson = file_get_contents(__DIR__ . '/../../../database/OLD/Groupings.json');
+      $groupingsDecodes = json_decode($groupingsJson, true);
 
 			foreach ($groupingsDecodes as $group) {
 				if ($group["nom"] == $grouping) {
@@ -134,7 +134,6 @@ class Requetteur_BDD
 	public static function get_station()
 	{
 		$query = "select * from stations";
-		$pdo = new BDD();
-		return $pdo->fetchAll($query, []);
+		return DatabaseConnection::fetchAll($query, []);
 	}
 }

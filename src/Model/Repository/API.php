@@ -36,6 +36,7 @@ class API
 	}
 }
 
+
 // API endpoint and parameters
 $baseApiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
 $params = [

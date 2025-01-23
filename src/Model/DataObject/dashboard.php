@@ -5,9 +5,9 @@ namespace Src\Model\DataObject;
 use DateTime;
 use Exception;
 use Src\Model\Repository\Requetteur_API;
-use Src\Model\Repository\Requetteur_BDD;
+use Src\Model\DataObject\Composant;
 
-class Dashboard
+class Dashboard extends AbstractDataObject
 {
 	// =======================
 	//        ATTRIBUTES
@@ -28,20 +28,19 @@ class Dashboard
 	// =======================
 
 
-	public function __construct($data)
+	public function __construct($dashboard_id, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $param, $RepositoryConstructor)
 	{
-		$this->dashboardId = $data->dashboard_id;
-		$this->dateDebut = $data->date_debut;
-		$this->dateFin = $data->date_fin;
-		$this->dateDebutRelatif = $data->date_debut_relatif == '1';
-		$this->dateFinRelatif = $data->date_fin_relatif == '1';
-		$this->selectionGeo = $data->selection_geo;
+		$this->dashboardId = $dashboard_id;
+		$this->dateDebut = $date_debut;
+		$this->dateFin = $date_fin;
+		$this->dateDebutRelatif = $date_debut_relatif == '1';
+		$this->dateFinRelatif = $date_fin_relatif == '1';
+		$this->params = $param;
 
-		foreach (json_decode($data->composant_list) as $compId) {
-			$this->composants[] = new Composant($compId);
-		}
 
-		$this->params = $data->param;
+		$this->selectionGeo = $RepositoryConstructor->BuildGeo($dashboard_id);
+
+		$this->composants = $RepositoryConstructor->BuildComposants($dashboard_id);
 	}
 
 	// =======================
@@ -73,7 +72,6 @@ class Dashboard
 		return $this->selectionGeo;
 	}
 
-
 	/**
 	 * Retourne la date de début ou de fin
 	 * 
@@ -93,47 +91,31 @@ class Dashboard
 		throw new Exception("Type de date invalide : utilisez 'debut' ou 'fin'.");
 	}
 
+	public function get_params() {
+		return $this->params;
+	}
+
+	public function get_composants():array {
+		return $this->composants;
+	}
+
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
-	public function generate_dashboard()
-	{
-		$output = "<div id='dashboard'>";
-		foreach ($this->composants as $composant) {
-			$data = $this->fetch_data_for_composant($composant);
-			$output .= "<div class='dashboard-card'>" . $composant->generate_visual($data) . "</div>";
-		}
-		$output .= "</div>";
-		return $output;
-	}
-
-	public function save_dashboard($override)
-	{
-		if ($this->createurId == $_SESSION['userId']) {
-			// Générer un nouvel ID pour le dashboard
-			// $this->dashboardId = Requetteur_BDD::generate_dash_id($this->dashboardId);
-		} elseif ($override && Requetteur_BDD::is_saved_dashboard($this->dashboardId)) {
-			throw new Exception("Tentative de sauvegarder un dashboard déjà existant.", 301);
-		}
-	}
+	public function formatTableau(): array {
+    return [
+      "id" => $this->get_id(),
+      "date_debut" => $this->get_date('debut'),
+      "date_fin" => $this->get_date('fin'),
+      "date_debut_relatif" => $this->dateDebutRelatif,
+      "date_fin_relatif" => $this->dateDebutRelatif,
+      "params" => $this->get_name()
+		];     
+  }
 
 	// =======================
 	//    STATIC METHODS
 	// =======================
-	static function get_dashboard_by_id($dashboardId)
-	{
-		$data = Requetteur_BDD::BDD_fetch_dashboards()[$dashboardId];
-		return new Dashboard($data);
-	}
-
-	static function get_dashboards()
-	{
-		$r = [];
-		foreach (Requetteur_BDD::BDD_fetch_dashboards() as $dash_data) {
-			$r[] = new Dashboard($dash_data);
-		}
-		return $r;
-	}
 
 	// =======================
 	//    PRIVATE METHODS
