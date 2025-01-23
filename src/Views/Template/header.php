@@ -4,7 +4,10 @@
 
 	<div class="header-container">
 		<!-- Titre centré -->
-		<h1 class="titre-header">Nom Du Site</h1>
+		<div class="titre-header">
+			<img src="<?= BASE_URL . 'assets/img/logosite.jpg'; ?>" alt="Logo du Site" class="me-2"
+				style="width: 80px; height: 80px;">
+		</div>
 
 		<?php require __DIR__ . "/navbar.php"; ?>
 
