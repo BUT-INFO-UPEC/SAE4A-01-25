@@ -1,12 +1,21 @@
 header,
 footer {
   width: 100%;
-  padding: 2rem;
-  background-color: #A1A8B0;
+  padding: 1rem;
+  background-color: #a1a8b0;
   text-align: center;
   width: 100%;
-  padding: 1cm;
   bottom: 0;
+}
+
+footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+footer p {
+	margin: 0;
+	padding: 0;
 }
 
 .titre-header {
@@ -39,7 +48,6 @@ footer {
   height: 5vh;
 }
 
-
 .header-container {
   display: flex;
   align-items: center;
@@ -63,7 +71,7 @@ footer {
 }
 
 .header-menu a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;

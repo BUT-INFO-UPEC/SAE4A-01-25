@@ -2,7 +2,7 @@
 	<em>"Face au changement climatique, nous devons faire de la nature notre alliée." – Jean Jouzel</em>
 
 	<p>
-		Contactez-nous : <a href="mailto:x@etu.u-pec.fr" style="color: #007bff; text-decoration: none;">x@etu.u-pec.fr</a>.
+		Contactez-nous : <a href="mailto:x@etu.u-pec.fr">x@etu.u-pec.fr</a>.
 	</p>
 
 	<p>
