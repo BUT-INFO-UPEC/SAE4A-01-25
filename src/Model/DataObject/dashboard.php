@@ -28,9 +28,10 @@ class Dashboard extends AbstractDataObject
 	// =======================
 
 
-	public function __construct($dashboard_id, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $param, $RepositoryConstructor)
+	public function __construct($dashboard_id, $privatisation, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $param, $RepositoryConstructor)
 	{
 		$this->dashboardId = $dashboard_id;
+		$this->privatisation = $privatisation;
 		$this->dateDebut = $date_debut;
 		$this->dateFin = $date_fin;
 		$this->dateDebutRelatif = $date_debut_relatif == '1';
@@ -49,6 +50,10 @@ class Dashboard extends AbstractDataObject
 	public function get_id()
 	{
 		return $this->dashboardId;
+	}
+
+	public function get_privatisation() {
+		return $this->privatisation;
 	}
 
 	public function get_filters()
@@ -105,6 +110,7 @@ class Dashboard extends AbstractDataObject
 	public function formatTableau(): array {
     return [
       "id" => $this->get_id(),
+			"privatisation" => $this->get_privatisation(),
       "date_debut" => $this->get_date('debut'),
       "date_fin" => $this->get_date('fin'),
       "date_debut_relatif" => $this->dateDebutRelatif,

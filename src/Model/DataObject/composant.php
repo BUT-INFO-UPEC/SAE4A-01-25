@@ -2,6 +2,8 @@
 
 namespace Src\Model\DataObject;
 
+use Src\Model\Repository\ComposantRepository;
+use Src\Model\Repository\RepresentationRepository;
 use Src\Model\Repository\RequettesBDD;
 
 class Composant extends AbstractDataObject
@@ -26,7 +28,7 @@ class Composant extends AbstractDataObject
 		$this->attribut = $attribut;
 		$this->aggregation = $aggregation;
 		$this->grouping = $grouping;
-		$this->set_repr($repr_type);
+		$this->repr = $repr_type;
 		$this->params = json_decode($param_affich, true);
 	}
 
@@ -72,11 +74,6 @@ class Composant extends AbstractDataObject
 	// =======================
 	//      SETTERS
 	// =======================
-	public function set_repr($reprId)
-	{
-		// Récupérer les détails de la représentation
-		$this->repr = RequettesBDD::getRepresentations($reprId);
-	}
 
 	// =======================
 	//    PUBLIC METHODS

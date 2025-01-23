@@ -6,6 +6,14 @@ use Src\Model\DataObject\Dashboard;
 
 class DashboardRepository extends AbstractRepository
 {
+	
+	// =======================
+	//        ATTRIBUTES
+	// =======================
+	#region attributes
+	const PUBLIC = 0;
+	const PRIVATE = 1;
+	#endregion
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
@@ -13,7 +21,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function arrayConstructor(array $objetFormatTableau): Dashboard
 	{
-		return new Dashboard($objetFormatTableau['id'] ,$objetFormatTableau['date_debut'] ,$objetFormatTableau['date_fin'] ,$objetFormatTableau['date_debut_relatif'] ,$objetFormatTableau['date_fin_relatif'] ,$objetFormatTableau['params'] , $this);
+		return new Dashboard($objetFormatTableau['id'] ,$objetFormatTableau['privatisation'] ,$objetFormatTableau['date_debut'] ,$objetFormatTableau['date_fin'] ,$objetFormatTableau['date_debut_relatif'] ,$objetFormatTableau['date_fin_relatif'] ,$objetFormatTableau['params'] , $this);
 	}
 	
 	public function BuildGeo($id): array
@@ -25,8 +33,7 @@ class DashboardRepository extends AbstractRepository
 	{
 		$query = "SELECT composant_id FROM Composant_dashboard WHERE dashboard_id = :ID";
 		$values = ["ID" => $id];
-		$pdoStatement = DatabaseConnection::executeQuery($query, $values); // récupéraiton des id des composants du dashboard
-		$composantsId = $pdoStatement->fetch();
+		$composantsId = DatabaseConnection::fetchAll($query, $values); // récupéraiton des id des composants du dashboard
 		$constructeur = new ComposantRepository();
 		$composants = [];
 		foreach ($composantsId as $compId) {
