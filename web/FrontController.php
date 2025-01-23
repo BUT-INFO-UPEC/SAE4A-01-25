@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Src\Config\ConfAPP;
 use Src\Controllers\ControllerDashboard;
 use Src\Controllers\ControllerGeneral;
+use Src\Model\Repository\UtilisateurRepository;
 
 // DEFINITION DES CHEMINS
 $originalPath = rtrim(dirname($_SERVER['SCRIPT_NAME'], 2), '/'); // Récupère le chemin relatif sans le dernier segmet
@@ -51,13 +52,13 @@ if (isset($_COOKIE['acceptationCookies'])) {
 		// Ajouter le namespace au contrôleur
 		$controller = "Src\\Controllers\\" . $controller;
 
-		if (isset($_COOKIE['CurentLogin'])) {
-			$_SESSION['login'] = $_COOKIE['CurentLogin'];
+		if (isset($_COOKIE['CurentMail'])) {
+			$user = UtilisateurRepository::getUser();
+			$_SESSION['login'] = $user['utilisateur_pseudo'];
 		} else {
 			$_SESSION['login'] = null;
 		}
 
-		// echo $controller . "::" . $action . "() <br>";
 
 		// Vérification de l'existence de la classe
 		if (class_exists($controller)) {

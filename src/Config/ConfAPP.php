@@ -17,14 +17,19 @@ class ConfAPP
 
     /**
      * unSetCookie() :
-     * Supprime un cookie
+     * Supprime un cookie en réglant sa date d'expiration dans le passé
      */
     public static function unSetCookie(string $cookie_name)
     {
+        // Suppression du cookie côté client en réglant une expiration passée
         setcookie(
             $cookie_name,
             "",
-            time() + (3600 * 24 * 7)
+            time() - (3600 * 24 * 7),
+            "/"
         );
+
+        // Suppression de la valeur du tableau $_COOKIE côté serveur
+        unset($_COOKIE[$cookie_name]);
     }
 }

@@ -4,32 +4,37 @@ namespace Src\Model\DataObject;
 
 use PDOException;
 use Src\Model\Repository\BDD;
+use Src\Model\Repository\DatabaseConnection;
 
 class Utilisateur
 {
 	// =======================
 	//        ATTRIBUTES
 	// =======================
-	private string $utilisateur_nom;
-	private string $utilisateur_prenom;
 	private string $utilisateur_pseudo;
 	private string $utilisateur_mdp;
 	private string $utilisateur_mail;
+	private string $utilisateur_nom;
+	private string $utilisateur_prenom;
 
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
 	public function __construct(
-		string $nom,
-		string $prenom,
 		string $pseudo,
+		string $mdp,
 		string $mail,
-		string $mdp
+		string $nom,
+		string $prenom
 	) {
 		$this->utilisateur_pseudo = $pseudo;
 		$this->utilisateur_mail = $mail;
 		$this->utilisateur_mdp = $mdp;
+		$this->utilisateur_nom = $nom;
+		$this->utilisateur_prenom = $prenom;
 	}
+
+	#region getters
 	// =======================
 	//      GETTERS
 	// =======================
@@ -48,7 +53,18 @@ class Utilisateur
 		return $this->utilisateur_mdp;
 	}
 
+	public function getNom(): string
+	{
+		return $this->utilisateur_nom;
+	}
 
+	public function getPrenom(): string
+	{
+		return $this->utilisateur_prenom;
+	}
+	#endregion
+
+	#region setters
 	// =======================
 	//      SETTERS
 	// =======================
@@ -66,8 +82,18 @@ class Utilisateur
 	{
 		$this->utilisateur_mdp = $mdp;
 	}
+	public function setNom(string $nom): void
+	{
+		$this->utilisateur_nom = $nom;
+	}
 
+	public function setPrenom(string $prenom): void
+	{
+		$this->utilisateur_prenom = $prenom;
+	}
+	#endregion
 
+	#region public methods
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
@@ -78,21 +104,23 @@ class Utilisateur
 	{
 		try {
 			// On récupère l'instance PDO depuis la classe BaseDeDonnees
-			$pdo = new BDD();
 
 			// Préparation de la requête SQL
-			$sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_nom, $utilisateur_prenom)
+			$sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_nom, utilisateur_prenom)
                     VALUES (:pseudo, :mdp, :mail, :nom, :prenom)";
 
 
 			// Exécution de la requête avec les paramètres
-			$pdo->execute($sql, [
-				':pseudo' => $this->utilisateur_pseudo,
-				':mdp' => $this->utilisateur_mdp,
-				':mail' => $this->utilisateur_mail,
-				':nom' => $this->utilisateur_nom,
-				':prenom' => $this->utilisateur_prenom
-			]);
+			DatabaseConnection::executeQuery(
+				$sql,
+				[
+					':pseudo' => $this->utilisateur_pseudo,
+					':mdp' => $this->utilisateur_mail,
+					':mail' => $this->utilisateur_mdp,
+					':nom' => $this->utilisateur_nom,
+					':prenom' => $this->utilisateur_prenom
+				]
+			);
 
 			// Message de succès
 			$_SESSION['success'] = "Utilisateur {$this->utilisateur_pseudo} a été ajouté avec succès.";
@@ -101,4 +129,6 @@ class Utilisateur
 			$_SESSION['error'] = "Erreur lors de l'insertion : " . $e->getMessage();
 		}
 	}
+
+	#endregion
 }

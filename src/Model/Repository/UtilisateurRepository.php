@@ -13,9 +13,8 @@ class UtilisateurRepository
      */
     public static function getAllUser(): array
     {
-        $pdo = new BDD();
         $sql = "SELECT * FROM utilisateur";
-        return $pdo->fetchAll($sql);
+        return DatabaseConnection::fetchAll($sql);
     }
 
     /**
@@ -27,13 +26,12 @@ class UtilisateurRepository
      */
     public static function checkUserExist(string $mail, string $mdp): bool
     {
-        $pdo = new BDD();
         $sql = "SELECT * FROM utilisateur WHERE utilisateur_mail = :mail AND utilisateur_mdp = :mdp";
         $params = [
             ":mail" => $mail,
             ":mdp" => $mdp
         ];
-        $stmt = $pdo->fetchOne($sql, $params);
+        $stmt = DatabaseConnection::fetchOne($sql, $params);
         return $stmt !== null;
     }
 
@@ -46,12 +44,45 @@ class UtilisateurRepository
      */
     public static function getUserByMailMdp(string $mail, string $mdp): ?array
     {
-        $pdo = new BDD();
         $query = "SELECT * FROM utilisateur WHERE utilisateur_mail = :mail AND utilisateur_mdp = :mdp";
         $params = [
             ":mail" => $mail,
             ":mdp" => $mdp
         ];
-        return $pdo->fetchOne($query, $params);
+        return DatabaseConnection::fetchOne($query, $params);
+    }
+
+    /**
+     * Récupère un utilisateur par son email et son mot de passe.
+     *
+     * @param string $mail L'adresse email de l'utilisateur.
+     * @return array Retourne un tableau associatif contenant les informations utilisateur ou null si aucun utilisateur n'est trouvé.
+     */
+    public static function getUser(): ?array
+    {
+        $query = "SELECT * FROM utilisateur WHERE utilisateur_mail = :mail";
+        $params = [
+            ":mail" => $_COOKIE['CurentMail'],
+        ];
+        return DatabaseConnection::fetchOne($query, $params);
+    }
+
+    public static function updateLastConn()
+    {
+        $query = "UPDATE utilisateur SET utilisateur_last_conn = :last_conn WHERE utilisateur_mail = :mail";
+        $params = [
+            ":last_conn" => date('Y-m-d H:i:s'),
+            ":mail" => $_COOKIE['CurentMail']
+        ];
+        DatabaseConnection::executeQuery($query, $params);
+    }
+
+    public static function updateNbConn()
+    {
+        $query = "UPDATE utilisateur SET utilisateur_nb_conn = utilisateur_nb_conn + 1 WHERE utilisateur_mail = :mail";
+        $params = [
+            ":mail" => $_COOKIE['CurentMail']
+        ];
+        return DatabaseConnection::executeQuery($query, $params);
     }
 }

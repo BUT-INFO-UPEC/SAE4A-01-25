@@ -1,34 +1,21 @@
-<?php
-
-// Exemple de données utilisateur (à remplacer par une récupération depuis une base de données ou session)
-$user = [
-	'nom' => $_SESSION['login'],
-	'email' => 'amine@example.com',
-	'role' => 'Utilisateur',
-	'date_inscription' => '2024-01-01',
-];
-?>
-
-
-
 <div class="row w-100">
 	<div class="col-md-6">
 		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Dashboard Utilisateur</h5>
-				<p><strong>Nom :</strong> <?php echo htmlspecialchars($user['nom']); ?></p>
-				<p><strong>Email :</strong> <?php echo htmlspecialchars($user['email']); ?></p>
-				<p><strong>Rôle :</strong> <?php echo htmlspecialchars($user['role']); ?></p>
-				<p><strong>Date d'inscription :</strong> <?php echo htmlspecialchars($user['date_inscription']); ?></p>
-			</div>
+			<h5 class="card-header">Informations Utilisateur</h5>
+				<div class="card-body">
+					<p><strong>Nom</strong> : <?= htmlspecialchars($user['utilisateur_nom']) ?></p>
+					<p><strong>Prenom</strong> : <?= htmlspecialchars($user['utilisateur_prenom']) ?></p>
+					<p><strong>Email</strong> : <?= htmlspecialchars($user['utilisateur_mail']) ?></p>
+					<p><strong>Créer le</strong> : <?= htmlspecialchars($user['created_at']) ?></p>
+				</div>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="card">
 			<div class="card-body">
 				<h5 class="card-title">Statistiques Utilisateur</h5>
-				<p><strong>Nombre de connexions :</strong> 10</p>
-				<p><strong>Dernière connexion :</strong> <?php echo htmlspecialchars(date("Y-m-d")); ?> </p>
+				<p><strong>Nombre de connexions :</strong><?=htmlspecialchars($user['utilisateur_nb_conn']) ?></p>
+				<p><strong>Dernière connexion :</strong> <?= htmlspecialchars($user['utilisateur_last_conn']) ?> </p>
 				<p><strong>Nombre de publications :</strong> 5</p>
 			</div>
 		</div>

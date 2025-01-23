@@ -46,16 +46,16 @@
             <input
               type="text"
               class="form-control"
-              name="signup-nom"
-              id="signup-nom" />
+              name="nom"
+              id="nom" />
           </div>
           <div class="mb-3">
             <label for="signup-prenom" class="form-label">Prenom :</label>
             <input
               type="text"
               class="form-control"
-              name="signup-prenom"
-              id="signup-prenom" />
+              name="prenom"
+              id="prenom" />
           </div>
 
           <div class="mb-3">
