@@ -47,7 +47,7 @@
 							<input
 								type="text"
 								class="form-control"
-								name="signup-nom"
+								name="nom"
 								id="signup-nom" />
 						</div>
 						<div class="mb-3">
@@ -55,7 +55,7 @@
 							<input
 								type="text"
 								class="form-control"
-								name="signup-prenom"
+								name="prenom"
 								id="signup-prenom" />
 						</div>
 
