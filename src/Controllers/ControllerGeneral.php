@@ -185,14 +185,14 @@ class ControllerGeneral extends AbstractController
     $cheminVueBody = "test.php";
     $titrePage = "Test";
     try {
-      $data = Requetteur_API::fetchAll(1, [
-        'select' => [
-          'min(t)',
-          'max(t)',
-          'avg(t)'
-        ],
-        'where' => 'libgeo="Abbeville"'
-      ]);
+      // $data = Requetteur_API::fetchAll(1, [
+      //   'select' => [
+      //     'min(t)',  
+      //     'max(t)',
+      //     'avg(t)'
+      //   ],
+      //   'where' => 'libgeo="Abbeville"'
+      // ]);
     } catch (Exception $e) {
       echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
