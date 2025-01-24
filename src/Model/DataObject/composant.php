@@ -63,15 +63,16 @@ class Composant extends AbstractDataObject
 		return $this->repr->get_visu_file();
 	}
 
-	public function get_data($dash)
+	public function get_data(Dashboard $dash)
 	{
 		$params = [];
 		$params['where'] = $dash->get_geo();
-		$param_aggr = $this->aggregation;
-		$param_attr = $this->attribut;
-		$param_grp = $this->grouping;
+		$params['select'] = $this->aggregation.get_cle() . "(" . $this->attribut.get_cle() . ")";
+		$params["group_by"] = $this->grouping;
 
 		$data = Requetteur_API::fetchAll($params);
+
+		var_dump($data);
 		// construire la requette a l'API
 		return ['total' => '12'];
 	}

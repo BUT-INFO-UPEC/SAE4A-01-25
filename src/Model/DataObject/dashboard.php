@@ -4,8 +4,6 @@ namespace Src\Model\DataObject;
 
 use DateTime;
 use Exception;
-use Src\Model\Repository\Requetteur_API;
-use Src\Model\DataObject\Composant;
 
 class Dashboard extends AbstractDataObject
 {
@@ -28,7 +26,7 @@ class Dashboard extends AbstractDataObject
 	// =======================
 
 
-	public function __construct($dashboard_id, $privatisation, $createurId, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $param, $RepositoryConstructor)
+	public function __construct($dashboard_id, $privatisation, $createurId, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $composants,  $critere_geo, $param)
 	{
 		$this->dashboardId = $dashboard_id;
 		$this->privatisation = $privatisation;
@@ -38,11 +36,8 @@ class Dashboard extends AbstractDataObject
 		$this->dateDebutRelatif = $date_debut_relatif == '1';
 		$this->dateFinRelatif = $date_fin_relatif == '1';
 		$this->params = $param;
-
-
-		$this->selectionGeo = $RepositoryConstructor->BuildGeo($dashboard_id);
-
-		$this->composants = $RepositoryConstructor->BuildComposants($dashboard_id);
+		$this->selectionGeo = $critere_geo;
+		$this->composants = $composants;
 	}
 
 	// =======================
@@ -53,7 +48,8 @@ class Dashboard extends AbstractDataObject
 		return $this->dashboardId;
 	}
 
-	public function get_privatisation() {
+	public function get_privatisation()
+	{
 		return $this->privatisation;
 	}
 
@@ -65,7 +61,7 @@ class Dashboard extends AbstractDataObject
 		return [
 			"dateDebut" => $dateDebut,
 			"dateFin" => $dateFin,
-			"geo" => get_object_vars($this->selectionGeo)
+			"geo" => $this->selectionGeo
 		];
 	}
 
@@ -97,32 +93,40 @@ class Dashboard extends AbstractDataObject
 		throw new Exception("Type de date invalide : utilisez 'debut' ou 'fin'.");
 	}
 
-	public function get_params() {
+	public function get_params()
+	{
 		return $this->params;
 	}
 
-	public function get_composants():array {
+	public function get_composants(): array
+	{
 		return $this->composants;
 	}
 
-	public function get_geo() {
-
+	public function get_geo(): string
+	{
+		$returnValue = "";
+		foreach ($this->selectionGeo as $key => $value) {
+			$returnValue .= $key . "=" . implode(" or $key=", $value);
+		}
+		return $returnValue;
 	}
 
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
-	public function formatTableau(): array {
-    return [
-      "id" => $this->get_id(),
+	public function formatTableau(): array
+	{
+		return [
+			"id" => $this->get_id(),
 			"privatisation" => $this->get_privatisation(),
-      "date_debut" => $this->get_date('debut'),
-      "date_fin" => $this->get_date('fin'),
-      "date_debut_relatif" => $this->dateDebutRelatif,
-      "date_fin_relatif" => $this->dateDebutRelatif,
-      "params" => $this->get_name()
-		];     
-  }
+			"date_debut" => $this->get_date('debut'),
+			"date_fin" => $this->get_date('fin'),
+			"date_debut_relatif" => $this->dateDebutRelatif,
+			"date_fin_relatif" => $this->dateDebutRelatif,
+			"params" => $this->get_name()
+		];
+	}
 
 	// =======================
 	//    STATIC METHODS

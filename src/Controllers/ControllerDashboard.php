@@ -66,22 +66,28 @@ class ControllerDashboard extends AbstractController
         require('../src/Views/Template/views.php');
     }
 
-	static function create(): void
+	static function new_dashboard(): void
 	{
-		// vérifier les droits 
-		// GET['OLD_Id'] pour déterminer le dashboard a copier (0 pour un nouveau)
-		// $station = Requetteur_BDD::get_station();
-		// Enregistrer directement pour récupérer le nouvel ID (et déclencher l'enregistrement des logs)
+		$_GET['dash_id'] = 0;
 
-		$titrePage = "Edition d'un Dashboard";
-		$cheminVueBody = "create.php";
-		require('../src/Views/Template/views.php');
+		ControllerDashboard::edit();
 	}
 
 	static function edit(): void {
 		// vérifier les droits 
 		// charger le dashboard GET['ID]
 
+		$titrePage = "Edition d'un Dashboard";
+		$cheminVueBody = "create.php";
+		require('../src/Views/Template/views.php');
+	}
+
+	static function save(): void {
+		
+		// vérifier les droits 
+		// GET['OLD_Id'] pour déterminer le dashboard a copier (0 pour un nouveau)
+		// $station = Requetteur_BDD::get_station();
+		// Enregistrer directement pour récupérer le nouvel ID (et déclencher l'enregistrement des logs)
 	}
 	#endregion entry
 
@@ -91,6 +97,7 @@ class ControllerDashboard extends AbstractController
 	#region get
 	static public function visu_dashboard(): void
 	{
+		// vérifier les droits 
 		$constructeur = new DashboardRepository();
 		$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
 
