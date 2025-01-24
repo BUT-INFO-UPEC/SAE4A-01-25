@@ -70,7 +70,7 @@ class ControllerDashboard extends AbstractController
 	{
 		// vérifier les droits 
 		// GET['OLD_Id'] pour déterminer le dashboard a copier (0 pour un nouveau)
-		$station = Requetteur_BDD::get_station();
+		// $station = Requetteur_BDD::get_station();
 		// Enregistrer directement pour récupérer le nouvel ID (et déclencher l'enregistrement des logs)
 
 		$titrePage = "Edition d'un Dashboard";
