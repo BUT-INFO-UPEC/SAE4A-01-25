@@ -106,7 +106,7 @@ class Dashboard extends AbstractDataObject
 	}
 
 	public function get_() {
-		
+
 	}
 
 	// =======================
@@ -143,14 +143,5 @@ class Dashboard extends AbstractDataObject
 		if ($jours > 0) $date->modify("-$jours day");
 
 		return $date->format("Y-m-d") . "T00:00:00";
-	}
-
-	private function fetch_data_for_composant($composant)
-	{
-		$attribute = $composant->get_attribut();
-		$aggregation = $composant->get_aggregation();
-		$grouping = $composant->get_grouping();
-		$filtres = $this->get_filters();
-		return Requetteur_API::API_componant_data($filtres, $attribute, $aggregation, $grouping);
 	}
 }
