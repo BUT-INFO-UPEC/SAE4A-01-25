@@ -1,104 +1,95 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const titlesContainer = document.getElementById("titles");
-  const formContainer = document.getElementById("form-container");
-  const addPartButton = document.getElementById("add-part");
+class FormManager {
+  constructor({ titlesContainer, formContainer, addButton }) {
+    this.titlesContainer = titlesContainer;
+    this.formContainer = formContainer;
+    this.addButton = addButton;
+    this.formParts = [];
+    this.currentIndex = 0;
 
-  let formParts = [];
-  let currentIndex = 0;
+    // Initialiser
+    this.addButton.addEventListener("click", () => this.addPart());
+    this.addPart(); // Ajouter une première partie par défaut
+  }
 
-  // Fonction pour mettre à jour la liste des titres
-  const updateTitles = () => {
-    titlesContainer.innerHTML = "";
-    titlesContainer.appendChild(addPartButton); // Remettre le bouton "+"
+  updateTitles() {
+    this.titlesContainer.innerHTML = "";
+    this.titlesContainer.appendChild(this.addButton); // Ajouter le bouton "+"
 
-    formParts.forEach((part, index) => {
+    this.formParts.forEach((part, index) => {
       const button = document.createElement("button");
       button.textContent = part.title || `Partie ${index + 1}`;
-      button.addEventListener("click", () => switchToPart(index));
-      titlesContainer.appendChild(button);
+      button.addEventListener("click", () => this.switchToPart(index));
+      this.titlesContainer.appendChild(button);
     });
-  };
+  }
 
-  // Fonction pour afficher une partie
-  const switchToPart = (index) => {
-    document.querySelectorAll(".form-part").forEach((part, idx) => {
+  switchToPart(index) {
+    this.formContainer.querySelectorAll(".form-part").forEach((part, idx) => {
       part.classList.toggle("active", idx === index);
     });
-    currentIndex = index;
-  };
+    this.currentIndex = index;
+  }
 
-  // Fonction pour ajouter une nouvelle partie
-  const addPart = () => {
-    const newIndex = formParts.length;
+  addPart() {
+    const newIndex = this.formParts.length;
     const newPart = {
       title: `Partie ${newIndex + 1}`,
       content: `Contenu de la partie ${newIndex + 1}`,
     };
-    formParts.push(newPart);
+    this.formParts.push(newPart);
 
-    // Créer un nouvel élément de formulaire
     const formPart = document.createElement("div");
     formPart.className = "form-part";
-    if (newIndex === 0) formPart.classList.add("active"); // Activer la première partie
+    if (newIndex === 0) formPart.classList.add("active");
 
-    // Ajouter le contenu dynamique
     formPart.innerHTML = `
       <h3>${newPart.title}</h3>
       <p>${newPart.content}</p>
-      <label>Nom :</label>
-      <input type="text" placeholder="Nom de cette partie" onchange="updateTitle(${newIndex}, this.value)" />
-      <br>
-			<label>Titre :</label>
-			<input 
-				type="text" 
-				placeholder="Titre de cette partie" 
-				onchange="updatePartTitle(${newIndex}, this.value)" 
-			/>
-			<br>
-      <button class="delete-part" onclick="deletePart(${newIndex})">Supprimer cette partie</button>
+      <label>Titre :</label>
+      <input 
+        type="text" 
+        placeholder="Titre de cette partie" 
+        onchange="this.updateTitle(${newIndex}, this.value)" 
+      />
+      <button class="delete-part">Supprimer</button>
     `;
 
-    formContainer.appendChild(formPart);
-    updateTitles();
-  };
+    // Gestion suppression
+    formPart.querySelector(".delete-part").addEventListener("click", () => this.deletePart(newIndex));
+    this.formContainer.appendChild(formPart);
 
-  // Fonction pour supprimer une partie
-  const deletePart = (index) => {
-    // Supprimer la partie du tableau
-    formParts.splice(index, 1);
+    this.updateTitles();
+  }
 
-    // Supprimer la partie HTML
-    const parts = document.querySelectorAll(".form-part");
-    parts[index].remove();
+  updateTitle(index, newTitle) {
+    if (!newTitle) return;
+    this.formParts[index].title = newTitle;
+    this.updateTitles();
+  }
 
-    // Réinitialiser les indices dans formParts et dans le DOM
-    formParts = formParts.map((part, i) => {
-      part.title = `Partie ${i + 1}`; // Renommer les titres après suppression
-      return part;
-    });
+  deletePart(index) {
+    // Supprimer du tableau
+    this.formParts.splice(index, 1);
 
-    // Mettre à jour les titres et l'affichage
-    updateTitles();
-    switchToPart(Math.max(0, index - 1)); // Afficher la partie précédente si possible
-  };
+    // Supprimer du DOM
+    this.formContainer.querySelectorAll(".form-part")[index].remove();
 
-	const updatePartTitle = (index, newTitle) => {
-		if (!newTitle) return; // Ne rien faire si le champ est vide
-	
-		// Mettre à jour le titre dans le tableau
-		formParts[index].title = newTitle;
-	
-		// Mettre à jour l'affichage dans la liste des boutons
-		updateTitles();
-	};
+    // Renommer les parties restantes
+    this.formParts = this.formParts.map((part, i) => ({
+      ...part,
+      title: `Partie ${i + 1}`,
+    }));
 
-  // Ajouter la gestion de clic pour ajouter une partie
-  addPartButton.addEventListener("click", addPart);
+    this.updateTitles();
+    this.switchToPart(Math.max(0, index - 1)); // Aller à la partie précédente
+  }
+}
 
-  // Ajouter la première partie par défaut
-  addPart();
-
-  // Rendre `deletePart` accessible globalement pour le bouton
-  window.deletePart = deletePart;
-  window.updatePartTitle = updatePartTitle;
+// Initialisation
+document.addEventListener("DOMContentLoaded", () => {
+  const manager = new FormManager({
+    titlesContainer: document.getElementById("titles"),
+    formContainer: document.getElementById("form-container"),
+    addButton: document.getElementById("add-part"),
+  });
 });
