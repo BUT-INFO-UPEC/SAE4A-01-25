@@ -5,11 +5,13 @@ body {
   display: flex;
   flex-direction: column;
 	min-height: 100vh;
+	max-width: 100vh;
 }
 
 main * * {
   padding: 1%;
 }
+
 .main-container {
   margin: 0;
   padding: 0;
