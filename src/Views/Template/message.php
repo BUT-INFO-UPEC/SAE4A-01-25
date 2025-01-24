@@ -1,32 +1,27 @@
 <?php
-if (isset($_SESSION['error'])) {
-    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertMessage">' . $_SESSION['error'] . '</div>';
-    unset($_SESSION['error']);
-}
+// var_dump($_SESSION['MSGs']);
+if (!empty($_SESSION['MSGs']["list_messages"])) {
+	foreach ($_SESSION['MSGs']["list_messages"] as $index => $Msg) { ?>
+		<div class="alert alert-<?= $Msg->getType() ?> alert-dismissible fade show" role="alert" id="alertMessage<?= $index ?>">
+			<h3><?= $Msg->getError() ?></h3>
 
-if (isset($_SESSION['success'])) {
-    echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="alertMessage">' . $_SESSION['success'] . '</div>';
-    unset($_SESSION['success']);
-}
-
-if (isset($_SESSION['warning'])) {
-    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert" id="alertMessage">' . $_SESSION['warning'] . '</div>';
-    unset($_SESSION['warning']);
+	<?php if ($Msg->getMessage() != null) {
+			echo "<p>" . $Msg->getMessage() . "</p>";
+		}
+		echo '</div>';
+	}
+	unset($_SESSION['MSGs']["list_messages"]);
 }
 ?>
 <script>
-    // Attendre que la page soit chargée
-    document.addEventListener('DOMContentLoaded', function() {
-        // Sélectionner les alertes par leur ID
-        const alertMessage = document.getElementById('alertMessage');
+document.addEventListener('DOMContentLoaded', function() {
+    const alertMessages = document.querySelectorAll('[id^="alertMessage"]');
 
-        // Vérifier si l'alerte existe
-        if (alertMessage) {
-            // Après 3 secondes (3000 ms), masquer l'alerte
-            setTimeout(() => {
-                alertMessage.classList.add('fade'); // Ajoute une transition de disparition
-                setTimeout(() => alertMessage.remove(), 500); // Supprime complètement après 0.5s
-            }, 10000);
-        }
+    alertMessages.forEach((msg) => {
+        setTimeout(() => {
+            msg.classList.add('fade'); // Ajoute la transition de disparition
+            setTimeout(() => msg.remove(), 500); // Supprime complètement après 0.5s
+        }, 3000); // Attendre 3 secondes avant de commencer
     });
+});
 </script>
