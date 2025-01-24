@@ -6,7 +6,9 @@
 
 	<a href="<?= CONTROLLER_URL ?>?controller=ControllerDashboard&action=browse" class="nav-link"> Liste </a>
 
-	<a href="<?= CONTROLLER_URL ?>?controller=ControllerGeneral&action=carte_region" class="nav-link"> Carte </a>
+	<a href="<?= CONTROLLER_URL ?>?controller=ControllerGeneral&action=carte_region" class="nav-link"> Carte </a> 
+	
+	<a href="<?= CONTROLLER_URL ?>?controller=ControllerGeneral&action=test" class="nav-link"> tst </a>
 
 	<a href="<?= CONTROLLER_URL ?>?controller=ControllerDashboard&action=visu_dashboard&dashId=1" class="nav-link"> Visualisation </a>
 </nav>

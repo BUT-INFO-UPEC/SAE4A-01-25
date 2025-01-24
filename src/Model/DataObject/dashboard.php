@@ -28,10 +28,11 @@ class Dashboard extends AbstractDataObject
 	// =======================
 
 
-	public function __construct($dashboard_id, $privatisation, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $param, $RepositoryConstructor)
+	public function __construct($dashboard_id, $privatisation, $createurId, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $param, $RepositoryConstructor)
 	{
 		$this->dashboardId = $dashboard_id;
 		$this->privatisation = $privatisation;
+		$this->createurId = $createurId;
 		$this->dateDebut = $date_debut;
 		$this->dateFin = $date_fin;
 		$this->dateDebutRelatif = $date_debut_relatif == '1';
@@ -104,6 +105,10 @@ class Dashboard extends AbstractDataObject
 		return $this->composants;
 	}
 
+	public function get_() {
+
+	}
+
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
@@ -138,14 +143,5 @@ class Dashboard extends AbstractDataObject
 		if ($jours > 0) $date->modify("-$jours day");
 
 		return $date->format("Y-m-d") . "T00:00:00";
-	}
-
-	private function fetch_data_for_composant($composant)
-	{
-		$attribute = $composant->get_attribut();
-		$aggregation = $composant->get_aggregation();
-		$grouping = $composant->get_grouping();
-		$filtres = $this->get_filters();
-		return Requetteur_API::API_componant_data($filtres, $attribute, $aggregation, $grouping);
 	}
 }

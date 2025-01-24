@@ -21,7 +21,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function arrayConstructor(array $objetFormatTableau): Dashboard
 	{
-		return new Dashboard($objetFormatTableau['id'] ,$objetFormatTableau['privatisation'] ,$objetFormatTableau['date_debut'] ,$objetFormatTableau['date_fin'] ,$objetFormatTableau['date_debut_relatif'] ,$objetFormatTableau['date_fin_relatif'] ,$objetFormatTableau['params'] , $this);
+		return new Dashboard($objetFormatTableau['id'] ,$objetFormatTableau['privatisation'] , $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'] ,$objetFormatTableau['date_fin'] ,$objetFormatTableau['date_debut_relatif'] ,$objetFormatTableau['date_fin_relatif'] ,$objetFormatTableau['params'] , $this);
 	}
 	
 	public function BuildGeo($id): array

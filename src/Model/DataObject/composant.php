@@ -65,8 +65,14 @@ class Composant extends AbstractDataObject
 		return $this->repr->get_visu_file();
 	}
 
-	public function get_data()
+	public function get_data($dash)
 	{
+		$param_criteres = $dash->get_();
+		$param_aggr = $this->aggregation;
+		$param_attr = $this->attribut;
+		$param_grp = $this->grouping;
+
+		// $data = (new Requette_API)::build_request($param_criteres, $param_aggr, $param_attr, $param_grp);
 		// construire la requette a l'API
 		return ['total' => '12'];
 	}
