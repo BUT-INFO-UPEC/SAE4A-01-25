@@ -2,6 +2,7 @@
 
 use Src\Model\Repository\Requetteur_API;
 
+<<<<<<< HEAD
 $table = [
     'select' => ['min(t)', 'max(t)', 'avg(t)', 'count(*)'],
     'where' => 'libgeo="Abbeville"'
@@ -61,6 +62,13 @@ if (isset($data['results']) && is_array($data['results'])) {
                     <p class="card-text">Date : <?= htmlspecialchars($result['date'] ?? 'Non disponible') ?></p>
                     <p class="card-text">Pression : <?= htmlspecialchars($result['pmer'] ?? 'Non disponible') ?> hPa</p>
                 </div>
+=======
+if ($data && isset($data['data']['results'])): ?>
+    <div class="col-md-4">
+        <?php foreach ($data['data']['results'] as $result): ?>
+            <div class="card">
+                <p><strong>Température moyenne :</strong> <?= var_dump($result['min(t)']) ?> </p>
+>>>>>>> 23e1eeb521d621a49d92be7c081bb4d3859c35ed
             </div>
         </div>
     <?php endforeach; ?>

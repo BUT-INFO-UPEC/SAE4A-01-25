@@ -1,6 +1,6 @@
 <?php
 $controller = $_SESSION['controller']
-	?>
+?>
 
 <!DOCTYPE html>
 <html>

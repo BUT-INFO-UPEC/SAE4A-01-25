@@ -2,9 +2,7 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Model\Repository\ComposantRepository;
-use Src\Model\Repository\RepresentationRepository;
-use Src\Model\Repository\RequettesBDD;
+use Src\Model\Repository\Requetteur_API;
 
 class Composant extends AbstractDataObject
 {
@@ -65,14 +63,16 @@ class Composant extends AbstractDataObject
 		return $this->repr->get_visu_file();
 	}
 
-	public function get_data($dash)
+	public function get_data(Dashboard $dash)
 	{
-		$param_criteres = $dash->get_();
-		$param_aggr = $this->aggregation;
-		$param_attr = $this->attribut;
-		$param_grp = $this->grouping;
+		$params = [];
+		$params['where'] = $dash->get_geo();
+		$params['select'] = $this->aggregation.get_cle() . "(" . $this->attribut.get_cle() . ")";
+		$params["group_by"] = $this->grouping;
 
-		// $data = (new Requette_API)::build_request($param_criteres, $param_aggr, $param_attr, $param_grp);
+		$data = Requetteur_API::fetchAll($params);
+
+		var_dump($data);
 		// construire la requette a l'API
 		return ['total' => '12'];
 	}

@@ -17,13 +17,16 @@ class Requetteur_API
 		return $url;
 	}
 
-	public static function fetchAll(?int $limit = null, array $params = [])
+	public static function fetchAll(array $params = [], ?int $limit = null)
 	{
 		// URL de base de l'API
 		$apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
 
 		// Ajout du paramètre 'limit' s'il est défini
-		if ($limit !== null) {
+		if (isset($params['limit'])) {
+			if ($limit == null or $limit < 1 or $limit > 100) {
+				$limit = 100;
+			}
 			$params['limit'] = $limit;
 		}
 		foreach ($params as $key => $values) {

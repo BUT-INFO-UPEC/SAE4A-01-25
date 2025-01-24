@@ -8,105 +8,47 @@ namespace Src\Model\DataObject;
 class Msg
 {
 	/**
-	 * @var string Message content.
+	 * Class or type of the message.
+	 * 
+	 * @var string
 	 */
-	private string $msg;
+	private string $error_type;
+	/**
+	 * Error name or code.
+	 * 
+	 * @var string
+	 */
+	private string $header;
+	/**
+	 * Message content (operation description).
+	 * 
+	 * @var string 
+	 */
+	private string $message;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param string $msg The message to set.
 	 */
-	public function __construct(string $msg)
+	public function __construct(string $error_type, string $header, string $message, string $redirection)
 	{
-		$this->msg = $msg;
+		$this->error_type = $error_type;
+		$this->header = $header;
+		$this->message = $message;
+		$_SESSION["MSGs"]["redirect"] = $redirection;
 	}
 
-	/**
-	 * Redirect to the previous page or a fallback home page.
-	 */
-	public function redirectToPreviousPage(): void
+	public function getType(): string
 	{
-		$redirectUrl = $_SERVER['HTTP_REFERER'];
-		header('Location: ' . $redirectUrl);
-		exit;
+		return $this->error_type;
 	}
-
-	/**
-	 * Set a success message in the session.
-	 */
-	public function setSuccess(): void
+	public function getError(): string
 	{
-		$_SESSION['success'] = $this->msg;
+		return $this->header;
 	}
-
-	/**
-	 * Set an error message in the session.
-	 */
-	public function setError(): void
+	public function getMessage(): string
 	{
-		$_SESSION['error'] = $this->msg;
-	}
-
-	/**
-	 * Set a warning message in the session.
-	 */
-	public function setWarning(): void
-	{
-		$_SESSION['warning'] = $this->msg;
-	}
-
-	/**
-	 * Set a danger message in the session.
-	 */
-	public function setDanger(): void
-	{
-		$_SESSION['danger'] = $this->msg;
-	}
-
-	/**
-	 * Set a success message and redirect.
-	 */
-	public function setSuccessAndRedirect(): void
-	{
-		$this->setSuccess();
-		$this->redirectToPreviousPage();
-	}
-
-	/**
-	 * Set an error message and redirect.
-	 */
-	public function setErrorAndRedirect(): void
-	{
-		$this->setError();
-		$this->redirectToPreviousPage();
-	}
-
-	/**
-	 * Set a warning message and redirect.
-	 */
-	public function setWarningAndRedirect(): void
-	{
-		$this->setWarning();
-		$this->redirectToPreviousPage();
-	}
-
-	/**
-	 * Set a danger message and redirect.
-	 */
-	public function setDangerAndRedirect(): void
-	{
-		$this->setDanger();
-		$this->redirectToPreviousPage();
-	}
-
-	/**
-	 * Check if a user is logged in. Redirect with an error if not.
-	 */
-	public static function checkLogin(): void
-	{
-		if (!isset($_SESSION['login'])) {
-			(new Msg("Vous devez être connecté pour effectuer cette action."))->setErrorAndRedirect();
-		}
+		return $this->message;
 	}
 }
