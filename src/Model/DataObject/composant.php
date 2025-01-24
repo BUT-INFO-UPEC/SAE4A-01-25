@@ -62,7 +62,7 @@ class Composant extends AbstractDataObject
 
 	public function get_visu_file(): string
 	{
-		return $this->repr;
+		return $this->repr->get_visu_file();
 	}
 
 	public function get_data()

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulaire Dynamique</title>
+    <!-- OUI C DEGEU ALORS QUE JE VOUS DEMANDE DE NE PAS LE FAIRE MAIS NON SEULEMENT C PAS MA FAITE (c du chatGPT) mais sourtout c un test, c pas final -->
+    <style>
+      #titles {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      #titles button {
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .form-part {
+        display: none;
+      }
+
+      .form-part.active {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- IL FAUDRAIT UN TRUC SIMILAIRE -->
+    <div>
+      <div id="liste-composants">
+        <div id="liste-titres-composants">
+          <button id="bouton-plus">+</button>
+        </div>
+        <!-- Ce div sera rempli par la fonction JavaScript -->
+        <div id="contenu-composant"></div>
+      </div>
+
+      <div id="default-content" class="hiden">
+        <!-- Contient le contenu a mettre dans un nouvel onglet -->
+      </div>
+
+			<!-- DECOMMENTER: appel de la fonction -->
+      <!-- <script>
+        document.addEventListener(
+          "DOMContentLoaded",
+          ajouter_logique_navigation(
+            document.getElementById("liste-composants"),
+            document.getElementById("liste-titres-composants"),
+            document.getElementById("bouton-plus"),
+            document.getElementById("contenu-composant"),
+            document.getElementById("default-content")
+          )
+        );
+      </script> -->
+    </div>
+
+		<hr/>
+
+    <!-- FONCTIONNE -->
+    <div>
+      <div id="titles">
+        <button id="add-part">+</button>
+      </div>
+
+      <div id="form-container"></div>
+    </div>
+
+    <script src="formulaire.js"></script>
+  </body>
+</html>

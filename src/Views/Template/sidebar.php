@@ -4,7 +4,7 @@
 		<div class="content">
 			<h4 class="text-center">Sidebar</h4>
 			<a href="#">Dashboard</a>
-			<a href="#">Profil</a>
+			<a href="?controller=ControllerGeneral&action=profile">Profil</a>
 			<a href="#">Paramètre</a>
 			<a href="#">Déconnexion</a>
 		</div>

@@ -2,15 +2,19 @@
 
 namespace Src\Model\Repository;
 
-use Src\Model\Repository\AbstractRepository;
+use Src\Model\Repository\AbstractRequestComponant;
 use Src\Model\DataObject\Aggregation;
 
-class AggregationRepository extends AbstractRepository
+class AggregationRepository extends AbstractRequestComponant
 {
 	public function get_aggregation_by_id($id): Aggregation
 	{
-		// créer une liste statique (genre PDO) et vérifier sil'attribut est déja initialisé, auquel cas donner l'instance, sinon, instancier
-		return $this->select($id);
+		return $this->get_object_by_id($id);
+	}
+
+	public function get_aggregations(): array
+	{
+    return $this->get_static_objects_list();
 	}
 	public  function arrayConstructor(array $objetFormatTableau): Aggregation 
 	{
