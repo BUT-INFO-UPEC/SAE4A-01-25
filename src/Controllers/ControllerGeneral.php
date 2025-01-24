@@ -178,4 +178,11 @@ class ControllerGeneral extends AbstractController
   }
 
   #endregion
+
+  public static function test() {
+    $cheminVueBody = "test.php";
+    $titrePage = "Test";
+    
+    require('../src/Views/Template/views.php');
+  }
 }
