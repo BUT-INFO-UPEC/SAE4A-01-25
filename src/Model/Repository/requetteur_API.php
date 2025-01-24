@@ -126,48 +126,69 @@ class Requetteur_API
 	}
 
 	#region TEST REQUETTE API
-	private static function formatRequest(string $url, int $limit, array $params = [])
+	private static function formatRequest(string $url, array $params = [])
 	{
-		$url .= "?limit=" . $limit;
-		foreach ($params as $key => $value) {
-			$url .= "&" . urlencode($key) . "=" . urlencode($value);
+		$queryString = http_build_query($params); // Génère une chaîne de requête à partir des paramètres
+		if (!empty($queryString)) {
+			$url .= "?" . $queryString;
 		}
 		return $url;
 	}
 
-	public static function fetchAll(int $limit, array $params = [])
+	public static function fetchAll(?int $limit = null, array $params = [])
 	{
+		// URL de base de l'API
 		$apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
-		$formattedUrl = self::formatRequest($apiUrl, $limit, $params);
-
+	
+		// Ajout du paramètre 'limit' s'il est défini
+		if ($limit !== null) {
+			$params['limit'] = $limit;
+		}
+	
+		// Génération de l'URL avec les paramètres
+		$formattedUrl = self::formatRequest($apiUrl, $params);
+	
 		// Initialisation de cURL
 		$ch = curl_init($formattedUrl);
-
+	
 		// Configuration des options cURL
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Retourne la réponse sous forme de chaîne
-		curl_setopt($ch, CURLOPT_TIMEOUT, 10);         // Définit un délai d'expiration en secondes
-
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);         // Délai d'expiration
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Désactiver la vérification SSL
+	
 		// Exécution de la requête
 		$response = curl_exec($ch);
-
-		// Gestion des erreurs cURL
+	
+		// Vérification des erreurs cURL
 		if (curl_errno($ch)) {
-			throw new Exception('Erreur cURL : ' . curl_error($ch));
+			$errorMessage = 'Erreur cURL : ' . curl_error($ch);
+			curl_close($ch);
+	
+			// Retourner une erreur formatée en JSON
+			return json_encode(['success' => false, 'error' => $errorMessage]);
 		}
-
+	
 		// Vérification du statut HTTP
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if ($httpCode !== 200) {
-			throw new Exception("Erreur HTTP : $httpCode. Réponse : $response");
+			curl_close($ch);
+	
+			// Retourner une erreur formatée en JSON
+			return json_encode(['success' => false, 'httpCode' => $httpCode, 'response' => $response]);
 		}
-
+	
 		// Fermeture de la session cURL
 		curl_close($ch);
-
+	
 		// Décodage JSON de la réponse
 		$data = json_decode($response, true);
-
-		// Retourner les données décodées
-		return $data;
+	
+		// Vérifier si le JSON est valide
+		if (json_last_error() !== JSON_ERROR_NONE) {
+			return json_encode(['success' => false, 'error' => 'Erreur de décodage JSON: ' . json_last_error_msg()]);
+		}
+	
+		// Retourner les données formatées en JSON
+		return json_encode(['success' => true, 'data' => $data]);
 	}
-}
+	}
