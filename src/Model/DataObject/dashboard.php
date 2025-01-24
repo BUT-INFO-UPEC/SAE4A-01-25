@@ -28,10 +28,11 @@ class Dashboard extends AbstractDataObject
 	// =======================
 
 
-	public function __construct($dashboard_id, $privatisation, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $param, $RepositoryConstructor)
+	public function __construct($dashboard_id, $privatisation, $createurId, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $param, $RepositoryConstructor)
 	{
 		$this->dashboardId = $dashboard_id;
 		$this->privatisation = $privatisation;
+		$this->createurId = $createurId;
 		$this->dateDebut = $date_debut;
 		$this->dateFin = $date_fin;
 		$this->dateDebutRelatif = $date_debut_relatif == '1';
@@ -102,6 +103,10 @@ class Dashboard extends AbstractDataObject
 
 	public function get_composants():array {
 		return $this->composants;
+	}
+
+	public function get_() {
+		
 	}
 
 	// =======================
