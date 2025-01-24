@@ -5,11 +5,10 @@ print_r($data);
 echo '</pre>';
 
 // Décoder $data en tableau associatif
-$dataDecoded = json_decode($data, true);
 
-if ($dataDecoded && isset($dataDecoded['data']['results'])): ?>
+if ($data && isset($data['data']['results'])): ?>
     <div class="col-md-4">
-        <?php foreach ($dataDecoded['data']['results'] as $result): ?>
+        <?php foreach ($data['data']['results'] as $result): ?>
             <div class="card">
                 <p><strong>Température moyenne :</strong> <?= $result['min(t)'] ?> </p>
             </div>

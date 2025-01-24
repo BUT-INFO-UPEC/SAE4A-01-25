@@ -186,7 +186,11 @@ class ControllerGeneral extends AbstractController
     $titrePage = "Test";
     try {
       $data = Requetteur_API::fetchAll(1, [
-        'select' => 'min(t)',
+        'select' => [
+          'min(t)',
+          'max(t)',
+          'avg(t)'
+        ],
         'where' => 'libgeo="Abbeville"'
       ]);
     } catch (Exception $e) {
