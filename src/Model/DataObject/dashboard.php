@@ -105,7 +105,7 @@ class Dashboard extends AbstractDataObject
 		return $this->composants;
 	}
 
-	public function get_() {
+	public function get_geo() {
 
 	}
 

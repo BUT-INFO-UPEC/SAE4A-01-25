@@ -10,7 +10,7 @@ if ($data && isset($data['data']['results'])): ?>
     <div class="col-md-4">
         <?php foreach ($data['data']['results'] as $result): ?>
             <div class="card">
-                <p><strong>Température moyenne :</strong> <?= $result['min(t)'] ?> </p>
+                <p><strong>Température moyenne :</strong> <?= var_dump($result['min(t)']) ?> </p>
             </div>
         <?php endforeach; ?>
     </div>

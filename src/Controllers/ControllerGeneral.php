@@ -185,7 +185,7 @@ class ControllerGeneral extends AbstractController
     $cheminVueBody = "test.php";
     $titrePage = "Test";
     try {
-      $data = Requetteur_API::fetchAll(1, [
+      $data = Requetteur_API::fetchAll([
         'select' => [
           'min(t)',
           'max(t)',
