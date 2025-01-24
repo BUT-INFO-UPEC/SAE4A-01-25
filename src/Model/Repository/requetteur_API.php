@@ -124,4 +124,50 @@ class Requetteur_API
 
 		return $response;
 	}
+
+	#region TEST REQUETTE API
+	private static function formatRequest(string $url, int $limit, array $params = [])
+	{
+		$url .= "?limit=" . $limit;
+		foreach ($params as $key => $value) {
+			$url .= "&" . urlencode($key) . "=" . urlencode($value);
+		}
+		return $url;
+	}
+
+	public static function fetchAll(int $limit, array $params = [])
+	{
+		$apiUrl = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
+		$formattedUrl = self::formatRequest($apiUrl, $limit, $params);
+
+		// Initialisation de cURL
+		$ch = curl_init($formattedUrl);
+
+		// Configuration des options cURL
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Retourne la réponse sous forme de chaîne
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);         // Définit un délai d'expiration en secondes
+
+		// Exécution de la requête
+		$response = curl_exec($ch);
+
+		// Gestion des erreurs cURL
+		if (curl_errno($ch)) {
+			throw new Exception('Erreur cURL : ' . curl_error($ch));
+		}
+
+		// Vérification du statut HTTP
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($httpCode !== 200) {
+			throw new Exception("Erreur HTTP : $httpCode. Réponse : $response");
+		}
+
+		// Fermeture de la session cURL
+		curl_close($ch);
+
+		// Décodage JSON de la réponse
+		$data = json_decode($response, true);
+
+		// Retourner les données décodées
+		return $data;
+	}
 }
