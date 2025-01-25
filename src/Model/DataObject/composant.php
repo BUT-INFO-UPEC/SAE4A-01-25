@@ -66,7 +66,9 @@ class Composant extends AbstractDataObject
 	public function get_data(Dashboard $dash)
 	{
 		$params = [];
-		$params['where'] = $dash->get_geo();
+		$params['where'][] = $dash->get_params_API_geo();
+		$params['where'][] = $dash->get_params_API_temporel();
+		var_dump(implode(" and ", $params["where"]));
 		$params['select'] = $this->aggregation.get_cle() . "(" . $this->attribut.get_cle() . ")";
 		$params["group_by"] = $this->grouping;
 
