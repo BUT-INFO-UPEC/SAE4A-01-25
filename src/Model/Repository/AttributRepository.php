@@ -34,3 +34,4 @@ class AttributRepository extends AbstractRequestComponant
 		return "Attributs";
 	}
 }
+
