@@ -6,20 +6,22 @@ use Src\Model\DataObject\Msg;
 
 class MsgRepository
 {
+	const No_REDIRECT = "none";
+
 	public static function newSuccess(string $success, string $message = "", string $redirection = "last")
 	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("success", $success, $message, $redirection);
-		MsgRepository::redirect();
+		$_SESSION['MSGs']["list_messages"][] = new Msg("success", $success, $message);
+		MsgRepository::redirect($redirection);
 	}
 	public static function newError(string $error, string $message = "", string $redirection = "last")
 	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("danger", $error, $message, $redirection);
-		MsgRepository::redirect();
+		$_SESSION['MSGs']["list_messages"][] = new Msg("danger", $error, $message);
+		MsgRepository::redirect($redirection);
 	}
 	public static function newWarning(string $warning, string $message = "", string $redirection = "last")
 	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("warning", $warning, $message, $redirection);
-		MsgRepository::redirect();
+		$_SESSION['MSGs']["list_messages"][] = new Msg("warning", $warning, $message);
+		MsgRepository::redirect($redirection);
 	}
 
 	/**
@@ -35,12 +37,14 @@ class MsgRepository
 	/**
 	 * Redirect to the previous page or a fallback home page.
 	 */
-	static public function redirect(): void
+	static public function redirect($redirection): void
 	{
-		$redirectUrl = $_SESSION["MSGs"]["redirect"] != "last" ? $_SESSION["MSGs"]["redirect"] : $_SERVER['HTTP_REFERER'];
-		header('Location: ' . $redirectUrl);
+		if ($redirection != MsgRepository::No_REDIRECT) {
+			$redirectUrl = $redirection != "last" ? $redirection : $_SERVER['HTTP_REFERER'];
+			header('Location: ' . $redirectUrl);
 
-		unset($_SESSION["MSGs"]["redirect"]);
-		exit;
+			unset($redirection);
+			exit;
+		} else return;
 	}
 }

@@ -3,7 +3,7 @@
 namespace Src\Model\DataObject;
 
 /**
- * Utility class for managing session messages and redirections.
+ * Utility class for managing session messages.
  */
 class Msg
 {
@@ -31,12 +31,11 @@ class Msg
 	 *
 	 * @param string $msg The message to set.
 	 */
-	public function __construct(string $error_type, string $header, string $message, string $redirection)
+	public function __construct(string $error_type, string $header, string $message)
 	{
 		$this->error_type = $error_type;
 		$this->header = $header;
 		$this->message = $message;
-		$_SESSION["MSGs"]["redirect"] = $redirection;
 	}
 
 	public function getType(): string
