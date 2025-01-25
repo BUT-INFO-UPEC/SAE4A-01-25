@@ -9,8 +9,9 @@ $controller = $_SESSION['controller']
 	<meta charset="UTF-8">
 
 	<title><?= $titrePage; ?></title>
+	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_layout.css">
 
-	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 	<!-- jQuery, Popper.js, et Bootstrap JS (nécessaires pour le modal Bootstrap) -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- Bootstrap CSS -->
