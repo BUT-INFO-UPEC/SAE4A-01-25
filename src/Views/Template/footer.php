@@ -15,7 +15,7 @@
 
 		<div class="footer-content">
 			<h3>NOUS REJOINDRE</h3>
-			<a href="https://github.com/lien-github">GitHub</a>
+			<a href="https://github.com/MrcotinSol/SAE.git">GitHub</a>
 		</div>
 
 		<div class="footer-content">
