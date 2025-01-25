@@ -1,7 +1,4 @@
 <header>
-
-	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_layout.css">
-
 	<div class="header-container">
 		<!-- Titre centré -->
 		<div class="titre-header">
