@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styleProfile.css">
-<div class="row w-100">
-	<div class="col-md-6">
+<link rel="stylesheet" href="/assets/css/styleProfile.css">
+<div class="flex justify-content-cetner gap-2">
+	<div class="w-100">
 		<div class="card">
 			<h5 class="card-header">Informations Utilisateur</h5>
 			<div class="card-body">
@@ -11,7 +11,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="w-100">
 		<div class="card">
 			<div class="card-body">
 				<h5 class="card-title">Statistiques Utilisateur</h5>

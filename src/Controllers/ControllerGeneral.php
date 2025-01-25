@@ -165,22 +165,24 @@ class ControllerGeneral extends AbstractController
 
 	#endregion
 
-	public static function test()
-	{
-		$cheminVueBody = "test.php";
-		$titrePage = "Test";
-		try {
-			$data = Requetteur_API::fetchAll([
-				'select' => [
-					'min(t)',
-					'max(t)',
-					'avg(t)'
-				],
-				'where' => 'libgeo="Abbeville"'
-			]);
-		} catch (Exception $e) {
-			echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-		}
-		require('../src/Views/Template/views.php');
-	}
+	/**
+	 * 	public static function test()
+	 * 	{
+	 * 		$cheminVueBody = "test.php";
+	 * 		$titrePage = "Test";
+	 * 		try {
+	 * 			$data = Requetteur_API::fetchAll([
+	 * 				'select' => [
+	 * 					'min(t)',
+	 * 					'max(t)',
+	 * 					'avg(t)'
+	 * 				],
+	 * 				'where' => 'libgeo="Abbeville"'
+	 * 			]);
+	 * 		} catch (Exception $e) {
+	 * 			echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+	 * 		}
+	 * 		require('../src/Views/Template/views.php');
+	 * 	}
+	*/
 }
