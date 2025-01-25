@@ -122,3 +122,13 @@ footer p {
 .header-menu a:hover::after {
   width: 100%;
 }
+
+/* home */
+
+.accueil {
+  margin: 0;
+  padding: 0;
+  background-image: url('/assets/img/fondaccueil.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
