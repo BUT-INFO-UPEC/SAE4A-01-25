@@ -32,8 +32,6 @@ $svgContent = preg_replace_callback(
 		height: 80vh;
 		/* Ajuste la hauteur à 80% de la fenêtre */
 		margin: 20px auto;
-		margin-left: 150px;
-		/* Décale tout le cadre vers la droite */
 	}
 
 	#map {
@@ -74,10 +72,10 @@ if (isset($_GET['region'])) {
 ?>
 
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
+	document.addEventListener('DOMContentLoaded', function () {
 		const paths = document.querySelectorAll('#map path');
 		paths.forEach(path => {
-			path.addEventListener('click', function(e) {
+			path.addEventListener('click', function (e) {
 				const regionId = e.target.id;
 				if (regionId) {
 					console.log(`Région cliquée : ${regionId}`);
