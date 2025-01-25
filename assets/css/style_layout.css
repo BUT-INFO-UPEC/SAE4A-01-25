@@ -8,15 +8,55 @@ footer {
   bottom: 0;
 }
 
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.footer-content {
+  flex: 1;
+  margin: 20px;
+  min-width: 200px;
+}
+
+footer h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: white;
+  text-align: left;
+}
+
 footer a {
-  color: #007bff;
+  color: white;
   text-decoration: none;
 }
 
-footer p {
-	margin: 0;
-	padding: 0;
+.list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
+
+.list li {
+  margin-bottom: 7px;
+}
+
+footer p {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+
+
+
+
+
+
 
 .titre-header {
   text-align: left;
@@ -29,19 +69,11 @@ footer p {
   color: #343a40;
 }
 
-.footer-layout a {
-  text-decoration: none;
-  color: #101010;
-}
-
 .bonjour .dropdown-menu img {
   width: 23px;
   height: 23px;
 }
 
-.footer-layout a:hover {
-  color: #ffffff;
-}
 
 .account-icon {
   width: 5vh;

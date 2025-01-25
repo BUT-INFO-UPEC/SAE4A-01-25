@@ -4,6 +4,7 @@ namespace Src\Model\DataObject;
 
 use DateTime;
 use Exception;
+use OutOfBoundsException;
 
 class Dashboard extends AbstractDataObject
 {
@@ -26,7 +27,7 @@ class Dashboard extends AbstractDataObject
 	// =======================
 
 
-	public function __construct($dashboard_id, $privatisation, $createurId, $date_debut, $date_fin, $date_debut_relatif, $date_fin_relatif, $composants,  $critere_geo, $param)
+	public function __construct(int $dashboard_id, string $privatisation, int $createurId, $date_debut, $date_fin, bool $date_debut_relatif, bool $date_fin_relatif, array $composants, array $critere_geo, $param)
 	{
 		$this->dashboardId = $dashboard_id;
 		$this->privatisation = $privatisation;
@@ -51,18 +52,6 @@ class Dashboard extends AbstractDataObject
 	public function get_privatisation()
 	{
 		return $this->privatisation;
-	}
-
-	public function get_filters()
-	{
-		$dateDebut = $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
-		$dateFin = $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
-
-		return [
-			"dateDebut" => $dateDebut,
-			"dateFin" => $dateFin,
-			"geo" => $this->selectionGeo
-		];
 	}
 
 	public function get_name()
@@ -90,7 +79,7 @@ class Dashboard extends AbstractDataObject
 		} elseif ($type === 'fin') {
 			return $this->dateFin;
 		}
-		throw new Exception("Type de date invalide : utilisez 'debut' ou 'fin'.");
+		throw new OutOfBoundsException("Type de date invalide : utilisez 'debut' ou 'fin'.");
 	}
 
 	public function get_params()
@@ -103,13 +92,33 @@ class Dashboard extends AbstractDataObject
 		return $this->composants;
 	}
 
-	public function get_geo(): string
+	public function get_params_API_geo(): string
 	{
-		$returnValue = "";
+		$returnValue = [];
+
 		foreach ($this->selectionGeo as $key => $value) {
-			$returnValue .= $key . "=" . implode(" or $key=", $value);
+			// Application de la transformation sur chaque élément de $value
+			$formattedValues = array_map(function ($valueInValue) use ($key) {
+				if ($key == "numer_sta") {
+					$valueInValue = str_pad($valueInValue, 5, "0", STR_PAD_LEFT);
+					$valueInValue = "'".$valueInValue."'";
+				}
+				return $valueInValue;
+			}, $value);
+
+			// Construction de la chaîne avec implode
+			$returnValue[] = "$key=" . implode(" or $key=", $formattedValues);
 		}
-		return $returnValue;
+
+		return "(" . implode(" and ", $returnValue) . ")";
+	}
+
+	public function get_params_API_temporel()
+	{
+		$dateDebut = $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
+		$dateFin = $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
+
+		return "(date >= '$dateDebut" . "T1:00:00+00:00' and date <= '$dateFin" . "T1:00:00+00:00')";
 	}
 
 	// =======================
