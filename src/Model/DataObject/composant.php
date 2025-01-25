@@ -10,11 +10,10 @@ class Composant extends AbstractDataObject
 	//        ATTRIBUTES
 	// =======================
 	private $id;
-	private $composantId;
-	private $attribut;
-	private $aggregation;
-	private $grouping;
-	private $repr;
+	private Attribut $attribut;
+	private Aggregation $aggregation;
+	private Groupping $grouping;
+	private Representation $repr;
 	private $params;
 
 	// =======================
@@ -22,7 +21,7 @@ class Composant extends AbstractDataObject
 	// =======================
 	public function __construct($composant_id, $attribut, $aggregation, $grouping, $repr_type, $param_affich)
 	{
-		$this->composantId = $composant_id;
+		$this->id = $composant_id;
 		$this->attribut = $attribut;
 		$this->aggregation = $aggregation;
 		$this->grouping = $grouping;
@@ -69,8 +68,8 @@ class Composant extends AbstractDataObject
 		$params['where'][] = $dash->get_params_API_geo();
 		$params['where'][] = $dash->get_params_API_temporel();
 		var_dump(implode(" and ", $params["where"]));
-		$params['select'] = $this->aggregation.get_cle() . "(" . $this->attribut.get_cle() . ")";
-		$params["group_by"] = $this->grouping;
+		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ")";
+		$params["group_by"][] = $this->grouping;
 
 		$data = Requetteur_API::fetchAll($params);
 

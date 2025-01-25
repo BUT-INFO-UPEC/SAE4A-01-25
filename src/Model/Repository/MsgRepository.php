@@ -6,15 +6,18 @@ use Src\Model\DataObject\Msg;
 
 class MsgRepository
 {
-	public static function newSuccess(string $success, string $message = "", string $redirection = "last") {
+	public static function newSuccess(string $success, string $message = "", string $redirection = "last")
+	{
 		$_SESSION['MSGs']["list_messages"][] = new Msg("success", $success, $message, $redirection);
 		MsgRepository::redirect();
 	}
-	public static function newError(string $error, string $message = "", string $redirection = "last") {
+	public static function newError(string $error, string $message = "", string $redirection = "last")
+	{
 		$_SESSION['MSGs']["list_messages"][] = new Msg("danger", $error, $message, $redirection);
 		MsgRepository::redirect();
 	}
-	public static function newWarning(string $warning, string $message = "", string $redirection = "last") {
+	public static function newWarning(string $warning, string $message = "", string $redirection = "last")
+	{
 		$_SESSION['MSGs']["list_messages"][] = new Msg("warning", $warning, $message, $redirection);
 		MsgRepository::redirect();
 	}

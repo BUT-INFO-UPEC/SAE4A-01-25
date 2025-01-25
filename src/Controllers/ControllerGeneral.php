@@ -184,5 +184,5 @@ class ControllerGeneral extends AbstractController
 	 * 		}
 	 * 		require('../src/Views/Template/views.php');
 	 * 	}
-	*/
+	 */
 }

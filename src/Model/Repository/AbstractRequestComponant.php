@@ -33,7 +33,8 @@ abstract class AbstractRequestComponant extends AbstractRepository
 		self::$sharedCache[$className][$key] = $value;
 	}
 
-	protected function getCacheFull() {
+	protected function getCacheFull()
+	{
 		$className = get_called_class();  // Récupère le nom de la classe fille actuelle
 		if (!isset(self::$sharedCache[$className])) {
 			self::$sharedCache[$className] = [];  // Initialiser le cache pour cette classe fille

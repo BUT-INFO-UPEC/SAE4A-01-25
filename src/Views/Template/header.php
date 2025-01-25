@@ -11,5 +11,4 @@
 		<!-- Icône alignée à droite -->
 		<?php include __DIR__ . "/icon_account.php"; ?>
 	</div>
-
 </header>

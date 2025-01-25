@@ -55,7 +55,9 @@ class FormManager {
     `;
 
     // Gestion suppression
-    formPart.querySelector(".delete-part").addEventListener("click", () => this.deletePart(newIndex));
+    formPart
+      .querySelector(".delete-part")
+      .addEventListener("click", () => this.deletePart(newIndex));
     this.formContainer.appendChild(formPart);
 
     this.updateTitles();
