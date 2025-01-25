@@ -126,16 +126,17 @@ class ControllerDashboard extends AbstractController
 		$titrePage = "Test de récupération des données API";
 		$select = ["t as temperatures", "tc as temperature_en_Celcius", 'date as date_de_mesure', 'libgeo as ville'];
 		$where = [
+			't > 10',
+			'libgeo="Abbeville"'
 		];
 		$group_by = [];
 		$order_by = [
-			'libgeo',
-			'date',
+			't'
 		];
-		$limit = 100;
+		$limit = 30;
 		$offset = null;
-		$refine_name = null;
-		$refine_value = null;
+		$refine_name = 'libgeo';
+		$refine_value = "Lorp-Sentaraille";
 		$exclude_name = null;
 		$exclude_value = null;
 		$time_zone = null;
