@@ -67,7 +67,7 @@ class Requette_API
 	}
 	public function getWhere(): ?string
 	{
-		return $this->where ? "where=" . urlencode(implode(',', $this->where)) : null;
+		return $this->where ? "where=" . urlencode(implode(' and ', $this->where)) : null;
 	}
 	public function getGroupBy(): ?string
 	{

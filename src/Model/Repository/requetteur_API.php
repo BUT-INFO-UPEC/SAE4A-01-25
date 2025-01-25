@@ -39,7 +39,7 @@ class Requetteur_API
 
 		$response = file_get_contents($url);
 		if ($response === false) {
-			throw new \Exception("Erreur lors de la récupération des données depuis l'API.");
+			throw new \Exception("Erreur lors de la récupération des données depuis l'API : <br/> $url.");
 		}
 
 		return json_decode($response, true);
