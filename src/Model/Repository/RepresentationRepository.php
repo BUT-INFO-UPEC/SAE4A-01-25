@@ -14,22 +14,26 @@ class RepresentationRepository extends AbstractRequestComponant
 
 	public function get_representations(): array
 	{
-    return $this->get_static_objects_list();
+		return $this->get_static_objects_list();
 	}
 
-	public  function arrayConstructor(array $objetFormatTableau): Representation {
+	public  function arrayConstructor(array $objetFormatTableau): Representation
+	{
 		return new Representation($objetFormatTableau["id"], $objetFormatTableau["name"], $objetFormatTableau["poss_groupping"], $objetFormatTableau["visu_fichier"]);
 	}
-	
-	public  function getNomClePrimaire(): string {
+
+	public  function getNomClePrimaire(): string
+	{
 		return "id";
 	}
-	
-	public  function getNomsColonnes(): array {
+
+	public  function getNomsColonnes(): array
+	{
 		return ["id", "name", "poss_groupping", "visu_fichier"];
 	}
-	
-	public  function getTableName(): string {
+
+	public  function getTableName(): string
+	{
 		return "Representations";
 	}
 }

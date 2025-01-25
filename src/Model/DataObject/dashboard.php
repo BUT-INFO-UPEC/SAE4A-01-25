@@ -101,7 +101,7 @@ class Dashboard extends AbstractDataObject
 			$formattedValues = array_map(function ($valueInValue) use ($key) {
 				if ($key == "numer_sta") {
 					$valueInValue = str_pad($valueInValue, 5, "0", STR_PAD_LEFT);
-					$valueInValue = "'".$valueInValue."'";
+					$valueInValue = "'" . $valueInValue . "'";
 				}
 				return $valueInValue;
 			}, $value);

@@ -6,12 +6,12 @@ use Src\Model\DataObject\Dashboard;
 
 class DashboardRepository extends AbstractRepository
 {
-	
+
 	// =======================
 	//        ATTRIBUTES
 	// =======================
 	#region attributes
-	const PRIVATISATION = [0 => "publique",1=> "privé"];
+	const PRIVATISATION = [0 => "publique", 1 => "privé"];
 
 	const TYPES_CRITERES_GEO = [0 => "numer_sta"];
 	#endregion
@@ -25,9 +25,9 @@ class DashboardRepository extends AbstractRepository
 		$composants = $this->BuildComposants($objetFormatTableau['id']);
 		$criteres_geo = $this->BuildGeo($objetFormatTableau['id']);
 
-		return new Dashboard($objetFormatTableau['id'] ,DashboardRepository::PRIVATISATION[$objetFormatTableau['privatisation']] , $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'] ,$objetFormatTableau['date_fin'] ,$objetFormatTableau['date_debut_relatif'] == "True" ,$objetFormatTableau['date_fin_relatif'] == "True" , $composants, $criteres_geo, $objetFormatTableau['params']);
+		return new Dashboard($objetFormatTableau['id'], DashboardRepository::PRIVATISATION[$objetFormatTableau['privatisation']], $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, $objetFormatTableau['params']);
 	}
-	
+
 	public function BuildGeo($id): array
 	{
 		$query = "SELECT type_critere, critere_id FROM CritereGeo_dashboard WHERE dashboard_id = :ID";
@@ -83,6 +83,6 @@ class DashboardRepository extends AbstractRepository
 		return $this->selectAll(null, []);
 	}
 	#endregion Publiques
-	
+
 
 }

@@ -14,9 +14,9 @@ class AggregationRepository extends AbstractRequestComponant
 
 	public function get_aggregations(): array
 	{
-    return $this->get_static_objects_list();
+		return $this->get_static_objects_list();
 	}
-	public  function arrayConstructor(array $objetFormatTableau): Aggregation 
+	public  function arrayConstructor(array $objetFormatTableau): Aggregation
 	{
 		return new Aggregation($objetFormatTableau["id"], $objetFormatTableau["nom"], $objetFormatTableau["cle"]);
 	}

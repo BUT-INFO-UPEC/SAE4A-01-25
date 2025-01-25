@@ -4,14 +4,17 @@ namespace Src\Model\DataObject;
 
 use Src\Model\DataObject\AbstractDataObject;
 
-class Groupping extends AbstractDataObject {
+class Groupping extends AbstractDataObject
+{
 	private $id;
 
-	function __construct($id, $nom, $type, $cle) {
+	function __construct($id, $nom, $type, $cle)
+	{
 		$this->id = $id;
 	}
 
-	function get_id() {
+	function get_id()
+	{
 		return $this->id;
 	}
 	public function formatTableau(): array

@@ -129,7 +129,7 @@ abstract class AbstractRepository
 		$query = "DELETE from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
 		$values = [ // préparation des valeurs
 			"clePrimaire" => $valeurClePrimaire,
-	];
+		];
 		// $pdoStatement = DatabaseConnection::getPdo()->prepare($sql); // préparation de la requête
 		// $pdoStatement->execute($values); // exécution de la requête
 		DatabaseConnection::executeQuery($query, $values);

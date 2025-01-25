@@ -14,9 +14,9 @@ class GrouppingRepository extends AbstractRequestComponant
 
 	public function get_grouppings(): array
 	{
-    return $this->get_static_objects_list();
+		return $this->get_static_objects_list();
 	}
-	public  function arrayConstructor(array $objetFormatTableau): Groupping 
+	public  function arrayConstructor(array $objetFormatTableau): Groupping
 	{
 		return new Groupping($objetFormatTableau["id"], $objetFormatTableau["nom"], $objetFormatTableau["type"], $objetFormatTableau["cle"]);
 	}
