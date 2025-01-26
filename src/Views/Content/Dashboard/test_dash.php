@@ -1,6 +1,5 @@
 <?php
 
-
 use Src\Model\API\Constructeur_Requette_API;
 
 $requete = new Constructeur_Requette_API(
