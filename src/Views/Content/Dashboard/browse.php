@@ -163,3 +163,17 @@
 
 	<button type="submit">Appliquer</button>
 </form>
+
+<ul class="list-dash">
+	<?php foreach ($dashboards as $dash) : ?>
+		<?php $lien = CONTROLLER_URL . "?action=visu_dashboard&dashId=" . $dash->get_id();
+		$lien2 = "?action=edit&dashId=" . $dash->get_id() ?>
+		<li class="card">
+			<div class="dash">
+				<p><?= htmlspecialchars($dash->get_name()) ?></p>
+				<a href="<?= $lien ?>" class="card-body">visu</a>
+				<a href="<?= $lien2 ?>" class="card-body">edit</a>
+			</div>
+		</li>
+	<?php endforeach; ?>
+</ul>

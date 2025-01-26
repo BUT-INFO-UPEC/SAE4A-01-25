@@ -3,13 +3,13 @@
 namespace Src\Controllers;
 
 use Exception;
+use RuntimeException;
+use Src\Config\ConfAPP;
 use Src\Model\DataObject\Composant;
 use Src\Model\DataObject\Dashboard;
-use Src\Model\DataObject\Requette_API;
 use Src\Model\Repository\DashboardRepository;
 use Src\Model\Repository\MsgRepository;
 use Src\Model\Repository\Requetteur_API;
-use Src\Model\Repository\Requetteur_BDD;
 
 class ControllerDashboard extends AbstractController
 {
@@ -73,23 +73,45 @@ class ControllerDashboard extends AbstractController
 
 	static function new_dashboard(): void
 	{
-		$_GET['dash_id'] = 0;
+		$_GET['dashId'] =  0;
+
+		// MsgRepository::newSuccess("Nouveau dashboard initialisé", "", MsgRepository::No_REDIRECT);
 
 		ControllerDashboard::edit();
 	}
 
 	static function edit(): void
 	{
-		// vérifier les droits 
-		// charger le dashboard GET['ID]
+		if (isset($_GET['dashId'])) {
+			try {
+				$dash = (new DashboardRepository())->get_dashboard_by_id($_GET['dashId']);
+			} catch (RuntimeException $e) {
+				MsgRepository::newError('Erreur lors de la récupération du dashboard', $e->getMessage());
+			}
+		} elseif (isset($_SESSION['dash'])) {
+			$dash = $_SESSION['dash'];
+		} else {
+			MsgRepository::newWarning("Dashboard non défini", "Pour éditer un dashboard, merci d'utilioser les boutons prévus a cet effet ou de définir l'id du dashboard que vous souhaitez utiliser comme model.");
+		}
 
 		$titrePage = "Edition d'un Dashboard";
-		$cheminVueBody = "create.php";
+		$cheminVueBody = "edit.php";
 		require('../src/Views/Template/views.php');
 	}
 
 	static function save(): void
 	{
+		if (!empty($_SESSION['dash'])) {
+			$dash = $_SESSION['dash'];
+			$constructeur = new DashboardRepository();
+			if ($dash->get_createur() == $_SESSION['user_id']) {
+				$constructeur->update_dashboard_by_id($dash);
+			} else {
+				$constructeur->save_new_dashboard($dash);
+			}
+		} else {
+			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utilioser les boutons prévus a cet effet.");
+		}
 
 		// vérifier les droits 
 		// GET['OLD_Id'] pour déterminer le dashboard a copier (0 pour un nouveau)

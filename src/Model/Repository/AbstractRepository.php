@@ -10,9 +10,6 @@ use Src\Model\DataObject\AbstractDataObject;
  */
 abstract class AbstractRepository
 {
-	// =======================
-	//    CRUD METHODS
-	// =======================
 	#region CRUD
 	/**
 	 * Inscrit statiquement l'objet dans la BDD
@@ -28,17 +25,19 @@ abstract class AbstractRepository
 		$values = $object->formatTableau();
 
 		// Construire les différentes valeurs a mettre a jour
-		$valeurs = "";
-		foreach ($nomsColones as $colone) {
-			$valeurs .= "$colone,";
-		}
-		$valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
+		// $valeurs = "";
+		// foreach ($nomsColones as $colone) {
+		// 	$valeurs .= "$colone,";
+		// }
+		// $valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
+		$valeurs = implode(", ", $nomsColones);
 
-		$cles = "";
-		foreach ($values as $key => $value) {
-			$cles .= ":$key,";
-		}
-		$cles = substr($cles, 0, -1); // retirer la virgule finale
+		// $cles = "";
+		// foreach ($values as $key => $value) {
+		// 	$cles .= ":$key,";
+		// }
+		// $cles = substr($cles, 0, -1); // retirer la virgule finale
+		$cles = implode(", ", array_keys($values));
 
 		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles);";
 		DatabaseConnection::executeQuery($query, $values);
@@ -136,9 +135,6 @@ abstract class AbstractRepository
 	}
 	#endregion CRUD
 
-	// =======================
-	//    ABSTRACT METHODS
-	// =======================
 	#region abstraites
 	/**
 	 * Définie le nom de la table de la BDD_ correspondant au type d'objet
@@ -171,17 +167,3 @@ abstract class AbstractRepository
 	protected abstract function getNomsColonnes(): array;
 	#endregion abstraites
 }
-
-
-// public  function arrayConstructor(array $objetFormatTableau): AbstractDataObject {
-// 	return new AbstractDataObject($objetFormatTableau);
-// }
-// public  function getNomClePrimaire(): string {
-// 	return "";
-// }
-// public  function getNomsColonnes(): array {
-// 	return ["id"];
-// }
-// public  function getTableName(): string {
-// 	return "Table";
-// }

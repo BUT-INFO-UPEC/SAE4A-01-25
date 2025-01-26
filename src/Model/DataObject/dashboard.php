@@ -11,6 +11,8 @@ class Dashboard extends AbstractDataObject
 	// =======================
 	//        ATTRIBUTES
 	// =======================
+
+	#region attributs
 	private $dashboardId;
 	private $privatisation;
 	private $composants = [];
@@ -21,12 +23,11 @@ class Dashboard extends AbstractDataObject
 	public $dateFinRelatif;
 	private $selectionGeo;
 	private $params;
+	#endregion attributs
 
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
-
-
 	public function __construct(int $dashboard_id, string $privatisation, int $createurId, $date_debut, $date_fin, bool $date_debut_relatif, bool $date_fin_relatif, array $composants, array $critere_geo, $param)
 	{
 		$this->dashboardId = $dashboard_id;
@@ -44,9 +45,16 @@ class Dashboard extends AbstractDataObject
 	// =======================
 	//    PUBLIC GETTERS
 	// =======================
+
+	#region getters
 	public function get_id()
 	{
 		return $this->dashboardId;
+	}
+
+	public function get_createur()
+	{
+		return $this->createurId;
 	}
 
 	public function get_privatisation()
@@ -120,15 +128,17 @@ class Dashboard extends AbstractDataObject
 
 		return "(date >= '$dateDebut" . "T1:00:00+00:00' and date <= '$dateFin" . "T1:00:00+00:00')";
 	}
+	#endregion getters
 
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
+
 	public function formatTableau(): array
 	{
 		return [
-			"id" => $this->get_id(),
 			"privatisation" => $this->get_privatisation(),
+			'createur_id' => $_SESSION['user_id'],
 			"date_debut" => $this->get_date('debut'),
 			"date_fin" => $this->get_date('fin'),
 			"date_debut_relatif" => $this->dateDebutRelatif,
@@ -144,6 +154,7 @@ class Dashboard extends AbstractDataObject
 	// =======================
 	//    PRIVATE METHODS
 	// =======================
+
 	private function calculate_relative_date($relativeDate)
 	{
 		$annee = (int)substr($relativeDate, 0, 4);

@@ -5,14 +5,15 @@ namespace Src\Config;
 class ConfAPP
 {
 	// Durée des cookies (7 jours)
-	public static function setCookie(string $ccokie_name, $cookie_value)
+	public static function setCookie(string $cokie_name, $cookie_value)
 	{
 		setcookie(
-			$ccokie_name,
+			$cokie_name,
 			$cookie_value,
 			time() + (3600 * 24 * 7),
 			"/",
 		);
+		$_COOKIE[$cokie_name];
 	}
 
 	/**
@@ -25,7 +26,7 @@ class ConfAPP
 		setcookie(
 			$cookie_name,
 			"",
-			time() - (3600 * 24 * 7),
+			time() - 1,
 			"/"
 		);
 

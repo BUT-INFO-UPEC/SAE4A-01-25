@@ -82,6 +82,16 @@ class DashboardRepository extends AbstractRepository
 		// construire les paramètres where et ajouter des paramètres a mettre dans une liste associative pour filtrer par visibilité entre autre
 		return $this->selectAll(null, []);
 	}
+
+	public function update_dashboard_by_id(Dashboard $dash)
+	{
+		$this->update($dash, $dash->get_id());
+	}
+
+	public function save_new_dashboard(Dashboard $dash)
+	{
+		$this->create($dash);
+	}
 	#endregion Publiques
 
 

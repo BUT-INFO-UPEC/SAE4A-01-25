@@ -1,4 +1,4 @@
-<form action="/?action=crea_dasbord" method="POST" class="container-fluid mt-4">
+<form action="?action=save" method="POST" class="container-fluid mt-4">
 	<div class="row mb-4">
 		<div class="col-md-6">
 			<label for="nom_meteotheque" class="form-label">Nom météothèque :</label>
