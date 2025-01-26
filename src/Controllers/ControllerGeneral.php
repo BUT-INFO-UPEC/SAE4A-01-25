@@ -130,9 +130,9 @@ class ControllerGeneral extends AbstractController
 				MsgRepository::newWarning("L'utilisateur existe déjà.", "Un autre utilisateur semble avoir les mêmes informations que vous. <br/> Les doubles comptes ne sont pas autorisés !");
 			}
 		} catch (PDOException $e) {
-			MsgRepository::newError("Erreur lors de la connexion à la base de données.", $e->getMessage(), MsgRepository::No_REDIRECT);
+			MsgRepository::newError("Erreur lors de la connexion à la base de données.", $e->getMessage(), MsgRepository::NO_REDIRECT);
 		} catch (Exception $e) {
-			MsgRepository::newError("Erreur lors de l'inscription.", $e->getMessage(), MsgRepository::No_REDIRECT);
+			MsgRepository::newError("Erreur lors de l'inscription.", $e->getMessage(), MsgRepository::NO_REDIRECT);
 		}
 		$cheminVueBody = "home.php";
 		require('../src/Views/Template/views.php');

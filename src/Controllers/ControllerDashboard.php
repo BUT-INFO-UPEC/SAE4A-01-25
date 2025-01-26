@@ -48,7 +48,7 @@ class ControllerDashboard extends AbstractController
 	{
 		$_GET['dashId'] =  0;
 
-		// MsgRepository::newSuccess("Nouveau dashboard initialisé", "", MsgRepository::No_REDIRECT);
+		// MsgRepository::newSuccess("Nouveau dashboard initialisé", "", MsgRepository::NO_REDIRECT);
 
 		ControllerDashboard::edit();
 	}
@@ -81,10 +81,10 @@ class ControllerDashboard extends AbstractController
 			if ($dash->get_createur() == UserManagement::getUser()->getId()) {
 				$constructeur->update_dashboard_by_id($dash);
 				$_GET["dashId"] = $dash->getId();
-				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::No_REDIRECT);
+				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 			} else {
 				$_GET["dashId"] = $constructeur->save_new_dashboard($dash);
-				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::No_REDIRECT);
+				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 			}
 		} else {
 			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
@@ -119,42 +119,21 @@ class ControllerDashboard extends AbstractController
 	// Test Function
 	public static function testDash()
 	{
-		$titrePage = "Test de récupération des données API";
-
-		$select = [];
-		$where = []; // 'where' doit être un tableau (vide ou rempli)
-		$group_by = []; // 'group_by' doit être un tableau (vide ou rempli)
-		$order_by = ''; // 'order_by' est une chaîne de caractères
-		$limit = 0; // 'limit' est un entier
-		$offset = 0; // 'offset' doit être un entier (vous pouvez mettre 0 par défaut)
-		$refine = []; // 'refine' doit être un tableau (vide ou rempli)
-		$exclude = []; // 'exclude' doit être un tableau (vide ou rempli)
-		$lang = ''; // 'lang' est une chaîne de caractères (vous pouvez mettre 'fr' par défaut)
-		$timezone = ''; // 'timezone' est une chaîne de caractères (vous pouvez mettre 'Europe/Paris' par défaut)
 		try {
 			// Appel de la méthode pour récupérer les données via l'API
 
 			$requete = new Constructeur_Requette_API(
-				$select,
-				$where,
-				$group_by,
-				$order_by,
-				$limit,
-				$offset,
-				$refine,
-				$exclude,
-				$lang,
-				$timezone
+				["t"]
 			);
 
 			$data = Requetteur_API::fetchData($requete);
-
-			// Exploitation des données récupérées
-			$cheminVueBody = "test_dash.php";
-			require('../src/Views/Template/views.php');
 		} catch (Exception $e) {
-			$erreur = $e->getMessage();
-			MsgRepository::newError($erreur);
+			MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
 		}
+
+		// Exploitation des données récupérées
+		$titrePage = "Test de récupération des données API";
+		$cheminVueBody = "test_dash.php";
+		require('../src/Views/Template/views.php');
 	}
 }

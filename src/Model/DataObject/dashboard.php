@@ -102,7 +102,7 @@ class Dashboard extends AbstractDataObject
 		return $this->composants;
 	}
 
-	public function get_params_API_geo(): string
+	public function get_params_API_geo(): ?string
 	{
 		$returnValue = [];
 
@@ -120,7 +120,7 @@ class Dashboard extends AbstractDataObject
 			$returnValue[] = "$key=" . implode(" or $key=", $formattedValues);
 		}
 
-		return "(" . implode(" and ", $returnValue) . ")";
+		return sizeof($returnValue) == 0 ? null : "(" . implode(" and ", $returnValue) . ")";
 	}
 
 	public function get_params_API_temporel()
