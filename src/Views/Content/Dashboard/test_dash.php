@@ -1,9 +1,10 @@
 <?php
 
+use Src\Model\API\Constructeur_Requette_API;
 
-use Src\Model\DataObject\Requette_API;
 
-$requete = new Requette_API(
+
+$requete = new Constructeur_Requette_API(
     [
         't as temperatures'
     ], 
