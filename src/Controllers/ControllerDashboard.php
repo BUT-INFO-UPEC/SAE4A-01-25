@@ -4,8 +4,10 @@ namespace Src\Controllers;
 
 use Exception;
 use RuntimeException;
+use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
+use Src\Config\UserManagement;
 use Src\Model\API\Requetteur_API;
 
 class ControllerDashboard extends AbstractController
@@ -76,19 +78,18 @@ class ControllerDashboard extends AbstractController
 		if (!empty($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
 			$constructeur = new DashboardRepository();
-			if ($dash->get_createur() == $_SESSION['user_id']) {
+			if ($dash->get_createur() == UserManagement::getUser()->getId()) {
 				$constructeur->update_dashboard_by_id($dash);
+				$_GET["dashId"] = $dash->getId();
+				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::No_REDIRECT);
 			} else {
-				$constructeur->save_new_dashboard($dash);
+				$_GET["dashId"] = $constructeur->save_new_dashboard($dash);
+				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::No_REDIRECT);
 			}
 		} else {
 			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
 		}
-
-		// vérifier les droits 
-		// GET['OLD_Id'] pour déterminer le dashboard a copier (0 pour un nouveau)
-		// $station = Requetteur_BDD::get_station();
-		// Enregistrer directement pour récupérer le nouvel ID (et déclencher l'enregistrement des logs)
+		ControllerDashboard::visu_dashboard();
 	}
 	#endregion entry
 
@@ -115,40 +116,40 @@ class ControllerDashboard extends AbstractController
 	#endregion post
 
 
+	// Test Function
 	public static function testDash()
 	{
 		$titrePage = "Test de récupération des données API";
-		$select = ["t as temperatures", "tc as temperature_en_Celcius", 'date as date_de_mesure', 'libgeo as ville'];
-		$where = [
-			't > 10',
-			'libgeo="Abbeville"'
-		];
-		$group_by = [];
-		$order_by = [
-			't'
-		];
-		$limit = 30;
-		$offset = null;
-		$refine_name = 'libgeo';
-		$refine_value = "Lorp-Sentaraille";
-		$exclude_name = null;
-		$exclude_value = null;
-		$time_zone = null;
+
+		$select = [];
+		$where = []; // 'where' doit être un tableau (vide ou rempli)
+		$group_by = []; // 'group_by' doit être un tableau (vide ou rempli)
+		$order_by = ''; // 'order_by' est une chaîne de caractères
+		$limit = 0; // 'limit' est un entier
+		$offset = 0; // 'offset' doit être un entier (vous pouvez mettre 0 par défaut)
+		$refine = []; // 'refine' doit être un tableau (vide ou rempli)
+		$exclude = []; // 'exclude' doit être un tableau (vide ou rempli)
+		$lang = ''; // 'lang' est une chaîne de caractères (vous pouvez mettre 'fr' par défaut)
+		$timezone = ''; // 'timezone' est une chaîne de caractères (vous pouvez mettre 'Europe/Paris' par défaut)
 		try {
-			$data = Requetteur_API::fetchAll(
+			// Appel de la méthode pour récupérer les données via l'API
+
+			$requete = new Constructeur_Requette_API(
 				$select,
 				$where,
 				$group_by,
 				$order_by,
 				$limit,
 				$offset,
-				$refine_name,
-				$refine_value,
-				$exclude_name,
-				$exclude_value,
-				$time_zone
+				$refine,
+				$exclude,
+				$lang,
+				$timezone
 			);
 
+			$data = Requetteur_API::fetchData($requete);
+
+			// Exploitation des données récupérées
 			$cheminVueBody = "test_dash.php";
 			require('../src/Views/Template/views.php');
 		} catch (Exception $e) {

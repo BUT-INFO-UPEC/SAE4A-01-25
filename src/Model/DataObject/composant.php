@@ -2,7 +2,7 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Model\Repository\Requetteur_API;
+use Src\Model\API\Requetteur_API;
 
 class Composant extends AbstractDataObject
 {
@@ -22,6 +22,7 @@ class Composant extends AbstractDataObject
 	public function __construct($composant_id, $attribut, $aggregation, $grouping, $repr_type, $param_affich)
 	{
 		$this->id = $composant_id;
+		$this->id = $composant_id;
 		$this->attribut = $attribut;
 		$this->aggregation = $aggregation;
 		$this->grouping = $grouping;
@@ -33,21 +34,21 @@ class Composant extends AbstractDataObject
 	//      GETTERS
 	// =======================
 
-	public function get_id()
+	public function get_id(): int
 	{
 		return $this->id;
 	}
-	public function get_attribut()
+	public function get_attribut(): Attribut
 	{
 		return $this->attribut;
 	}
 
-	public function get_aggregation()
+	public function get_aggregation(): Aggregation
 	{
 		return $this->aggregation;
 	}
 
-	public function get_grouping()
+	public function get_grouping(): Groupping
 	{
 		return $this->grouping;
 	}
@@ -67,11 +68,11 @@ class Composant extends AbstractDataObject
 		$params = [];
 		$params['where'][] = $dash->get_params_API_geo();
 		$params['where'][] = $dash->get_params_API_temporel();
-		// var_dump(implode(" and ", $params["where"]));
+		var_dump(implode(" and ", $params["where"]));
 		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ")";
 		$params["group_by"][] = $this->grouping;
 
-		$data = Requetteur_API::fetchAll($params);
+		$data = Requetteur_API::fetchData($params['select'], $params['where'], $params['group_by']);
 
 		var_dump($data);
 		// construire la requette a l'API
@@ -89,11 +90,11 @@ class Composant extends AbstractDataObject
 	{
 		return [
 			":id" => $this->get_id(),
-			":repr_type" => $this->repr,
-			":attribut" => $this->get_attribut(),
-			":aggregation" => $this->get_aggregation(),
-			":groupping" => $this->get_grouping(),
-			":params_affich" => $this->params
+			":repr_type" => $this->repr->get_id(),
+			":attribut" => $this->get_attribut()->get_id(),
+			":aggregation" => $this->get_aggregation()->get_id(),
+			":groupping" => $this->get_grouping()->get_id(),
+			":params_affich" => $this->params ?? ""
 		];
 	}
 }

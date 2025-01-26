@@ -1,0 +1,31 @@
+/* Style global pour la navbar */
+.slim-list {
+  background-color: #000; /* Noir */
+  height: 30px; /* Hauteur très fine */
+  display: flex;
+  justify-content: center; /* Centrer le contenu */
+  align-items: center; /* Centrer verticalement */
+}
+
+/* Ajouter un style pour le texte à l'intérieur du <p> */
+.slim-list p {
+  color: #fff; /* Texte blanc */
+  margin: 0; /* Retirer les marges par défaut */
+  font-size: 14px; /* Ajuster la taille du texte */
+  padding: 0 10px; /* Un peu d'espace autour du texte */
+}
+
+/* Liens dans la navbar */
+.slim-list a {
+  color: #fff; /* Texte blanc */
+  text-decoration: none; /* Enlever le souligné */
+  padding: 0 15px; /* Espacement horizontal */
+  font-size: 14px; /* Taille de police */
+  display: inline-block;
+}
+
+/* Effet au survol (hover) */
+.slim-list a:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Effet léger au survol */
+  color: #fff; /* Texte blanc */
+}

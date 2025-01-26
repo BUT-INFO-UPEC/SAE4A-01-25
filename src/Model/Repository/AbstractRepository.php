@@ -54,6 +54,7 @@ abstract class AbstractRepository
 		$nomTable = $this->getTableName();
 
 		$query = "SELECT * FROM $nomTable $adiitionnalQuery;";
+
 		$pdoStatement = DatabaseConnection::fetchAll($query, $values); // récupéraiton des objets de la BDD
 
 		foreach ($pdoStatement as $objetFormatTableau) { // itération pour construction

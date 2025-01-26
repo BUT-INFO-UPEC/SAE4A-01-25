@@ -2,45 +2,52 @@
 
 namespace Src\Model\API;
 
+use Exception;
+use Src\Config\MsgRepository;
 
 class Requetteur_API
 {
-	public static function fetchAll(
-		array $select = [],
-		array $where = [],
-		array $group_by = [],
-		array $order_by = [],
-		?int $limit = null,
-		?int $offset = null,
-		?string $refine_name = null,
-		$refine_value = null,
-		?string $exclude_name = null,
-		$exclude_value = null,
-		?string $time_zone = null
-	) {
-		$requette = new Constructeur_Requette_API(
-			$select,
-			$where,
-			$group_by,
-			$order_by,
-			$limit,
-			$offset,
-			$refine_name,
-			$refine_value,
-			$exclude_name,
-			$exclude_value,
-			$time_zone
-		);
+    public static function fetchData(Constructeur_Requette_API $requette): array
+    {
+        try {
+            // Construire l'URL de la requête
+            $url = $requette->formatUrl();
 
+            // Exécuter la requête avec CURL
+            $response = self::executeCurl($url);
 
-		$url = $requette->formatQuery();
-		// echo htmlspecialchars($url) . "<br>";
+            // Vérifier et retourner les résultats
+            return $response['results'] ?? [];
+        } catch (Exception $e) {
+            MsgRepository::newError("Erreur lors de la requête API : " . $e->getMessage());
+            return ["error" => $e->getMessage()];
+        }
+    }
 
-		$response = file_get_contents($url);
-		if ($response === false) {
-			throw new \Exception("Erreur lors de la récupération des données depuis l'API : <br/> $url.");
-		}
+    /**
+     * Exécute une requête CURL pour une URL donnée.
+     * @param string $url L'URL à appeler.
+     * @return array La réponse décodée.
+     * @throws Exception Si une erreur survient.
+     */
+    private static function executeCurl(string $url): array
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
 
-		return json_decode($response, true);
-	}
+        if ($http_code !== 200) {
+            throw new Exception("Erreur HTTP $http_code pour l'URL $url");
+        }
+
+        $decoded_response = json_decode($response, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Erreur de décodage JSON : " . json_last_error_msg());
+        }
+
+        return $decoded_response;
+    }
 }

@@ -5,14 +5,16 @@ namespace Src\Model\DataObject;
 use DateTime;
 use Exception;
 use OutOfBoundsException;
+use Src\Config\UserManagement;
 
 class Dashboard extends AbstractDataObject
 {
+	const PRIVATISATION = [0 => "publique", 1 => "privé"];
+
+	#region attributs
 	// =======================
 	//        ATTRIBUTES
 	// =======================
-
-	#region attributs
 	private $dashboardId;
 	private $privatisation;
 	private $composants = [];
@@ -59,7 +61,7 @@ class Dashboard extends AbstractDataObject
 
 	public function get_privatisation()
 	{
-		return $this->privatisation;
+		return Dashboard::PRIVATISATION[$this->privatisation];
 	}
 
 	public function get_name()
@@ -144,8 +146,9 @@ class Dashboard extends AbstractDataObject
 	public function formatTableau(): array
 	{
 		return [
-			":privatisation" => $this->get_privatisation(),
-			':createur_id' => $_SESSION['user_id'],
+			":id" => $this->dashboardId,
+			":privatisation" => $this->privatisation,
+			':createur_id' => UserManagement::getUser()->getId(),
 			":date_debut" => $this->get_date('debut'),
 			":date_fin" => $this->get_date('fin'),
 			":date_debut_relatif" => $this->dateDebutRelatif,

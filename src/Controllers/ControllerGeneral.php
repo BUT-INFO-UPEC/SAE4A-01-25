@@ -140,9 +140,6 @@ class ControllerGeneral extends AbstractController
 
 	public static function deconnexion()
 	{
-		if (isset($_SESSION["user"])) {
-			UtilisateurRepository::updateLastConn();
-		}
 		// Suppression de la session utilisateur
 		session_unset();
 		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant connécté(e)", "?controller=ControllerGeneral");

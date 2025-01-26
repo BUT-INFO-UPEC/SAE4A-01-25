@@ -2,32 +2,35 @@
 
 namespace Src\Model\API;
 
+
+/**
+ * QUE PERSONNE NE TOUCHE CETTE CLASS, ELLE FONCTIONNE TRES BIEN !!!
+ */
 class Constructeur_Requette_API
 {
-	private array $select = [];
-	private array $where = [];
-	private array $group_by = [];
-	private array $order_by = [];
-	private ?int $limit = null;
-	private ?int $offset = null;
-	private ?string $refine_name = null;
-	private $refine_value = null;
-	private ?string $exclude_name = null;
-	private $exclude_value = null;
-	private ?string $time_zone = null;
+	private const BASE_URL = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
+	private array $select;
+	private array $where;
+	private array $group_by;
+	private string $order_by;
+	private int $limit;
+	private int $offset;
+	private array $refine;
+	private array $exclude;
+	private string $lang;
+	private string $timezone;
 
 	public function __construct(
 		array $select = [],
 		array $where = [],
 		array $group_by = [],
-		array $order_by = [],
-		?int $limit = null,
-		?int $offset = null,
-		?string $refine_name = null,
-		$refine_value = null,
-		?string $exclude_name = null,
-		$exclude_value = null,
-		?string $time_zone = null
+		string $order_by = '',
+		int $limit = 100,
+		int $offset = 0,
+		array $refine = [],
+		array $exclude = [],
+		string $lang = "fr",
+		string $timezone = "Europe/Paris"
 	) {
 		$this->select = $select;
 		$this->where = $where;
@@ -35,74 +38,105 @@ class Constructeur_Requette_API
 		$this->order_by = $order_by;
 		$this->limit = $limit;
 		$this->offset = $offset;
-		$this->refine_name = $refine_name;
-		$this->refine_value = $refine_value;
-		$this->exclude_name = $exclude_name;
-		$this->exclude_value = $exclude_value;
-		$this->time_zone = $time_zone;
-	}
-
-	public function formatQuery(): string
-	{
-		$query = array_filter([
-			$this->getSelect(),
-			$this->getWhere(),
-			$this->getGroupBy(),
-			$this->getOrderBy(),
-			$this->getLimit(),
-			$this->getOffset(),
-			$this->getRefineName(),
-			$this->getRefineValue(),
-			$this->getExcludeName(),
-			$this->getExcludeValue(),
-			$this->getTimeZone(),
-		], fn($item) => $item !== null && $item !== '');
-		$url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
-		return $url . "?" . implode("&", $query);
+		$this->refine = $refine;
+		$this->exclude = $exclude;
+		$this->lang = $lang;
+		$this->timezone = $timezone;
 	}
 
 	public function getSelect(): ?string
 	{
-		return $this->select ? "select=" . urlencode(implode(',', $this->select)) : null;
+		return empty($this->select) ? null : "select=" . implode(",", $this->select);
 	}
+
 	public function getWhere(): ?string
 	{
-		return $this->where ? "where=" . urlencode(implode(' and ', $this->where)) : null;
+		return empty($this->where) ? null : "where=" . implode(" and ", $this->where);
 	}
+
 	public function getGroupBy(): ?string
 	{
-		return $this->group_by ? "group_by=" . urlencode(implode(',', $this->group_by)) : null;
+		return empty($this->group_by) ? null : "group_by=" . implode(",", $this->group_by);
 	}
+
 	public function getOrderBy(): ?string
 	{
-		return $this->order_by ? "order_by=" . urlencode(implode(',', $this->order_by)) : null;
+		return empty($this->order_by) ? null : "order_by=" . $this->order_by;
 	}
+
 	public function getLimit(): ?string
 	{
-		return $this->limit ? "limit=" . urlencode((string)$this->limit) : null;
+		return $this->limit > 0 ? "limit=" . $this->limit : null;
 	}
+
 	public function getOffset(): ?string
 	{
-		return $this->offset ? "offset=" . urlencode((string)$this->offset) : null;
+		return $this->offset > 0 ? "offset=" . $this->offset : null;
 	}
-	public function getRefineName(): ?string
+
+	public function getRefine(): ?string
 	{
-		return $this->refine_name ? "refine_name=" . urlencode($this->refine_name) : null;
+		if (empty($this->refine)) {
+			return null;
+		}
+
+		$refineParams = [];
+		foreach ($this->refine as $key => $value) {
+			$refineParams[] = "$key:$value";
+		}
+		return "refine=" . implode("&refine=", $refineParams);
 	}
-	public function getRefineValue(): ?string
+
+	public function getExclude(): ?string
 	{
-		return $this->refine_value ? "refine_value=" . urlencode((string)$this->refine_value) : null;
+		if (empty($this->exclude)) {
+			return null;
+		}
+
+		$excludeParams = [];
+		foreach ($this->exclude as $key => $value) {
+			$excludeParams[] = "$key:$value";
+		}
+		return "exclude=" . implode("&exclude=", $excludeParams);
 	}
-	public function getExcludeName(): ?string
+
+	public function getLang()
 	{
-		return $this->exclude_name ? "exclude_name=" . urlencode($this->exclude_name) : null;
+		return $this->lang ? "lang=$this->lang" : null;
 	}
-	public function getExcludeValue(): ?string
+
+	public function getTimeZone()
 	{
-		return $this->exclude_value ? "exclude_value=" . urlencode((string)$this->exclude_value) : null;
+		return $this->timezone ? "time_zone=$this->timezone" : null;
 	}
-	public function getTimeZone(): ?string
+	/**
+	 * Formate l'URL de la requête en utilisant http_build_query.
+	 *
+	 * @return string
+	 */
+	public function formatUrl(): string
 	{
-		return $this->time_zone ? "time_zone=" . urlencode($this->time_zone) : null;
+		$requetes = [
+			$this->getSelect(),
+			$this->getWhere(),
+			$this->getGroupBy(),
+			$this->getOrderBy(),
+			$this->getOffset(),
+			$this->getRefine(),
+			$this->getExclude(),
+			$this->getLang(),
+			$this->getTimeZone(),
+			$this->getLimit()
+		];
+
+		$params = [];
+		foreach ($requetes as $param) {
+			if ($param !== null) {
+				$params[] = $param;
+			}
+		}
+
+		// Utiliser http_build_query pour générer la chaîne de requête
+		return self::BASE_URL . '?' . implode("&", $params);
 	}
 }
