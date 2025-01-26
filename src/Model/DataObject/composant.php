@@ -2,7 +2,7 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Model\Repository\Requetteur_API;
+use Src\Model\API\Requetteur_API;
 
 class Composant extends AbstractDataObject
 {
@@ -10,10 +10,6 @@ class Composant extends AbstractDataObject
 	//        ATTRIBUTES
 	// =======================
 	private $id;
-	private Attribut $attribut;
-	private Aggregation $aggregation;
-	private Groupping $grouping;
-	private Representation $repr;
 	private Attribut $attribut;
 	private Aggregation $aggregation;
 	private Groupping $grouping;
