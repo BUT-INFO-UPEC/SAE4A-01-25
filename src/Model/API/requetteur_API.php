@@ -7,7 +7,9 @@ use Src\Config\MsgRepository;
 
 class Requetteur_API
 {
-	public static function fetchData(Constructeur_Requette_API $requette): array
+	const LIMIT_API_DATA = 10000;
+
+	public static function fetchData(Constructeur_Requette_API $requette, $limit = Requetteur_API::LIMIT_API_DATA): array
 	{
 		$totalData = [];
 		$APITotal = 1;
@@ -18,7 +20,7 @@ class Requetteur_API
 
 				// Exécuter la requête avec CURL
 				$response = self::executeCurl($url);
-				if ($APITotal == 1) $APITotal = min($response['total_count'], 10000);
+				if ($APITotal == 1) $APITotal = min($response['total_count'], $limit);
 
 				// Vérifier et retourner les résultats
 				$totalData = array_merge($totalData, $response['results'] ?? []);
