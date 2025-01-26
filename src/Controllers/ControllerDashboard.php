@@ -32,9 +32,10 @@ class ControllerDashboard extends AbstractController
 		$dateFilter = $_GET['date'] ?? 'today';
 		$customStartDate = $_GET['start_date'] ?? null;
 		$customEndDate = $_GET['end_date'] ?? null;
+		$privatisation = $_GET['privatisation'] ?? null;
 
 		$constructeur = new DashboardRepository();
-		$dashboards = $constructeur->get_dashboards($region, $order, $dateFilter, $customStartDate, $customEndDate);
+		$dashboards = $constructeur->get_dashboards($region, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation);
 
 		$titrePage = "Liste Des Dashboards";
 		$cheminVueBody = "browse.php";

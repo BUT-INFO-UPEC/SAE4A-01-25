@@ -48,6 +48,12 @@
 		<input type="date" name="end_date" id="end_date" value="<?= htmlspecialchars($customEndDate) ?>">
 	</div>
 
+	<select name="privatisation" id="" privatisation>
+		<option value="private" <?= $privatisation === 'private' ? 'selected' : '' ?>>Mes dashboards</option>
+		<option value="public" <?= $privatisation === 'public' ? 'selected' : '' ?>>dashboards publiques</option>
+		<option value=null <?= $privatisation === null ? 'selected' : '' ?>>Tout</option>
+	</select>
+
 	<button type="submit">Appliquer</button>
 </form>
 
