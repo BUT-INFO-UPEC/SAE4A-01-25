@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styleProfile.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_profile.css">
 
 <div class="flex justify-content-center gap-2">
 	<!-- Informations utilisateur -->

@@ -75,6 +75,7 @@ if (json_last_error() === JSON_ERROR_NONE) {
 <button onclick="openPopup()">Connexion</button>
 
 <!-- Code HTML du popup de connexion -->
+<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_popup.css">
 <div class="popup-overlay" id="popup" style="display: none;">
 	<div class="popup-content">
 		<h2>Connexion</h2>
@@ -97,38 +98,3 @@ if (json_last_error() === JSON_ERROR_NONE) {
 		document.getElementById("popup").style.display = "none";
 	}
 </script>
-
-<!-- Styles du popup, on peut ajouter sa dans un autre fichier CSS -->
-<style>
-	.popup-overlay {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.7);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.popup-content {
-		background-color: #fff;
-		padding: 20px;
-		width: 300px;
-		border-radius: 8px;
-		text-align: center;
-	}
-
-	.popup-content input[type="text"],
-	.popup-content input[type="password"] {
-		width: 100%;
-		padding: 10px;
-		margin: 10px 0;
-	}
-
-	.popup-content button {
-		padding: 10px 20px;
-		cursor: pointer;
-	}
-</style>
