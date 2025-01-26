@@ -7,11 +7,12 @@ use Src\Config\MsgRepository;
 
 class Requetteur_API
 {
-    public static function fetchData(Constructeur_Requette_API $requette): array {
+    public static function fetchData(Constructeur_Requette_API $requette): array
+    {
         try {
             // Construire l'URL de la requête
             $url = $requette->formatUrl();
-            echo $url;
+
             // Exécuter la requête avec CURL
             $response = self::executeCurl($url);
 
