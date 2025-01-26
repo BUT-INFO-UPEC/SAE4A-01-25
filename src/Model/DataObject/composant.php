@@ -34,21 +34,21 @@ class Composant extends AbstractDataObject
 	//      GETTERS
 	// =======================
 
-	public function get_id()
+	public function get_id(): int
 	{
 		return $this->id;
 	}
-	public function get_attribut()
+	public function get_attribut(): Attribut
 	{
 		return $this->attribut;
 	}
 
-	public function get_aggregation()
+	public function get_aggregation(): Aggregation
 	{
 		return $this->aggregation;
 	}
 
-	public function get_grouping()
+	public function get_grouping(): Groupping
 	{
 		return $this->grouping;
 	}
@@ -90,11 +90,11 @@ class Composant extends AbstractDataObject
 	{
 		return [
 			":id" => $this->get_id(),
-			":repr_type" => $this->repr,
-			":attribut" => $this->get_attribut(),
-			":aggregation" => $this->get_aggregation(),
-			":groupping" => $this->get_grouping(),
-			":params_affich" => $this->params
+			":repr_type" => $this->repr->get_id(),
+			":attribut" => $this->get_attribut()->get_id(),
+			":aggregation" => $this->get_aggregation()->get_id(),
+			":groupping" => $this->get_grouping()->get_id(),
+			":params_affich" => $this->params ?? ""
 		];
 	}
 }

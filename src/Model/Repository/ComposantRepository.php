@@ -6,6 +6,15 @@ use Src\Model\DataObject\Composant;
 
 class ComposantRepository extends AbstractRepository
 {
+
+	public function save(Composant $composant)
+	{
+		$values = $composant->formatTableau();
+		$values[":id"] = null;
+		$compId = (int) $this->create($composant, $values);
+		return $compId;
+	}
+
 	public function get_composant_by_id($id): Composant
 	{
 		return $this->select($id);
@@ -28,7 +37,7 @@ class ComposantRepository extends AbstractRepository
 
 	public function getNomsColonnes(): array
 	{
-		return ['id', 'attribut', 'aggregation', 'groupping', 'repr_type', 'params_affich'];
+		return ['id', 'repr_type', 'attribut', 'aggregation', 'groupping', 'params_affich'];
 	}
 
 	public function getTableName(): string

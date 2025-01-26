@@ -6,6 +6,7 @@ use Exception;
 use RuntimeException;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
+use Src\Config\UserManagement;
 use Src\Model\API\Requetteur_API;
 
 class ControllerDashboard extends AbstractController
@@ -76,19 +77,18 @@ class ControllerDashboard extends AbstractController
 		if (!empty($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
 			$constructeur = new DashboardRepository();
-			if ($dash->get_createur() == $_SESSION['user_id']) {
+			if ($dash->get_createur() == UserManagement::getUser()->getId()) {
 				$constructeur->update_dashboard_by_id($dash);
+				$_GET["dashId"] = $dash->getId();
+				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::No_REDIRECT);
 			} else {
-				$constructeur->save_new_dashboard($dash);
+				$_GET["dashId"] = $constructeur->save_new_dashboard($dash);
+				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::No_REDIRECT);
 			}
 		} else {
 			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
 		}
-
-		// vérifier les droits 
-		// GET['OLD_Id'] pour déterminer le dashboard a copier (0 pour un nouveau)
-		// $station = Requetteur_BDD::get_station();
-		// Enregistrer directement pour récupérer le nouvel ID (et déclencher l'enregistrement des logs)
+		ControllerDashboard::visu_dashboard();
 	}
 	#endregion entry
 

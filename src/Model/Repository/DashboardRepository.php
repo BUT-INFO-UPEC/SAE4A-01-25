@@ -12,7 +12,6 @@ class DashboardRepository extends AbstractRepository
 	//        ATTRIBUTES
 	// =======================
 	#region attributes
-	const PRIVATISATION = [0 => "publique", 1 => "privé"];
 
 	const TYPES_CRITERES_GEO = [0 => "numer_sta"];
 	#endregion
@@ -27,7 +26,7 @@ class DashboardRepository extends AbstractRepository
 		$composants = $this->BuildComposants($objetFormatTableau['id']);
 		$criteres_geo = $this->BuildGeo($objetFormatTableau['id']);
 
-		return new Dashboard($objetFormatTableau['id'], DashboardRepository::PRIVATISATION[$objetFormatTableau['privatisation']], $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, $objetFormatTableau['params']);
+		return new Dashboard($objetFormatTableau['id'], $objetFormatTableau['privatisation'], $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, $objetFormatTableau['params']);
 	}
 
 	public function BuildGeo($id): array
@@ -92,7 +91,23 @@ class DashboardRepository extends AbstractRepository
 
 	public function save_new_dashboard(Dashboard $dash)
 	{
-		$dash->setId($this->create($dash));
+		$values = $dash->formatTableau();
+		$values[":original_id"] = $values[":id"];
+		$values[":id"] = null;
+		$dashId = (int) $this->create($dash, $values);
+
+		// parcourir les composants et les enregistrés
+		$compsIds = [];
+		foreach ($dash->get_composants() as $comp) {
+			$compId = (new ComposantRepository)->save($comp);
+
+			// enregistrer les liens dashboard composants
+			$query = "INSERT INTO Composant_dashboard (dashboard_id, composant_id) VALUES (:dashboard_id, :composant_id);";
+			$values = [":composant_id" => $compId, ":dashboard_id" => $dashId];
+			DatabaseConnection::executeQuery($query, $values);
+		}
+
+		return $dashId;
 	}
 	#endregion Publiques
 
@@ -110,14 +125,14 @@ class DashboardRepository extends AbstractRepository
 
 	public function getNomsColonnes(): array
 	{
-		return ['id', 'privatisation', 'createur_id', 'date_debut', 'date_fin', 'date_debut_realtif', 'date_fin_relatif', 'params'];
+		return ['id', 'privatisation', 'createur_id', 'date_debut', 'date_fin', 'date_debut_relatif', 'date_fin_relatif', 'params', 'original_id'];
 	}
 	#endregion abstractRepo
 
 	private function buildPrivatisation(&$values, ?string $privatisation = null)
 	{
 		$values[":userId"] = UserManagement::getUser() == null ? 0 : UserManagement::getUser()->getId();
-		$private_values = ["privatisation = 0", "(privatisation = 1 and createur_id = :userId)"];
+		$private_values = ["privatisation = 0", "createur_id = :userId"];
 		switch ($privatisation) {
 			case 'private':
 				unset($private_values[0]);
