@@ -35,7 +35,7 @@ class Requetteur_API
 
 
 		$url = $requette->formatQuery();
-		echo htmlspecialchars($url) . "<br>";
+		// echo htmlspecialchars($url) . "<br>";
 
 		$response = file_get_contents($url);
 		if ($response === false) {
