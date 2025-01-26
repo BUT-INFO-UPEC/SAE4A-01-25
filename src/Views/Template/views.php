@@ -40,7 +40,7 @@ $controller = $_SESSION['controller']
 	<div class="flex main-container">
 		<?php if (isset($_SESSION['user']))  require __DIR__ . "/sidebar.php"; ?>
 
-		<div class="w-100">
+		<div class="w-100 m-3">
 			<?php require __DIR__ . "/message.php"; ?>
 
 			<main>

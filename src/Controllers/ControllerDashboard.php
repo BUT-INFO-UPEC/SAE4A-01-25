@@ -4,6 +4,7 @@ namespace Src\Controllers;
 
 use Exception;
 use RuntimeException;
+use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
@@ -120,35 +121,33 @@ class ControllerDashboard extends AbstractController
 	{
 		$titrePage = "Test de récupération des données API";
 
-		// Définition des paramètres de la requête
-		// $select = ['tc', 'libgeo', 'date'];
-		// $where = [];
-		// $group_by = [];
-		// $order_by = null;
-		// $limit = 1999; // Nombre de résultats par lot
-		// $offset = null; // Départ de la récupération
-		// $refine = []; // Refinement des données
-		// $exclude = []; // Exclusion des données
-		// $time_zone = null; // Time zone
-
+		$select = [];
+		$where = []; // 'where' doit être un tableau (vide ou rempli)
+		$group_by = []; // 'group_by' doit être un tableau (vide ou rempli)
+		$order_by = ''; // 'order_by' est une chaîne de caractères
+		$limit = 0; // 'limit' est un entier
+		$offset = 0; // 'offset' doit être un entier (vous pouvez mettre 0 par défaut)
+		$refine = []; // 'refine' doit être un tableau (vide ou rempli)
+		$exclude = []; // 'exclude' doit être un tableau (vide ou rempli)
+		$lang = ''; // 'lang' est une chaîne de caractères (vous pouvez mettre 'fr' par défaut)
+		$timezone = ''; // 'timezone' est une chaîne de caractères (vous pouvez mettre 'Europe/Paris' par défaut)
 		try {
 			// Appel de la méthode pour récupérer les données via l'API
-			// $data = Requetteur_API::fetchData(
-			// 	$select,
-			// 	$where,
-			// 	$group_by,
-			// 	$order_by,
-			// 	$limit,
-			// 	$offset,
-			// 	$refine,
-			// 	$exclude,
-			// 	$time_zone
-			// );
 
-			// // Vérification du retour de la méthode
-			// if (empty($data)) {
-			// 	throw new Exception("Aucune donnée n'a été retournée par l'API.");
-			// }
+			$requete = new Constructeur_Requette_API(
+				$select,
+				$where,
+				$group_by,
+				$order_by,
+				$limit,
+				$offset,
+				$refine,
+				$exclude,
+				$lang,
+				$timezone
+			);
+
+			$data = Requetteur_API::fetchData($requete);
 
 			// Exploitation des données récupérées
 			$cheminVueBody = "test_dash.php";
