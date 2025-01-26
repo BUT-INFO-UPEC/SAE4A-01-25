@@ -2,42 +2,48 @@
 
 namespace Src\Model\DataObject;
 
-use PDOException;
-use Src\Model\Repository\BDD;
 use Src\Model\Repository\DatabaseConnection;
+use PDO;
 
-class Utilisateur
+class Utilisateur extends AbstractDataObject
 {
 	// =======================
 	//        ATTRIBUTES
 	// =======================
+	private ?int $id;
 	private string $utilisateur_pseudo;
-	private string $utilisateur_mdp;
 	private string $utilisateur_mail;
 	private string $utilisateur_nom;
 	private string $utilisateur_prenom;
+	private ?string $utilisateur_crea;
 
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
 	public function __construct(
 		string $pseudo,
-		string $mdp,
 		string $mail,
 		string $nom,
-		string $prenom
+		string $prenom,
+		?int $id = null,
+		?string $crea = null
 	) {
+		$this->id = $id;
 		$this->utilisateur_pseudo = $pseudo;
 		$this->utilisateur_mail = $mail;
-		$this->utilisateur_mdp = $mdp;
 		$this->utilisateur_nom = $nom;
 		$this->utilisateur_prenom = $prenom;
+		$this->utilisateur_crea = $crea;
 	}
 
 	#region getters
 	// =======================
 	//      GETTERS
 	// =======================
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 	public function getPseudo(): string
 	{
 		return $this->utilisateur_pseudo;
@@ -46,11 +52,6 @@ class Utilisateur
 	public function getEmail(): string
 	{
 		return $this->utilisateur_mail;
-	}
-
-	public function getPassword(): string
-	{
-		return $this->utilisateur_mdp;
 	}
 
 	public function getNom(): string
@@ -62,73 +63,41 @@ class Utilisateur
 	{
 		return $this->utilisateur_prenom;
 	}
+	public function getUtilisateur_crea(): ?string
+	{
+		return $this->utilisateur_crea;
+	}
+
+	public function getNbPubli()
+	{
+		$query = "SELECT count(*) FROM Dashboards WHERE createur_id = :createur_id";
+		$values = [":createur_id" => $this->getId()];
+		$stmt = DatabaseConnection::executeQuery($query, $values);
+		return $stmt->fetch(PDO::FETCH_NUM)[0];
+	}
 	#endregion
 
 	#region setters
-	// =======================
-	//      SETTERS
-	// =======================
-	public function setPseudo(string $pseudo): void
+	public function setId($id)
 	{
-		$this->utilisateur_pseudo = $pseudo;
+		$this->id = $id;
 	}
-
-	public function setEmail(string $mail): void
-	{
-		$this->utilisateur_mail = $mail;
-	}
-
-	public function setPassword(string $mdp): void
-	{
-		$this->utilisateur_mdp = $mdp;
-	}
-	public function setNom(string $nom): void
-	{
-		$this->utilisateur_nom = $nom;
-	}
-
-	public function setPrenom(string $prenom): void
-	{
-		$this->utilisateur_prenom = $prenom;
-	}
-	#endregion
+	#endregion setters
 
 	#region public methods
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
-	/**
-	 * Méthode pour insérer un utilisateur dans la base de données SQLite
-	 */
-	public function insertUser(): void
+	public function formatTableau(): array
 	{
-		try {
-			// On récupère l'instance PDO depuis la classe BaseDeDonnees
-
-			// Préparation de la requête SQL
-			$sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_nom, utilisateur_prenom)
-                    VALUES (:pseudo, :mdp, :mail, :nom, :prenom)";
-
-
-			// Exécution de la requête avec les paramètres
-			DatabaseConnection::executeQuery(
-				$sql,
-				[
-					':pseudo' => $this->utilisateur_pseudo,
-					':mdp' => $this->utilisateur_mail,
-					':mail' => $this->utilisateur_mdp,
-					':nom' => $this->utilisateur_nom,
-					':prenom' => $this->utilisateur_prenom
-				]
-			);
-
-			// Message de succès
-			$_SESSION['success'] = "Utilisateur {$this->utilisateur_pseudo} a été ajouté avec succès.";
-		} catch (PDOException $e) {
-			// Gestion des erreurs
-			$_SESSION['error'] = "Erreur lors de l'insertion : " . $e->getMessage();
-		}
+		return [
+			':utilisateur_id' => $this->getId(),
+			':utilisateur_pseudo' => $this->utilisateur_pseudo,
+			':utilisateur_mail' => $this->utilisateur_mail,
+			':utilisateur_nom' => $this->utilisateur_nom,
+			':utilisateur_prenom' => $this->utilisateur_prenom,
+			':created_at' => $this->utilisateur_crea
+		];
 	}
-
 	#endregion
 }

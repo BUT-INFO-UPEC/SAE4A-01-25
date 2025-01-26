@@ -1,0 +1,50 @@
+<?php
+
+namespace Src\Config;
+
+use Src\Config\Msg;
+
+class MsgRepository
+{
+	const No_REDIRECT = "none";
+
+	public static function newSuccess(string $success, string $message = "", string $redirection = "last")
+	{
+		$_SESSION['MSGs']["list_messages"][] = new Msg("success", $success, $message);
+		MsgRepository::redirect($redirection);
+	}
+	public static function newError(string $error, string $message = "", string $redirection = "last")
+	{
+		$_SESSION['MSGs']["list_messages"][] = new Msg("danger", $error, $message);
+		MsgRepository::redirect($redirection);
+	}
+	public static function newWarning(string $warning, string $message = "", string $redirection = "last")
+	{
+		$_SESSION['MSGs']["list_messages"][] = new Msg("warning", $warning, $message);
+		MsgRepository::redirect($redirection);
+	}
+
+	/**
+	 * Check if a user is logged in. Redirect with an error if not.
+	 */
+	public static function checkLogin(): void
+	{
+		if (!isset($_SESSION['login'])) {
+			MsgRepository::newError("Vous devez être connecté pour effectuer cette action.", "Not loged in");
+		}
+	}
+
+	/**
+	 * Redirect to the previous page or a fallback home page.
+	 */
+	static public function redirect($redirection): void
+	{
+		if ($redirection != MsgRepository::No_REDIRECT) {
+			$redirectUrl = $redirection != "last" ? $redirection : $_SERVER['HTTP_REFERER'];
+			header('Location: ' . $redirectUrl);
+
+			unset($redirection);
+			exit;
+		} else return;
+	}
+}

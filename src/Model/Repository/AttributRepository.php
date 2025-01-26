@@ -14,7 +14,7 @@ class AttributRepository extends AbstractRequestComponant
 
 	public function get_attributs(): array
 	{
-    return $this->get_static_objects_list();
+		return $this->get_static_objects_list();
 	}
 
 	public  function arrayConstructor(array $objetFormatTableau): Attribut
@@ -34,4 +34,3 @@ class AttributRepository extends AbstractRequestComponant
 		return "Attributs";
 	}
 }
-

@@ -14,6 +14,10 @@ class Composant extends AbstractDataObject
 	private Aggregation $aggregation;
 	private Groupping $grouping;
 	private Representation $repr;
+	private Attribut $attribut;
+	private Aggregation $aggregation;
+	private Groupping $grouping;
+	private Representation $repr;
 	private $params;
 
 	// =======================
@@ -21,6 +25,7 @@ class Composant extends AbstractDataObject
 	// =======================
 	public function __construct($composant_id, $attribut, $aggregation, $grouping, $repr_type, $param_affich)
 	{
+		$this->id = $composant_id;
 		$this->id = $composant_id;
 		$this->attribut = $attribut;
 		$this->aggregation = $aggregation;
@@ -88,12 +93,12 @@ class Composant extends AbstractDataObject
 	public function formatTableau(): array
 	{
 		return [
-			"id" => $this->get_id(),
-			"repr_type" => $this->repr,
-			"attribut" => $this->get_attribut(),
-			"aggregation" => $this->get_aggregation(),
-			"groupping" => $this->get_grouping(),
-			"params_affich" => $this->params
+			":id" => $this->get_id(),
+			":repr_type" => $this->repr,
+			":attribut" => $this->get_attribut(),
+			":aggregation" => $this->get_aggregation(),
+			":groupping" => $this->get_grouping(),
+			":params_affich" => $this->params
 		];
 	}
 }

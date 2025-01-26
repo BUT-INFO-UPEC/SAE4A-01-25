@@ -1,27 +1,25 @@
-<link rel="stylesheet" href="/assets/css/styleProfile.css">
-<div class="flex justify-content-cetner gap-2">
+<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_profile.css">
+
+<div class="flex justify-content-center gap-2">
+	<!-- Informations utilisateur -->
 	<div class="w-100">
 		<div class="card">
 			<h5 class="card-header">Informations Utilisateur</h5>
 			<div class="card-body">
-				<p><strong>Nom</strong> : <?= htmlspecialchars($user['utilisateur_nom']) ?></p>
-				<p><strong>Prenom</strong> : <?= htmlspecialchars($user['utilisateur_prenom']) ?></p>
-				<p><strong>Email</strong> : <?= htmlspecialchars($user['utilisateur_mail']) ?></p>
-				<p><strong>Créer le</strong> : <?= htmlspecialchars($user['created_at']) ?></p>
+				<p><strong>Nom :</strong> <?= htmlspecialchars($user->getNom() ?? 'Non renseigné') ?></p>
+				<p><strong>Prénom :</strong> <?= htmlspecialchars($user->getPrenom() ?? 'Non renseigné') ?></p>
+				<p><strong>Email :</strong> <?= htmlspecialchars($user->getEmail() ?? 'Non renseigné') ?></p>
+				<p><strong>Créer le :</strong> <?= htmlspecialchars($user->getUtilisateur_crea() ?? 'Non renseigné') ?></p>
 			</div>
 		</div>
 	</div>
+
+	<!-- Statistiques utilisateur -->
 	<div class="w-100">
 		<div class="card">
+			<h5 class="card-header">Statistiques Utilisateur</h5>
 			<div class="card-body">
-				<h5 class="card-title">Statistiques Utilisateur</h5>
-				<p><strong>Nombre de connexions :</strong><?= htmlspecialchars($user['utilisateur_nb_conn']) ?></p>
-				<?php if (!empty($user['utilisateur_last_conn'])): ?>
-					<p><strong>Dernière connexion :</strong> <?= htmlspecialchars($user['utilisateur_last_conn']) ?> </p>
-				<?php else: ?>
-					<p><strong>Dernière connexion :</strong> 0</p>
-				<?php endif; ?>
-				<p><strong>Nombre de publications :</strong> 5</p>
+				<p><strong>Nombre de publications :</strong> <?= htmlspecialchars($user->getNbPubli() ?? 0) ?></p>
 			</div>
 		</div>
 	</div>

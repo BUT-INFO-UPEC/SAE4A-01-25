@@ -12,16 +12,16 @@ if (!empty($_SESSION['MSGs']["list_messages"])) {
 	}
 	unset($_SESSION['MSGs']["list_messages"]);
 }
-?>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const alertMessages = document.querySelectorAll('[id^="alertMessage"]');
+	?>
+	<!-- <script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const alertMessages = document.querySelectorAll('[id^="alertMessage"]');
 
-    alertMessages.forEach((msg) => {
-        setTimeout(() => {
-            msg.classList.add('fade'); // Ajoute la transition de disparition
-            setTimeout(() => msg.remove(), 500); // Supprime complètement après 0.5s
-        }, 3000); // Attendre 3 secondes avant de commencer
-    });
-});
-</script>
+			alertMessages.forEach((msg) => {
+				setTimeout(() => {
+					msg.classList.add('fade'); // Ajoute la transition de disparition
+					setTimeout(() => msg.remove(), 500); // Supprime complètement après 0.5s
+				}, 5000); // Attendre 5 secondes avant de commencer
+			});
+		});
+	</script> -->

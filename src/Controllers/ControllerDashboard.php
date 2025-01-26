@@ -3,13 +3,10 @@
 namespace Src\Controllers;
 
 use Exception;
-use Src\Model\DataObject\Composant;
-use Src\Model\DataObject\Dashboard;
-use Src\Model\DataObject\Requette_API;
+use RuntimeException;
 use Src\Model\Repository\DashboardRepository;
-use Src\Model\Repository\MsgRepository;
-use Src\Model\Repository\Requetteur_API;
-use Src\Model\Repository\Requetteur_BDD;
+use Src\Config\MsgRepository;
+use Src\Model\API\Requetteur_API;
 
 class ControllerDashboard extends AbstractController
 {
@@ -29,42 +26,16 @@ class ControllerDashboard extends AbstractController
 	#region entry
 	static public function browse(): void
 	{
-		$constructeur = new DashboardRepository();
-		$dashboards = $constructeur->get_dashboards();
-
 		// Ajout des filtres et tri pour les tableaux de bord
 		$region = $_GET['region'] ?? null;
 		$order = $_GET['order'] ?? 'recent'; // Valeurs possibles : recent, most_viewed
 		$dateFilter = $_GET['date'] ?? 'today';
 		$customStartDate = $_GET['start_date'] ?? null;
 		$customEndDate = $_GET['end_date'] ?? null;
+		$privatisation = $_GET['privatisation'] ?? null;
 
-		// Filtrage des tableaux de bord
-		$filteredDashboards = array_filter($dashboards, function ($dash) use ($region, $dateFilter, $customStartDate, $customEndDate) {
-			$passesRegionFilter = $region ? $dash->get_region() === $region : true;
-			$passesDateFilter = true;
-
-			if ($dateFilter === 'yesterday') {
-				$passesDateFilter = strtotime($dash->get_date()) >= strtotime('yesterday') && strtotime($dash->get_date()) < strtotime('today');
-			} elseif ($dateFilter === 'today') {
-				$passesDateFilter = strtotime($dash->get_date()) >= strtotime('today') && strtotime($dash->get_date()) < strtotime('tomorrow');
-			} elseif ($dateFilter === 'this_week') {
-				$passesDateFilter = strtotime($dash->get_date()) >= strtotime('monday this week') && strtotime($dash->get_date()) < strtotime('monday next week');
-			} elseif ($dateFilter === 'custom' && $customStartDate && $customEndDate) {
-				$passesDateFilter = strtotime($dash->get_date()) >= strtotime($customStartDate) && strtotime($dash->get_date()) <= strtotime($customEndDate);
-			}
-
-			return $passesRegionFilter && $passesDateFilter;
-		});
-
-		// Tri des tableaux de bord
-		usort($filteredDashboards, function ($a, $b) use ($order) {
-			if ($order === 'most_viewed') {
-				return $b->get_views() - $a->get_views();
-			} else { // Par défaut : 'recent'
-				return strtotime($b->get_date()) - strtotime($a->get_date());
-			}
-		});
+		$constructeur = new DashboardRepository();
+		$dashboards = $constructeur->get_dashboards($region, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation);
 
 		$titrePage = "Liste Des Dashboards";
 		$cheminVueBody = "browse.php";
@@ -73,23 +44,46 @@ class ControllerDashboard extends AbstractController
 
 	static function new_dashboard(): void
 	{
-		$_GET['dash_id'] = 0;
+		$_GET['dashId'] =  0;
+
+		// MsgRepository::newSuccess("Nouveau dashboard initialisé", "", MsgRepository::No_REDIRECT);
 
 		ControllerDashboard::edit();
 	}
 
 	static function edit(): void
 	{
-		// vérifier les droits 
-		// charger le dashboard GET['ID]
+		if (isset($_GET['dashId'])) {
+			try {
+				$dash = (new DashboardRepository())->get_dashboard_by_id($_GET['dashId']);
+				$_SESSION['dash'] = $dash;
+			} catch (RuntimeException $e) {
+				MsgRepository::newError('Erreur lors de la récupération du dashboard', $e->getMessage());
+			}
+		} elseif (isset($_SESSION['dash'])) {
+			$dash = $_SESSION['dash'];
+		} else {
+			MsgRepository::newWarning("Dashboard non défini", "Pour éditer un dashboard, merci d'utiliser les boutons prévus a cet effet ou de définir l'id du dashboard que vous souhaitez utiliser comme model.");
+		}
 
 		$titrePage = "Edition d'un Dashboard";
-		$cheminVueBody = "create.php";
+		$cheminVueBody = "edit.php";
 		require('../src/Views/Template/views.php');
 	}
 
 	static function save(): void
 	{
+		if (!empty($_SESSION['dash'])) {
+			$dash = $_SESSION['dash'];
+			$constructeur = new DashboardRepository();
+			if ($dash->get_createur() == $_SESSION['user_id']) {
+				$constructeur->update_dashboard_by_id($dash);
+			} else {
+				$constructeur->save_new_dashboard($dash);
+			}
+		} else {
+			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
+		}
 
 		// vérifier les droits 
 		// GET['OLD_Id'] pour déterminer le dashboard a copier (0 pour un nouveau)
