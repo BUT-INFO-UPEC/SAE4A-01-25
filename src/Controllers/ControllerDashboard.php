@@ -115,40 +115,42 @@ class ControllerDashboard extends AbstractController
 	#endregion post
 
 
+	// Test Function
 	public static function testDash()
 	{
 		$titrePage = "Test de récupération des données API";
-		$select = ["t as temperatures", "tc as temperature_en_Celcius", 'date as date_de_mesure', 'libgeo as ville'];
-		$where = [
-			't > 10',
-			'libgeo="Abbeville"'
-		];
-		$group_by = [];
-		$order_by = [
-			't'
-		];
-		$limit = 30;
-		$offset = null;
-		$refine_name = 'libgeo';
-		$refine_value = "Lorp-Sentaraille";
-		$exclude_name = null;
-		$exclude_value = null;
-		$time_zone = null;
-		try {
-			$data = Requetteur_API::fetchAll(
-				$select,
-				$where,
-				$group_by,
-				$order_by,
-				$limit,
-				$offset,
-				$refine_name,
-				$refine_value,
-				$exclude_name,
-				$exclude_value,
-				$time_zone
-			);
 
+		// Définition des paramètres de la requête
+		// $select = ['tc', 'libgeo', 'date'];
+		// $where = [];
+		// $group_by = [];
+		// $order_by = null;
+		// $limit = 1999; // Nombre de résultats par lot
+		// $offset = null; // Départ de la récupération
+		// $refine = []; // Refinement des données
+		// $exclude = []; // Exclusion des données
+		// $time_zone = null; // Time zone
+
+		try {
+			// Appel de la méthode pour récupérer les données via l'API
+			// $data = Requetteur_API::fetchData(
+			// 	$select,
+			// 	$where,
+			// 	$group_by,
+			// 	$order_by,
+			// 	$limit,
+			// 	$offset,
+			// 	$refine,
+			// 	$exclude,
+			// 	$time_zone
+			// );
+
+			// // Vérification du retour de la méthode
+			// if (empty($data)) {
+			// 	throw new Exception("Aucune donnée n'a été retournée par l'API.");
+			// }
+
+			// Exploitation des données récupérées
 			$cheminVueBody = "test_dash.php";
 			require('../src/Views/Template/views.php');
 		} catch (Exception $e) {

@@ -22,41 +22,7 @@ $svgContent = preg_replace_callback(
 );
 ?>
 
-<!-- Styles CSS pour dimensionner et centrer la carte SVG -->
-<style>
-	#map-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		height: 80vh;
-		/* Ajuste la hauteur à 80% de la fenêtre */
-		margin: 20px auto;
-	}
-
-	#map {
-		width: 100%;
-		height: 100%;
-		max-width: 800px;
-		/* Limite la largeur maximale */
-		max-height: 100%;
-		border: 1px solid #ddd;
-		background: #f9f9f9;
-		border-radius: 8px;
-		box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-		cursor: pointer;
-	}
-
-	#map path {
-		transition: fill 0.3s ease, stroke 0.3s ease;
-	}
-
-	#map path:hover {
-		fill: #007bff !important;
-		/* Mettre en surbrillance la région au survol */
-		stroke: #0056b3 !important;
-	}
-</style>
+<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_carte.css">
 
 <!-- Afficher le contenu SVG -->
 <div id="map-container">

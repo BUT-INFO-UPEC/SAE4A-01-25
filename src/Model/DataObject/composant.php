@@ -14,6 +14,10 @@ class Composant extends AbstractDataObject
 	private Aggregation $aggregation;
 	private Groupping $grouping;
 	private Representation $repr;
+	private Attribut $attribut;
+	private Aggregation $aggregation;
+	private Groupping $grouping;
+	private Representation $repr;
 	private $params;
 
 	// =======================
@@ -21,6 +25,7 @@ class Composant extends AbstractDataObject
 	// =======================
 	public function __construct($composant_id, $attribut, $aggregation, $grouping, $repr_type, $param_affich)
 	{
+		$this->id = $composant_id;
 		$this->id = $composant_id;
 		$this->attribut = $attribut;
 		$this->aggregation = $aggregation;
@@ -67,7 +72,7 @@ class Composant extends AbstractDataObject
 		$params = [];
 		$params['where'][] = $dash->get_params_API_geo();
 		$params['where'][] = $dash->get_params_API_temporel();
-		// var_dump(implode(" and ", $params["where"]));
+		var_dump(implode(" and ", $params["where"]));
 		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ")";
 		$params["group_by"][] = $this->grouping;
 
