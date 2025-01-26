@@ -124,37 +124,43 @@ class ControllerDashboard extends AbstractController
 	public static function testDash()
 	{
 		$titrePage = "Test de récupération des données API";
-		$select = ["t as temperatures", "tc as temperature_en_Celcius", 'date as date_de_mesure', 'libgeo as ville'];
-		$where = [
-			't > 10',
-			'libgeo="Abbeville"'
+
+		$select = [
+			"t as temperatures",
+			"tc as temperature_en_Celcius",
+			'date as date_de_mesure',
+			'libgeo as ville'
 		];
+
+		$where = [];
+
 		$group_by = [];
-		$order_by = [
-			't'
-		];
-		$limit = 30;
+		$order_by = [];
+		$limit = null;
 		$offset = null;
-		$refine_name = 'libgeo';
-		$refine_value = "Lorp-Sentaraille";
-		$exclude_name = null;
-		$exclude_value = null;
-		$time_zone = null;
+		$refine = [];
+		$exclude = [];
+		$time_zone = 'UTC';
+
 		try {
-			$data = Requetteur_API::fetchAll(
+			$data = Requetteur_API::fetchData(
 				$select,
 				$where,
 				$group_by,
 				$order_by,
 				$limit,
 				$offset,
-				$refine_name,
-				$refine_value,
-				$exclude_name,
-				$exclude_value,
+				$refine,
+				$exclude,
 				$time_zone
 			);
 
+			// Vérifiez si des erreurs sont présentes dans la réponse
+			if (isset($data['error'])) {
+				throw new Exception($data['error']);
+			}
+
+			// Affichage des données ou traitement supplémentaire
 			$cheminVueBody = "test_dash.php";
 			require('../src/Views/Template/views.php');
 		} catch (Exception $e) {

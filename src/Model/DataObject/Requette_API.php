@@ -4,105 +4,154 @@ namespace Src\Model\DataObject;
 
 class Requette_API
 {
-    private array $select = [];
-    private array $where = [];
-    private array $group_by = [];
-    private array $order_by = [];
-    private ?int $limit = null;
-    private ?int $offset = null;
-    private ?string $refine_name = null;
-    private $refine_value = null;
-    private ?string $exclude_name = null;
-    private $exclude_value = null;
-    private ?string $time_zone = null;
+    private const BASE_URL = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
+    private array $parameters = [];
 
-    public function __construct(
-        array $select = [],
-        array $where = [],
-        array $group_by = [],
-        array $order_by = [],
-        ?int $limit = null,
-        ?int $offset = null,
-        ?string $refine_name = null,
-        $refine_value = null,
-        ?string $exclude_name = null,
-        $exclude_value = null,
-        ?string $time_zone = null
-    ) {
-        $this->select = $select;
-        $this->where = $where;
-        $this->group_by = $group_by;
-        $this->order_by = $order_by;
-        $this->limit = $limit;
-        $this->offset = $offset;
-        $this->refine_name = $refine_name;
-        $this->refine_value = $refine_value;
-        $this->exclude_name = $exclude_name;
-        $this->exclude_value = $exclude_value;
-        $this->time_zone = $time_zone;
+    /**
+     * Set the select parameter.
+     * @param array|string|null $fields Fields to select
+     * @return $this
+     */
+    public function select(array|string|null $fields): self
+    {
+        if ($fields !== null) {
+            $this->parameters['select'] = is_array($fields) ? implode(',', $fields) : $fields;
+        }
+        return $this;
     }
 
-    public function formatQuery(): string
+    /**
+     * Set the where parameter.
+     * @param array|string|null $conditions Filtering conditions
+     * @return $this
+     */
+    public function where(array|string|null $conditions): self
     {
-        $query = array_filter([
-            $this->getSelect(),
-            $this->getWhere(),
-            $this->getGroupBy(),
-            $this->getOrderBy(),
-            $this->getLimit(),
-            $this->getOffset(),
-            $this->getRefineName(),
-            $this->getRefineValue(),
-            $this->getExcludeName(),
-            $this->getExcludeValue(),
-            $this->getTimeZone(),
-        ], fn($item) => $item !== null && $item !== '');
-        $url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
-        return $url . "?" . implode("&", $query);
+        if ($conditions !== null) {
+            $this->parameters['where'] = is_array($conditions) ? implode(' AND ', $conditions) : $conditions;
+        }
+        return $this;
     }
 
-    public function getSelect(): ?string
+    /**
+     * Set the group_by parameter.
+     * @param array|string|null $fields Fields to group by
+     * @return $this
+     */
+    public function groupBy(array|string|null $fields): self
     {
-        return $this->select ? "select=" . urlencode(implode(',', $this->select)) : null;
+        if ($fields !== null) {
+            $this->parameters['group_by'] = is_array($fields) ? implode(',', $fields) : $fields;
+        }
+        return $this;
     }
-    public function getWhere(): ?string
+
+    /**
+     * Set the order_by parameter.
+     * @param array|string|null $fields Fields to order by
+     * @return $this
+     */
+    public function orderBy(array|string|null $fields): self
     {
-        return $this->where ? "where=" . urlencode(implode(' and ', $this->where)) : null;
+        if ($fields !== null) {
+            $this->parameters['order_by'] = is_array($fields) ? implode(',', $fields) : $fields;
+        }
+        return $this;
     }
-    public function getGroupBy(): ?string
+
+    /**
+     * Set the limit parameter.
+     * @param int|null $limit Number of results
+     * @return $this
+     */
+    public function limit(?int $limit): self
     {
-        return $this->group_by ? "group_by=" . urlencode(implode(',', $this->group_by)) : null;
+        if ($limit !== null) {
+            $this->parameters['limit'] = $limit;
+        }
+        return $this;
     }
-    public function getOrderBy(): ?string
+
+    /**
+     * Set the offset parameter.
+     * @param int|null $offset Index of the first result
+     * @return $this
+     */
+    public function offset(?int $offset): self
     {
-        return $this->order_by ? "order_by=" . urlencode(implode(',', $this->order_by)) : null;
+        if ($offset !== null) {
+            $this->parameters['offset'] = $offset;
+        }
+        return $this;
     }
-    public function getLimit(): ?string
+
+    /**
+     * Set the refine parameter.
+     * @param array|null $refinements Key-value pairs for refinements
+     * @return $this
+     */
+    public function refine(?array $refinements): self
     {
-        return $this->limit ? "limit=" . urlencode((string)$this->limit) : null;
+        if ($refinements !== null) {
+            $formatted = [];
+            foreach ($refinements as $key => $value) {
+                $formatted[] = "$key:$value";
+            }
+            $this->parameters['refine'] = implode(',', $formatted);
+        }
+        return $this;
     }
-    public function getOffset(): ?string
+
+    /**
+     * Set the exclude parameter.
+     * @param array|null $exclusions Key-value pairs for exclusions
+     * @return $this
+     */
+    public function exclude(?array $exclusions): self
     {
-        return $this->offset ? "offset=" . urlencode((string)$this->offset) : null;
+        if ($exclusions !== null) {
+            $formatted = [];
+            foreach ($exclusions as $key => $value) {
+                $formatted[] = "$key:$value";
+            }
+            $this->parameters['exclude'] = implode(',', $formatted);
+        }
+        return $this;
     }
-    public function getRefineName(): ?string
+
+    /**
+     * Set the lang parameter.
+     * @param string|null $lang Language code
+     * @return $this
+     */
+    public function lang(?string $lang): self
     {
-        return $this->refine_name ? "refine_name=" . urlencode($this->refine_name) : null;
+        if ($lang !== null) {
+            $this->parameters['lang'] = $lang;
+        }
+        return $this;
     }
-    public function getRefineValue(): ?string
+
+    /**
+     * Set the timezone parameter.
+     * @param string|null $timezone Timezone
+     * @return $this
+     */
+    public function timezone(?string $timezone): self
     {
-        return $this->refine_value ? "refine_value=" . urlencode((string)$this->refine_value) : null;
+        if ($timezone !== null) {
+            $this->parameters['timezone'] = $timezone;
+        }
+        return $this;
     }
-    public function getExcludeName(): ?string
+
+    /**
+     * Build the final URL with the parameters.
+     * @return string The constructed URL
+     */
+    public function buildUrl(): string
     {
-        return $this->exclude_name ? "exclude_name=" . urlencode($this->exclude_name) : null;
-    }
-    public function getExcludeValue(): ?string
-    {
-        return $this->exclude_value ? "exclude_value=" . urlencode((string)$this->exclude_value) : null;
-    }
-    public function getTimeZone(): ?string
-    {
-        return $this->time_zone ? "time_zone=" . urlencode($this->time_zone) : null;
+        $queryString = http_build_query($this->parameters, '', '&', PHP_QUERY_RFC3986);
+        return self::BASE_URL . ($queryString ? '?' . $queryString : '');
     }
 }
