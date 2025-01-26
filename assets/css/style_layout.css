@@ -28,7 +28,6 @@ footer h3 {
   color: #343a40;
   text-align: left;
   font-weight: bold;
-
 }
 
 footer a {
@@ -38,7 +37,6 @@ footer a {
 
 footer a:hover {
   color: black;
-
 }
 
 footer p,
@@ -63,7 +61,6 @@ footer p {
   font-size: 0.9em;
   color: #ccc;
 }
-
 
 .titre-header {
   text-align: left;
@@ -128,6 +125,4 @@ footer p {
 .accueil {
   margin: 0;
   padding: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
