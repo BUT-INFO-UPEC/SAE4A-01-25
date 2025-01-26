@@ -2,6 +2,7 @@
 
 namespace Src\Model\Repository;
 
+use Src\Config\UserManagement;
 use Src\Model\DataObject\Dashboard;
 
 class DashboardRepository extends AbstractRepository
@@ -63,14 +64,27 @@ class DashboardRepository extends AbstractRepository
 		return $this->select($id);
 	}
 
-	public function get_dashboards($region, $order, $dateFilter, $customStartDate, $customEndDate): array
+	public function get_dashboards($region, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation): array
 	{
 		// construire les paramètres where et ajouter des paramètres a mettre dans une liste associative pour filtrer par visibilité entre autre
-		$query = null; // a construire (element aprés "select X from table X ICI")
-		$values = []; // a construire
+
+		// Déterminer les paramètres (:param => valeur)
+		$values = [];
+
+		// construire les composants de la requette "WHERE"
+		$wherequery = [];
+		$wherequery[] = $this->buildPrivatisation($values, $privatisation);
+
+		// construire la chaine de caractère de la requette "WHERE" en assamblant ses composants
+		$wherequery = "WHERE (" . implode(") and (", $wherequery) . ")";
+
+		// construire la requette "ORDER BY"
+		$orderquery = "";
+
+		// combiner la requette entière
+		$query = $wherequery . $orderquery;
 		return $this->selectAll($query, $values);
 	}
-
 	public function update_dashboard_by_id(Dashboard $dash)
 	{
 		$this->update($dash, $dash->get_id());
@@ -100,6 +114,20 @@ class DashboardRepository extends AbstractRepository
 	}
 	#endregion abstractRepo
 
+	private function buildPrivatisation(&$values, ?string $privatisation = null)
+	{
+		$values[":userId"] = UserManagement::getUser() == null ? 0 : UserManagement::getUser()->getId();
+		$private_values = ["privatisation = 0", "(privatisation = 1 and createur_id = :userId)"];
+		switch ($privatisation) {
+			case 'private':
+				unset($private_values[0]);
+				break;
 
-
+			case 'public':
+				unset($private_values[1]);
+				unset($values[':userId']);
+				break;
+		}
+		return implode(" or ", $private_values);
+	}
 }
