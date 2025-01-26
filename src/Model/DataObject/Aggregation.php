@@ -20,7 +20,7 @@ class Aggregation extends AbstractDataObject
 	public function formatTableau(): array
 	{
 		return [
-			"id" => $this->get_id()
+			":id" => $this->get_id()
 		];
 	}
 }

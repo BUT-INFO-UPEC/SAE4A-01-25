@@ -130,6 +130,13 @@ class Dashboard extends AbstractDataObject
 	}
 	#endregion getters
 
+	#retion setters
+	public function setId($id)
+	{
+		$this->dashboardId = $id;
+	}
+	#endregion setters
+
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
@@ -137,13 +144,13 @@ class Dashboard extends AbstractDataObject
 	public function formatTableau(): array
 	{
 		return [
-			"privatisation" => $this->get_privatisation(),
-			'createur_id' => $_SESSION['user_id'],
-			"date_debut" => $this->get_date('debut'),
-			"date_fin" => $this->get_date('fin'),
-			"date_debut_relatif" => $this->dateDebutRelatif,
-			"date_fin_relatif" => $this->dateDebutRelatif,
-			"params" => $this->get_name()
+			":privatisation" => $this->get_privatisation(),
+			':createur_id' => $_SESSION['user_id'],
+			":date_debut" => $this->get_date('debut'),
+			":date_fin" => $this->get_date('fin'),
+			":date_debut_relatif" => $this->dateDebutRelatif,
+			":date_fin_relatif" => $this->dateDebutRelatif,
+			":params" => $this->get_name()
 		];
 	}
 

@@ -4,6 +4,7 @@ namespace Src\Model\Repository;
 
 use PDO;
 use Src\Model\DataObject\AbstractDataObject;
+use Src\Config\MsgRepository;
 
 /**
  * classe mêre de toutes les données statiques du site pour eviter la redondance.
@@ -11,37 +12,6 @@ use Src\Model\DataObject\AbstractDataObject;
 abstract class AbstractRepository
 {
 	#region CRUD
-	/**
-	 * Inscrit statiquement l'objet dans la BDD
-	 * 
-	 * @param AbstractDataObject $object L'objet de la classe dynamique correspondante
-	 * 
-	 * @return void
-	 */
-	public function create(AbstractDataObject $object): void
-	{
-		$nomTable = $this->getTableName();
-		$nomsColones = $this->getNomsColonnes();
-		$values = $object->formatTableau();
-
-		// Construire les différentes valeurs a mettre a jour
-		// $valeurs = "";
-		// foreach ($nomsColones as $colone) {
-		// 	$valeurs .= "$colone,";
-		// }
-		// $valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
-		$valeurs = implode(", ", $nomsColones);
-
-		// $cles = "";
-		// foreach ($values as $key => $value) {
-		// 	$cles .= ":$key,";
-		// }
-		// $cles = substr($cles, 0, -1); // retirer la virgule finale
-		$cles = implode(", ", array_keys($values));
-
-		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles);";
-		DatabaseConnection::executeQuery($query, $values);
-	}
 
 	/**
 	 * Selectionne un objet de la BDD_ selon un critère de clé primaire et le renvoie construit
@@ -59,10 +29,8 @@ abstract class AbstractRepository
 		$values = [ // préparation des valeurs
 			"clePrimaire" => $valeurClePrimaire,
 		];
-		$pdoStatement = DatabaseConnection::executeQuery($query, $values);
+		$objet = DatabaseConnection::fetchOne($query, $values);
 
-		// On récupère les résultats
-		$objet = $pdoStatement->fetch(PDO::FETCH_ASSOC);
 		if (!($objet)) return null;
 		return $this->arrayConstructor($objet);
 	}
@@ -78,13 +46,38 @@ abstract class AbstractRepository
 		$nomTable = $this->getTableName();
 
 		$query = "SELECT * FROM $nomTable $adiitionnalQuery;";
-		$pdoStatement = DatabaseConnection::executeQuery($query, $values); // récupéraiton des objets de la BDD
+		$pdoStatement = DatabaseConnection::fetchAll($query, $values); // récupéraiton des objets de la BDD
 
 		foreach ($pdoStatement as $objetFormatTableau) { // itération pour construction
 			$objets[] = $this->arrayConstructor($objetFormatTableau);
 		}
 
 		return $objets;
+	}
+
+	/**
+	 * Inscrit statiquement l'objet dans la BDD
+	 * 
+	 * @param AbstractDataObject $object L'objet de la classe dynamique correspondante
+	 * 
+	 * @return void
+	 */
+	public function create(AbstractDataObject $object, $values = null): mixed
+	{
+		$nomTable = $this->getTableName();
+		$nomsColones = $this->getNomsColonnes();
+		$values = $values ?? $object->formatTableau();
+
+		$valeurs = implode(", ", $nomsColones);
+
+		$cles = implode(", ", array_keys($values));
+
+		$clePrimaire = $this->getNomClePrimaire();
+
+		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles) RETURNING $clePrimaire;";
+
+		$v = DatabaseConnection::fetchOne($query, $values);
+		return $v[$clePrimaire];
 	}
 
 	/**
@@ -97,18 +90,12 @@ abstract class AbstractRepository
 	public function update(AbstractDataObject $object, string $ancienneClePrimaire): void
 	{
 		$nomTable = $this->getTableName();
-		$nomsColones = $this->getNomsColonnes();
 		$nomClePrimaire = $this->getNomClePrimaire();
 
-		// Construire les différentes valeurs a mettre a jour
-		$valeurs = "";
-		foreach ($nomsColones as $colone) {
-			$valeurs .= "$colone = :" . $colone . "Tag,";
-		}
-		$valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
+		$values = $object->formatTableau();
+		$valeurs = array_keys($values);
 
 		$query = "UPDATE $nomTable SET $valeurs WHERE $nomClePrimaire = :OLD" . $nomClePrimaire . "Tag;";
-		$values = $object->formatTableau();
 		$values[":OLD" . $nomClePrimaire . "Tag"] = $ancienneClePrimaire;
 		DatabaseConnection::executeQuery($query, $values);
 	}

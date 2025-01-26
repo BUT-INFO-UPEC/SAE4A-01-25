@@ -15,10 +15,11 @@ class DashboardRepository extends AbstractRepository
 
 	const TYPES_CRITERES_GEO = [0 => "numer_sta"];
 	#endregion
+
+	#region Publiques
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
-	#region Publiques
 
 	public function arrayConstructor(array $objetFormatTableau): Dashboard
 	{
@@ -55,21 +56,6 @@ class DashboardRepository extends AbstractRepository
 		return $composants;
 	}
 
-	public function getTableName(): string
-	{
-		return 'Dashboards';
-	}
-
-	public function getNomClePrimaire(): string
-	{
-		return 'id';
-	}
-
-	public function getNomsColonnes(): array
-	{
-		return ['id', 'privatisation', 'createur_id', 'date_debut', 'date_fin', 'date_debut_realtif', 'date_fin_relatif', 'params'];
-	}
-
 	public function get_dashboard_by_id(string $id): ?Dashboard
 	{
 		// ajouter vérif appartenance a l'utilisateur ou visibilité publique ICI
@@ -92,9 +78,28 @@ class DashboardRepository extends AbstractRepository
 
 	public function save_new_dashboard(Dashboard $dash)
 	{
-		$this->create($dash);
+		$dash->setId($this->create($dash));
 	}
 	#endregion Publiques
+
+	#region abstractRepo
+
+	public function getTableName(): string
+	{
+		return 'Dashboards';
+	}
+
+	public function getNomClePrimaire(): string
+	{
+		return 'id';
+	}
+
+	public function getNomsColonnes(): array
+	{
+		return ['id', 'privatisation', 'createur_id', 'date_debut', 'date_fin', 'date_debut_realtif', 'date_fin_relatif', 'params'];
+	}
+	#endregion abstractRepo
+
 
 
 }

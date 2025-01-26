@@ -13,7 +13,7 @@ if (!empty($_SESSION['MSGs']["list_messages"])) {
 	unset($_SESSION['MSGs']["list_messages"]);
 }
 	?>
-	<script>
+	<!-- <script>
 		document.addEventListener('DOMContentLoaded', function() {
 			const alertMessages = document.querySelectorAll('[id^="alertMessage"]');
 
@@ -21,7 +21,7 @@ if (!empty($_SESSION['MSGs']["list_messages"])) {
 				setTimeout(() => {
 					msg.classList.add('fade'); // Ajoute la transition de disparition
 					setTimeout(() => msg.remove(), 500); // Supprime complètement après 0.5s
-				}, 3000); // Attendre 3 secondes avant de commencer
+				}, 5000); // Attendre 5 secondes avant de commencer
 			});
 		});
-	</script>
+	</script> -->
