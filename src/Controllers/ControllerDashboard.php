@@ -4,11 +4,9 @@ namespace Src\Controllers;
 
 use Exception;
 use RuntimeException;
-use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
-use Src\Model\API\Requetteur_API;
 
 class ControllerDashboard extends AbstractController
 {
@@ -19,7 +17,7 @@ class ControllerDashboard extends AbstractController
 
 	static function getActionsList(): array
 	{
-		return array('Liste' => 'action=browse', 'Creation' => 'action=create');
+		return ['Liste' => 'action=browse', 'Creation' => 'action=create'];
 	}
 
 	// =======================
@@ -114,26 +112,4 @@ class ControllerDashboard extends AbstractController
 	// =======================
 	#region post
 	#endregion post
-
-
-	// Test Function
-	public static function testDash()
-	{
-		try {
-			// Appel de la méthode pour récupérer les données via l'API
-
-			$requete = new Constructeur_Requette_API(
-				["t"]
-			);
-
-			$data = Requetteur_API::fetchData($requete);
-		} catch (Exception $e) {
-			MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
-		}
-
-		// Exploitation des données récupérées
-		$titrePage = "Test de récupération des données API";
-		$cheminVueBody = "test_dash.php";
-		require('../src/Views/Template/views.php');
-	}
 }
