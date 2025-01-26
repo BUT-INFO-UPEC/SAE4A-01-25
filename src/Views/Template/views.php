@@ -40,11 +40,10 @@ $controller = $_SESSION['controller']
 	<div class="flex main-container">
 		<img src="/assets/img/fondaccueil.jpg" alt="Background" style="    position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 		<?php if (isset($_SESSION['user']))  require __DIR__ . "/sidebar.php"; ?>
-		
-		<div class="w-100 m-3 glass">
-			<?php require __DIR__ . "/message.php"; ?>
 
+		<div class="w-100 m-3 glass">
 			<main class="m-3">
+				<?php require __DIR__ . "/message.php"; ?>
 				<?php require __DIR__ . "/../Content/$controller/$cheminVueBody"; ?>
 			</main>
 		</div>
