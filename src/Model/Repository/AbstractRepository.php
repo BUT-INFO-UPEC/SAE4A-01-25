@@ -72,12 +72,12 @@ abstract class AbstractRepository
 	 * 
 	 * @return AbstractDataObject[]
 	 */
-	public function selectAll($whereQuery, $values): array
+	public function selectAll($adiitionnalQuery, $values): array
 	{
 		$objets = [];
 		$nomTable = $this->getTableName();
 
-		$query = "SELECT * FROM $nomTable $whereQuery;";
+		$query = "SELECT * FROM $nomTable $adiitionnalQuery;";
 		$pdoStatement = DatabaseConnection::executeQuery($query, $values); // récupéraiton des objets de la BDD
 
 		foreach ($pdoStatement as $objetFormatTableau) { // itération pour construction

@@ -77,10 +77,12 @@ class DashboardRepository extends AbstractRepository
 		return $this->select($id);
 	}
 
-	public function get_dashboards(): array
+	public function get_dashboards($region, $order, $dateFilter, $customStartDate, $customEndDate): array
 	{
 		// construire les paramètres where et ajouter des paramètres a mettre dans une liste associative pour filtrer par visibilité entre autre
-		return $this->selectAll(null, []);
+		$query = null; // a construire (element aprés "select X from table X ICI")
+		$values = []; // a construire
+		return $this->selectAll($query, $values);
 	}
 
 	public function update_dashboard_by_id(Dashboard $dash)
