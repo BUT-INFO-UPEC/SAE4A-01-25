@@ -4,12 +4,9 @@ namespace Src\Controllers;
 
 use Exception;
 use RuntimeException;
-use Src\Config\ConfAPP;
-use Src\Model\DataObject\Composant;
-use Src\Model\DataObject\Dashboard;
 use Src\Model\Repository\DashboardRepository;
-use Src\Model\Repository\MsgRepository;
-use Src\Model\Repository\Requetteur_API;
+use Src\Config\MsgRepository;
+use Src\Model\API\Requetteur_API;
 
 class ControllerDashboard extends AbstractController
 {

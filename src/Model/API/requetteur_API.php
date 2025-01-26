@@ -1,8 +1,7 @@
 <?php
 
-namespace Src\Model\Repository;
+namespace Src\Model\API;
 
-use Src\Model\DataObject\Requette_API;
 
 class Requetteur_API
 {
@@ -19,7 +18,7 @@ class Requetteur_API
 		$exclude_value = null,
 		?string $time_zone = null
 	) {
-		$requette = new Requette_API(
+		$requette = new Constructeur_Requette_API(
 			$select,
 			$where,
 			$group_by,

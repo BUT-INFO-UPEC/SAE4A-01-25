@@ -20,15 +20,23 @@ abstract class AbstractRepository
 	 * 
 	 * @return AbstractDataObject|null
 	 */
-	public function select(string $valeurClePrimaire): ?AbstractDataObject
+	public function select(string $valeurClePrimaire, array $additionnalRestrictions = []): ?AbstractDataObject
 	{
 		$nomTable = $this->getTableName();
 		$nomClePrimaire = $this->getNomClePrimaire();
+
+		if ($additionnalRestrictions != []) {
+			$additionnalQuery = "and ";
+			foreach ($additionnalRestrictions as $key => $value) {
+				$additionnalQuery .= "$key= :$key";
+			}
+		}
 
 		$query = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
 		$values = [ // préparation des valeurs
 			"clePrimaire" => $valeurClePrimaire,
 		];
+		$values = array_merge($values, $additionnalRestrictions);
 		$objet = DatabaseConnection::fetchOne($query, $values);
 
 		if (!($objet)) return null;

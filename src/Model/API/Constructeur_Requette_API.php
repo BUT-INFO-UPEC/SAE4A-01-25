@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Model\DataObject;
+namespace Src\Model\API;
 
-class Requette_API
+class Constructeur_Requette_API
 {
 	private array $select = [];
 	private array $where = [];
