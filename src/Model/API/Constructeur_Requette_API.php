@@ -2,6 +2,10 @@
 
 namespace Src\Model\API;
 
+
+/**
+ * QUE PERSONNE NE TOUCHE CETTE CLASS, ELLE FONCTIONNE TRES BIEN !!!
+ */
 class Constructeur_Requette_API
 {
 	private const BASE_URL = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
