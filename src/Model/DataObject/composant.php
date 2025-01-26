@@ -72,7 +72,7 @@ class Composant extends AbstractDataObject
 		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ")";
 		$params["group_by"][] = $this->grouping;
 
-		$data = Requetteur_API::fetchAll($params);
+		$data = Requetteur_API::fetchData($params['select'], $params['where'], $params['group_by']);
 
 		var_dump($data);
 		// construire la requette a l'API
