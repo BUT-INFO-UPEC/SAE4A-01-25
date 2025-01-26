@@ -2,29 +2,32 @@
 
 namespace Src\Model\API;
 
+use Src\Config\Msg;
+use Src\Config\MsgRepository;
+
 class Constructeur_Requette_API
 {
 	private const BASE_URL = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
 	private array $select;
-	private array $where;
-	private array $group_by;
+	private ?array $where;
+	private ?array $group_by;
 	private string $order_by;
 	private int $limit;
 	private int $offset;
-	private array $refine;
-	private array $exclude;
+	private ?array $refine;
+	private ?array $exclude;
 	private string $lang;
 	private string $timezone;
 
 	public function __construct(
-		array $select = [],
-		array $where = [],
-		array $group_by = [],
+		array $select,
+		array $where = null,
+		array $group_by = null,
 		string $order_by = '',
 		int $limit = 100,
 		int $offset = 0,
-		array $refine = [],
-		array $exclude = [],
+		array $refine = null,
+		array $exclude = null,
 		string $lang = "fr",
 		string $timezone = "Europe/Paris"
 	) {
@@ -105,6 +108,12 @@ class Constructeur_Requette_API
 	{
 		return $this->timezone ? "time_zone=$this->timezone" : null;
 	}
+
+	public function nextPage()
+	{
+		$this->offset += $this->limit;
+	}
+
 	/**
 	 * Formate l'URL de la requête en utilisant http_build_query.
 	 *
@@ -131,7 +140,6 @@ class Constructeur_Requette_API
 				$params[] = $param;
 			}
 		}
-
 		// Utiliser http_build_query pour générer la chaîne de requête
 		return self::BASE_URL . '?' . implode("&", $params);
 	}

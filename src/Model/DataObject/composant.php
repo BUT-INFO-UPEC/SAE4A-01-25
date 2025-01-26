@@ -2,6 +2,7 @@
 
 namespace Src\Model\DataObject;
 
+use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\API\Requetteur_API;
 
 class Composant extends AbstractDataObject
@@ -66,16 +67,21 @@ class Composant extends AbstractDataObject
 	public function get_data(Dashboard $dash)
 	{
 		$params = [];
-		$params['where'][] = $dash->get_params_API_geo();
+
+		$geo = $dash->get_params_API_geo();
+		if ($geo) $params["where"][] = $geo;
+
 		$params['where'][] = $dash->get_params_API_temporel();
-		var_dump(implode(" and ", $params["where"]));
+
+		// var_dump(implode(" and ", $params["where"]));
 		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ")";
+
 		$params["group_by"][] = $this->grouping;
 
-		$data = Requetteur_API::fetchData($params['select'], $params['where'], $params['group_by']);
+		// construire la requette a l'API
+		$data = Requetteur_API::fetchData(new Constructeur_Requette_API($params['select'], $params['where'], $params['group_by']));
 
 		var_dump($data);
-		// construire la requette a l'API
 		return ['total' => '12'];
 	}
 

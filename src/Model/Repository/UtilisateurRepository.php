@@ -32,7 +32,7 @@ class UtilisateurRepository extends AbstractRepository
 
 	public static function updateLastConn()
 	{
-		$query = "UPDATE utilisateur SET utilisateur_last_conn = :last_conn WHERE utilisateur_mail = :id";
+		$query = "UPDATE utilisateur SET created_at = :last_conn WHERE utilisateur_mail = :id";
 		$params = [
 			":last_conn" => date('Y-m-d H:i:s'),
 			":id" => UserManagement::getUser()->getId()

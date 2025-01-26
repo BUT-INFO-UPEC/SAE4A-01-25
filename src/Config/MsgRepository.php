@@ -6,7 +6,7 @@ use Src\Config\Msg;
 
 class MsgRepository
 {
-	const No_REDIRECT = "none";
+	const NO_REDIRECT = "none";
 
 	public static function newSuccess(string $success, string $message = "", string $redirection = "last")
 	{
@@ -39,7 +39,7 @@ class MsgRepository
 	 */
 	static public function redirect($redirection): void
 	{
-		if ($redirection != MsgRepository::No_REDIRECT) {
+		if ($redirection != MsgRepository::NO_REDIRECT) {
 			$redirectUrl = $redirection != "last" ? $redirection : $_SERVER['HTTP_REFERER'];
 			header('Location: ' . $redirectUrl);
 
