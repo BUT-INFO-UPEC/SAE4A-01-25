@@ -2,156 +2,197 @@
 
 namespace Src\Model\DataObject;
 
+use Exception;
+
 class Requette_API
 {
     private const BASE_URL = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
-    private array $parameters = [];
+    private const SELECT_LIMIT_1 = ['avg()', 'count', 'count distinct', 'envelope', 'max', 'median', 'min', 'percentile', 'sum'];
 
-    /**
-     * Set the select parameter.
-     * @param array|string|null $fields Fields to select
-     * @return $this
-     */
-    public function select(array|string|null $fields): self
-    {
-        if ($fields !== null) {
-            $this->parameters['select'] = is_array($fields) ? implode(',', $fields) : $fields;
-        }
-        return $this;
+    private array $select;
+    private array $where;
+    private array $group_by;
+    private string $order_by;  // Modifié en string
+    private int $limit;
+    private int $offset;
+    private array $refine;
+    private array $exclude;
+    private string $lang;
+    private string $timezone;
+
+    private array $params = [];
+
+    public function __construct(
+        array $select = [],
+        array $where = [],
+        array $group_by = [],
+        string $order_by = '',  // Modifié en string
+        int $limit = 100,
+        int $offset = 0,
+        array $refine = [],
+        array $exclude = [],
+        string $lang = "fr",
+        string $timezone = "Europe/Paris"
+    ) {
+        $this->select = $select;
+        $this->where = $where;
+        $this->group_by = $group_by;
+        $this->order_by = $order_by;  // Assignation du paramètre string
+        $this->limit = $limit;
+        $this->offset = $offset;
+        $this->refine = $refine;
+        $this->exclude = $exclude;
+        $this->lang = $lang;
+        $this->timezone = $timezone;
     }
 
     /**
-     * Set the where parameter.
-     * @param array|string|null $conditions Filtering conditions
-     * @return $this
+     * Retourne les éléments de $select sous forme de chaîne de caractères, préfixé par "select=" et séparés par des virgules.
+     * 
+     * @return string|null
      */
-    public function where(array|string|null $conditions): self
+    public function getSelect(): ?string
     {
-        if ($conditions !== null) {
-            $this->parameters['where'] = is_array($conditions) ? implode(' AND ', $conditions) : $conditions;
+        // encoder url tout les éléments de la liste
+        foreach ($this->select as $item) {
+            $this->select[] = urlencode($item);
         }
-        return $this;
+        try {
+            return "select=" . implode(",", $this->select);
+        } catch (Exception $e) {
+            return null;
+        }
     }
 
     /**
-     * Set the group_by parameter.
-     * @param array|string|null $fields Fields to group by
-     * @return $this
+     * Retourne les éléments de $where sous forme de chaîne de caractères, préfixé par "where=" et séparés par " and ".
+     * 
+     * @return string|null
      */
-    public function groupBy(array|string|null $fields): self
+    public function getWhere(): ?string
     {
-        if ($fields !== null) {
-            $this->parameters['group_by'] = is_array($fields) ? implode(',', $fields) : $fields;
-        }
-        return $this;
+        return !empty($this->where) ? "where=" . implode(' and ', $this->where) : null;
     }
 
     /**
-     * Set the order_by parameter.
-     * @param array|string|null $fields Fields to order by
-     * @return $this
+     * Retourne les éléments de $group_by sous forme de chaîne de caractères, préfixé par "group_by=" et séparés par ", ".
+     * 
+     * @return string|null
      */
-    public function orderBy(array|string|null $fields): self
+    public function getGroupBy(): ?string
     {
-        if ($fields !== null) {
-            $this->parameters['order_by'] = is_array($fields) ? implode(',', $fields) : $fields;
-        }
-        return $this;
+        return !empty($this->group_by) ? "group_by=" . implode(', ', $this->group_by) : null;
     }
 
     /**
-     * Set the limit parameter.
-     * @param int|null $limit Number of results
-     * @return $this
+     * Retourne l'élément de $limit sous forme de chaîne de caractères, préfixé par "limit=".
+     * 
+     * @return string|null
      */
-    public function limit(?int $limit): self
+    public function getLimit(): ?string
     {
-        if ($limit !== null) {
-            $this->parameters['limit'] = $limit;
-        }
-        return $this;
+        return !empty($this->limit) ? "limit=" . $this->limit : null;
     }
 
     /**
-     * Set the offset parameter.
-     * @param int|null $offset Index of the first result
-     * @return $this
+     * Retourne l'élément de $order_by sous forme de chaîne de caractères, préfixé par "order_by=".
+     * 
+     * @return string|null
      */
-    public function offset(?int $offset): self
+    public function getOrderBy(): ?string
     {
-        if ($offset !== null) {
-            $this->parameters['offset'] = $offset;
-        }
-        return $this;
+        return !empty($this->order_by) ? "order_by=" . $this->order_by : null;
     }
 
     /**
-     * Set the refine parameter.
-     * @param array|null $refinements Key-value pairs for refinements
-     * @return $this
+     * Retourne le premier élément de $refine sous forme de chaîne, préfixé par "refine=".
+     * 
+     * @return string|null
      */
-    public function refine(?array $refinements): self
+    public function getRefine(): ?string
     {
-        if ($refinements !== null) {
-            $formatted = [];
-            foreach ($refinements as $key => $value) {
-                $formatted[] = "$key:$value";
-            }
-            $this->parameters['refine'] = implode(',', $formatted);
+        if (!empty($this->refine)) {
+            $key = key($this->refine);
+            $value = current($this->refine);
+            return "refine=" . $key . ":" . $value;
         }
-        return $this;
+        return null;
     }
 
     /**
-     * Set the exclude parameter.
-     * @param array|null $exclusions Key-value pairs for exclusions
-     * @return $this
+     * Retourne le premier élément de $exclude sous forme de chaîne, préfixé par "exclude=".
+     * 
+     * @return string|null
      */
-    public function exclude(?array $exclusions): self
+    public function getExclude(): ?string
     {
-        if ($exclusions !== null) {
-            $formatted = [];
-            foreach ($exclusions as $key => $value) {
-                $formatted[] = "$key:$value";
-            }
-            $this->parameters['exclude'] = implode(',', $formatted);
+        if (!empty($this->exclude)) {
+            $key = key($this->exclude);
+            $value = current($this->exclude);
+            return "exclude=" . $key . ":" . $value;
         }
-        return $this;
+        return null;
     }
 
     /**
-     * Set the lang parameter.
-     * @param string|null $lang Language code
-     * @return $this
+     * Formate l'URL de la requête en ajoutant les paramètres de la requête à la base de l'URL.
+     * 
+     * @return string
      */
-    public function lang(?string $lang): self
+    public function formatUrl(): string
     {
-        if ($lang !== null) {
-            $this->parameters['lang'] = $lang;
-        }
-        return $this;
-    }
+        $url = self::BASE_URL;
+        $queryParams = [];
 
-    /**
-     * Set the timezone parameter.
-     * @param string|null $timezone Timezone
-     * @return $this
-     */
-    public function timezone(?string $timezone): self
-    {
-        if ($timezone !== null) {
-            $this->parameters['timezone'] = $timezone;
+        // Ajouter les paramètres de la requête à l'URL en excluant les vides ou null
+        $select = $this->getSelect();
+        if ($select) {
+            $queryParams[] = urlencode($select);
         }
-        return $this;
-    }
 
-    /**
-     * Build the final URL with the parameters.
-     * @return string The constructed URL
-     */
-    public function buildUrl(): string
-    {
-        $queryString = http_build_query($this->parameters, '', '&', PHP_QUERY_RFC3986);
-        return self::BASE_URL . ($queryString ? '?' . $queryString : '');
+        $where = $this->getWhere();
+        if ($where) {
+            $queryParams[] = urlencode($where);
+        }
+
+        $group_by = $this->getGroupBy();
+        if ($group_by) {
+            $queryParams[] = urlencode($group_by);
+        }
+
+        $order_by = $this->getOrderBy();
+        if ($order_by) {
+            $queryParams[] = urlencode($order_by);
+        }
+
+        $refine = $this->getRefine();
+        if ($refine) {
+            $queryParams[] = urlencode($refine);
+        }
+
+        $exclude = $this->getExclude();
+        if ($exclude) {
+            $queryParams[] = urlencode($exclude);
+        }
+
+        // Ajouter explicitement les paramètres limit et offset
+        if ($this->limit > 0) {
+            $queryParams[] = "limit=" . urlencode($this->limit);
+        }
+        if ($this->offset > 0) {
+            $queryParams[] = "offset=" . urlencode($this->offset);
+        }
+
+        // Filtrer les paramètres vides ou null
+        $queryParams = array_filter($queryParams, function ($value) {
+            return !is_null($value) && $value !== '';
+        });
+
+        // Ajouter les paramètres non vides à l'URL
+        if (!empty($queryParams)) {
+            $url .= '?' . implode('&', $queryParams);
+        }
+
+        return $url;
     }
 }

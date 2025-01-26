@@ -121,46 +121,42 @@ class ControllerDashboard extends AbstractController
 	#endregion post
 
 
+	// Test Function
 	public static function testDash()
 	{
 		$titrePage = "Test de récupération des données API";
 
-		$select = [
-			"t as temperatures",
-			"tc as temperature_en_Celcius",
-			'date as date_de_mesure',
-			'libgeo as ville'
-		];
-
-		$where = [];
-
-		$group_by = [];
-		$order_by = [];
-		$limit = null;
-		$offset = null;
-		$refine = [];
-		$exclude = [];
-		$time_zone = 'UTC';
+		// Définition des paramètres de la requête
+		// $select = ['tc', 'libgeo', 'date'];
+		// $where = [];
+		// $group_by = [];
+		// $order_by = null;
+		// $limit = 1999; // Nombre de résultats par lot
+		// $offset = null; // Départ de la récupération
+		// $refine = []; // Refinement des données
+		// $exclude = []; // Exclusion des données
+		// $time_zone = null; // Time zone
 
 		try {
-			$data = Requetteur_API::fetchData(
-				$select,
-				$where,
-				$group_by,
-				$order_by,
-				$limit,
-				$offset,
-				$refine,
-				$exclude,
-				$time_zone
-			);
+			// Appel de la méthode pour récupérer les données via l'API
+			// $data = Requetteur_API::fetchData(
+			// 	$select,
+			// 	$where,
+			// 	$group_by,
+			// 	$order_by,
+			// 	$limit,
+			// 	$offset,
+			// 	$refine,
+			// 	$exclude,
+			// 	$time_zone
+			// );
 
-			// Vérifiez si des erreurs sont présentes dans la réponse
-			if (isset($data['error'])) {
-				throw new Exception($data['error']);
-			}
+			// // Vérification du retour de la méthode
+			// if (empty($data)) {
+			// 	throw new Exception("Aucune donnée n'a été retournée par l'API.");
+			// }
 
-			// Affichage des données ou traitement supplémentaire
+			// Exploitation des données récupérées
 			$cheminVueBody = "test_dash.php";
 			require('../src/Views/Template/views.php');
 		} catch (Exception $e) {
