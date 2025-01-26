@@ -191,8 +191,8 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 250px;
 }
 
 /* Styles lorsque la sidebar est rétractée, le bouton prend sa place */
@@ -211,34 +211,7 @@ hr {
   overflow: hidden;
 }
 
-/* carte region */
-#map {
-  width: 50%;
-  /* Prend toute la largeur disponible */
-  height: 50%;
-  /* Ajuste la hauteur */
-}
 
-#map path {
-  transition: fill 0.2s, stroke 0.3s;
-}
-
-#map path:hover {
-  fill: red;
-  stroke: white;
-}
-
-#map g:hover {
-  fill: lightcoral;
-  stroke: white;
-}
-
-#map path:active {
-  fill: #bada55;
-  stroke: #bada55;
-}
-
-/* fin carte region */
 
 h1,
 p {
