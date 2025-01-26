@@ -40,15 +40,6 @@ $controller = $_SESSION['controller']
 			</main>
 		</div>
 	</div>
-		<div class="w-100">
-			<?php require __DIR__ . "/message.php"; ?>
-
-			<main>
-				<?php require __DIR__ . "/../Content/$controller/$cheminVueBody"; ?>
-			</main>
-		</div>
-	</div>
-
 	<?php require __DIR__ . "/footer.php"; ?>
 </body>
 
