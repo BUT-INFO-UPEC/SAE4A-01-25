@@ -88,12 +88,12 @@ class Composant extends AbstractDataObject
 	public function formatTableau(): array
 	{
 		return [
-			"id" => $this->get_id(),
-			"repr_type" => $this->repr,
-			"attribut" => $this->get_attribut(),
-			"aggregation" => $this->get_aggregation(),
-			"groupping" => $this->get_grouping(),
-			"params_affich" => $this->params
+			":id" => $this->get_id(),
+			":repr_type" => $this->repr,
+			":attribut" => $this->get_attribut(),
+			":aggregation" => $this->get_aggregation(),
+			":groupping" => $this->get_grouping(),
+			":params_affich" => $this->params
 		];
 	}
 }

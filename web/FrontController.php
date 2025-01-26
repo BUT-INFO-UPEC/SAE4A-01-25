@@ -52,13 +52,6 @@ if (isset($_COOKIE['acceptationCookies'])) {
 		// Ajouter le namespace au contrôleur
 		$controller = "Src\\Controllers\\" . $controller;
 
-		if (isset($_COOKIE['CurentMail'])) {
-			$user = UtilisateurRepository::getUser();
-			$_SESSION['login'] = $user['utilisateur_pseudo'];
-		} else {
-			$_SESSION['login'] = null;
-		}
-
 
 		// Vérification de l'existence de la classe
 		if (class_exists($controller)) {

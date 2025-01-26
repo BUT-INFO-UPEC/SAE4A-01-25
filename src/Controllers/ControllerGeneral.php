@@ -4,10 +4,8 @@ namespace Src\Controllers;
 
 use Exception;
 use PDOException;
-use Src\Config\ConfAPP;
-use Src\Model\Repository\MsgRepository;
+use Src\Config\MsgRepository;
 use Src\Model\DataObject\Utilisateur;
-use Src\Model\Repository\Requetteur_API;
 use Src\Model\Repository\UtilisateurRepository;
 
 class ControllerGeneral extends AbstractController
@@ -69,28 +67,17 @@ class ControllerGeneral extends AbstractController
 				return;
 			}
 
-			// Vérification des identifiants
-			$check_user = UtilisateurRepository::checkUserExist($email, $mdp);
+			// Récupération des informations utilisateur
+			$user = (new UtilisateurRepository)->getUserByMailMdp($email, $mdp);
 
-			if ($check_user) {
-				// Récupération des informations utilisateur
-				$user = UtilisateurRepository::getUserByMailMdp($email, $mdp);
+			if ($user !== null) {
+				$_SESSION['user'] = $user;
 
-				if ($user) {
-					$_SESSION['login'] = $user['utilisateur_pseudo'];
+				UtilisateurRepository::updateNbConn();
 
-					// cookie pour recuperer le mail (car il n'y a pas deux fois le même mail dans la table)
-					ConfAPP::setCookie('CurentMail', $email);
-					$_COOKIE['CurentMail'] = $email; // utilisation imédiate
-
-					UtilisateurRepository::updateNbConn();
-
-					MsgRepository::newSuccess("Connexion réussie.");
-				} else {
-					MsgRepository::newError("Utilisateur introuvable.");
-				}
+				MsgRepository::newSuccess("Connexion réussie.");
 			} else {
-				MsgRepository::newError("Identifiants incorrects.");
+				MsgRepository::newError("Utilisateur introuvable.", "Identifiants incorrects.");
 			}
 		} catch (PDOException $e) {
 			MsgRepository::newError("Erreur lors de la connexion à la base de données.", $e->getMessage());
@@ -118,40 +105,46 @@ class ControllerGeneral extends AbstractController
 			elseif ($mdp !== $confirme_mdp) {
 				MsgRepository::newError('Erreur formulaire.', "Les mots de passe ne correspondent pas.");
 			}
+			$constructeur = new UtilisateurRepository;
 			// Vérification de l'existence de l'utilisateur
-			$check_user = UtilisateurRepository::checkUserExist($email, $mdp);
+			$user = $constructeur->getUserByMailMdp($email, $mdp);
 
-			if (!$check_user) {
+			if ($user == null) {
 				$user = new Utilisateur(
 					$pseudo,
 					$email,
-					$mdp,
 					$nom,
 					$prenom
 				);
-				$user->insertUser(); // Enregistrement de l'utilisateur dans la base de données
+				$id = $constructeur->insertUser($user, $mdp); // Enregistrement de l'utilisateur dans la base de données
 
-				// cookie pour recuperer le mail (car il n'y a pas deux fois le même mail dans la table)
-				ConfAPP::setCookie('CurentMail', $email);
+				$user = $constructeur->getUserById($id);
+
+				$_SESSION['user'] = $user;
+
 				UtilisateurRepository::updateNbConn();
+
 				// msg succes
 				MsgRepository::newSuccess("Inscription réussie !", "Vous etes maintenant connécté(e)");
 			} else {
 				MsgRepository::newWarning("L'utilisateur existe déjà.", "Un autre utilisateur semble avoir les mêmes informations que vous. <br/> Les doubles comptes ne sont pas autorisés !");
 			}
-		} catch (Exception $e) {
-			MsgRepository::newError("Erreur lors de l'inscription.", $e->getMessage());
 		} catch (PDOException $e) {
-			MsgRepository::newError("Erreur lors de la connexion à la base de données.", $e->getMessage());
+			MsgRepository::newError("Erreur lors de la connexion à la base de données.", $e->getMessage(), MsgRepository::No_REDIRECT);
+		} catch (Exception $e) {
+			MsgRepository::newError("Erreur lors de l'inscription.", $e->getMessage(), MsgRepository::No_REDIRECT);
 		}
+		$cheminVueBody = "home.php";
+		require('../src/Views/Template/views.php');
 	}
 
 	public static function deconnexion()
 	{
+		if (isset($_SESSION["user"])) {
+			UtilisateurRepository::updateLastConn();
+		}
 		// Suppression de la session utilisateur
 		session_unset();
-		UtilisateurRepository::updateLastConn();
-		ConfAPP::unSetCookie('CurentMail');
 		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant connécté(e)", "?controller=ControllerGeneral");
 	}
 
@@ -159,7 +152,7 @@ class ControllerGeneral extends AbstractController
 	{
 		$titrePage = "Profile";
 		$cheminVueBody = "profil.php";
-		$user = UtilisateurRepository::getUser();
+		$user = $_SESSION['user'];
 		require('../src/Views/Template/views.php');
 	}
 

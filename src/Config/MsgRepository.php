@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Model\Repository;
+namespace Src\Config;
 
-use Src\Model\DataObject\Msg;
+use Src\Config\Msg;
 
 class MsgRepository
 {

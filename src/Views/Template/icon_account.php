@@ -9,7 +9,7 @@
 		style="cursor:pointer; width: 70px; height: 70px;">
 
 	<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-		<?php if (!isset($_COOKIE['CurentMail'])) : ?>
+		<?php if (!isset($_SESSION['user'])) : ?>
 			<li>
 				<a class="dropdown-item d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#signInModal">
 					<img src="<?= BASE_URL . 'assets/img/signin-icon.png'; ?>" alt="Sign In" class="me-2" style="width: 20px; height: 20px;">

@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Model\DataObject;
+namespace Src\Config;
 
 /**
  * Utility class for managing session messages.
