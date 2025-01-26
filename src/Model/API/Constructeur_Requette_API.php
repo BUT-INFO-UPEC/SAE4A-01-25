@@ -2,17 +2,13 @@
 
 namespace Src\Model\API;
 
-use Exception;
-
 class Constructeur_Requette_API
 {
 	private const BASE_URL = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
-	private const SELECT_LIMIT_1 = ['avg()', 'count', 'count distinct', 'envelope', 'max', 'median', 'min', 'percentile', 'sum'];
-
 	private array $select;
 	private array $where;
 	private array $group_by;
-	private string $order_by;  // Modifié en string
+	private string $order_by;
 	private int $limit;
 	private int $offset;
 	private array $refine;
@@ -20,13 +16,11 @@ class Constructeur_Requette_API
 	private string $lang;
 	private string $timezone;
 
-	private array $params = [];
-
 	public function __construct(
 		array $select = [],
 		array $where = [],
 		array $group_by = [],
-		string $order_by = '',  // Modifié en string
+		string $order_by = '',
 		int $limit = 100,
 		int $offset = 0,
 		array $refine = [],
@@ -37,7 +31,7 @@ class Constructeur_Requette_API
 		$this->select = $select;
 		$this->where = $where;
 		$this->group_by = $group_by;
-		$this->order_by = $order_by;  // Assignation du paramètre string
+		$this->order_by = $order_by;
 		$this->limit = $limit;
 		$this->offset = $offset;
 		$this->refine = $refine;
@@ -46,153 +40,99 @@ class Constructeur_Requette_API
 		$this->timezone = $timezone;
 	}
 
-	/**
-	 * Retourne les éléments de $select sous forme de chaîne de caractères, préfixé par "select=" et séparés par des virgules.
-	 * 
-	 * @return string|null
-	 */
 	public function getSelect(): ?string
 	{
-		// encoder url tout les éléments de la liste
-		foreach ($this->select as $item) {
-			$this->select[] = urlencode($item);
-		}
-		try {
-			return "select=" . implode(",", $this->select);
-		} catch (Exception $e) {
-			return null;
-		}
+		return empty($this->select) ? null : "select=" . implode(",", $this->select);
 	}
 
-	/**
-	 * Retourne les éléments de $where sous forme de chaîne de caractères, préfixé par "where=" et séparés par " and ".
-	 * 
-	 * @return string|null
-	 */
 	public function getWhere(): ?string
 	{
-		return !empty($this->where) ? "where=" . implode(' and ', $this->where) : null;
+		return empty($this->where) ? null : "where=" . implode(" and ", $this->where);
 	}
 
-	/**
-	 * Retourne les éléments de $group_by sous forme de chaîne de caractères, préfixé par "group_by=" et séparés par ", ".
-	 * 
-	 * @return string|null
-	 */
 	public function getGroupBy(): ?string
 	{
-		return !empty($this->group_by) ? "group_by=" . implode(', ', $this->group_by) : null;
+		return empty($this->group_by) ? null : "group_by=" . implode(",", $this->group_by);
 	}
 
-	/**
-	 * Retourne l'élément de $limit sous forme de chaîne de caractères, préfixé par "limit=".
-	 * 
-	 * @return string|null
-	 */
-	public function getLimit(): ?string
-	{
-		return !empty($this->limit) ? "limit=" . $this->limit : null;
-	}
-
-	/**
-	 * Retourne l'élément de $order_by sous forme de chaîne de caractères, préfixé par "order_by=".
-	 * 
-	 * @return string|null
-	 */
 	public function getOrderBy(): ?string
 	{
-		return !empty($this->order_by) ? "order_by=" . $this->order_by : null;
+		return empty($this->order_by) ? null : "order_by=" . $this->order_by;
 	}
 
-	/**
-	 * Retourne le premier élément de $refine sous forme de chaîne, préfixé par "refine=".
-	 * 
-	 * @return string|null
-	 */
+	public function getLimit(): ?string
+	{
+		return $this->limit > 0 ? "limit=" . $this->limit : null;
+	}
+
+	public function getOffset(): ?string
+	{
+		return $this->offset > 0 ? "offset=" . $this->offset : null;
+	}
+
 	public function getRefine(): ?string
 	{
-		if (!empty($this->refine)) {
-			$key = key($this->refine);
-			$value = current($this->refine);
-			return "refine=" . $key . ":" . $value;
+		if (empty($this->refine)) {
+			return null;
 		}
-		return null;
+
+		$refineParams = [];
+		foreach ($this->refine as $key => $value) {
+			$refineParams[] = "$key:$value";
+		}
+		return "refine=" . implode("&refine=", $refineParams);
 	}
 
-	/**
-	 * Retourne le premier élément de $exclude sous forme de chaîne, préfixé par "exclude=".
-	 * 
-	 * @return string|null
-	 */
 	public function getExclude(): ?string
 	{
-		if (!empty($this->exclude)) {
-			$key = key($this->exclude);
-			$value = current($this->exclude);
-			return "exclude=" . $key . ":" . $value;
+		if (empty($this->exclude)) {
+			return null;
 		}
-		return null;
+
+		$excludeParams = [];
+		foreach ($this->exclude as $key => $value) {
+			$excludeParams[] = "$key:$value";
+		}
+		return "exclude=" . implode("&exclude=", $excludeParams);
 	}
 
+	public function getLang()
+	{
+		return $this->lang ? "lang=$this->lang" : null;
+	}
+
+	public function getTimeZone()
+	{
+		return $this->timezone ? "time_zone=$this->timezone" : null;
+	}
 	/**
-	 * Formate l'URL de la requête en ajoutant les paramètres de la requête à la base de l'URL.
-	 * 
+	 * Formate l'URL de la requête en utilisant http_build_query.
+	 *
 	 * @return string
 	 */
 	public function formatUrl(): string
 	{
-		$url = self::BASE_URL;
-		$queryParams = [];
+		$requetes = [
+			$this->getSelect(),
+			$this->getWhere(),
+			$this->getGroupBy(),
+			$this->getOrderBy(),
+			$this->getOffset(),
+			$this->getRefine(),
+			$this->getExclude(),
+			$this->getLang(),
+			$this->getTimeZone(),
+			$this->getLimit()
+		];
 
-		// Ajouter les paramètres de la requête à l'URL en excluant les vides ou null
-		$select = $this->getSelect();
-		if ($select) {
-			$queryParams[] = urlencode($select);
+		$params = [];
+		foreach ($requetes as $param) {
+			if ($param !== null) {
+				$params[] = $param;
+			}
 		}
 
-		$where = $this->getWhere();
-		if ($where) {
-			$queryParams[] = urlencode($where);
-		}
-
-		$group_by = $this->getGroupBy();
-		if ($group_by) {
-			$queryParams[] = urlencode($group_by);
-		}
-
-		$order_by = $this->getOrderBy();
-		if ($order_by) {
-			$queryParams[] = urlencode($order_by);
-		}
-
-		$refine = $this->getRefine();
-		if ($refine) {
-			$queryParams[] = urlencode($refine);
-		}
-
-		$exclude = $this->getExclude();
-		if ($exclude) {
-			$queryParams[] = urlencode($exclude);
-		}
-
-		// Ajouter explicitement les paramètres limit et offset
-		if ($this->limit > 0) {
-			$queryParams[] = "limit=" . urlencode($this->limit);
-		}
-		if ($this->offset > 0) {
-			$queryParams[] = "offset=" . urlencode($this->offset);
-		}
-
-		// Filtrer les paramètres vides ou null
-		$queryParams = array_filter($queryParams, function ($value) {
-			return !is_null($value) && $value !== '';
-		});
-
-		// Ajouter les paramètres non vides à l'URL
-		if (!empty($queryParams)) {
-			$url .= '?' . implode('&', $queryParams);
-		}
-
-		return $url;
+		// Utiliser http_build_query pour générer la chaîne de requête
+		return self::BASE_URL . '?' . implode("&", $params);
 	}
 }
