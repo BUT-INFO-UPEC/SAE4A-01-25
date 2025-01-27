@@ -20,14 +20,90 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h4>Zone(s) géographique(s)</h4>
-				<select name="Stations" id="Stations" class="form-select mb-3">
-					<option value="">Liste des stations</option>
-					<?php foreach ($stations as $station) : ?>
-						<option value="<?php echo $station['id'] ?>">
-							<?php echo htmlspecialchars($station['name']) ?>
-						</option>
-					<?php endforeach; ?>
-				</select>
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link active"
+							id="home-tab"
+							data-bs-toggle="tab"
+							data-bs-target="#home"
+							type="button"
+							role="tab"
+							aria-controls="home"
+							aria-selected="true">
+							Regions
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link"
+							id="profile-tab"
+							data-bs-toggle="tab"
+							data-bs-target="#profile"
+							type="button"
+							role="tab"
+							aria-controls="profile"
+							aria-selected="false">
+							Profile
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link"
+							id="messages-tab"
+							data-bs-toggle="tab"
+							data-bs-target="#messages"
+							type="button"
+							role="tab"
+							aria-controls="messages"
+							aria-selected="false">
+							Messages
+						</button>
+					</li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div
+						class="tab-pane active"
+						id="home"
+						role="tabpanel"
+						aria-labelledby="home-tab">
+						<div class="list-group">
+							<?php if (!empty($regions) && is_array($regions)) : ?>
+								<div class="list-group">
+									<?php foreach ($regions as $item) : ?>
+										<label class="list-group-item">
+											<input class="form-check-input me-1" type="checkbox" value="<?= htmlspecialchars($item['name']) ?>" />
+											<?= htmlspecialchars($item['name']) ?>
+										</label>
+									<?php endforeach; ?>
+								</div>
+							<?php else : ?>
+								<p>Aucune région disponible.</p>
+							<?php endif;
+							var_dump($regions); 
+							?>
+						</div>
+
+					</div>
+					<div
+						class="tab-pane"
+						id="profile"
+						role="tabpanel"
+						aria-labelledby="profile-tab">
+						profile
+					</div>
+					<div
+						class="tab-pane"
+						id="messages"
+						role="tabpanel"
+						aria-labelledby="messages-tab">
+						messages
+					</div>
+				</div>
+
 				<a href="#">Liste des ...</a>
 			</div>
 
@@ -59,55 +135,24 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <div ng-app="myApp" ng-controller="myCtrl">
 	<ul class="nav nav-tabs">
+		<li>
+			<a href="#" ng-click="addTab()">Ajouter un onglet</a>
+		</li>
 		<li ng-repeat="tab in tabs" ng-class="{'active': tab.active}">
 			<a href="#" ng-click="selectTab($index)">{{tab.name}}</a>
 			<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;"></span>
-		</li>
-		<li>
-			<a href="#" ng-click="addTab()">Ajouter un onglet</a>
 		</li>
 	</ul>
 	<div class="mb-4">
 		<h4 class="text-center">Analyses</h4>
 		<div ng-repeat="tab in tabs" ng-show="tab.active">
-			<div ng-include="tab.content"></div>
-			<input type="text" ng-model="tab.name" placeholder="Nom de l'onglet">
-			<div class="">
-				<p><strong>ID :</strong> {{ tab.id }}</p>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Volume des précipitations moyennes par saison</h5>
-								<p class="card-text">(rr3, camembert)</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Moyenne température</h5>
-								<p class="card-text">(tc, donnée chiffrée)</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Évolution pression moyenne au cours de l'année</h5>
-								<p class="card-text">(pres, courbe)</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
 			<div class="mb-4">
 				<h4>Titre du composant</h4>
 				<div class="row g-3">
+					<div ng-include="tab.content"></div>
 					<div class="col-md-6">
 						<label for="titre_composant" class="form-label">Titre :</label>
-						<input type="text" id="titre_composant" name="titre_composant" class="form-control" placeholder="Moyenne Température">
+						<input type="text" ng-model="tab.name" placeholder="Nom de l'onglet" class="form-control">
 					</div>
 
 					<div class="col-md-6">
@@ -161,13 +206,13 @@
 
 		$scope.tabs = [{
 				id: idCounter++, // Générer un ID unique
-				name: 'Onglet 1',
+				name: 'Composant - 1',
 				content: 'onglet.html',
 				active: true
 			},
 			{
 				id: idCounter++,
-				name: 'Onglet 2',
+				name: 'Composant - 2',
 				content: 'onglet.html',
 				active: false
 			}
@@ -190,7 +235,7 @@
 		$scope.addTab = function() {
 			var newTab = {
 				id: idCounter++, // Générer un nouvel ID unique
-				name: 'Nouvel onglet',
+				name: 'Nouvel Onglet',
 				content: 'onglet.html',
 				active: true
 			};

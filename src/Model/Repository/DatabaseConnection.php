@@ -2,6 +2,7 @@
 
 namespace Src\Model\Repository;
 
+use InvalidArgumentException;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -90,7 +91,7 @@ class DatabaseConnection
 	{
 		try {
 			$stmt = static::executeQuery($query, $params);
-			return $stmt->fetchAll();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
 			throw $e;
 		}
@@ -108,7 +109,7 @@ class DatabaseConnection
 	{
 		try {
 			$stmt = static::executeQuery($query, $params);
-			return $stmt->fetch() ?: null;
+			return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 		} catch (PDOException $e) {
 			throw $e;
 		}
@@ -125,5 +126,30 @@ class DatabaseConnection
 			static::$instance = new self();
 		}
 		return static::$instance;
+	}
+
+	public function getRegions()
+	{
+		// Fetch regions from the database
+		$stmt = $this->pdo->query('SELECT * FROM regions');
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	public function getDepts()
+	{
+		// Fetch regions from the database
+		$stmt = $this->pdo->query('SELECT * FROM depts');
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	public function getVilles()
+	{
+		// Fetch regions from the database
+		$stmt = $this->pdo->query('SELECT * FROM villes');
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	public function getStations()
+	{
+		// Fetch regions from the database
+		$stmt = $this->pdo->query('SELECT * FROM stations');
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 }

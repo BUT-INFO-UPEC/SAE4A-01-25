@@ -6,6 +6,7 @@ use Exception;
 use Src\Config\MsgRepository;
 use Src\Model\API\Requetteur_API;
 use Src\Model\API\Constructeur_Requette_API;
+use Src\Model\Repository\DatabaseConnection;
 
 class ControllerTests extends AbstractController
 {
@@ -62,7 +63,24 @@ class ControllerTests extends AbstractController
 	public static function developpement_js()
 	{
 		$titrePage = "Modularisation js";
+
+		try {
+			// Récupération des données depuis les tables
+			$db = new DatabaseConnection();
+			$regions = $db->getRegions();
+			var_dump($regions);
+			$depts = $db->getDepts();
+			$villes = $db->getVilles();
+			$stations = $db->getStations();
+		} catch (Exception $e) {
+			// Gestion des erreurs si une table est introuvable ou si une autre exception se produit
+			die("Erreur lors de la récupération des données : " . $e->getMessage());
+		}
+		
+		// Chemin vers la vue
 		$cheminVueBody = "onglets_js.php";
+
+		// Chargement du template principal
 		require('../src/Views/Template/views.php');
 	}
 }
