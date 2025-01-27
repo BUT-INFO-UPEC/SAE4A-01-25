@@ -8,6 +8,7 @@ use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
 use Src\Model\Repository\DatabaseConnection;
+use Src\Model\Repository\RepresentationRepository;
 
 class ControllerDashboard extends AbstractController
 {
@@ -66,6 +67,9 @@ class ControllerDashboard extends AbstractController
 			$depts = DatabaseConnection::getTable('depts');
 			$villes = DatabaseConnection::getTable('villes');
 			$stations = DatabaseConnection::getTable('stations');
+
+			$represtation = new RepresentationRepository();
+			$visu = $represtation->get_representations();
 		} catch (Exception $e) {
 			// Gestion des erreurs si une table est introuvable ou si une autre exception se produit
 			die("Erreur lors de la récupération des données : " . $e->getMessage());
