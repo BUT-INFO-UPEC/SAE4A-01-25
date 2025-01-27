@@ -4,10 +4,13 @@ namespace Src\Controllers;
 
 use Exception;
 use RuntimeException;
+use Src\Model\Repository\AggregationRepository;
+use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
 use Src\Model\Repository\DatabaseConnection;
+use Src\Model\Repository\GrouppingRepository;
 use Src\Model\Repository\RepresentationRepository;
 
 class ControllerDashboard extends AbstractController
@@ -69,7 +72,16 @@ class ControllerDashboard extends AbstractController
 			$stations = DatabaseConnection::getTable('stations');
 
 			$represtation = new RepresentationRepository();
+			$attr = new AttributRepository();
+			$grp = new GrouppingRepository();
+			$aggr = new AggregationRepository();
+
+
 			$visu = $represtation->get_representations();
+			$attributs = $attr->get_attributs();
+			$grouping = $grp->get_grouppings();
+			$aggregations = $aggr->get_aggregations();
+
 		} catch (Exception $e) {
 			// Gestion des erreurs si une table est introuvable ou si une autre exception se produit
 			die("Erreur lors de la récupération des données : " . $e->getMessage());
@@ -105,12 +117,11 @@ class ControllerDashboard extends AbstractController
 				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 			} else {
 				$_GET["dashId"] = $constructeur->save_new_dashboard($dash);
-				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
+				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&actoin=visu_dashboard");
 			}
 		} else {
 			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
 		}
-		ControllerDashboard::visu_dashboard();
 	}
 	#endregion entry
 

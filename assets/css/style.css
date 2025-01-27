@@ -218,7 +218,7 @@ p {
 	display: none;
 }
 
-/* region liste Regions / Départements / Villes / Stations */
+/* Debut liste Regions / Départements / Villes / Stations */
 
 .nav-tabs li {
 	display: inline-block;
@@ -268,3 +268,8 @@ p {
 }
 
 /* Fin liste Regions / Départements / Villes / Stations */
+
+/* Classe pour mettre en avant les dates dynamiques */
+.date_dynamique {
+	color: #0073e6;
+}
