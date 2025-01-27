@@ -18,6 +18,7 @@ class Composant extends AbstractDataObject
 	private Representation $repr;
 	private $params;
 	private $data;
+	private $keyTargetValue;
 
 	// =======================
 	//      CONSTRUCTOR
@@ -94,10 +95,10 @@ class Composant extends AbstractDataObject
 
 		$params['where'][] = $dash->get_params_API_temporel();
 
-		$keyTargetValue = $this->aggregation->get_nom() . " " . $this->attribut->get_nom();
+		$this->keyTargetValue = $this->nettoyer_chaine($this->aggregation->get_nom() . " " . $this->attribut->get_nom());
 
 		// var_dump(implode(" and ", $params["where"]));
-		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ") as " . $this->nettoyer_chaine($keyTargetValue);
+		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ") as " . $this->keyTargetValue;
 
 		$params["group_by"][] = $this->grouping->get_cle();
 
@@ -105,19 +106,20 @@ class Composant extends AbstractDataObject
 
 		$requette = new Constructeur_Requette_API($params['select'], $params['where'], $params['group_by']);
 
-		MsgRepository::newWarning($requette->formatUrl(), "", MsgRepository::NO_REDIRECT);
-
 		// construire la requette a l'API
-		$data = Requetteur_API::fetchData($requette, $keyValueSort, $keyTargetValue);
-
-		var_dump($data);
-		$this->data = ['total' => '12'];
+		$data = Requetteur_API::fetchData($requette, $keyValueSort, $this->keyTargetValue, ($this->grouping->get_cle() == '' ? 'total' : null));
+		$this->data = $data;
 	}
 
 	public function get_data(Dashboard $dash)
 	{
 		if (isset($this->data)) return $this->data;
 		$this->prepare_data($dash);
+	}
+
+	public function get_keyTargetValue()
+	{
+		return $this->keyTargetValue;
 	}
 
 	private function nettoyer_chaine($chaine)
