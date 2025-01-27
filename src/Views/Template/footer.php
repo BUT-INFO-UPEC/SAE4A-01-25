@@ -31,4 +31,5 @@
 
 	<em>"Face au changement climatique, nous devons faire de la nature notre alliée." – Jean Jouzel</em>
 	<p>© Tous droits réservés.</p>
+
 </footer>
