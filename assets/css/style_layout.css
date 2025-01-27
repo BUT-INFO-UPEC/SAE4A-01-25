@@ -55,7 +55,7 @@ footer {
 .footer-content {
 	flex: 1;
 	margin: 20px;
-	min-width: 200px;
+	min-width: max-content;
 }
 
 footer h3 {
