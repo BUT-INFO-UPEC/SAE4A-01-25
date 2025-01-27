@@ -1,5 +1,5 @@
 <?php
-$controller = $_SESSION['controller']
+$controller = $_SESSION['controller'];
 ?>
 
 <!DOCTYPE html>
@@ -7,35 +7,26 @@ $controller = $_SESSION['controller']
 
 <head>
 	<meta charset="UTF-8">
-
 	<title><?= $titrePage; ?></title>
 
-
 	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_layout.css">
-
 	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
-
 	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_navTemp.css">
 
 	<!-- jQuery, Popper.js, et Bootstrap JS (nécessaires pour le modal Bootstrap) -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- Bootstrap JS (inclut Popper.js) -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
 	<script src="<?= BASE_URL ?>assets/JavaScript/formulaire.js"></script>
 
 </head>
 
-<body>
+<body ng-app="myApp" ng-controller="myCtrl">
 	<?php require __DIR__ . "/header.php"; ?>
 
-
 	<div class="slim-list">
-		<?php require __DIR__ . "/navTemp.php" ?>
+		<?php require __DIR__ . "/navTemp.php"; ?>
 	</div>
 
 	<div class="flex main-container">
@@ -51,9 +42,8 @@ $controller = $_SESSION['controller']
 		</div>
 	</div>
 
-	<div>
-		<?php require __DIR__ . "/Form.php"; ?>
-	</div>
+	<!-- Formulaire avec rechargement automatique -->
+	<?php require __DIR__ . "/Form.php"; ?>
 
 	<?php require __DIR__ . "/footer.php"; ?>
 </body>
