@@ -50,7 +50,7 @@ $controller = $_SESSION['controller']
 		<?php require __DIR__ . "/Form.php"; ?>
 	</div>
 
-	<!-- <?php require __DIR__ . "/footer.php"; ?> -->
+	<?php require __DIR__ . "/footer.php"; ?>
 </body>
 
 </html>
