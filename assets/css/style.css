@@ -2,6 +2,19 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+}
+
+header,
+footer {
+  text-align: center;
+  width: 100%;
+  padding: 1cm;
+  background-color: lightgray;
+}
+
+footer {
+  position: sticky;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
