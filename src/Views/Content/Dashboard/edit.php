@@ -13,10 +13,16 @@
 	</div>
 	<!-- input hidden pour donner le compte total des onglets -->
 	<div class="card">
-		<div class="card-header">
-			<h5 class="card-title text-center">Stations analysées</h5>
-			<div class="flex">
-				<?php include __DIR__ . '/../../Plugins/listElements.php' ?>
+		<div class="mb-4 card-header">
+			<h3 class="text-center">
+				Stations analysées
+			</h3>
+			<hr>
+			<div class="row">
+				<!-- à prendre -->
+				<?php include __DIR__ . '/../../Plugins/listElements.php'; ?>
+				<!-- fin à prendre -->
+
 				<div class="col-md-6">
 					<h4>Période temporelle</h4>
 					<div class="mb-3">
@@ -141,7 +147,7 @@
 
 <!--
 									Pour 2 composant : jsp pk mais count_id = 1 alors qu'il y en a 2
-									
+
  http://localhost/sae_test/SAE/web/FrontController.php?
  		nom_meteotheque=azf&
  		visibility=public&

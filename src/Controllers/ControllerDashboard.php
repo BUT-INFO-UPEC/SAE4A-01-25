@@ -9,6 +9,7 @@ use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
+use Src\Model\DataObject\Dashboard;
 use Src\Model\Repository\DatabaseConnection;
 use Src\Model\Repository\GrouppingRepository;
 use Src\Model\Repository\RepresentationRepository;
@@ -104,17 +105,19 @@ class ControllerDashboard extends AbstractController
 
 	static function save(): void
 	{
+		if (UserManagement::getUser() == null) {
+			MsgRepository::newError('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard');
+		}
 		if (!empty($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
-			// récupérer les POST
-
+			ControllerDashboard::update_dashboard_from_POST($dash);
 			$constructeur = new DashboardRepository();
-			if ($dash->get_createur() == UserManagement::getUser()->getId()) {
+			if ($dash->get_createur() == UserManagement::getUser()->getId() or $_POST["duplicate"] == true) {
 				$constructeur->update_dashboard_by_id($dash);
-				$_GET["dashId"] = $dash->getId();
+				$_GET["dashId"] = $dash->get_id();
 				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 			} else {
-				$_GET["dashId"] = $constructeur->save_new_dashboard($dash);
+				$constructeur->save_new_dashboard($dash);
 				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&actoin=visu_dashboard");
 			}
 		} else {
@@ -145,4 +148,22 @@ class ControllerDashboard extends AbstractController
 	// =======================
 	#region post
 	#endregion post
+
+	private static function update_dashboard_from_POST(Dashboard &$dash): void
+	{
+		// récupérer les POST
+		$dash->setStartDate($_POST['start_date']);
+		$dash->setStartDateRelative($_POST['dynamic_start']);
+		$dash->setEndDate($_POST['end_date']);
+		$dash->setEndDateRelative($_POST['dynamic_end']);
+
+		// récupérer toutes les staitons, régions, ect... chéckés
+		foreach ($_POST['samplecheck'] as &$value) {
+		}
+
+		$compNb = $_POST[""];
+		$i = 0;
+		foreach ($dash->get_composants() as $value) {
+		}
+	}
 }
