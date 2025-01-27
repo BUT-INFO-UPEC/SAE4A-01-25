@@ -11,7 +11,7 @@ use Src\Model\DataObject\Groupping;
 
 		use Src\Config\UserManagement;
 
-		if (UserManagement::getUser() != null) : ?>
+		if (UserManagement::getUser() != null && UserManagement::getUser()->getId() == $dash->get_createur()) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
 		<?php endif; ?>
 
