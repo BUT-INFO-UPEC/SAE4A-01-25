@@ -1,4 +1,5 @@
-?php
+<?php
+
 use Src\Model\DataObject\Representation;
 use Src\Model\DataObject\Attribut;
 use Src\Model\DataObject\Aggregation;
@@ -158,8 +159,15 @@ use Src\Model\DataObject\Groupping;
 					</div>
 				</div>
 			</div>
+
+			<div class="mb-4">
+				<h4>Commentaires</h4>
+				<textarea name="comments_{{tab.id}}" id="comments_{{tab.id}}" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
+			</div>
 		</div>
 	</div>
+
+	<input type="hidden" name="count_id" ng-value="tabs.length">
 </form>
 
 <!--
