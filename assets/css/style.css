@@ -216,3 +216,49 @@ p {
 .glass::-webkit-scrollbar {
 	display: none;
 }
+
+/* region liste Regions / Départements / Villes / Stations */
+
+.nav-tabs li {
+	display: inline-block;
+}
+
+.nav-tabs li a {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px 5px 0 0;
+	text-decoration: none;
+	color: #000;
+}
+
+.nav-tabs li.active a {
+	background-color: #337ab7;
+	color: #fff;
+}
+
+.nav-tabs li a:hover {
+	background-color: #337ab7;
+	color: #fff;
+}
+
+.glyphicon-remove {
+	padding: 5px;
+	margin-left: 5px;
+	color: red;
+	cursor: pointer;
+}
+
+.check {
+	max-height: 40vh;
+	overflow: auto;
+	border-radius: 16px;
+	padding: 0;
+	background: #ffffff;
+	box-shadow: -8px 8px 29px #8a8a8a, 8px -8px 29px #ffffff;
+}
+
+.check::-webkit-scrollbar {
+	display: none;
+}
+
+/* Fin liste Regions / Départements / Villes / Stations */
