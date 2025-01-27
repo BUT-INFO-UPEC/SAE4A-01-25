@@ -25,6 +25,7 @@ footer {
   gap: 20px;
   flex-wrap: wrap;
   text-align: left;
+  margin-bottom: 20px;
 }
 
 .footer-content {
