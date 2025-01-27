@@ -5,14 +5,10 @@ app.controller('myCtrl', function ($scope) {
 
 	$scope.tabs = [{
 		id: idCounter++, // Générer un ID unique
-		name: 'Composant - 1',
+		name: 'Onglet 1',
+		content: 'onglet.html',
 		active: true
 	},
-	{
-		id: idCounter++,
-		name: 'Composant - 2',
-		active: false
-	}
 	];
 
 	$scope.selectTab = function (index) {
@@ -32,10 +28,13 @@ app.controller('myCtrl', function ($scope) {
 	$scope.addTab = function () {
 		var newTab = {
 			id: idCounter++, // Générer un nouvel ID unique
-			name: 'Nouvel Onglet',
+			name: 'Nouvel onglet',
+			content: 'onglet.html',
 			active: true
 		};
 		$scope.tabs.push(newTab);
 		$scope.selectTab($scope.tabs.length - 1);
 	};
+
+	count_id = idCounter;
 });

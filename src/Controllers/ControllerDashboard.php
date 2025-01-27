@@ -73,14 +73,14 @@ class ControllerDashboard extends AbstractController
 			$stations = DatabaseConnection::getTable('stations');
 
 			$represtation = new RepresentationRepository();
-			$attr = new AttributRepository();
-			$grp = new GrouppingRepository();
-			$aggr = new AggregationRepository();
+			$valeurs = new AttributRepository();
+			$association = new GrouppingRepository();
+			$analysis = new AggregationRepository();
 
-			$visu = $represtation->get_representations();
-			$attributs = $attr->get_attributs();
-			$grouping = $grp->get_grouppings();
-			$aggregations = $aggr->get_aggregations();
+			$represtation = $represtation->get_representations();
+			$valeurs = $valeurs->get_attributs();
+			$association = $association->get_grouppings();
+			$analysis = $analysis->get_aggregations();
 		} catch (Exception $e) {
 			// Gestion des erreurs si une table est introuvable ou si une autre exception se produit
 			die("Erreur lors de la récupération des données : " . $e->getMessage());
