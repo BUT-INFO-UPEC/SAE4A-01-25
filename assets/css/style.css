@@ -268,3 +268,8 @@ p {
 }
 
 /* Fin liste Regions / Départements / Villes / Stations */
+
+/* Classe pour mettre en avant les dates dynamiques */
+.date_dynamique {
+	color: #0073e6;
+}
