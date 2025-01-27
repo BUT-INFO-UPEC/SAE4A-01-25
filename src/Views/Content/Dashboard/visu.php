@@ -1,6 +1,6 @@
-<button class="dropdown" style="position: absolute; right: 0;">
+<a class="button" href="?action=edit" style="position: absolute; right: 0;">
 	modifier
-</button>
+</a>
 
 <h1 class="centered"> <?= $dash->get_name(); ?> </h1>
 

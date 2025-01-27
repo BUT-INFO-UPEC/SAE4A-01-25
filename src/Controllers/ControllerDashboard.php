@@ -105,16 +105,25 @@ class ControllerDashboard extends AbstractController
 
 	static function save(): void
 	{
-		if (UserManagement::getUser() == null) {
-			MsgRepository::newError('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard');
-		}
+
 		if (!empty($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
-			ControllerDashboard::update_dashboard_from_POST($dash);
+			$componantsToDelete = ControllerDashboard::update_dashboard_from_POST($dash);
+			$_SESSION["dash"] = $dash;
+
+			// vérifier si c'est une requette "visualiser modifications sans enregisterer"
+			if (isset($_GET["upload"]) && $_GET["upload"] == "false") header("Location: ?controller=ControllerDashboard&action=visu_dashboard");
+
+			// vérifier si l'utilisateur est connécté
+			if (UserManagement::getUser() == null) {
+				MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard');
+			}
+
 			$constructeur = new DashboardRepository();
 			if ($dash->get_createur() == UserManagement::getUser()->getId() or $_POST["duplicate"] == true) {
-				$constructeur->update_dashboard_by_id($dash);
+				$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
 				$_GET["dashId"] = $dash->get_id();
+
 				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 			} else {
 				$constructeur->save_new_dashboard($dash);
@@ -137,6 +146,8 @@ class ControllerDashboard extends AbstractController
 		$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
 		$dash->buildData();
 
+		$_SESSION['dash'] = $dash;
+
 		$titrePage = "Visualisatoin du Dashboard";
 		$cheminVueBody = "visu.php";
 		require('../src/Views/Template/views.php');
@@ -149,21 +160,36 @@ class ControllerDashboard extends AbstractController
 	#region post
 	#endregion post
 
-	private static function update_dashboard_from_POST(Dashboard &$dash): void
+	private static function update_dashboard_from_POST(Dashboard &$dash): array
 	{
 		// récupérer les POST
 		$dash->setStartDate($_POST['start_date']);
-		$dash->setStartDateRelative($_POST['dynamic_start']);
+		$dash->setStartDateRelative(isset($_POST['dynamic_start']) && $_POST['dynamic_start'] == 'on');
 		$dash->setEndDate($_POST['end_date']);
-		$dash->setEndDateRelative($_POST['dynamic_end']);
+		$dash->setEndDateRelative(isset($_POST['dynamic_end']) && $_POST['dynamic_end'] == 'on');
 
 		// récupérer toutes les staitons, régions, ect... chéckés
-		foreach ($_POST['samplecheck'] as &$value) {
+		$criteres_geo = [];
+		if (!empty($_POST['regions']))
+			$cryteres_geo['reg_id'] = $_POST['regions'];
+		if (!empty($_POST['regions']))
+			$cryteres_geo['epci_id'] = $_POST['depts'];
+		if (!empty($_POST['regions']))
+			$cryteres_geo['ville_id'] = $_POST['villes'];
+		if (!empty($_POST['regions']))
+			$cryteres_geo['numer_sta'] = $_POST['stations'];
+
+		$compNb = $_POST["count_id"];
+		$dash->delComposants($compNb);
+		$componantsToDelete = [];
+		foreach ($dash->get_composants() as $value) {
+			// tt les setters
+		}
+		for ($i=count($dash->get_composants()); $i < $compNb; $i++) { 
+			// initialiser les autrs composants
 		}
 
-		$compNb = $_POST[""];
-		$i = 0;
-		foreach ($dash->get_composants() as $value) {
-		}
+		// retourner les composants qui sont de trop aprés les avoir unset
+		return $componantsToDelete;
 	}
 }

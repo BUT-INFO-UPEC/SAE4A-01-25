@@ -190,6 +190,10 @@ class Dashboard extends AbstractDataObject
 		}
 	}
 
+	public function delComposants(int $nbComps) {
+		
+	}
+
 	// =======================
 	//    STATIC METHODS
 	// =======================

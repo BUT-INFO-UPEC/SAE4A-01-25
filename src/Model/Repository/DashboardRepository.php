@@ -84,12 +84,14 @@ class DashboardRepository extends AbstractRepository
 		$query = $wherequery . $orderquery;
 		return $this->selectAll($query, $values);
 	}
-	public function update_dashboard_by_id(Dashboard $dash)
+	public function update_dashboard_by_id(Dashboard $dash, $componantsToDelete)
 	{
 		$this->update($dash, $dash->get_id());
 		foreach ($dash->get_composants() as $$value) {
 			// update les différents composants
 		}
+
+		// suprimer les composants qui ont été unsset
 	}
 
 	public function save_new_dashboard(Dashboard $dash)
@@ -98,6 +100,8 @@ class DashboardRepository extends AbstractRepository
 		$values[":original_id"] = $values[":id"];
 		$values[":id"] = null;
 		$dashId = (int) $this->create($dash, $values);
+
+		// enregistrer les liens critereGeo
 
 		// parcourir les composants et les enregistrés
 		$compsIds = [];

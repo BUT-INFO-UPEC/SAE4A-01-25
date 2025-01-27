@@ -7,6 +7,7 @@ use PDOException;
 use Src\Config\MsgRepository;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
+use Src\Config\UserManagement;
 
 class ControllerGeneral extends AbstractController
 {
@@ -135,11 +136,14 @@ class ControllerGeneral extends AbstractController
 	{
 		// Suppression de la session utilisateur
 		session_unset();
-		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant connécté(e)", "?controller=ControllerGeneral");
+		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant connécté(e)");
 	}
 
 	public static function profile()
 	{
+		if (UserManagement::getUser() == null) {
+			MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard', "?action=home");
+		}
 		$titrePage = "Profile";
 		$cheminVueBody = "profil.php";
 		$user = $_SESSION['user'];

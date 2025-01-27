@@ -1,4 +1,21 @@
-<form action="?action=save" method="GET" class="container-fluid mt-4">
+<button?php
+use Src\Model\DataObject\Representation;
+use Src\Model\DataObject\Attribut;
+use Src\Model\DataObject\Aggregation;
+use Src\Model\DataObject\Groupping;
+?>
+<form action="?action=save" method="POST" class="container-fluid mt-4">
+	<div id="edit-btns" style="position: sticky;">
+		<?php use Src\Config\UserManagement;
+		if (UserManagement::getUser() != null) : ?>
+			<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
+		<?php endif; ?>
+
+		<button type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false">
+			visualiser
+		</button>
+	</div>
+
 	<div class="row mb-4">
 		<div class="col-md-6">
 			<label for="nom_meteotheque" class="form-label">Nom météothèque :</label>
@@ -17,7 +34,6 @@
 			<h3 class="text-center">
 				Stations analysées
 			</h3>
-			<?= var_dump($dash->get_region()); ?>
 			<hr>
 			<div class="row">
 				<!-- à prendre -->
@@ -30,7 +46,7 @@
 						<label for="start_date" class="form-label">Date début :</label>
 						<input type="text" id="start_date" name="start_date" class="form-control" placeholder="JJ/MM/AAAA">
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="dynamic_start">
+							<input type="checkbox" class="form-check-input" id="dynamic_start" name="dynamic_start">
 							<label class="form-check-label" for="dynamic_start">Dynamique</label>
 						</div>
 					</div>
@@ -39,7 +55,7 @@
 						<label for="end_date" class="form-label">Date fin :</label>
 						<input type="text" id="end_date" name="end_date" class="form-control" placeholder="JJ/MM/AAAA">
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="dynamic_end">
+							<input type="checkbox" class="form-check-input" id="dynamic_end" name="dynamic_end">
 							<label class="form-check-label" for="dynamic_end">Dynamique</label>
 						</div>
 					</div>
@@ -75,7 +91,7 @@
 								<select id="visu_type_{{tab.id}}" name="visu_type_{{tab.id}}" class="form-select">
 									<?php if (!empty($visu)): ?>
 										<?php foreach ($visu as $item) : ?>
-											<option value="<?= htmlspecialchars($item['id']) ?>" <?= $dash->get_visu()->get_id() == $item->get_id() ? "selected" : ""; ?>> <?= htmlspecialchars($item['name']) ?></option>
+											<option value="<?= htmlspecialchars($item->get_id()) ?>"> <?= htmlspecialchars($item->get_nom()) ?></option>
 										<?php endforeach; ?>
 									<?php else: ?>
 										<option value="">--</option>
@@ -134,8 +150,5 @@
 
 			</div>
 		</div>
-	</div>
-	<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
-
 	</div>
 </form>

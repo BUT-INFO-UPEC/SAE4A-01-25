@@ -21,7 +21,7 @@ if (!empty($_SESSION['MSGs']["list_messages"])) {
 				setTimeout(() => {
 					msg.classList.add('fade'); // Ajoute la transition de disparition
 					setTimeout(() => msg.remove(), 500); // Supprime complètement après 0.5s
-				}, 5000); // Attendre 5 secondes avant de commencer
+				}, 4000); // Attendre 4 secondes avant de commencer
 			});
 		});
 	</script>
