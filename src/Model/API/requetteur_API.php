@@ -7,7 +7,7 @@ use Src\Config\MsgRepository;
 
 class Requetteur_API
 {
-	const LIMIT_API_DATA = 10000;
+	const LIMIT_API_DATA = 1000;
 
 	public static function fetchData(Constructeur_Requette_API $requette, $keyValueSort = "", $keyTargetValue = "", $limit = Requetteur_API::LIMIT_API_DATA): array
 	{
@@ -53,9 +53,10 @@ class Requetteur_API
 		$ch = curl_init();
 
 		$options = [
-			CURLOPT_URL            => $url,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_SSL_OPTIONS => CURLSSLOPT_NATIVE_CA
+			CURLOPT_URL							=> $url,
+			CURLOPT_RETURNTRANSFER	=> true,
+			CURLOPT_SSL_OPTIONS			=> CURLSSLOPT_NATIVE_CA,
+			CURLOPT_TIMEOUT => 10,
 		];
 		curl_setopt_array($ch, $options);
 		$response = curl_exec($ch);

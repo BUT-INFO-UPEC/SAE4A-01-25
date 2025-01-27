@@ -33,6 +33,18 @@ class ControllerTests extends AbstractController
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
 		}
+		try {
+			// Appel de la méthode pour récupérer les données via l'API
+
+			$requete = new Constructeur_Requette_API(
+				["avg(t) as Moyenne_Temperature"],
+				["(numer_sta='07139' or numer_sta='78925')", "(date >= '2025-01-13T00:00:00' and date <= '2025-01-20T00:00:00')"],
+			);
+
+			$data2 = Requetteur_API::fetchData($requete);
+		} catch (Exception $e) {
+			MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
+		}
 
 		// Exploitation des données récupérées
 		$titrePage = "Test de récupération des données API";

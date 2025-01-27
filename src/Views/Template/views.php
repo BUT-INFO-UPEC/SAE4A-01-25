@@ -29,9 +29,6 @@ $controller = $_SESSION['controller']
 <body>
 	<?php require __DIR__ . "/header.php"; ?>
 
-	<div>
-		<?php require __DIR__ . "/Form.php"; ?>
-	</div>
 
 	<div class="slim-list">
 		<?php require __DIR__ . "/navTemp.php" ?>
@@ -48,6 +45,11 @@ $controller = $_SESSION['controller']
 			</main>
 		</div>
 	</div>
+
+	<div>
+		<?php require __DIR__ . "/Form.php"; ?>
+	</div>
+
 	<?php require __DIR__ . "/footer.php"; ?>
 </body>
 

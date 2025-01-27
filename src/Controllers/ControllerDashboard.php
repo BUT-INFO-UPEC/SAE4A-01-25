@@ -100,6 +100,7 @@ class ControllerDashboard extends AbstractController
 		// vérifier les droits 
 		$constructeur = new DashboardRepository();
 		$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
+		$dash->buildData();
 
 		$titrePage = "Visualisatoin du Dashboard";
 		$cheminVueBody = "visu.php";

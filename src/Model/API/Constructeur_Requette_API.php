@@ -45,32 +45,32 @@ class Constructeur_Requette_API
 
 	public function getSelect(): ?string
 	{
-		return empty($this->select) ? null : "select=" . implode(",", $this->select);
+		return empty($this->select) ? null : "select=" . urlencode(implode(",", $this->select));
 	}
 
 	public function getWhere(): ?string
 	{
-		return empty($this->where) ? null : "where=" . implode(" and ", $this->where);
+		return empty($this->where) ? null : "where=" . urlencode(implode(" and ", $this->where));
 	}
 
 	public function getGroupBy(): ?string
 	{
-		return empty($this->group_by) ? null : "group_by=" . implode(",", $this->group_by);
+		return empty($this->group_by) ? null : "group_by=" . urlencode(implode(",", $this->group_by));
 	}
 
 	public function getOrderBy(): ?string
 	{
-		return empty($this->order_by) ? null : "order_by=" . $this->order_by;
+		return empty($this->order_by) ? null : "order_by=" . urlencode($this->order_by);
 	}
 
 	public function getLimit(): ?string
 	{
-		return $this->limit > 0 ? "limit=" . $this->limit : null;
+		return $this->limit > 0 ? "limit=" . urlencode($this->limit) : null;
 	}
 
 	public function getOffset(): ?string
 	{
-		return $this->offset > 0 ? "offset=" . $this->offset : null;
+		return $this->offset > 0 ? "offset=" . urlencode($this->offset) : null;
 	}
 
 	public function getRefine(): ?string
@@ -83,7 +83,7 @@ class Constructeur_Requette_API
 		foreach ($this->refine as $key => $value) {
 			$refineParams[] = "$key:$value";
 		}
-		return "refine=" . implode("&refine=", $refineParams);
+		return "refine=" . urlencode(implode("&refine=", $refineParams));
 	}
 
 	public function getExclude(): ?string
@@ -96,17 +96,17 @@ class Constructeur_Requette_API
 		foreach ($this->exclude as $key => $value) {
 			$excludeParams[] = "$key:$value";
 		}
-		return "exclude=" . implode("&exclude=", $excludeParams);
+		return "exclude=" . urlencode(implode("&exclude=", $excludeParams));
 	}
 
 	public function getLang()
 	{
-		return $this->lang ? "lang=$this->lang" : null;
+		return $this->lang ? "lang=" . urlencode($this->lang) : null;
 	}
 
 	public function getTimeZone()
 	{
-		return $this->timezone ? "time_zone=$this->timezone" : null;
+		return $this->timezone ? "time_zone=" . urlencode($this->timezone) : null;
 	}
 
 	public function nextPage()
