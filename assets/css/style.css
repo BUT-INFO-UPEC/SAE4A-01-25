@@ -1,243 +1,218 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-header,
-footer {
-  text-align: center;
-  width: 100%;
-  padding: 1cm;
-  background-color: lightgray;
-}
-
-footer {
-  position: sticky;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 100vw;
-}
-
 main * * {
-  padding: 1%;
+	padding: 1%;
 }
 
 .main-container {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  flex: 1;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	flex: 1;
 }
 
 hr {
-  margin: 0;
-  padding: 0;
-  background-color: #000;
-  height: 5px;
+	margin: 0;
+	padding: 0;
+	background-color: #000;
+	height: 5px;
 }
 
 /* Ajustement du style pour correspondre à la structure */
 .flex {
-  display: flex;
-  gap: 0;
-  /* Élimine les espaces inutiles autour de la sidebar */
+	display: flex;
+	gap: 0;
+	/* Élimine les espaces inutiles autour de la sidebar */
 }
 
 .centered {
-  text-align: center;
-  align-items: center;
+	text-align: center;
+	align-items: center;
 }
 
 .changing {
-  color: gray;
+	color: gray;
 }
 
 #dashboard {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto;
-  gap: 20px;
-  grid-template-areas:
-    "metric1 chart1  chart2 chart2"
-    "metric2 chart3 chart4 chart4";
-  width: 100%;
-  margin: 0 0;
-  height: max-content;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: auto;
+	gap: 20px;
+	grid-template-areas:
+		"metric1 chart1  chart2 chart2"
+		"metric2 chart3 chart4 chart4";
+	width: 100%;
+	margin: 0 0;
+	height: max-content;
 }
 
 .dashboard-card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	text-align: center;
 }
 
 .dashboard-card * {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
 }
 
 .chart1 {
-  grid-area: chart1;
+	grid-area: chart1;
 }
 
 .chart2 {
-  grid-area: chart2;
+	grid-area: chart2;
 }
 
 .chart3 {
-  grid-area: chart3;
+	grid-area: chart3;
 }
 
 .chart4 {
-  grid-area: chart4;
+	grid-area: chart4;
 }
 
 .metric1 {
-  grid-area: metric1;
+	grid-area: metric1;
 }
 
 .metric2 {
-  grid-area: metric2;
+	grid-area: metric2;
 }
 
 .dashboard-card h3 {
-  margin-top: 0;
-  color: #333;
+	margin-top: 0;
+	color: #333;
 }
 
 .metric {
-  font-size: 2em;
-  font-weight: bold;
-  color: #0073e6;
+	font-size: 2em;
+	font-weight: bold;
+	color: #0073e6;
 }
 
 @media (max-width: 768px) {
-  .dashboard {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "overview overview"
-      "metric1 metric2"
-      "chart1 chart2"
-      "chart3 chart4";
-  }
+	.dashboard {
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas:
+			"overview overview"
+			"metric1 metric2"
+			"chart1 chart2"
+			"chart3 chart4";
+	}
 }
 
 @media (max-width: 480px) {
-  .dashboard {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "overview"
-      "metric1"
-      "metric2"
-      "chart1"
-      "chart2"
-      "chart3"
-      "chart4";
-  }
+	.dashboard {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"overview"
+			"metric1"
+			"metric2"
+			"chart1"
+			"chart2"
+			"chart3"
+			"chart4";
+	}
 }
 
 .main {
-  width: 80vw;
+	width: 80vw;
 }
 
 /* Style général de la sidebar */
 .sidebar {
-  min-width: 250px;
-  max-width: 250px;
-  background-color: #343a40;
-  color: white;
-  transition: all 0.3s ease;
-  /* Transition fluide */
-  position: relative;
-  padding-top: 10px;
+	min-width: 250px;
+	max-width: 250px;
+	background-color: #343a40;
+	color: white;
+	transition: all 0.3s ease;
+	/* Transition fluide */
+	position: relative;
+	padding-top: 10px;
 }
 
 /* Sidebar rétractée (collapsée) */
 .sidebar.collapsed {
-  min-width: 0;
-  max-width: 0;
-  overflow: hidden;
-  visibility: hidden;
-  /* Masquer complètement la sidebar quand elle est rétractée */
-  padding: 0;
+	min-width: 0;
+	max-width: 0;
+	overflow: hidden;
+	visibility: hidden;
+	/* Masquer complètement la sidebar quand elle est rétractée */
+	padding: 0;
 }
 
 /* Liens de la sidebar */
 .sidebar .content {
-  display: block;
-  transition: all 0.3s ease;
+	display: block;
+	transition: all 0.3s ease;
 }
 
 .sidebar a {
-  color: white;
-  text-decoration: none;
-  padding: 10px 15px;
-  display: block;
-  transition: 0.3s;
-  font-size: 1rem;
+	color: white;
+	text-decoration: none;
+	padding: 10px 15px;
+	display: block;
+	transition: 0.3s;
+	font-size: 1rem;
 }
 
 .sidebar a:hover {
-  background-color: #495057;
+	background-color: #495057;
 }
 
 /* Style du bouton pour afficher/cacher la sidebar */
 #toggleSidebar {
-  font-size: 0.8rem;
-  z-index: 1;
-  top: 10px;
-  /* Position du bouton en haut */
-  right: 10px;
-  /* Le bouton est à droite de la sidebar */
-  background-color: #495057;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 50px;
-  cursor: pointer;
+	font-size: 0.8rem;
+	z-index: 1;
+	top: 10px;
+	/* Position du bouton en haut */
+	right: 10px;
+	/* Le bouton est à droite de la sidebar */
+	background-color: #495057;
+	color: white;
+	border: none;
+	padding: 10px;
+	border-radius: 50px;
+	cursor: pointer;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 25px;
-  height: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 25px;
+	height: 250px;
 }
 
 /* Styles lorsque la sidebar est rétractée, le bouton prend sa place */
 .sidebar.collapsed #toggleSidebar {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-  /* Le bouton est au-dessus de la barre latérale */
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 2;
+	/* Le bouton est au-dessus de la barre latérale */
 }
 
 /* Styles pour afficher le bouton à l'extérieur de la sidebar lorsque elle est fermée */
 .sidebar.collapsed {
-  min-width: 0;
-  max-width: 0;
-  overflow: hidden;
+	min-width: 0;
+	max-width: 0;
+	overflow: hidden;
 }
 
 h1,
 p {
-  margin-top: 20px;
-  margin-right: 20px;
+	margin-top: 20px;
+	margin-right: 20px;
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.44);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  -webkit-backdrop-filter: blur(4.8px);
-  backdrop-filter: blur(4.8px);
-  max-height: 65vh;
-  overflow: auto;
+	background: rgba(255, 255, 255, 0.44);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	-webkit-backdrop-filter: blur(4.8px);
+	backdrop-filter: blur(4.8px);
 }
-.glass::-webkit-scrollbar{
-  display: none;
+.glass::-webkit-scrollbar {
+	display: none;
 }
