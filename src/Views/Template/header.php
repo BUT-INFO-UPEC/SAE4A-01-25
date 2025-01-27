@@ -1,11 +1,14 @@
 <header>
-	<div class="d-flex align-items-center justify-content-between position-relative">
+	<div class="header-container">
 		<!-- Titre centré -->
-		<h1 class="titre-header text-center w-100 fw-bold">Nom Du Site</h1>
+		<div class="titre-header">
+			<img src="<?= BASE_URL . 'assets/img/logosite2.png'; ?>" alt="Logo du Site" class="me-2"
+				style="width: 190px; height: 50px;">
+		</div>
+
+		<?php require __DIR__ . "/navbar.php"; ?>
 
 		<!-- Icône alignée à droite -->
 		<?php include __DIR__ . "/icon_account.php"; ?>
 	</div>
-
-	<?php require __DIR__ . "/navbar.php"; ?>
 </header>

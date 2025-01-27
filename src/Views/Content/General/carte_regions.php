@@ -22,8 +22,10 @@ $svgContent = preg_replace_callback(
 );
 ?>
 
+<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_carte.css">
+
 <!-- Afficher le contenu SVG -->
-<div>
+<div id="map-container">
 	<?= $svgContent ?>
 </div>
 
@@ -31,15 +33,15 @@ $svgContent = preg_replace_callback(
 // Si une région est cliquée, elle sera disponible dans $_GET['region']
 if (isset($_GET['region'])) {
 	$region = htmlspecialchars($_GET['region']);
-	echo "Région sélectionnée : " . $region;
+	echo "<p>Région sélectionnée : " . $region . "</p>";
 }
 ?>
 
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
+	document.addEventListener('DOMContentLoaded', function () {
 		const paths = document.querySelectorAll('#map path');
 		paths.forEach(path => {
-			path.addEventListener('click', function(e) {
+			path.addEventListener('click', function (e) {
 				const regionId = e.target.id;
 				if (regionId) {
 					console.log(`Région cliquée : ${regionId}`);

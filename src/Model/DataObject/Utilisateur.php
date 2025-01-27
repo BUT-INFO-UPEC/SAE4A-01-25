@@ -2,32 +2,48 @@
 
 namespace Src\Model\DataObject;
 
-use PDOException;
-use Src\Model\Repository\BDD;
+use Src\Model\Repository\DatabaseConnection;
+use PDO;
 
-class Utilisateur
+class Utilisateur extends AbstractDataObject
 {
 	// =======================
 	//        ATTRIBUTES
 	// =======================
+	private ?int $id;
 	private string $utilisateur_pseudo;
-	private string $utilisateur_mdp;
 	private string $utilisateur_mail;
-	private array $utilisateur_amis;
+	private string $utilisateur_nom;
+	private string $utilisateur_prenom;
+	private ?string $utilisateur_crea;
 
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
-	public function __construct(string $pseudo, string $mail, string $mdp)
-	{
+	public function __construct(
+		string $pseudo,
+		string $mail,
+		string $nom,
+		string $prenom,
+		?int $id = null,
+		?string $crea = null
+	) {
+		$this->id = $id;
 		$this->utilisateur_pseudo = $pseudo;
 		$this->utilisateur_mail = $mail;
-		$this->utilisateur_mdp = $mdp;
+		$this->utilisateur_nom = $nom;
+		$this->utilisateur_prenom = $prenom;
+		$this->utilisateur_crea = $crea;
 	}
 
+	#region getters
 	// =======================
 	//      GETTERS
 	// =======================
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 	public function getPseudo(): string
 	{
 		return $this->utilisateur_pseudo;
@@ -38,60 +54,50 @@ class Utilisateur
 		return $this->utilisateur_mail;
 	}
 
-	public function getPassword(): string
+	public function getNom(): string
 	{
-		return $this->utilisateur_mdp;
+		return $this->utilisateur_nom;
 	}
 
-
-	// =======================
-	//      SETTERS
-	// =======================
-	public function setPseudo(string $pseudo): void
+	public function getPrenom(): string
 	{
-		$this->utilisateur_pseudo = $pseudo;
+		return $this->utilisateur_prenom;
+	}
+	public function getUtilisateur_crea(): ?string
+	{
+		return $this->utilisateur_crea;
 	}
 
-	public function setEmail(string $mail): void
+	public function getNbPubli()
 	{
-		$this->utilisateur_mail = $mail;
+		$query = "SELECT count(*) FROM Dashboards WHERE createur_id = :createur_id";
+		$values = [":createur_id" => $this->getId()];
+		$stmt = DatabaseConnection::executeQuery($query, $values);
+		return $stmt->fetch(PDO::FETCH_NUM)[0];
 	}
+	#endregion
 
-	public function setPassword(string $mdp): void
+	#region setters
+	public function setId($id)
 	{
-		$this->utilisateur_mdp = $mdp;
+		$this->id = $id;
 	}
+	#endregion setters
 
-
+	#region public methods
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
-	/**
-	 * Méthode pour insérer un utilisateur dans la base de données SQLite
-	 */
-	public function insertUser(): void
+	public function formatTableau(): array
 	{
-		try {
-			// On récupère l'instance PDO depuis la classe BaseDeDonnees
-			$pdo = new BDD();
-
-			// Préparation de la requête SQL
-			$sql = "INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_mdp, utilisateur_mail, utilisateur_amis)
-                    VALUES (:pseudo, :mdp, :mail, :amis)";
-
-
-			// Exécution de la requête avec les paramètres
-			$pdo->execute($sql, [
-				':pseudo' => $this->utilisateur_pseudo,
-				':mdp' => $this->utilisateur_mdp,
-				':mail' => $this->utilisateur_mail,
-			]);
-
-			// Message de succès
-			$_SESSION['success'] = "Utilisateur {$this->utilisateur_pseudo} a été ajouté avec succès.";
-		} catch (PDOException $e) {
-			// Gestion des erreurs
-			$_SESSION['error'] = "Erreur lors de l'insertion : " . $e->getMessage();
-		}
+		return [
+			':utilisateur_id' => $this->getId(),
+			':utilisateur_pseudo' => $this->utilisateur_pseudo,
+			':utilisateur_mail' => $this->utilisateur_mail,
+			':utilisateur_nom' => $this->utilisateur_nom,
+			':utilisateur_prenom' => $this->utilisateur_prenom,
+			':created_at' => $this->utilisateur_crea
+		];
 	}
+	#endregion
 }

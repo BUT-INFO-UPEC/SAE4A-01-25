@@ -15,28 +15,24 @@ footer {
 footer {
   position: sticky;
   bottom: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 100vw;
 }
 
 main * * {
   padding: 1%;
 }
-.bonjour {
-  margin: 1%;
-  padding: 1%;
+
+.main-container {
+  margin: 0;
+  padding: 0;
   width: 100%;
-  /**
-   * bordures
-   */
-  border: 1px solid #000;
   border-radius: 15px;
-  overflow: auto;
-  max-height: 61.15vh;
-  min-height: 61.15vh;
+  flex: 1;
 }
 
-.bonjour::-webkit-scrollbar {
-  display: none;
-}
 hr {
   margin: 0;
   padding: 0;
@@ -192,18 +188,24 @@ hr {
 
 /* Style du bouton pour afficher/cacher la sidebar */
 #toggleSidebar {
-  font-size: 1.5rem;
+  font-size: 0.8rem;
   z-index: 1;
   top: 10px;
   /* Position du bouton en haut */
   right: 10px;
   /* Le bouton est à droite de la sidebar */
-  background-color: #007bff;
+  background-color: #495057;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 10px;
+  border-radius: 50px;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 250px;
 }
 
 /* Styles lorsque la sidebar est rétractée, le bouton prend sa place */
@@ -222,29 +224,10 @@ hr {
   overflow: hidden;
 }
 
-/* carte region */
-#map {
-  width: 50%; /* Prend toute la largeur disponible */
-  height: 50%; /* Ajuste la hauteur */
-}
 
-#map path {
-  transition: fill 0.2s, stroke 0.3s;
-}
 
-#map path:hover {
-  fill: red;
-  stroke: white;
+h1,
+p {
+  margin-top: 20px;
+  margin-right: 20px;
 }
-
-#map g:hover {
-  fill: lightcoral;
-  stroke: white;
-}
-
-#map path:active {
-  fill: #bada55;
-  stroke: #bada55;
-}
-
-/* fin carte region */

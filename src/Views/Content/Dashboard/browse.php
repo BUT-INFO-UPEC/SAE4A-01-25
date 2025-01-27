@@ -1,90 +1,29 @@
-<!--Ajout d'un style simple efficasse pour le filtrage-->
-
-<style>
-    .filters {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        align-items: center;
-        background: #f8f8f8;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .filters label {
-        font-weight: bold;
-        margin-right: 10px;
-    }
-
-    .filters input[type="date"],
-    .filters select {
-        padding: 8px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: auto;
-    }
-
-    #custom-dates {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        font-size: 14px;
-        border-radius: 5px;
-        cursor: pointer;
-        width: auto;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    /* Media Queries */
-    @media (max-width: 768px) {
-        .filters {
-            flex-direction: column; /* Empile les éléments */
-            align-items: flex-start;
-        }
-
-        #custom-dates {
-            flex-direction: column; /* Empile les champs de date */
-        }
-
-        button {
-            width: 100%; /* Le bouton prend toute la largeur */
-        }
-    }
-
-    @media (max-width: 480px) {
-        .filters select,
-        .filters input[type="date"] {
-            width: 100%; /* Les champs prennent toute la largeur */
-        }
-
-        .filters label {
-            margin-right: 0;
-            margin-bottom: 5px;
-        }
-    }
-</style>
+<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_filtre.css">
 
 <!-- Interface utilisateur pour les filtres -->
 <form method="GET" class="filters">
 	<label for="region">Filtrer par région :</label>
 	<select name="region" id="region">
 		<option value="">Toutes les régions</option>
-		<!-- Remplacer les options ci-dessous par des valeurs dynamiques -->
-		<option value="Region1" <?= $region === 'Region1' ? 'selected' : '' ?>>Région 1</option>
-		<option value="Region2" <?= $region === 'Region2' ? 'selected' : '' ?>>Région 2</option>
+		<!-- Liste des régions -->
+		<option value="1" <?= $region === '1' ? 'selected' : '' ?>>Guadeloupe</option>
+		<option value="2" <?= $region === '2' ? 'selected' : '' ?>>Martinique</option>
+		<option value="3" <?= $region === '3' ? 'selected' : '' ?>>Guyane</option>
+		<option value="4" <?= $region === '4' ? 'selected' : '' ?>>La Réunion</option>
+		<option value="6" <?= $region === '6' ? 'selected' : '' ?>>Mayotte</option>
+		<option value="11" <?= $region === '11' ? 'selected' : '' ?>>Île-de-France</option>
+		<option value="24" <?= $region === '24' ? 'selected' : '' ?>>Centre-Val de Loire</option>
+		<option value="27" <?= $region === '27' ? 'selected' : '' ?>>Bourgogne-Franche-Comté</option>
+		<option value="28" <?= $region === '28' ? 'selected' : '' ?>>Normandie</option>
+		<option value="32" <?= $region === '32' ? 'selected' : '' ?>>Hauts-de-France</option>
+		<option value="44" <?= $region === '44' ? 'selected' : '' ?>>Grand Est</option>
+		<option value="52" <?= $region === '52' ? 'selected' : '' ?>>Pays de la Loire</option>
+		<option value="53" <?= $region === '53' ? 'selected' : '' ?>>Bretagne</option>
+		<option value="75" <?= $region === '75' ? 'selected' : '' ?>>Nouvelle-Aquitaine</option>
+		<option value="76" <?= $region === '76' ? 'selected' : '' ?>>Occitanie</option>
+		<option value="84" <?= $region === '84' ? 'selected' : '' ?>>Auvergne-Rhône-Alpes</option>
+		<option value="93" <?= $region === '93' ? 'selected' : '' ?>>Provence-Alpes-Côte d'Azur</option>
+		<option value="94" <?= $region === '94' ? 'selected' : '' ?>>Corse</option>
 	</select>
 
 	<label for="order">Trier par :</label>
@@ -101,7 +40,7 @@
 		<option value="custom" <?= $dateFilter === 'custom' ? 'selected' : '' ?>>Personnalisé</option>
 	</select>
 
-	<div id="custom-dates" style="display: <?= $dateFilter === 'custom' ? 'block' : 'none' ?>;">
+	<div id="custom-dates" style="display: <?= $dateFilter === 'custom' ? 'flex' : 'none' ?>;">
 		<label for="start_date">Date de début :</label>
 		<input type="date" name="start_date" id="start_date" value="<?= htmlspecialchars($customStartDate) ?>">
 
@@ -109,26 +48,25 @@
 		<input type="date" name="end_date" id="end_date" value="<?= htmlspecialchars($customEndDate) ?>">
 	</div>
 
+	<select name="privatisation" id="" privatisation>
+		<option value="private" <?= $privatisation === 'private' ? 'selected' : '' ?>>Mes dashboards</option>
+		<option value="public" <?= $privatisation === 'public' ? 'selected' : '' ?>>dashboards publiques</option>
+		<option value=null <?= $privatisation === null ? 'selected' : '' ?>>Tout</option>
+	</select>
+
 	<button type="submit">Appliquer</button>
 </form>
 
-<!-- Liste des tableaux de bord filtrés -->
 <ul class="list-dash">
-	<?php foreach ($filteredDashboards as $dash) : ?>
-		<?php $lien = CONTROLLER_URL . "?action=visu_dashboard&dashId=" . $dash->get_id(); ?>
+	<?php foreach ($dashboards as $dash): ?>
+		<?php $lien = CONTROLLER_URL . "?action=visu_dashboard&dashId=" . $dash->get_id();
+		$lien2 = "?action=edit&dashId=" . $dash->get_id() ?>
 		<li class="card">
-			<a href="<?= $lien ?>" class="card-body">
-				<?= htmlspecialchars($dash->get_name()) ?>
-			</a>
+			<div class="dash">
+				<p><?= htmlspecialchars($dash->get_name()) ?></p>
+				<a href="<?= $lien ?>" class="card-body">visu</a>
+				<a href="<?= $lien2 ?>" class="card-body">edit</a>
+			</div>
 		</li>
 	<?php endforeach; ?>
 </ul>
-
-<script>
-	// Affichage conditionnel des champs de date personnalisés
-	const dateSelect = document.getElementById('date');
-	const customDates = document.getElementById('custom-dates');
-	dateSelect.addEventListener('change', function() {
-		customDates.style.display = this.value === 'custom' ? 'block' : 'none';
-	});
-</script>

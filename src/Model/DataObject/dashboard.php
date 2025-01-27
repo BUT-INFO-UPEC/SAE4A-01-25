@@ -4,11 +4,14 @@ namespace Src\Model\DataObject;
 
 use DateTime;
 use Exception;
-use Src\Model\Repository\Requetteur_API;
-use Src\Model\Repository\Requetteur_BDD;
+use OutOfBoundsException;
+use Src\Config\UserManagement;
 
-class Dashboard
+class Dashboard extends AbstractDataObject
 {
+	const PRIVATISATION = [0 => "publique", 1 => "privé"];
+
+	#region attributs
 	// =======================
 	//        ATTRIBUTES
 	// =======================
@@ -22,46 +25,43 @@ class Dashboard
 	public $dateFinRelatif;
 	private $selectionGeo;
 	private $params;
+	#endregion attributs
 
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
-
-
-	public function __construct($data)
+	public function __construct(int $dashboard_id, string $privatisation, int $createurId, $date_debut, $date_fin, bool $date_debut_relatif, bool $date_fin_relatif, array $composants, array $critere_geo, $param)
 	{
-		$this->dashboardId = $data->dashboard_id;
-		$this->dateDebut = $data->date_debut;
-		$this->dateFin = $data->date_fin;
-		$this->dateDebutRelatif = $data->date_debut_relatif == '1';
-		$this->dateFinRelatif = $data->date_fin_relatif == '1';
-		$this->selectionGeo = $data->selection_geo;
-
-		foreach (json_decode($data->composant_list) as $compId) {
-			$this->composants[] = new Composant($compId);
-		}
-
-		$this->params = $data->param;
+		$this->dashboardId = $dashboard_id;
+		$this->privatisation = $privatisation;
+		$this->createurId = $createurId;
+		$this->dateDebut = $date_debut;
+		$this->dateFin = $date_fin;
+		$this->dateDebutRelatif = $date_debut_relatif == '1';
+		$this->dateFinRelatif = $date_fin_relatif == '1';
+		$this->params = $param;
+		$this->selectionGeo = $critere_geo;
+		$this->composants = $composants;
 	}
 
 	// =======================
 	//    PUBLIC GETTERS
 	// =======================
+
+	#region getters
 	public function get_id()
 	{
 		return $this->dashboardId;
 	}
 
-	public function get_filters()
+	public function get_createur()
 	{
-		$dateDebut = $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
-		$dateFin = $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
+		return $this->createurId;
+	}
 
-		return [
-			"dateDebut" => $dateDebut,
-			"dateFin" => $dateFin,
-			"geo" => get_object_vars($this->selectionGeo)
-		];
+	public function get_privatisation()
+	{
+		return Dashboard::PRIVATISATION[$this->privatisation];
 	}
 
 	public function get_name()
@@ -72,7 +72,6 @@ class Dashboard
 	{
 		return $this->selectionGeo;
 	}
-
 
 	/**
 	 * Retourne la date de début ou de fin
@@ -90,54 +89,82 @@ class Dashboard
 		} elseif ($type === 'fin') {
 			return $this->dateFin;
 		}
-		throw new Exception("Type de date invalide : utilisez 'debut' ou 'fin'.");
+		throw new OutOfBoundsException("Type de date invalide : utilisez 'debut' ou 'fin'.");
 	}
+
+	public function get_params()
+	{
+		return $this->params;
+	}
+
+	public function get_composants(): array
+	{
+		return $this->composants;
+	}
+
+	public function get_params_API_geo(): string
+	{
+		$returnValue = [];
+
+		foreach ($this->selectionGeo as $key => $value) {
+			// Application de la transformation sur chaque élément de $value
+			$formattedValues = array_map(function ($valueInValue) use ($key) {
+				if ($key == "numer_sta") {
+					$valueInValue = str_pad($valueInValue, 5, "0", STR_PAD_LEFT);
+					$valueInValue = "'" . $valueInValue . "'";
+				}
+				return $valueInValue;
+			}, $value);
+
+			// Construction de la chaîne avec implode
+			$returnValue[] = "$key=" . implode(" or $key=", $formattedValues);
+		}
+
+		return "(" . implode(" and ", $returnValue) . ")";
+	}
+
+	public function get_params_API_temporel()
+	{
+		$dateDebut = $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
+		$dateFin = $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
+
+		return "(date >= '$dateDebut" . "T1:00:00+00:00' and date <= '$dateFin" . "T1:00:00+00:00')";
+	}
+	#endregion getters
+
+	#retion setters
+	public function setId($id)
+	{
+		$this->dashboardId = $id;
+	}
+	#endregion setters
 
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
-	public function generate_dashboard()
-	{
-		$output = "<div id='dashboard'>";
-		foreach ($this->composants as $composant) {
-			$data = $this->fetch_data_for_composant($composant);
-			$output .= "<div class='dashboard-card'>" . $composant->generate_visual($data) . "</div>";
-		}
-		$output .= "</div>";
-		return $output;
-	}
 
-	public function save_dashboard($override)
+	public function formatTableau(): array
 	{
-		if ($this->createurId == $_SESSION['userId']) {
-			// Générer un nouvel ID pour le dashboard
-			// $this->dashboardId = Requetteur_BDD::generate_dash_id($this->dashboardId);
-		} elseif ($override && Requetteur_BDD::is_saved_dashboard($this->dashboardId)) {
-			throw new Exception("Tentative de sauvegarder un dashboard déjà existant.", 301);
-		}
+		return [
+			":id" => $this->dashboardId,
+			":privatisation" => $this->privatisation,
+			':createur_id' => UserManagement::getUser()->getId(),
+			":date_debut" => $this->get_date('debut'),
+			":date_fin" => $this->get_date('fin'),
+			":date_debut_relatif" => $this->dateDebutRelatif,
+			":date_fin_relatif" => $this->dateDebutRelatif,
+			":params" => $this->get_name()
+		];
 	}
 
 	// =======================
 	//    STATIC METHODS
 	// =======================
-	static function get_dashboard_by_id($dashboardId)
-	{
-		$data = Requetteur_BDD::BDD_fetch_dashboards()[$dashboardId];
-		return new Dashboard($data);
-	}
-
-	static function get_dashboards()
-	{
-		$r = [];
-		foreach (Requetteur_BDD::BDD_fetch_dashboards() as $dash_data) {
-			$r[] = new Dashboard($dash_data);
-		}
-		return $r;
-	}
 
 	// =======================
 	//    PRIVATE METHODS
 	// =======================
+
 	private function calculate_relative_date($relativeDate)
 	{
 		$annee = (int)substr($relativeDate, 0, 4);
@@ -150,14 +177,5 @@ class Dashboard
 		if ($jours > 0) $date->modify("-$jours day");
 
 		return $date->format("Y-m-d") . "T00:00:00";
-	}
-
-	private function fetch_data_for_composant($composant)
-	{
-		$attribute = $composant->get_attribut();
-		$aggregation = $composant->get_aggregation();
-		$grouping = $composant->get_grouping();
-		$filtres = $this->get_filters();
-		return Requetteur_API::API_componant_data($filtres, $attribute, $aggregation, $grouping);
 	}
 }

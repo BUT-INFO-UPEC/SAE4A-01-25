@@ -4,46 +4,14 @@ namespace Src\Model\Repository;
 
 use PDO;
 use Src\Model\DataObject\AbstractDataObject;
+use Src\Config\MsgRepository;
 
 /**
  * classe mêre de toutes les données statiques du site pour eviter la redondance.
  */
 abstract class AbstractRepository
 {
-	// =======================
-	//    CRUD METHODS
-	// =======================
 	#region CRUD
-	/**
-	 * Inscrit statiquement l'objet dans la BDD
-	 * 
-	 * @param AbstractDataObject $object L'objet de la classe dynamique correspondante
-	 * 
-	 * @return void
-	 */
-	public function create(AbstractDataObject $object): void
-	{
-		$nomTable = $this->getTableName();
-		$nomsColones = $this->getNomsColonnes();
-		$tableau = $object->formatTableau();
-
-		// Construire les différentes valeurs a mettre a jour
-		$valeurs = "";
-		foreach ($nomsColones as $colone) {
-			$valeurs .= "$colone,";
-		}
-		$valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
-
-		$cles = "";
-		foreach ($tableau as $key => $value) {
-			$cles .= ":$key,";
-		}
-		$cles = substr($cles, 0, -1); // retirer la virgule finale
-
-		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles);";
-		$pdoStatement = DatabaseConnection::getPdo()->prepare($query);
-		$pdoStatement->execute($tableau); // on donne les valeurs et on exécute la requête
-	}
 
 	/**
 	 * Selectionne un objet de la BDD_ selon un critère de clé primaire et le renvoie construit
@@ -52,20 +20,25 @@ abstract class AbstractRepository
 	 * 
 	 * @return AbstractDataObject|null
 	 */
-	public function select(string $valeurClePrimaire): ?AbstractDataObject
+	public function select(string $valeurClePrimaire, array $additionnalRestrictions = []): ?AbstractDataObject
 	{
 		$nomTable = $this->getTableName();
 		$nomClePrimaire = $this->getNomClePrimaire();
 
-		$sql = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
-		$pdoStatement = DatabaseConnection::getPdo()->prepare($sql); // préparation de la requête
-		$values = array( // préparation des valeurs
-			"clePrimaire" => $valeurClePrimaire,
-		);
-		$pdoStatement->execute($values); // exécution de la requête
+		if ($additionnalRestrictions != []) {
+			$additionnalQuery = "and ";
+			foreach ($additionnalRestrictions as $key => $value) {
+				$additionnalQuery .= "$key= :$key";
+			}
+		}
 
-		// On récupère les résultats
-		$objet = $pdoStatement->fetch(PDO::FETCH_ASSOC);
+		$query = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
+		$values = [ // préparation des valeurs
+			"clePrimaire" => $valeurClePrimaire,
+		];
+		$values = array_merge($values, $additionnalRestrictions);
+		$objet = DatabaseConnection::fetchOne($query, $values);
+
 		if (!($objet)) return null;
 		return $this->arrayConstructor($objet);
 	}
@@ -75,18 +48,45 @@ abstract class AbstractRepository
 	 * 
 	 * @return AbstractDataObject[]
 	 */
-	public function selectAll(): array
+	public function selectAll($adiitionnalQuery, $values): array
 	{
-		$objets = array();
+		$objets = [];
 		$nomTable = $this->getTableName();
 
-		$pdoStatement = DatabaseConnection::getPdo()->query("SELECT * FROM $nomTable"); // récupéraiton des objets de la BDD
+		$query = "SELECT * FROM $nomTable $adiitionnalQuery;";
+
+		$pdoStatement = DatabaseConnection::fetchAll($query, $values); // récupéraiton des objets de la BDD
 
 		foreach ($pdoStatement as $objetFormatTableau) { // itération pour construction
 			$objets[] = $this->arrayConstructor($objetFormatTableau);
 		}
 
 		return $objets;
+	}
+
+	/**
+	 * Inscrit statiquement l'objet dans la BDD
+	 * 
+	 * @param AbstractDataObject $object L'objet de la classe dynamique correspondante
+	 * 
+	 * @return void
+	 */
+	public function create(AbstractDataObject $object, $values = null): mixed
+	{
+		$nomTable = $this->getTableName();
+		$nomsColones = $this->getNomsColonnes();
+		$values = $values ?? $object->formatTableau();
+
+		$valeurs = implode(", ", $nomsColones);
+
+		$cles = implode(", ", array_keys($values));
+
+		$clePrimaire = $this->getNomClePrimaire();
+
+		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles) RETURNING $clePrimaire;";
+
+		$v = DatabaseConnection::fetchOne($query, $values);
+		return $v[$clePrimaire];
 	}
 
 	/**
@@ -99,21 +99,14 @@ abstract class AbstractRepository
 	public function update(AbstractDataObject $object, string $ancienneClePrimaire): void
 	{
 		$nomTable = $this->getTableName();
-		$nomsColones = $this->getNomsColonnes();
 		$nomClePrimaire = $this->getNomClePrimaire();
 
-		// Construire les différentes valeurs a mettre a jour
-		$valeurs = "";
-		foreach ($nomsColones as $colone) {
-			$valeurs .= "$colone = :" . $colone . "Tag,";
-		}
-		$valeurs = substr($valeurs, 0,  -1); // retirer la virgule finale
+		$values = $object->formatTableau();
+		$valeurs = array_keys($values);
 
 		$query = "UPDATE $nomTable SET $valeurs WHERE $nomClePrimaire = :OLD" . $nomClePrimaire . "Tag;";
-		$pdoStatement = DatabaseConnection::getPdo()->prepare($query);
-		$tableau = $object->formatTableau();
-		$tableau[":OLD" . $nomClePrimaire . "Tag"] = $ancienneClePrimaire;
-		$pdoStatement->execute($tableau); // on donne les valeurs et on exécute la requête
+		$values[":OLD" . $nomClePrimaire . "Tag"] = $ancienneClePrimaire;
+		DatabaseConnection::executeQuery($query, $values);
 	}
 
 	/**
@@ -128,18 +121,16 @@ abstract class AbstractRepository
 		$nomTable = $this->getTableName();
 		$nomClePrimaire = $this->getNomClePrimaire();
 
-		$sql = "DELETE from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
-		$pdoStatement = DatabaseConnection::getPdo()->prepare($sql); // préparation de la requête
-		$values = array( // préparation des valeurs
+		$query = "DELETE from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
+		$values = [ // préparation des valeurs
 			"clePrimaire" => $valeurClePrimaire,
-		);
-		$pdoStatement->execute($values); // exécution de la requête
+		];
+		// $pdoStatement = DatabaseConnection::getPdo()->prepare($sql); // préparation de la requête
+		// $pdoStatement->execute($values); // exécution de la requête
+		DatabaseConnection::executeQuery($query, $values);
 	}
 	#endregion CRUD
 
-	// =======================
-	//    ABSTRACT METHODS
-	// =======================
 	#region abstraites
 	/**
 	 * Définie le nom de la table de la BDD_ correspondant au type d'objet

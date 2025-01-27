@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Form Manager</title>
+    <style>
+      #titles {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      #titles button {
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      .form-part {
+        display: none;
+      }
+      .form-part.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="titles">
+      <button id="add-part">+</button>
+    </div>
+    <div id="form-container"></div>
+    <script src="formulaire.js"></script>
+  </body>
+</html>

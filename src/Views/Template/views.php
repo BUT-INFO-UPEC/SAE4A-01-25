@@ -10,8 +10,13 @@ $controller = $_SESSION['controller']
 
 	<title><?= $titrePage; ?></title>
 
-	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+
 	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_layout.css">
+
+	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+
+	<link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_navTemp.css">
+
 	<!-- jQuery, Popper.js, et Bootstrap JS (nécessaires pour le modal Bootstrap) -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- Bootstrap CSS -->
@@ -23,18 +28,26 @@ $controller = $_SESSION['controller']
 
 <body>
 	<?php require __DIR__ . "/header.php"; ?>
-	<?php require __DIR__ . "/../Plugins/composants_balistiques_specifiques/Form.php"; ?>
 
-	<div class="flex">
-		<?php require __DIR__ . "/sidebar.php"; ?>
+	<div>
+		<?php require __DIR__ . "/Form.php"; ?>
+	</div>
 
-		<div class="bonjour">
+	<div class="slim-list">
+		<?php require __DIR__ . "/navTemp.php" ?>
+	</div>
+
+	<div class="flex main-container">
+		<?php if (isset($_SESSION['user']))  require __DIR__ . "/sidebar.php"; ?>
+
+		<div class="w-100 m-3">
+			<?php require __DIR__ . "/message.php"; ?>
+
 			<main>
 				<?php require __DIR__ . "/../Content/$controller/$cheminVueBody"; ?>
 			</main>
 		</div>
 	</div>
-
 	<?php require __DIR__ . "/footer.php"; ?>
 </body>
 

@@ -2,11 +2,11 @@
 	<!-- Sidebar -->
 	<div id="sidebar" class="sidebar">
 		<div class="content">
-			<h4 class="text-center">Sidebar</h4>
-			<a href="#">Dashboard</a>
-			<a href="#">Profil</a>
-			<a href="#">Paramètre</a>
-			<a href="#">Déconnexion</a>
+			<h4 class="text-center"></h4>
+			<a href="?controller=ControllerDashboard&action=browse&privatisation=private">Mes dashboard</a>
+			<a href="?controller=ControllerGeneral&action=profile">Profil</a>
+			<!-- <a href="#">Paramètre</a> -->
+			<a href="?controller=ControllerGeneral&action=deconnexion">Déconnexion</a>
 		</div>
 	</div>
 
@@ -33,7 +33,8 @@
 
 <style>
 	#toggleSidebar {
-		height: 55px;
+		height: 25px;
+		width: 25px;
 		margin-top: 20px;
 		margin-left: -5%;
 	}
