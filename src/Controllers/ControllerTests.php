@@ -26,7 +26,7 @@ class ControllerTests extends AbstractController
 			// Appel de la méthode pour récupérer les données via l'API
 
 			$requete = new Constructeur_Requette_API(
-				["t"]
+				["t"],
 			);
 
 			$data = Requetteur_API::fetchData($requete);

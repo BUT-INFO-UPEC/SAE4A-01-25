@@ -9,7 +9,7 @@ class Requetteur_API
 {
 	const LIMIT_API_DATA = 10000;
 
-	public static function fetchData(Constructeur_Requette_API $requette, $limit = Requetteur_API::LIMIT_API_DATA): array
+	public static function fetchData(Constructeur_Requette_API $requette, $keyValueSort = "", $keyTargetValue = "", $limit = Requetteur_API::LIMIT_API_DATA): array
 	{
 		$totalData = [];
 		$APITotal = 1;
@@ -22,8 +22,18 @@ class Requetteur_API
 				$response = self::executeCurl($url);
 				if ($APITotal == 1) $APITotal = min($response['total_count'], $limit);
 
-				// Vérifier et retourner les résultats
-				$totalData = array_merge($totalData, $response['results'] ?? []);
+				if ($keyValueSort != "") {
+					foreach ($response["results"] as $data) {
+						if ($keyTargetValue	!= '') {
+							$totalData[$data[$keyValueSort]] = $data[$keyTargetValue];
+						} else {
+							$totalData[$data[$keyValueSort]] = $data;
+						}
+					}
+				} else {
+					// tout combiner
+					$totalData = array_merge($totalData, $response['results'] ?? []);
+				}
 			}
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la requête API : ", $e->getMessage(), MsgRepository::NO_REDIRECT);
