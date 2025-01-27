@@ -6,7 +6,10 @@ use Src\Model\DataObject\Groupping;
 ?>
 <form action="?action=save" method="POST" class="container-fluid mt-4">
 	<div id="edit-btns" style="position: sticky;">
-		<?php use Src\Config\UserManagement;
+		<?php
+
+		use Src\Config\UserManagement;
+
 		if (UserManagement::getUser() != null) : ?>
 			<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
 		<?php endif; ?>
@@ -61,6 +64,7 @@ use Src\Model\DataObject\Groupping;
 				</div>
 			</div>
 		</div>
+		<input type="hidden" name="count_id" ng-value="count_id">
 		<div ng-app="myApp" ng-controller="myCtrl">
 			<ul class="nav nav-tabs onglet">
 				<li>
@@ -154,7 +158,6 @@ use Src\Model\DataObject\Groupping;
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </form>
