@@ -76,12 +76,10 @@ class ControllerDashboard extends AbstractController
 			$grp = new GrouppingRepository();
 			$aggr = new AggregationRepository();
 
-
 			$visu = $represtation->get_representations();
 			$attributs = $attr->get_attributs();
 			$grouping = $grp->get_grouppings();
 			$aggregations = $aggr->get_aggregations();
-
 		} catch (Exception $e) {
 			// Gestion des erreurs si une table est introuvable ou si une autre exception se produit
 			die("Erreur lors de la récupération des données : " . $e->getMessage());

@@ -13,7 +13,7 @@ class ConfAPP
 			time() + (3600 * 24 * 7),
 			"/",
 		);
-		$_COOKIE[$cokie_name];
+		$_COOKIE[$cokie_name] = $cookie_value;
 	}
 
 	/**

@@ -16,7 +16,7 @@ $svgContent = preg_replace_callback(
 	function ($matches) {
 		$attributes = $matches[1] . $matches[3];
 		$regionId = $matches[2];
-		return '<path' . $attributes . 'id="' . $regionId . '" />';
+		return '<a href="?action=browse&region=' . urlencode($regionId) . '"><path' . $attributes . ' id="' . $regionId . '" /></a>';
 	},
 	$svgContent
 );
@@ -29,23 +29,18 @@ $svgContent = preg_replace_callback(
 	<?= $svgContent ?>
 </div>
 
-<?php
-// Si une région est cliquée, elle sera disponible dans $_GET['region']
-if (isset($_GET['region'])) {
-	$region = htmlspecialchars($_GET['region']);
-	echo "<p>Région sélectionnée : " . $region . "</p>";
-}
-?>
 
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
+	document.addEventListener('DOMContentLoaded', function() {
 		const paths = document.querySelectorAll('#map path');
 		paths.forEach(path => {
-			path.addEventListener('click', function (e) {
+			path.addEventListener('click', function(e) {
 				const regionId = e.target.id;
+				console.log(regionId);
+
 				if (regionId) {
 					console.log(`Région cliquée : ${regionId}`);
-					window.location.href = `?region=${encodeURIComponent(regionId)}`;
+					window.location.href = `?action=browse&region=${encodeURIComponent(regionId)}`;
 				}
 			});
 		});
