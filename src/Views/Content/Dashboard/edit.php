@@ -1,4 +1,5 @@
-?php
+<?php
+
 use Src\Model\DataObject\Representation;
 use Src\Model\DataObject\Attribut;
 use Src\Model\DataObject\Aggregation;
@@ -6,7 +7,10 @@ use Src\Model\DataObject\Groupping;
 ?>
 <form action="?action=save" method="POST" class="container-fluid mt-4">
 	<div id="edit-btns" style="position: sticky;">
-		<?php use Src\Config\UserManagement;
+		<?php
+
+		use Src\Config\UserManagement;
+
 		if (UserManagement::getUser() != null) : ?>
 			<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
 		<?php endif; ?>
@@ -155,8 +159,14 @@ use Src\Model\DataObject\Groupping;
 				</div>
 			</div>
 
+			<div class="mb-4">
+				<h4>Commentaires</h4>
+				<textarea name="comments_{{tab.id}}" id="comments_{{tab.id}}" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
+			</div>
 		</div>
 	</div>
+
+	<input type="hidden" name="count_id" ng-value="tabs.length">
 </form>
 
 <!--
