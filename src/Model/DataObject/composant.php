@@ -73,13 +73,19 @@ class Composant extends AbstractDataObject
 
 		$params['where'][] = $dash->get_params_API_temporel();
 
+		$keyTargetValue = $this->aggregation->get_nom() . " " . $this->attribut->get_nom();
+
 		// var_dump(implode(" and ", $params["where"]));
-		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ")";
+		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ")" . $keyTargetValue;
 
 		$params["group_by"][] = $this->grouping;
 
+		$requette = new Constructeur_Requette_API($params['select'], $params['where'], $params['group_by']);
+
+		$keyValueSort = !empty($params["group_by"]) ? $params["group_by"][0] : "";
+
 		// construire la requette a l'API
-		$data = Requetteur_API::fetchData(new Constructeur_Requette_API($params['select'], $params['where'], $params['group_by']));
+		$data = Requetteur_API::fetchData($requette, $keyValueSort, $keyTargetValue);
 
 		var_dump($data);
 		return ['total' => '12'];
