@@ -120,7 +120,7 @@ class ControllerDashboard extends AbstractController
 			}
 
 			$constructeur = new DashboardRepository();
-			if ($dash->get_createur() == UserManagement::getUser()->getId() or $_POST["duplicate"] == true) {
+			if ($dash->get_createur() == UserManagement::getUser()->getId() or isset($_POST["duplicate"])) {
 				$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
 				$_GET["dashId"] = $dash->get_id();
 
