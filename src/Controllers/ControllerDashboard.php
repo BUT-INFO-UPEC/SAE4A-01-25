@@ -108,6 +108,8 @@ class ControllerDashboard extends AbstractController
 	{
 		if (!empty($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
+			// récupérer les POST
+
 			$constructeur = new DashboardRepository();
 			if ($dash->get_createur() == UserManagement::getUser()->getId()) {
 				$constructeur->update_dashboard_by_id($dash);
@@ -115,12 +117,11 @@ class ControllerDashboard extends AbstractController
 				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 			} else {
 				$_GET["dashId"] = $constructeur->save_new_dashboard($dash);
-				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
+				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&actoin=visu_dashboard");
 			}
 		} else {
 			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
 		}
-		ControllerDashboard::visu_dashboard();
 	}
 	#endregion entry
 
