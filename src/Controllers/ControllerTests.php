@@ -6,6 +6,7 @@ use Exception;
 use Src\Config\MsgRepository;
 use Src\Model\API\Requetteur_API;
 use Src\Model\API\Constructeur_Requette_API;
+use Src\Model\Repository\DatabaseConnection;
 
 class ControllerTests extends AbstractController
 {
@@ -63,7 +64,9 @@ class ControllerTests extends AbstractController
 	public static function developpement_js()
 	{
 		$titrePage = "Modularisation js";
+		// Chemin vers la vue
 		$cheminVueBody = "onglets_js.php";
+		// Chargement du template principal
 		require('../src/Views/Template/views.php');
 	}
 }
