@@ -2,7 +2,7 @@
 	modifier
 </button>
 
-<h1 class="centered"> Nom météothèque </h1>
+<h1 class="centered"> <?= $dash->get_name(); ?> </h1>
 
 <div class="container">
 	<h3 class="centered"> Stations analysées </h3>
@@ -13,30 +13,30 @@
 		<div class="container">
 			<h3> Zone(s) géographique(s) </h3>
 
-			<p class="changing"> liste noms stations/ communes/ départements </p>
-
-			<button> Accéder a la liste des stations </button>
+			<?php
+			foreach ($dash->get_region() as $key => $values) {
+				echo "<p> <b> $key </b> : " . implode($values) . "<p>";
+			}
+			?>
 		</div>
 
 		<div class="container">
-			<div class="flex">
-				<h3 style="flex-grow: 1"> Periode temporelle </h3>
+			<h3 style="flex-grow: 1"> Periode temporelle </h3>
 
-				<p> Météothèque dynamique ? <?php echo htmlspecialchars($dash->dateFinRelatif ? 'Oui' : 'Non'); ?></p>
-			</div>
+			<p> début : <span class="<?= $dash->dateFinRelatif ? 'date_dynamique' : '' ?>"><?= $dash->get_date_relative() ?></span></p>
 
-			<p> début : <span class="changing">JJ/MMAAA</span></p>
-
-			<p> fin : <span class="changing">JJ/MMAAA</span></p>
+			<p> fin : <span class="changing"><?= $dash->get_date_relative('fin') ?></span></p>
 		</div>
 	</div>
 </div>
 
-<div class="container">
-	<h3> Commentaires </h3>
+<?php if (isset($dash->get_params()['commentaire'])) { ?>
+	<div class="container">
+		<h3> Commentaires </h3>
 
-	<p class="changing"> Explication des analyses de la météothèque par le créateur </p>
-</div>
+		<?= $dash->get_params()['commentaire']; ?>
+	</div>
+<?php } ?>
 
 <div class="container centered">
 	<h3> Visualisation du dashboard </h3>
@@ -49,6 +49,7 @@
 		google.charts.load('current', {
 			packages: ['corechart']
 		});
+		Array.prototype.reduce = undefined;
 	</script>
 
 	<div id='dashboard'>
