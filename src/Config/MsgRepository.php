@@ -40,7 +40,7 @@ class MsgRepository
 	static public function redirect($redirection): void
 	{
 		if ($redirection != MsgRepository::NO_REDIRECT) {
-			$redirectUrl = $redirection != "last" ? $redirection : $_SERVER['HTTP_REFERER'];
+			$redirectUrl = $redirection != "last" ? $redirection : '?contorller=ControllerGeneral&action=home';
 			header('Location: ' . $redirectUrl);
 
 			unset($redirection);
