@@ -7,8 +7,7 @@ body {
 	flex-direction: column;
 }
 
-header,
-footer {
+header {
 	text-align: center;
 	padding: 1cm;
 	background-color: lightgray;
@@ -19,12 +18,27 @@ footer {
 }
 
 footer {
-	position: sticky;
+	position: relative;
+	bottom: 0;
 	display: flex;
 	flex-direction: column;
-	max-width: 100vw;
+	justify-content: center;
+	align-items: center;
+	background-color: #a1a8b0;
+	padding: 1rem;
+	width: 100%;
+	text-align: center;
+	font-size: 0.8rem;
 }
 
+/*
+footer {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
+}
+*/
 .contact-list {
 	display: flex;
 	gap: 20px;
