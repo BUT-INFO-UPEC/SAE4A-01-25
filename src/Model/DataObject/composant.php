@@ -97,7 +97,6 @@ class Composant extends AbstractDataObject
 
 		$this->keyTargetValue = $this->nettoyer_chaine($this->aggregation->get_nom() . " " . $this->attribut->get_nom());
 
-		// var_dump(implode(" and ", $params["where"]));
 		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ") as " . $this->keyTargetValue;
 
 		$params["group_by"][] = $this->grouping->get_cle();
@@ -108,6 +107,17 @@ class Composant extends AbstractDataObject
 
 		// construire la requette a l'API
 		$data = Requetteur_API::fetchData($requette, $keyValueSort, $this->keyTargetValue, ($this->grouping->get_cle() == '' ? 'total' : null));
+
+		if ($this->grouping->get_cle() != '') {
+			// **Ajouter l'en-tête obligatoire pour Google Charts**
+			$formattedData = [[$keyValueSort, $this->keyTargetValue]]; // En-tête
+			foreach ($data as $key => $value) {
+				$key = (string) $key;
+				$formattedData[] = [$key, $value]; // Convertir la clé en string et la valeur en float
+			}
+			$data = $formattedData;
+		}
+
 		$this->data = $data;
 	}
 
