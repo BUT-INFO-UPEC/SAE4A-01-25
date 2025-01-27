@@ -5,7 +5,6 @@
 			<h4 class="text-center"></h4>
 			<a href="?controller=ControllerDashboard&action=browse&privatisation=private">Mes dashboard</a>
 			<a href="?controller=ControllerGeneral&action=profile">Profil</a>
-			<a href="#">Paramètre</a>
 			<a href="#">Déconnexion</a>
 		</div>
 	</div>
