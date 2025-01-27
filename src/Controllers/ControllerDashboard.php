@@ -3,6 +3,7 @@
 namespace Src\Controllers;
 
 use Exception;
+use PDOException;
 use RuntimeException;
 use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
@@ -105,32 +106,37 @@ class ControllerDashboard extends AbstractController
 
 	static function save(): void
 	{
+		try {
+			if (!empty($_SESSION['dash'])) {
+				$dash = $_SESSION['dash'];
+				$componantsToDelete = ControllerDashboard::update_dashboard_from_POST($dash);
+				$_SESSION["dash"] = $dash;
 
-		if (!empty($_SESSION['dash'])) {
-			$dash = $_SESSION['dash'];
-			$componantsToDelete = ControllerDashboard::update_dashboard_from_POST($dash);
-			$_SESSION["dash"] = $dash;
+				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
+				if (isset($_GET["upload"]) && $_GET["upload"] == "false") header("Location: ?controller=ControllerDashboard&action=visu_dashboard");
 
-			// vérifier si c'est une requette "visualiser modifications sans enregisterer"
-			if (isset($_GET["upload"]) && $_GET["upload"] == "false") header("Location: ?controller=ControllerDashboard&action=visu_dashboard");
+				// vérifier si l'utilisateur est connécté
+				if (UserManagement::getUser() == null) {
+					MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard');
+				}
 
-			// vérifier si l'utilisateur est connécté
-			if (UserManagement::getUser() == null) {
-				MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard');
-			}
+				$constructeur = new DashboardRepository();
+				if ($dash->get_createur() == UserManagement::getUser()->getId() or $_POST["duplicate"] == true) {
+					$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
+					$_GET["dashId"] = $dash->get_id();
 
-			$constructeur = new DashboardRepository();
-			if ($dash->get_createur() == UserManagement::getUser()->getId() or $_POST["duplicate"] == true) {
-				$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
-				$_GET["dashId"] = $dash->get_id();
-
-				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
+					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
+				} else {
+					$constructeur->save_new_dashboard($dash);
+					MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&actoin=visu_dashboard");
+				}
 			} else {
-				$constructeur->save_new_dashboard($dash);
-				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&actoin=visu_dashboard");
+				MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
 			}
-		} else {
-			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
+		} catch (PDOException $e) {
+			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard');
+		} catch (Exception $e) {
+			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard');
 		}
 	}
 	#endregion entry
@@ -185,7 +191,7 @@ class ControllerDashboard extends AbstractController
 		foreach ($dash->get_composants() as $value) {
 			// tt les setters
 		}
-		for ($i=count($dash->get_composants()); $i < $compNb; $i++) { 
+		for ($i = count($dash->get_composants()); $i < $compNb; $i++) {
 			// initialiser les autrs composants
 		}
 
