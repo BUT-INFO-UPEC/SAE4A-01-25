@@ -8,12 +8,24 @@ footer {
   bottom: 0;
 }
 
+.contact-list {
+  display: flex;
+  gap: 20px;
+}
+
+.contact-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .footer-container {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
   text-align: left;
+  margin-bottom: 20px;
 }
 
 .footer-content {
@@ -28,7 +40,6 @@ footer h3 {
   color: #343a40;
   text-align: left;
   font-weight: bold;
-
 }
 
 footer a {
@@ -38,7 +49,7 @@ footer a {
 
 footer a:hover {
   color: black;
-
+  text-decoration: none;
 }
 
 footer p,
@@ -63,7 +74,6 @@ footer p {
   font-size: 0.9em;
   color: #ccc;
 }
-
 
 .titre-header {
   text-align: left;
@@ -128,6 +138,7 @@ footer p {
 .accueil {
   margin: 0;
   padding: 0;
+  background-image: url('assets/img/fondaccueil.jpg');
   background-size: cover;
   background-repeat: no-repeat;
 }

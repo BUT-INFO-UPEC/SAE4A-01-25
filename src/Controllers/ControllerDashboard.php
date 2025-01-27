@@ -4,11 +4,10 @@ namespace Src\Controllers;
 
 use Exception;
 use RuntimeException;
-use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
-use Src\Model\API\Requetteur_API;
+use Src\Model\Repository\DatabaseConnection;
 
 class ControllerDashboard extends AbstractController
 {
@@ -19,7 +18,7 @@ class ControllerDashboard extends AbstractController
 
 	static function getActionsList(): array
 	{
-		return array('Liste' => 'action=browse', 'Creation' => 'action=create');
+		return ['Liste' => 'action=browse', 'Creation' => 'action=create'];
 	}
 
 	// =======================
@@ -48,13 +47,29 @@ class ControllerDashboard extends AbstractController
 	{
 		$_GET['dashId'] =  0;
 
-		// MsgRepository::newSuccess("Nouveau dashboard initialisé", "", MsgRepository::No_REDIRECT);
+		// MsgRepository::newSuccess("Nouveau dashboard initialisé", "", MsgRepository::NO_REDIRECT);
 
 		ControllerDashboard::edit();
 	}
 
 	static function edit(): void
 	{
+		$tables = [
+			'regions',
+			'depts',
+			'villes',
+			'stations'
+		];
+		try {
+			// Récupération des données depuis les tables
+			$regions = DatabaseConnection::getTable('regions');
+			$depts = DatabaseConnection::getTable('depts');
+			$villes = DatabaseConnection::getTable('villes');
+			$stations = DatabaseConnection::getTable('stations');
+		} catch (Exception $e) {
+			// Gestion des erreurs si une table est introuvable ou si une autre exception se produit
+			die("Erreur lors de la récupération des données : " . $e->getMessage());
+		}
 		if (isset($_GET['dashId'])) {
 			try {
 				$dash = (new DashboardRepository())->get_dashboard_by_id($_GET['dashId']);
@@ -81,10 +96,10 @@ class ControllerDashboard extends AbstractController
 			if ($dash->get_createur() == UserManagement::getUser()->getId()) {
 				$constructeur->update_dashboard_by_id($dash);
 				$_GET["dashId"] = $dash->getId();
-				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::No_REDIRECT);
+				MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 			} else {
 				$_GET["dashId"] = $constructeur->save_new_dashboard($dash);
-				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::No_REDIRECT);
+				MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 			}
 		} else {
 			MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
@@ -102,6 +117,7 @@ class ControllerDashboard extends AbstractController
 		// vérifier les droits 
 		$constructeur = new DashboardRepository();
 		$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
+		$dash->buildData();
 
 		$titrePage = "Visualisatoin du Dashboard";
 		$cheminVueBody = "visu.php";
@@ -114,47 +130,4 @@ class ControllerDashboard extends AbstractController
 	// =======================
 	#region post
 	#endregion post
-
-
-	// Test Function
-	public static function testDash()
-	{
-		$titrePage = "Test de récupération des données API";
-
-		$select = [];
-		$where = []; // 'where' doit être un tableau (vide ou rempli)
-		$group_by = []; // 'group_by' doit être un tableau (vide ou rempli)
-		$order_by = ''; // 'order_by' est une chaîne de caractères
-		$limit = 0; // 'limit' est un entier
-		$offset = 0; // 'offset' doit être un entier (vous pouvez mettre 0 par défaut)
-		$refine = []; // 'refine' doit être un tableau (vide ou rempli)
-		$exclude = []; // 'exclude' doit être un tableau (vide ou rempli)
-		$lang = ''; // 'lang' est une chaîne de caractères (vous pouvez mettre 'fr' par défaut)
-		$timezone = ''; // 'timezone' est une chaîne de caractères (vous pouvez mettre 'Europe/Paris' par défaut)
-		try {
-			// Appel de la méthode pour récupérer les données via l'API
-
-			$requete = new Constructeur_Requette_API(
-				$select,
-				$where,
-				$group_by,
-				$order_by,
-				$limit,
-				$offset,
-				$refine,
-				$exclude,
-				$lang,
-				$timezone
-			);
-
-			$data = Requetteur_API::fetchData($requete);
-
-			// Exploitation des données récupérées
-			$cheminVueBody = "test_dash.php";
-			require('../src/Views/Template/views.php');
-		} catch (Exception $e) {
-			$erreur = $e->getMessage();
-			MsgRepository::newError($erreur);
-		}
-	}
 }

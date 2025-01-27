@@ -102,7 +102,7 @@ class Dashboard extends AbstractDataObject
 		return $this->composants;
 	}
 
-	public function get_params_API_geo(): string
+	public function get_params_API_geo(): ?string
 	{
 		$returnValue = [];
 
@@ -120,7 +120,7 @@ class Dashboard extends AbstractDataObject
 			$returnValue[] = "$key=" . implode(" or $key=", $formattedValues);
 		}
 
-		return "(" . implode(" and ", $returnValue) . ")";
+		return sizeof($returnValue) == 0 ? null : "(" . implode(" and ", $returnValue) . ")";
 	}
 
 	public function get_params_API_temporel()
@@ -128,7 +128,7 @@ class Dashboard extends AbstractDataObject
 		$dateDebut = $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
 		$dateFin = $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
 
-		return "(date >= '$dateDebut" . "T1:00:00+00:00' and date <= '$dateFin" . "T1:00:00+00:00')";
+		return "(date >= '$dateDebut" . "' and date <= '" . $dateFin . "')";
 	}
 	#endregion getters
 
@@ -155,6 +155,13 @@ class Dashboard extends AbstractDataObject
 			":date_fin_relatif" => $this->dateDebutRelatif,
 			":params" => $this->get_name()
 		];
+	}
+
+	public function buildData()
+	{
+		foreach ($this->get_composants() as $comp) {
+			$comp->prepare_data($this);
+		}
 	}
 
 	// =======================

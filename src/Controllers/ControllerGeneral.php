@@ -35,13 +35,6 @@ class ControllerGeneral extends AbstractController
 		$cheminVueBody = "home.php";
 		require('../src/Views/Template/views.php');
 	}
-
-	public static function carte_region()
-	{
-		$titrePage = "Carte Regions";
-		$cheminVueBody = "carte_regions.php";
-		require('../src/Views/Template/views.php');
-	}
 	#endregion entry
 
 	#region utilisateur
@@ -130,9 +123,9 @@ class ControllerGeneral extends AbstractController
 				MsgRepository::newWarning("L'utilisateur existe déjà.", "Un autre utilisateur semble avoir les mêmes informations que vous. <br/> Les doubles comptes ne sont pas autorisés !");
 			}
 		} catch (PDOException $e) {
-			MsgRepository::newError("Erreur lors de la connexion à la base de données.", $e->getMessage(), MsgRepository::No_REDIRECT);
+			MsgRepository::newError("Erreur lors de la connexion à la base de données.", $e->getMessage(), MsgRepository::NO_REDIRECT);
 		} catch (Exception $e) {
-			MsgRepository::newError("Erreur lors de l'inscription.", $e->getMessage(), MsgRepository::No_REDIRECT);
+			MsgRepository::newError("Erreur lors de l'inscription.", $e->getMessage(), MsgRepository::NO_REDIRECT);
 		}
 		$cheminVueBody = "home.php";
 		require('../src/Views/Template/views.php');
@@ -152,27 +145,5 @@ class ControllerGeneral extends AbstractController
 		$user = $_SESSION['user'];
 		require('../src/Views/Template/views.php');
 	}
-
 	#endregion
-
-	/**
-	 * 	public static function test()
-	 * 	{
-	 * 		$cheminVueBody = "test.php";
-	 * 		$titrePage = "Test";
-	 * 		try {
-	 * 			$data = Requetteur_API::fetchAll([
-	 * 				'select' => [
-	 * 					'min(t)',
-	 * 					'max(t)',
-	 * 					'avg(t)'
-	 * 				],
-	 * 				'where' => 'libgeo="Abbeville"'
-	 * 			]);
-	 * 		} catch (Exception $e) {
-	 * 			echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-	 * 		}
-	 * 		require('../src/Views/Template/views.php');
-	 * 	}
-	 */
 }

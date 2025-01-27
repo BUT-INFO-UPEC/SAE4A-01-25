@@ -43,6 +43,14 @@
 
 	<hr />
 
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script>
+		google.charts.load('current', {
+			packages: ['corechart']
+		});
+	</script>
+
 	<div id='dashboard'>
 		<?php
 		foreach ($dash->get_composants() as $composant) { // parcourir les composants

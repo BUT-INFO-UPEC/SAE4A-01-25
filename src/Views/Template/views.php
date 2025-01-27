@@ -29,26 +29,28 @@ $controller = $_SESSION['controller']
 <body>
 	<?php require __DIR__ . "/header.php"; ?>
 
-	<div>
-		<?php require __DIR__ . "/Form.php"; ?>
-	</div>
 
 	<div class="slim-list">
 		<?php require __DIR__ . "/navTemp.php" ?>
 	</div>
 
 	<div class="flex main-container">
+		<img src="<?= BASE_URL ?>assets/img/fondaccueil.jpg" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 		<?php if (isset($_SESSION['user']))  require __DIR__ . "/sidebar.php"; ?>
 
-		<div class="w-100 m-3">
-			<?php require __DIR__ . "/message.php"; ?>
-
-			<main>
+		<div class="w-100 m-3 glass">
+			<main class="m-3">
+				<?php require __DIR__ . "/message.php"; ?>
 				<?php require __DIR__ . "/../Content/$controller/$cheminVueBody"; ?>
 			</main>
 		</div>
 	</div>
-	<?php require __DIR__ . "/footer.php"; ?>
+
+	<div>
+		<?php require __DIR__ . "/Form.php"; ?>
+	</div>
+
+	<!-- <?php require __DIR__ . "/footer.php"; ?> -->
 </body>
 
 </html>

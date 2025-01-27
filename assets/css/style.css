@@ -29,7 +29,6 @@ main * * {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-radius: 15px;
   flex: 1;
 }
 
@@ -224,10 +223,21 @@ hr {
   overflow: hidden;
 }
 
-
-
 h1,
 p {
   margin-top: 20px;
   margin-right: 20px;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.44);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(4.8px);
+  backdrop-filter: blur(4.8px);
+  max-height: 65vh;
+  overflow: auto;
+}
+.glass::-webkit-scrollbar{
+  display: none;
 }
