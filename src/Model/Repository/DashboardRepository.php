@@ -87,6 +87,9 @@ class DashboardRepository extends AbstractRepository
 	public function update_dashboard_by_id(Dashboard $dash)
 	{
 		$this->update($dash, $dash->get_id());
+		foreach ($dash->get_composants() as $$value) {
+			// update les différents composants
+		}
 	}
 
 	public function save_new_dashboard(Dashboard $dash)

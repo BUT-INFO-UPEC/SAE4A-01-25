@@ -147,6 +147,22 @@ class Dashboard extends AbstractDataObject
 	{
 		$this->dashboardId = $id;
 	}
+	public function setStartDate($startDate)
+	{
+		$this->dateDebut = $startDate;
+	}
+	public function setStartDateRelative(bool $startDate)
+	{
+		$this->dateDebutRelatif = $startDate;
+	}
+	public function setEndDate($endDate)
+	{
+		$this->dateFin = $endDate;
+	}
+	public function setEndDateRelative(bool $endDate)
+	{
+		$this->dateFinRelatif = $endDate;
+	}
 	#endregion setters
 
 	// =======================

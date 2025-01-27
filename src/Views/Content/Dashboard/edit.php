@@ -17,6 +17,7 @@
 			<h3 class="text-center">
 				Stations analysées
 			</h3>
+			<?= var_dump($dash->get_region()); ?>
 			<hr>
 			<div class="row">
 				<!-- à prendre -->
