@@ -207,12 +207,13 @@ p {
 }
 
 .glass {
-	background: rgba(255, 255, 255, 0.44);
+	background: rgba(255, 255, 255, 0.77);
 	border-radius: 16px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	-webkit-backdrop-filter: blur(4.8px);
 	backdrop-filter: blur(4.8px);
 }
+
 .glass::-webkit-scrollbar {
 	display: none;
 }
@@ -259,6 +260,11 @@ p {
 
 .check::-webkit-scrollbar {
 	display: none;
+}
+
+.accueil p {
+	font-size: 1.2rem;
+	line-height: 1.8;
 }
 
 /* Fin liste Regions / Départements / Villes / Stations */

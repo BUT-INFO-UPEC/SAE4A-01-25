@@ -47,7 +47,6 @@
 			</div>
 		</div>
 
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 		<div ng-app="myApp" ng-controller="myCtrl">
 			<ul class="nav nav-tabs">
 				<li>
@@ -70,92 +69,56 @@
 								<input type="text" ng-model="tab.name" placeholder="Nom de l'onglet" class="form-control">
 							</div>
 
-							<div class="col-md-6">
+							<p class="col-md-6">
 								<label for="visualization_type" class="form-label">Type de visualisation :</label>
 								<select id="visualization_type" name="visualization_type" class="form-select">
-									<option>Donnée chiffrée</option>
+									<?php if (!empty($visu)): ?>
+										<?php foreach ($visu as $item) : ?>
+											<option value="<?= htmlspecialchars($item['id']) ?>"><?= htmlspecialchars($item['name']) ?></option>
+										<?php endforeach; ?>
+									<?php else: ?>
+										<option value="1">Barre</option>
+									<?php endif; ?>
 								</select>
-							</div>
-						</div>
-
-						<div class="row g-3 mt-3">
-							<div class="col-md-4">
-								<label for="value_type" class="form-label">Valeur étudiée :</label>
-								<select id="value_type" name="value_type" class="form-select">
-									<option>Température Celsius (tc)</option>
-								</select>
-							</div>
-
-							<div class="col-md-4">
-								<label for="association" class="form-label">Association :</label>
-								<select id="association" name="association" class="form-select">
-									<option>Total</option>
-								</select>
-							</div>
-
-							<div class="col-md-4">
-								<label for="analysis" class="form-label">Analyse :</label>
-								<select id="analysis" name="analysis" class="form-select">
-									<option>Moyenne</option>
-									<option>Minimum</option>
-									<option>Maximum</option>
-								</select>
-							</div>
+							</p>
 						</div>
 					</div>
 
-					<div class="mb-4">
-						<h4>Commentaires</h4>
-						<textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
-					</div>
+					<div class="row g-3 mt-3">
+						<div class="col-md-4">
+							<label for="value_type" class="form-label">Valeur étudiée :</label>
+							<select id="value_type" name="value_type" class="form-select">
+								<option>Température Celsius (tc)</option>
+							</select>
+						</div>
 
+						<div class="col-md-4">
+							<label for="association" class="form-label">Association :</label>
+							<select id="association" name="association" class="form-select">
+								<option>Total</option>
+							</select>
+						</div>
+
+						<div class="col-md-4">
+							<label for="analysis" class="form-label">Analyse :</label>
+							<select id="analysis" name="analysis" class="form-select">
+								<option>Moyenne</option>
+								<option>Minimum</option>
+								<option>Maximum</option>
+							</select>
+						</div>
+					</div>
 				</div>
+
+				<div class="mb-4">
+					<h4>Commentaires</h4>
+					<textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
+				</div>
+
 			</div>
 		</div>
-		<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
+	</div>
+	<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
 
 	</div>
 </form>
-<script>
-	var app = angular.module('myApp', []);
-
-	app.controller('myCtrl', function($scope) {
-		let idCounter = 1; // Compteur d'ID
-
-		$scope.tabs = [{
-				id: idCounter++, // Générer un ID unique
-				name: 'Composant - 1',
-				active: true
-			},
-			{
-				id: idCounter++,
-				name: 'Composant - 2',
-				active: false
-			}
-		];
-
-		$scope.selectTab = function(index) {
-			$scope.tabs.forEach(function(tab) {
-				tab.active = false;
-			});
-			$scope.tabs[index].active = true;
-		};
-
-		$scope.removeTab = function(index) {
-			$scope.tabs.splice(index, 1);
-			if ($scope.tabs.length > 0 && !$scope.tabs.some(tab => tab.active)) {
-				$scope.tabs[Math.max(0, index - 1)].active = true;
-			}
-		};
-
-		$scope.addTab = function() {
-			var newTab = {
-				id: idCounter++, // Générer un nouvel ID unique
-				name: 'Nouvel Onglet',
-				active: true
-			};
-			$scope.tabs.push(newTab);
-			$scope.selectTab($scope.tabs.length - 1);
-		};
-	});
-</script>

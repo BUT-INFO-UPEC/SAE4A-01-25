@@ -92,6 +92,16 @@ class Dashboard extends AbstractDataObject
 		throw new OutOfBoundsException("Type de date invalide : utilisez 'debut' ou 'fin'.");
 	}
 
+	public function get_date_relative($type = 'debut')
+	{
+		if ($type === 'debut') {
+			return $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
+		} elseif ($type === 'fin') {
+			return $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
+		}
+		throw new OutOfBoundsException("Type de date invalide : utilisez 'debut' ou 'fin'.");
+	}
+
 	public function get_params()
 	{
 		return $this->params;
@@ -125,8 +135,8 @@ class Dashboard extends AbstractDataObject
 
 	public function get_params_API_temporel()
 	{
-		$dateDebut = $this->dateDebutRelatif ? $this->calculate_relative_date($this->dateDebut) : $this->dateDebut;
-		$dateFin = $this->dateFinRelatif ? $this->calculate_relative_date($this->dateFin) : $this->dateFin;
+		$dateDebut = $this->get_date_relative();
+		$dateFin = $this->get_date_relative("fin");
 
 		return "(date >= '$dateDebut" . "' and date <= '" . $dateFin . "')";
 	}
