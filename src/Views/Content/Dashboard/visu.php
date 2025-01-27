@@ -23,9 +23,9 @@
 		<div class="container">
 			<h3 style="flex-grow: 1"> Periode temporelle </h3>
 
-			<p> début : <span class="<?= $dash->dateFinRelatif ? 'date_dynamique' : '' ?>"><?= $dash->get_date_relative() ?></span></p>
+			<p> début : <span class="<?= $dash->dateDebutRelatif ? 'date_dynamique' : '' ?>"><?= $dash->get_date_relative() ?></span></p>
 
-			<p> fin : <span class="changing"><?= $dash->get_date_relative('fin') ?></span></p>
+			<p> fin : <span class="<?= $dash->dateFinRelatif ? 'date_dynamique' : '' ?>"><?= $dash->get_date_relative('fin') ?></span></p>
 		</div>
 	</div>
 </div>
