@@ -2,7 +2,7 @@
 	style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;"> -->
 <div class="accueil">
 
-	<h1> Bienvenue </h1>
+	<h1> BIENVENUE SUR MÉTÉOSCOPE </h1>
 	<p> Notre plateforme a été créée pour vous aider à mieux comprendre le concept de la météorologie, tout en vous
 		offrant
 		un aperçu des conditions météorologiques actuelles en France métropolitaine et en Outre-Mer.
