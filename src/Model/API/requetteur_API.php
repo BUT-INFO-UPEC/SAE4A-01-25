@@ -7,7 +7,7 @@ use Src\Config\MsgRepository;
 
 class Requetteur_API
 {
-	const LIMIT_API_DATA = 1000;
+	const LIMIT_API_DATA = 5000;
 
 	public static function fetchData(Constructeur_Requette_API $requette, $keyValueSort = "", $keyTargetValue = "", $alias = null, $limit = Requetteur_API::LIMIT_API_DATA): array
 	{
