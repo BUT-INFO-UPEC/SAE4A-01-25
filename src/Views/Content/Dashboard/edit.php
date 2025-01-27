@@ -205,13 +205,11 @@
 		$scope.tabs = [{
 				id: idCounter++, // Générer un ID unique
 				name: 'Composant - 1',
-				content: 'onglet.html',
 				active: true
 			},
 			{
 				id: idCounter++,
 				name: 'Composant - 2',
-				content: 'onglet.html',
 				active: false
 			}
 		];
@@ -234,7 +232,6 @@
 			var newTab = {
 				id: idCounter++, // Générer un nouvel ID unique
 				name: 'Nouvel Onglet',
-				content: 'onglet.html',
 				active: true
 			};
 			$scope.tabs.push(newTab);
