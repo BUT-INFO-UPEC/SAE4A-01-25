@@ -74,7 +74,7 @@
 								<select id="visualization_type" name="visualization_type" class="form-select">
 									<?php if (!empty($visu)): ?>
 										<?php foreach ($visu as $item) : ?>
-											<option value="<?= htmlspecialchars($item['id']) ?>"><?= htmlspecialchars($item['name']) ?></option>
+											<option value="<?= htmlspecialchars($item['id']) ?>" <?= $dash->get_visu()->get_id() == $item->get_id() ? "selected" : ""; ?>> <?= htmlspecialchars($item['name']) ?></option>
 										<?php endforeach; ?>
 									<?php else: ?>
 										<option value="1">Barre</option>

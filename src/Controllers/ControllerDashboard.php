@@ -96,6 +96,8 @@ class ControllerDashboard extends AbstractController
 	{
 		if (!empty($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
+			// récupérer les POST
+
 			$constructeur = new DashboardRepository();
 			if ($dash->get_createur() == UserManagement::getUser()->getId()) {
 				$constructeur->update_dashboard_by_id($dash);
