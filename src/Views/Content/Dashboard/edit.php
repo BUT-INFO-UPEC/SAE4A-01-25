@@ -1,4 +1,4 @@
-<form action="?action=save" method="POST" class="container-fluid mt-4">
+<form action="?action=save" method="GET" class="container-fluid mt-4">
 	<div class="row mb-4">
 		<div class="col-md-6">
 			<label for="nom_meteotheque" class="form-label">Nom météothèque :</label>
@@ -65,19 +65,19 @@
 						<div class="row g-3">
 							<div ng-include="tab.content"></div>
 							<div class="col-md-6">
-								<label for="titre_composant" class="form-label">Titre :</label>
-								<input type="text" ng-model="tab.name" placeholder="Nom de l'onglet" class="form-control">
+								<label for="titre_composant_{{ tab.id }}" class="form-label">Titre :</label>
+								<input type="text" name="titre_composant_{{ tab.id }}" ng-model="tab.name" placeholder="Nom de l'onglet" class="form-control">
 							</div>
 
 							<p class="col-md-6">
-								<label for="visualization_type" class="form-label">Type de visualisation :</label>
-								<select id="visualization_type" name="visualization_type" class="form-select">
+								<label for="visu_type_{{tab.id}}" class="form-label">Type de visualisation :</label>
+								<select id="visu_type_{{tab.id}}" name="visu_type_{{tab.id}}" class="form-select">
 									<?php if (!empty($visu)): ?>
 										<?php foreach ($visu as $item) : ?>
 											<option value="<?= htmlspecialchars($item['id']) ?>" <?= $dash->get_visu()->get_id() == $item->get_id() ? "selected" : ""; ?>> <?= htmlspecialchars($item['name']) ?></option>
 										<?php endforeach; ?>
 									<?php else: ?>
-										<option value="1">Barre</option>
+										<option value="">--</option>
 									<?php endif; ?>
 								</select>
 							</p>
@@ -86,25 +86,41 @@
 
 					<div class="row g-3 mt-3">
 						<div class="col-md-4">
-							<label for="value_type" class="form-label">Valeur étudiée :</label>
-							<select id="value_type" name="value_type" class="form-select">
-								<option>Température Celsius (tc)</option>
+							<label for="value_type_{{tab.id}}" class="form-label">Valeur étudiée :</label>
+							<select id="value_type_{{tab.id}}" name="value_type_{{tab.id}}" class="form-select">
+								<?php if (!empty($attributs)): ?>
+									<?php foreach ($attributs as $item) : ?>
+										<option value="<?= htmlspecialchars($item->get_id()) ?>"><?= htmlspecialchars($item->get_nom()) ?></option>
+									<?php endforeach; ?>
+								<?php else: ?>
+									<option value="">--</option>
+								<?php endif; ?>
 							</select>
 						</div>
 
 						<div class="col-md-4">
-							<label for="association" class="form-label">Association :</label>
-							<select id="association" name="association" class="form-select">
-								<option>Total</option>
+							<label for="association_{{tab.id}}" class="form-label">Association :</label>
+							<select id="association_{{tab.id}}" name="association_{{tab.id}}" class="form-select">
+								<?php if (!empty($grouping)): ?>
+									<?php foreach ($grouping as $item) : ?>
+										<option value="<?= htmlspecialchars($item->get_id()) ?>"><?= htmlspecialchars($item->get_nom()) ?></option>
+									<?php endforeach; ?>
+								<?php else: ?>
+									<option value="">--</option>
+								<?php endif; ?>
 							</select>
 						</div>
 
 						<div class="col-md-4">
-							<label for="analysis" class="form-label">Analyse :</label>
-							<select id="analysis" name="analysis" class="form-select">
-								<option>Moyenne</option>
-								<option>Minimum</option>
-								<option>Maximum</option>
+							<label for="analysis_{{tab.id}}" class="form-label">Analyse :</label>
+							<select id="analysis_{{tab.id}}" name="analysis_{{tab.id}}" class="form-select">
+								<?php if (!empty($aggregations)): ?>
+									<?php foreach ($aggregations as $item) : ?>
+										<option value="<?= htmlspecialchars($item->get_id()) ?>"><?= htmlspecialchars($item->get_nom()) ?></option>
+									<?php endforeach; ?>
+								<?php else: ?>
+									<option value="">--</option>
+								<?php endif; ?>
 							</select>
 						</div>
 					</div>
@@ -112,7 +128,7 @@
 
 				<div class="mb-4">
 					<h4>Commentaires</h4>
-					<textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
+					<textarea name="comments_{{tab.id}}" id="comments_{{tab.id}}" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
 				</div>
 
 			</div>
