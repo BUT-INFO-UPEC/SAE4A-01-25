@@ -128,28 +128,9 @@ class DatabaseConnection
 		return static::$instance;
 	}
 
-	public function getRegions()
+	public static function getTable(string $table)
 	{
-		// Fetch regions from the database
-		$stmt = $this->pdo->query('SELECT * FROM regions');
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	}
-	public function getDepts()
-	{
-		// Fetch regions from the database
-		$stmt = $this->pdo->query('SELECT * FROM depts');
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	}
-	public function getVilles()
-	{
-		// Fetch regions from the database
-		$stmt = $this->pdo->query('SELECT * FROM villes');
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	}
-	public function getStations()
-	{
-		// Fetch regions from the database
-		$stmt = $this->pdo->query('SELECT * FROM stations');
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$query = "SELECT * FROM $table";
+		return self::fetchAll($query);
 	}
 }

@@ -7,6 +7,7 @@ use RuntimeException;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
+use Src\Model\Repository\DatabaseConnection;
 
 class ControllerDashboard extends AbstractController
 {
@@ -53,6 +54,22 @@ class ControllerDashboard extends AbstractController
 
 	static function edit(): void
 	{
+		$tables = [
+			'regions',
+			'depts',
+			'villes',
+			'stations'
+		];
+		try {
+			// Récupération des données depuis les tables
+			$regions = DatabaseConnection::getTable('regions');
+			$depts = DatabaseConnection::getTable('depts');
+			$villes = DatabaseConnection::getTable('villes');
+			$stations = DatabaseConnection::getTable('stations');
+		} catch (Exception $e) {
+			// Gestion des erreurs si une table est introuvable ou si une autre exception se produit
+			die("Erreur lors de la récupération des données : " . $e->getMessage());
+		}
 		if (isset($_GET['dashId'])) {
 			try {
 				$dash = (new DashboardRepository())->get_dashboard_by_id($_GET['dashId']);

@@ -12,192 +12,190 @@
 		</div>
 	</div>
 
-	<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
+	<div class="card">
+		<div class="mb-4 card-header">
+			<h3 class="text-center">
+				Stations analysées
+			</h3>
+			<hr>
+			<div class="row">
+				<div class="col-md-6 card">
+					<h4>Zone(s) géographique(s)</h4>
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button
+								class="nav-link active"
+								id="home-tab"
+								data-bs-toggle="tab"
+								data-bs-target="#home"
+								type="button"
+								role="tab"
+								aria-controls="home"
+								aria-selected="true">
+								Regions
+							</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button
+								class="nav-link"
+								id="profile-tab"
+								data-bs-toggle="tab"
+								data-bs-target="#profile"
+								type="button"
+								role="tab"
+								aria-controls="profile"
+								aria-selected="false">
+								Profile
+							</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button
+								class="nav-link"
+								id="messages-tab"
+								data-bs-toggle="tab"
+								data-bs-target="#messages"
+								type="button"
+								role="tab"
+								aria-controls="messages"
+								aria-selected="false">
+								Messages
+							</button>
+						</li>
+					</ul>
 
-	<div class="mb-4">
-		<h3 class="text-center">Stations analysées</h3>
-		<hr>
-		<div class="row">
-			<div class="col-md-6">
-				<h4>Zone(s) géographique(s)</h4>
-				<!-- Nav tabs -->
-				<ul class="nav nav-tabs" id="myTab" role="tablist">
-					<li class="nav-item" role="presentation">
-						<button
-							class="nav-link active"
-							id="home-tab"
-							data-bs-toggle="tab"
-							data-bs-target="#home"
-							type="button"
-							role="tab"
-							aria-controls="home"
-							aria-selected="true">
-							Regions
-						</button>
-					</li>
-					<li class="nav-item" role="presentation">
-						<button
-							class="nav-link"
-							id="profile-tab"
-							data-bs-toggle="tab"
-							data-bs-target="#profile"
-							type="button"
-							role="tab"
-							aria-controls="profile"
-							aria-selected="false">
-							Profile
-						</button>
-					</li>
-					<li class="nav-item" role="presentation">
-						<button
-							class="nav-link"
-							id="messages-tab"
-							data-bs-toggle="tab"
-							data-bs-target="#messages"
-							type="button"
-							role="tab"
-							aria-controls="messages"
-							aria-selected="false">
-							Messages
-						</button>
-					</li>
-				</ul>
-
-				<!-- Tab panes -->
-				<div class="tab-content">
-					<div
-						class="tab-pane active"
-						id="home"
-						role="tabpanel"
-						aria-labelledby="home-tab">
-						<div class="list-group">
-							<?php if (!empty($regions) && is_array($regions)) : ?>
-								<div class="list-group">
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div
+							class="tab-pane active"
+							id="home"
+							role="tabpanel"
+							aria-labelledby="home-tab">
+							<div class="list-group check">
+								<?php if (!empty($regions) && is_array($regions)) : ?>
 									<?php foreach ($regions as $item) : ?>
 										<label class="list-group-item">
-											<input class="form-check-input me-1" type="checkbox" value="<?= htmlspecialchars($item['name']) ?>" />
+											<input class="form-check-input scroll me-1" type="checkbox" value="<?= htmlspecialchars($item['name']) ?>" />
 											<?= htmlspecialchars($item['name']) ?>
 										</label>
 									<?php endforeach; ?>
-								</div>
-							<?php else : ?>
-								<p>Aucune région disponible.</p>
-							<?php endif;
-							var_dump($regions); 
-							?>
+								<?php else : ?>
+									<p>Aucune région disponible.</p>
+								<?php endif;
+								?>
+							</div>
+
+						</div>
+						<div
+							class="tab-pane"
+							id="profile"
+							role="tabpanel"
+							aria-labelledby="profile-tab">
+							profile
+						</div>
+						<div
+							class="tab-pane"
+							id="messages"
+							role="tabpanel"
+							aria-labelledby="messages-tab">
+							messages
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<h4>Periode temporelle</h4>
+					<div class="mb-3">
+						<label for="start_date" class="form-label">Date début :</label>
+						<input type="text" id="start_date" name="start_date" class="form-control" placeholder="JJ/MM/AAAA">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="dynamic_start">
+							<label class="form-check-label" for="dynamic_start">Dynamique</label>
+						</div>
+					</div>
+
+					<div>
+						<label for="end_date" class="form-label">Date fin :</label>
+						<input type="text" id="end_date" name="end_date" class="form-control" placeholder="JJ/MM/AAAA">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="dynamic_end">
+							<label class="form-check-label" for="dynamic_end">Dynamique</label>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+		<div ng-app="myApp" ng-controller="myCtrl">
+			<ul class="nav nav-tabs">
+				<li>
+					<a href="#" ng-click="addTab()">Ajouter un onglet</a>
+				</li>
+				<li ng-repeat="tab in tabs" ng-class="{'active': tab.active}">
+					<a href="#" ng-click="selectTab($index)">{{tab.name}}</a>
+					<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;"></span>
+				</li>
+			</ul>
+			<div class="mb-4">
+				<h4 class="text-center">Analyses</h4>
+				<div ng-repeat="tab in tabs" ng-show="tab.active">
+					<div class="mb-4">
+						<h4>Titre du composant</h4>
+						<div class="row g-3">
+							<div ng-include="tab.content"></div>
+							<div class="col-md-6">
+								<label for="titre_composant" class="form-label">Titre :</label>
+								<input type="text" ng-model="tab.name" placeholder="Nom de l'onglet" class="form-control">
+							</div>
+
+							<div class="col-md-6">
+								<label for="visualization_type" class="form-label">Type de visualisation :</label>
+								<select id="visualization_type" name="visualization_type" class="form-select">
+									<option>Donnée chiffrée</option>
+								</select>
+							</div>
 						</div>
 
-					</div>
-					<div
-						class="tab-pane"
-						id="profile"
-						role="tabpanel"
-						aria-labelledby="profile-tab">
-						profile
-					</div>
-					<div
-						class="tab-pane"
-						id="messages"
-						role="tabpanel"
-						aria-labelledby="messages-tab">
-						messages
-					</div>
-				</div>
+						<div class="row g-3 mt-3">
+							<div class="col-md-4">
+								<label for="value_type" class="form-label">Valeur étudiée :</label>
+								<select id="value_type" name="value_type" class="form-select">
+									<option>Température Celsius (tc)</option>
+								</select>
+							</div>
 
-				<a href="#">Liste des ...</a>
-			</div>
+							<div class="col-md-4">
+								<label for="association" class="form-label">Association :</label>
+								<select id="association" name="association" class="form-select">
+									<option>Total</option>
+								</select>
+							</div>
 
-			<div class="col-md-6">
-				<h4>Periode temporelle</h4>
-				<div class="mb-3">
-					<label for="start_date" class="form-label">Date début :</label>
-					<input type="text" id="start_date" name="start_date" class="form-control" placeholder="JJ/MM/AAAA">
-					<div class="form-check">
-						<input type="checkbox" class="form-check-input" id="dynamic_start">
-						<label class="form-check-label" for="dynamic_start">Dynamique</label>
+							<div class="col-md-4">
+								<label for="analysis" class="form-label">Analyse :</label>
+								<select id="analysis" name="analysis" class="form-select">
+									<option>Moyenne</option>
+									<option>Minimum</option>
+									<option>Maximum</option>
+								</select>
+							</div>
+						</div>
 					</div>
-				</div>
 
-				<div>
-					<label for="end_date" class="form-label">Date fin :</label>
-					<input type="text" id="end_date" name="end_date" class="form-control" placeholder="JJ/MM/AAAA">
-					<div class="form-check">
-						<input type="checkbox" class="form-check-input" id="dynamic_end">
-						<label class="form-check-label" for="dynamic_end">Dynamique</label>
+					<div class="mb-4">
+						<h4>Commentaires</h4>
+						<textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
 					</div>
+
 				</div>
 			</div>
 		</div>
-	</div>
+		<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
 
+	</div>
 </form>
-
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<div ng-app="myApp" ng-controller="myCtrl">
-	<ul class="nav nav-tabs">
-		<li>
-			<a href="#" ng-click="addTab()">Ajouter un onglet</a>
-		</li>
-		<li ng-repeat="tab in tabs" ng-class="{'active': tab.active}">
-			<a href="#" ng-click="selectTab($index)">{{tab.name}}</a>
-			<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;"></span>
-		</li>
-	</ul>
-	<div class="mb-4">
-		<h4 class="text-center">Analyses</h4>
-		<div ng-repeat="tab in tabs" ng-show="tab.active">
-			<div class="mb-4">
-				<h4>Titre du composant</h4>
-				<div class="row g-3">
-					<div ng-include="tab.content"></div>
-					<div class="col-md-6">
-						<label for="titre_composant" class="form-label">Titre :</label>
-						<input type="text" ng-model="tab.name" placeholder="Nom de l'onglet" class="form-control">
-					</div>
-
-					<div class="col-md-6">
-						<label for="visualization_type" class="form-label">Type de visualisation :</label>
-						<select id="visualization_type" name="visualization_type" class="form-select">
-							<option>Donnée chiffrée</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="row g-3 mt-3">
-					<div class="col-md-4">
-						<label for="value_type" class="form-label">Valeur étudiée :</label>
-						<select id="value_type" name="value_type" class="form-select">
-							<option>Température Celsius (tc)</option>
-						</select>
-					</div>
-
-					<div class="col-md-4">
-						<label for="association" class="form-label">Association :</label>
-						<select id="association" name="association" class="form-select">
-							<option>Total</option>
-						</select>
-					</div>
-
-					<div class="col-md-4">
-						<label for="analysis" class="form-label">Analyse :</label>
-						<select id="analysis" name="analysis" class="form-select">
-							<option>Moyenne</option>
-							<option>Minimum</option>
-							<option>Maximum</option>
-						</select>
-					</div>
-				</div>
-			</div>
-
-			<div class="mb-4">
-				<h4>Commentaires</h4>
-				<textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
-			</div>
-
-		</div>
-	</div>
-</div>
-
 <script>
 	var app = angular.module('myApp', []);
 
@@ -273,5 +271,19 @@
 		margin-left: 5px;
 		color: red;
 		cursor: pointer;
+	}
+
+	.check {
+		max-height: 35%;
+		overflow: auto;
+		border-radius: 16px;
+		padding: 0;
+		background: #ffffff;
+		box-shadow: -8px 8px 29px #8a8a8a,
+			8px -8px 29px #ffffff;
+	}
+
+	.check::-webkit-scrollbar {
+		display: none;
 	}
 </style>
