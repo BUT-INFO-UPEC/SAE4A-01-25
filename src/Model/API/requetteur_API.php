@@ -9,7 +9,7 @@ class Requetteur_API
 {
 	const LIMIT_API_DATA = 1000;
 
-	public static function fetchData(Constructeur_Requette_API $requette, $keyValueSort = "", $keyTargetValue = "", $limit = Requetteur_API::LIMIT_API_DATA): array
+	public static function fetchData(Constructeur_Requette_API $requette, $keyValueSort = "", $keyTargetValue = "", $alias = null, $limit = Requetteur_API::LIMIT_API_DATA): array
 	{
 		$totalData = [];
 		$APITotal = 1;
@@ -20,9 +20,13 @@ class Requetteur_API
 
 				// Exécuter la requête avec CURL
 				$response = self::executeCurl($url);
-				if ($APITotal == 1) $APITotal = min($response['total_count'], $limit);
+				if ($APITotal == 1) $APITotal = max(min(isset($response['total_count']) ? $response['total_count'] : 1, $limit), 1);
 
-				if ($keyValueSort != "") {
+				if ($alias == 'total') {
+					foreach ($response["results"] as $data) {
+						$totalData['total'] = $data[$keyTargetValue];
+					}
+				} elseif ($keyValueSort != "") {
 					foreach ($response["results"] as $data) {
 						if ($keyTargetValue	!= '') {
 							$totalData[$data[$keyValueSort]] = $data[$keyTargetValue];
