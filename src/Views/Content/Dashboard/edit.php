@@ -5,19 +5,18 @@ use Src\Model\DataObject\Attribut;
 use Src\Model\DataObject\Aggregation;
 use Src\Model\DataObject\Groupping;
 ?>
-<form action="?action=save" method="POST" class="container-fluid mt-4">
+<form method="POST" action="?action=save" class="container-fluid mt-4">
 	<div id="edit-btns" style="position: sticky;">
 		<?php
 
 		use Src\Config\UserManagement;
 
 		if (UserManagement::getUser() != null) : ?>
-			<button type="submit" class="btn btn-primary mb-4">Sauvegarder</button>
+			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
 		<?php endif; ?>
 
-		<button type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false">
-			visualiser
-		</button>
+		<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false" value="visualiser"/>
+			
 	</div>
 
 	<div class="row mb-4">

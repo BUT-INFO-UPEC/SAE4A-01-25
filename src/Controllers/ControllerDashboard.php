@@ -113,17 +113,18 @@ class ControllerDashboard extends AbstractController
 				$_SESSION["dash"] = $dash;
 
 				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
-				if (isset($_GET["upload"]) && $_GET["upload"] == "false") header("Location: ?controller=ControllerDashboard&action=visu_dashboard");
-
-				// vérifier si l'utilisateur est connécté
-				if (UserManagement::getUser() == null) {
-					MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard');
+				if (isset($_GET["upload"]) && $_GET["upload"] == "false") {
+					header("Location: ?controller=ControllerDashboard&action=visu_dashboard");
+					exit;
 				}
 
-			$constructeur = new DashboardRepository();
-			if ($dash->get_createur() == UserManagement::getUser()->getId() or isset($_POST["duplicate"])) {
-				$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
-				$_GET["dashId"] = $dash->get_id();
+				// vérifier si l'utilisateur est connécté
+				if (UserManagement::getUser() == null) MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir sauvegarder un dashboard');
+
+				$constructeur = new DashboardRepository();
+				if ($dash->get_createur() == UserManagement::getUser()->getId() or isset($_POST["duplicate"])) {
+					$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
+					$_GET["dashId"] = $dash->get_id();
 
 					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
 				} else {
@@ -147,12 +148,15 @@ class ControllerDashboard extends AbstractController
 	#region get
 	static public function visu_dashboard(): void
 	{
-		// vérifier les droits 
-		$constructeur = new DashboardRepository();
-		$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
-		$dash->buildData();
+		if (isset($_SESSION['dash'])) {
+			$dash = $_SESSION['dash'];
+		} else {
+			$constructeur = new DashboardRepository();
+			$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
+			$dash->buildData();
 
-		$_SESSION['dash'] = $dash;
+			$_SESSION['dash'] = $dash;
+		}
 
 		$titrePage = "Visualisatoin du Dashboard";
 		$cheminVueBody = "visu.php";
