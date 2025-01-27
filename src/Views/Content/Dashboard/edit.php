@@ -167,7 +167,7 @@ use Src\Model\DataObject\Groupping;
 		</div>
 	</div>
 
-	<input type="hidden" name="count_id" ng-value="tabs.length">
+	<input type="hidden" name="count_id" ng-value="count_id">
 </form>
 
 <!--
