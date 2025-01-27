@@ -31,145 +31,138 @@ footer {
 	font-size: 0.8rem;
 }
 
-/*
-footer {
-  position: sticky;
-  display: flex;
-  flex-direction: column;
-  max-width: 100vw;
-}
-*/
 .contact-list {
-  display: flex;
-  gap: 20px;
+	display: flex;
+	gap: 20px;
 }
 
 .contact-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	white-space: nowrap;
 }
 
 .footer-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  text-align: left;
-  margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	flex-wrap: wrap;
+	text-align: left;
+	margin-bottom: 20px;
 }
 
 .footer-content {
-  flex: 1;
-  margin: 20px;
-  min-width: 200px;
+	flex: 1;
+	margin: 20px;
+	min-width: 200px;
 }
 
 footer h3 {
-  font-size: 18px;
-  margin-bottom: 15px;
-  color: #343a40;
-  text-align: left;
-  font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 15px;
+	color: #343a40;
+	text-align: left;
+	font-weight: bold;
 }
 
 footer a {
-  color: #343a40;
-  text-decoration: none;
+	color: #343a40;
+	text-decoration: none;
 }
 
 footer a:hover {
-  color: black;
-  text-decoration: none;
+	color: black;
+	text-decoration: none;
 }
 
 footer p,
 em {
-  color: white;
-  text-decoration: none;
+	color: white;
+	text-decoration: none;
 }
 
 .list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+	padding: 0;
+	margin: 0;
+	list-style: none;
 }
 
 .list li {
-  margin-bottom: 7px;
+	margin-bottom: 7px;
 }
 
 footer p {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 0.9em;
-  color: #ccc;
+	margin-top: 20px;
+	text-align: center;
+	font-size: 0.9em;
+	color: #ccc;
 }
 
 .titre-header {
-  text-align: left;
-  width: 100%;
-  margin: 10px;
-  /* Supprime les marges par défaut */
-  padding: 0;
-  /* Supprime les espacements internes si présents */
-  font-size: 2rem;
-  color: #343a40;
+	text-align: left;
+	width: 100%;
+	margin: 10px;
+	/* Supprime les marges par défaut */
+	padding: 0;
+	/* Supprime les espacements internes si présents */
+	font-size: 2rem;
+	color: #343a40;
 }
 
 .bonjour .dropdown-menu img {
-  width: 23px;
-  height: 23px;
+	width: 23px;
+	height: 23px;
 }
 
 .account-icon {
-  width: 5vh;
-  height: 5vh;
+	width: 5vh;
+	height: 5vh;
 }
 
 .header-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
+	display: flex;
+	align-items: center;
+	width: 100%;
 }
 
 .header-menu {
-  display: flex;
-  gap: 20px;
-  margin: 0;
-  margin-left: auto;
-  margin-right: 50px;
+	display: flex;
+	gap: 20px;
+	margin: 0;
+	margin-left: auto;
+	margin-right: 50px;
 }
 
 .header-menu a {
-  position: relative;
-  text-decoration: none;
-  color: #343a40;
-  font-weight: 500;
-  margin-left: 20px;
+	position: relative;
+	text-decoration: none;
+	color: #343a40;
+	font-weight: 500;
+	margin-left: 20px;
 }
 
 .header-menu a::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: #343a40;
-  transition: width 0.3s;
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background-color: #343a40;
+	transition: width 0.3s;
 }
 
 .header-menu a:hover::after {
-  width: 100%;
+	width: 100%;
 }
 
 /* home */
 
 .accueil {
-  margin: 0;
-  padding: 0;
-  background-image: url("assets/img/fondaccueil.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+	margin: 0;
+	padding: 0;
+	background-image: url("assets/img/fondaccueil.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
 }
