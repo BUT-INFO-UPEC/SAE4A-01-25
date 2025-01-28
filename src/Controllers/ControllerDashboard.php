@@ -204,7 +204,7 @@ class ControllerDashboard extends AbstractController
 			$cryteres_geo['numer_sta'] = $_POST['stations'];
 
 		$compNb = $_POST["count_id"];
-		$componantsToDelete = $dash->delComposants($compNb);
+		$componantsToDelete = $dash->delComposants((int) $compNb);
 
 		foreach ($dash->get_composants() as $index => $comp) {
 			$index = $index+1;
