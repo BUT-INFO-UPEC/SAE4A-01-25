@@ -15,7 +15,7 @@ use Src\Model\DataObject\Groupping;
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
 		<?php endif; ?>
 
-		<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false" value="visualiser" />
+		<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false" value="Visualiser" />
 
 	</div>
 
@@ -32,7 +32,7 @@ use Src\Model\DataObject\Groupping;
 			</select>
 		</div>
 	</div>
-	<!-- input hidden pour donner le compte total des onglets -->
+
 	<div class="card">
 		<div class="mb-4 card-header">
 			<h3 class="text-center">
@@ -40,10 +40,8 @@ use Src\Model\DataObject\Groupping;
 			</h3>
 			<hr>
 			<div class="row">
-				<!-- à prendre -->
 				<?php include __DIR__ . '/../../Plugins/listElements.php'; ?>
-				<!-- fin à prendre -->
-
+				
 				<div class="col-md-6">
 					<h4>Période temporelle</h4>
 					<div class="mb-3">
@@ -65,7 +63,7 @@ use Src\Model\DataObject\Groupping;
 				</div>
 			</div>
 		</div>
-		<input type="hidden" name="count_id" ng-value="count_id">
+
 		<div ng-app="myApp" ng-controller="myCtrl">
 			<ul class="nav nav-tabs onglet">
 				<li>
@@ -76,6 +74,7 @@ use Src\Model\DataObject\Groupping;
 					<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;"></span>
 				</li>
 			</ul>
+
 			<div ng-repeat="tab in tabs" ng-show="tab.active">
 				<div class="mb-4">
 					<h4>Titre du composant</h4>
@@ -170,7 +169,31 @@ use Src\Model\DataObject\Groupping;
 	<input type="hidden" name="count_id" ng-value="count_id">
 </form>
 
-
 <script>
+	// Ton code JS pour la gestion des onglets et des données
+	angular.module('myApp', [])
+		.controller('myCtrl', function($scope) {
+			$scope.tabs = [
+				{ name: 'Onglet 1', active: true, content: 'onglet1.html' },
+				{ name: 'Onglet 2', active: false, content: 'onglet2.html' }
+			];
 
+			$scope.addTab = function() {
+				var newTabIndex = $scope.tabs.length + 1;
+				$scope.tabs.push({ name: 'Onglet ' + newTabIndex, active: false, content: 'onglet' + newTabIndex + '.html' });
+			};
+
+			$scope.selectTab = function(index) {
+				$scope.tabs.forEach(function(tab, i) {
+					tab.active = (i === index);
+				});
+			};
+
+			$scope.removeTab = function(index) {
+				$scope.tabs.splice(index, 1);
+				if ($scope.tabs.length === 0) {
+					$scope.addTab(); // Ajouter un nouvel onglet si tout est supprimé
+				}
+			};
+		});
 </script>
