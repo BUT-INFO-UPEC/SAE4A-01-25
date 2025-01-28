@@ -131,7 +131,7 @@ class ControllerGeneral extends AbstractController
 	{
 		// Suppression de la session utilisateur
 		session_unset();
-		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant connécté(e)");
+		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant déconnécté(e)");
 	}
 
 	public static function profile()

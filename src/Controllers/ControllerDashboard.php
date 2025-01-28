@@ -90,6 +90,16 @@ class ControllerDashboard extends AbstractController
 			} catch (RuntimeException $e) {
 				MsgRepository::newError('Erreur lors de la récupération du dashboard', $e->getMessage());
 			}
+			$dash_name = $dash->get_name();
+			$dash_date_debut = $dash->get_date();
+			$dash_date_fin = $dash->get_date("fin");
+			$composant = $dash->get_composants();
+			foreach ($composant as $item) {
+				$composant_attr = $composant->get_attribut()->get_nom();
+				$composant_agr = $composant->get_aggregation()->get_nom();
+				$composant_grou = $composant->get_groupping()->get_nom();
+				$composant_rep = $composant->get_representation()->get_nom();
+			}
 		} elseif (isset($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
 		} else {
