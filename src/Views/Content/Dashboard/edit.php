@@ -15,8 +15,8 @@ use Src\Model\DataObject\Groupping;
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
 		<?php endif; ?>
 
-		<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false" value="visualiser"/>
-			
+		<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false" value="visualiser" />
+
 	</div>
 
 	<div class="row mb-4">
@@ -169,23 +169,7 @@ use Src\Model\DataObject\Groupping;
 	<input type="hidden" name="count_id" ng-value="count_id">
 </form>
 
-<!--
-									Pour 2 composant : jsp pk mais count_id = 1 alors qu'il y en a 2
 
- http://localhost/sae_test/SAE/web/FrontController.php?
- 		nom_meteotheque=azf&
- 		visibility=public&
- 		start_date=15%2F12%2F2020&
- 		end_date=12%2F10%2F2022&
- 		titre_composant_1=Composant+-+1&
- 		visu_type_1=1&
- 		value_type_1=2&
- 		association_1=3&
- 		analysis_1=4&
- 		titre_composant_2=Composant+-+2&
- 		visu_type_2=2&
- 		value_type_2=3&
- 		association_2=4&
- 		analysis_2=5&
- 		count_id=1
- -->
+<script>
+
+</script>
