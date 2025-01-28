@@ -163,6 +163,11 @@ class Dashboard extends AbstractDataObject
 	{
 		$this->dateFinRelatif = $endDate;
 	}
+
+	public function setCriteresGeo($CryteresGeo)
+	{
+		$this->selectionGeo = $CryteresGeo;
+	}
 	#endregion setters
 
 	// =======================
@@ -190,7 +195,8 @@ class Dashboard extends AbstractDataObject
 		}
 	}
 
-	public function addComposant(Composant $composant) {
+	public function addComposant(Composant $composant)
+	{
 		$this->composants[] = $composant;
 	}
 

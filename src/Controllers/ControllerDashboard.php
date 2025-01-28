@@ -5,7 +5,6 @@ namespace Src\Controllers;
 use Exception;
 use PDOException;
 use RuntimeException;
-use Src\Model\DataObject\Composant;
 use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
@@ -69,6 +68,13 @@ class ControllerDashboard extends AbstractController
 			$depts = DatabaseConnection::getTable('depts');
 			$villes = DatabaseConnection::getTable('villes');
 			$stations = DatabaseConnection::getTable('stations');
+			// foreach ($stations as $key => $value) {
+			// 	// Application de la transformation sur chaque élément de $value
+			// 	if ($key == "numer_sta") {
+			// 		$value = str_pad($value, 5, "0", STR_PAD_LEFT);
+			// 		$value = "'" . $value . "'";
+			// 	}
+			// }
 
 			$represtation = new RepresentationRepository();
 			$valeurs = new AttributRepository();
@@ -101,6 +107,7 @@ class ControllerDashboard extends AbstractController
 		$dash_date_debut_r = $dash->dateDebutRelatif;
 		$dash_date_fin = $dash->get_date("fin");
 		$dash_date_fin_r = $dash->dateFinRelatif;
+		$defaultGeo = $dash->get_region();
 		$composants = $dash->get_composants();
 		$composant_attr = [];
 		$composant_agr = [];
@@ -193,21 +200,29 @@ class ControllerDashboard extends AbstractController
 		$dash->setEndDateRelative(isset($_POST['dynamic_end']) && $_POST['dynamic_end'] == 'on');
 
 		// récupérer toutes les staitons, régions, ect... chéckés
-		$criteres_geo = [];
+		$cryteres_geo = [];
 		if (!empty($_POST['regions']))
-			$cryteres_geo['reg_id'] = $_POST['regions'];
-		if (!empty($_POST['regions']))
-			$cryteres_geo['epci_id'] = $_POST['depts'];
-		if (!empty($_POST['regions']))
-			$cryteres_geo['ville_id'] = $_POST['villes'];
-		if (!empty($_POST['regions']))
-			$cryteres_geo['numer_sta'] = $_POST['stations'];
+				$criteres_geo['reg_id'] = $_POST['regions'];
+		
+		if (!empty($_POST['depts']))
+				$criteres_geo['epci_id'] = $_POST['depts'];
+		
+		if (!empty($_POST['villes']))
+				$criteres_geo['ville_id'] = $_POST['villes'];
+		
+		if (!empty($_POST['stations']))
+				$criteres_geo['numer_sta'] = $_POST['stations'];
+
+		// MsgRepository::newWarning("Verif POST citeres geo", var_export($cryteres_geo, true), MsgRepository::NO_REDIRECT);
+
+		$dash->setCriteresGeo($cryteres_geo);
+		// MsgRepository::newWarning("Verif update citeres geo", var_export($dash, true), MsgRepository::NO_REDIRECT);
 
 		$compNb = $_POST["count_id"];
 		$componantsToDelete = $dash->delComposants((int) $compNb);
 
 		foreach ($dash->get_composants() as $index => $comp) {
-			$index = $index+1;
+			$index = $index + 1;
 			$params['titre'] = $_POST["titre_composant_$index"];
 			$params['chartId'] = $index;
 			$comp->set_params($params);

@@ -15,7 +15,7 @@
 
 			<?php
 			foreach ($dash->get_region() as $key => $values) {
-				echo "<p> <b> $key </b> : " . implode($values) . "<p>";
+				echo "<p> <b> $key </b> : " . implode(", ", $values) . "<p>";
 			}
 			?>
 		</div>

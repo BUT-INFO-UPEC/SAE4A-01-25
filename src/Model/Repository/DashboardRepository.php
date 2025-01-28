@@ -13,7 +13,7 @@ class DashboardRepository extends AbstractRepository
 	// =======================
 	#region attributes
 
-	const TYPES_CRITERES_GEO = [0 => "numer_sta"];
+	const TYPES_CRITERES_GEO = [0 => "numer_sta", 1 => "code_epci", 2 => "code_geo", 3 => "code_reg", 4 => "code_dept"];
 	#endregion
 
 	#region Publiques
