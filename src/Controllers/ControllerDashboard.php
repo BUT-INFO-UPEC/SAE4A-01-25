@@ -90,20 +90,27 @@ class ControllerDashboard extends AbstractController
 			} catch (RuntimeException $e) {
 				MsgRepository::newError('Erreur lors de la récupération du dashboard', $e->getMessage());
 			}
-			$dash_name = $dash->get_name();
-			$dash_date_debut = $dash->get_date();
-			$dash_date_fin = $dash->get_date("fin");
-			$composant = $dash->get_composants();
-			foreach ($composant as $item) {
-				$composant_attr = $composant->get_attribut()->get_nom();
-				$composant_agr = $composant->get_aggregation()->get_nom();
-				$composant_grou = $composant->get_groupping()->get_nom();
-				$composant_rep = $composant->get_representation()->get_nom();
-			}
 		} elseif (isset($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
 		} else {
 			MsgRepository::newWarning("Dashboard non défini", "Pour éditer un dashboard, merci d'utiliser les boutons prévus a cet effet ou de définir l'id du dashboard que vous souhaitez utiliser comme model.");
+		}
+		$dash_name = $dash->get_name();
+		$dash_private = $dash->get_privatisation();
+		$dash_date_debut = $dash->get_date();
+		$dash_date_debut_r = $dash->dateDebutRelatif;
+		$dash_date_fin = $dash->get_date("fin");
+		$dash_date_fin_r = $dash->dateFinRelatif;
+		$composants = $dash->get_composants();
+		$composant_attr = [];
+		$composant_agr = [];
+		$composant_grou = [];
+		$composant_rep = [];
+		foreach ($composants as $composant) {
+			$composant_attr[] = $composant->get_attribut()->get_id();
+			$composant_agr[] = $composant->get_aggregation()->get_id();
+			$composant_grou[] = $composant->get_grouping()->get_id();
+			$composant_rep[] = $composant->get_representation()->get_id();
 		}
 
 		$titrePage = "Edition d'un Dashboard";
@@ -184,7 +191,7 @@ class ControllerDashboard extends AbstractController
 		$dash->setStartDateRelative(isset($_POST['dynamic_start']) && $_POST['dynamic_start'] == 'on');
 		$dash->setEndDate($_POST['end_date']);
 		$dash->setEndDateRelative(isset($_POST['dynamic_end']) && $_POST['dynamic_end'] == 'on');
-		MsgRepository::newWarning("Contenu POST", var_export($_POST, true), MsgRepository::NO_REDIRECT);
+
 		// récupérer toutes les staitons, régions, ect... chéckés
 		$criteres_geo = [];
 		if (!empty($_POST['regions']))

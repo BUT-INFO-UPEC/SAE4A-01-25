@@ -70,6 +70,10 @@ class Composant extends AbstractDataObject
 		return $this->repr->get_visu_file();
 	}
 
+	public function get_representation(): Representation {
+		return $this->repr;
+	}
+
 	// =======================
 	//      SETTERS
 	// =======================

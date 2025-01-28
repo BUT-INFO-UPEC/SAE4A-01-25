@@ -22,12 +22,13 @@ use Src\Model\DataObject\Groupping;
 	<div class="row mb-4">
 		<div class="col-md-6">
 			<label for="nom_meteotheque" class="form-label">Nom météothèque :</label>
-			<input type="text" id="nom_meteotheque" name="nom_meteotheque" class="form-control" placeholder="Titre" required>
+			<input type="text" id="nom_meteotheque" name="nom_meteotheque" class="form-control" placeholder="Titre" value="<?= htmlspecialchars($dash_name) ?>" required>
 		</div>
 		<div class="col-md-6 text-end">
 			<label for="visibility" class="form-label">Visibilité :</label>
 			<select id="visibility" name="visibility" class="form-select" required>
-				<option value="public">Public</option>
+				<option value="0" <?= $dash_private == "0" ? 'checked' : '' ?>>Publique</option>
+				<option value="1" <?= $dash_private == "1" ? 'checked' : '' ?>>Privée</option>
 			</select>
 		</div>
 	</div>
@@ -47,18 +48,18 @@ use Src\Model\DataObject\Groupping;
 					<h4>Période temporelle</h4>
 					<div class="mb-3">
 						<label for="start_date" class="form-label">Date début :</label>
-						<input type="text" id="start_date" name="start_date" class="form-control" placeholder="JJ/MM/AAAA" required>
+						<input type="text" id="start_date" name="start_date" class="form-control" placeholder="JJ/MM/AAAA" value="<?= htmlspecialchars($dash_date_debut) ?>" required>
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="dynamic_start" name="dynamic_start">
+							<input type="checkbox" class="form-check-input" id="dynamic_start" name="dynamic_start" <?= $dash_date_debut_r ? 'checked' : '' ?>>
 							<label class="form-check-label" for="dynamic_start">Dynamique</label>
 						</div>
 					</div>
 					<div>
 						<label for="end_date" class="form-label">Date fin :</label>
-						<input type="text" id="end_date" name="end_date" class="form-control" placeholder="JJ/MM/AAAA" required>
+						<input type="text" id="end_date" name="end_date" class="form-control" placeholder="JJ/MM/AAAA" value="<?= htmlspecialchars($dash_date_fin) ?>" required>
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="dynamic_end" name="dynamic_end">
-							<label class="form-check-label" for="dynamic_end">Dynamique</label>
+							<input type="checkbox" class="form-check-input" id="dynamic_end" name="dynamic_end" <?= $dash_date_fin_r ? 'checked' : '' ?>>
+							<label class="form-check-label" for="dynamic_end" >Dynamique</label>
 						</div>
 					</div>
 				</div>
