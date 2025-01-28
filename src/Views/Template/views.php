@@ -25,9 +25,9 @@ $controller = $_SESSION['controller'];
 <body ng-app="myApp" ng-controller="myCtrl">
 	<?php require __DIR__ . "/header.php"; ?>
 
-	<div class="slim-list">
+	<!-- <div class="slim-list">
 		<?php require __DIR__ . "/navTemp.php"; ?>
-	</div>
+	</div> -->
 
 	<div class="flex main-container">
 		<img src="<?= BASE_URL ?>assets/img/fondaccueil.jpg" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
