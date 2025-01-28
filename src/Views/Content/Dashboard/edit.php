@@ -71,7 +71,7 @@ use Src\Model\DataObject\Groupping;
 				</li>
 				<li ng-repeat="tab in tabs" ng-class="{'active': tab.active}">
 					<a href="#" ng-click="selectTab($index)">{{tab.name}}</a>
-					<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;"></span>
+					<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;">&times;</span>
 				</li>
 			</ul>
 
