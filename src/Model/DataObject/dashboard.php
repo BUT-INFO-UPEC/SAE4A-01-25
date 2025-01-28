@@ -190,8 +190,17 @@ class Dashboard extends AbstractDataObject
 		}
 	}
 
-	public function delComposants(int $nbComps) {
-		
+	public function addComposant(Composant $composant) {
+		$this->composants[] = $composant;
+	}
+
+	public function delComposants(int $nbComps)
+	{
+		$del_comp = [];
+		while (count($this->composants) > $nbComps) {
+			$del_comp[] = array_pop($this->composants);
+		}
+		return $del_comp;
 	}
 
 	// =======================

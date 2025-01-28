@@ -5,12 +5,14 @@ namespace Src\Controllers;
 use Exception;
 use PDOException;
 use RuntimeException;
+use Src\Model\DataObject\Composant;
 use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
 use Src\Model\DataObject\Dashboard;
+use Src\Model\Repository\ComposantRepository;
 use Src\Model\Repository\DatabaseConnection;
 use Src\Model\Repository\GrouppingRepository;
 use Src\Model\Repository\RepresentationRepository;
@@ -20,11 +22,6 @@ class ControllerDashboard extends AbstractController
 	static public function default(): void
 	{
 		ControllerDashboard::browse();
-	}
-
-	static function getActionsList(): array
-	{
-		return ['Liste' => 'action=browse', 'Creation' => 'action=create'];
 	}
 
 	// =======================
@@ -148,14 +145,14 @@ class ControllerDashboard extends AbstractController
 	#region get
 	static public function visu_dashboard(): void
 	{
-		if (isset($_SESSION['dash'])) {
-			$dash = $_SESSION['dash'];
-		} else {
+		if (isset($_GET['dashId'])) {
 			$constructeur = new DashboardRepository();
 			$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
 			$dash->buildData();
 
 			$_SESSION['dash'] = $dash;
+		} elseif (isset($_SESSION['dash'])) {
+			$dash = $_SESSION['dash'];
 		}
 
 		$titrePage = "Visualisatoin du Dashboard";
@@ -177,7 +174,7 @@ class ControllerDashboard extends AbstractController
 		$dash->setStartDateRelative(isset($_POST['dynamic_start']) && $_POST['dynamic_start'] == 'on');
 		$dash->setEndDate($_POST['end_date']);
 		$dash->setEndDateRelative(isset($_POST['dynamic_end']) && $_POST['dynamic_end'] == 'on');
-
+		MsgRepository::newWarning("Contenu POST", var_export($_POST, true), MsgRepository::NO_REDIRECT);
 		// récupérer toutes les staitons, régions, ect... chéckés
 		$criteres_geo = [];
 		if (!empty($_POST['regions']))
@@ -190,13 +187,30 @@ class ControllerDashboard extends AbstractController
 			$cryteres_geo['numer_sta'] = $_POST['stations'];
 
 		$compNb = $_POST["count_id"];
-		$dash->delComposants($compNb);
-		$componantsToDelete = [];
-		foreach ($dash->get_composants() as $value) {
-			// tt les setters
+		$componantsToDelete = $dash->delComposants($compNb);
+
+		foreach ($dash->get_composants() as $index => $comp) {
+			$index = $index+1;
+			$params['titre'] = $_POST["titre_composant_$index"];
+			$params['chartId'] = $index;
+			$comp->set_params($params);
+			$comp->set_aggregation($_POST["analysis_$index"]);
+			$comp->set_attribut($_POST["value_type_$index"]);
+			$comp->set_grouping($_POST["association_$index"]);
+			$comp->set_visu($_POST["visu_type_$index"]);
 		}
 		for ($i = count($dash->get_composants()); $i < $compNb; $i++) {
-			// initialiser les autrs composants
+			$objetTableau = [];
+			$objetFormatTableau['id'] = null;
+			$objetFormatTableau['attribut'] = "";
+			$objetFormatTableau['aggregation'] = '';
+			$objetFormatTableau['groupping'] = "";
+			$objetFormatTableau['repr_type'] = '';
+
+			$params['titre'] = $_POST["titre_composant_$i"];
+			$params['chartId'] = $i;
+			$objetFormatTableau['params_affich'] = $params;
+			$dash->addComposant((new ComposantRepository)->arrayConstructor($objetTableau));
 		}
 
 		// retourner les composants qui sont de trop aprés les avoir unset

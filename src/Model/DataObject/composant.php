@@ -2,9 +2,12 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Config\MsgRepository;
+use Src\Model\Repository\RepresentationRepository;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\API\Requetteur_API;
+use Src\Model\Repository\AggregationRepository;
+use Src\Model\Repository\AttributRepository;
+use Src\Model\Repository\GrouppingRepository;
 
 class Composant extends AbstractDataObject
 {
@@ -70,7 +73,35 @@ class Composant extends AbstractDataObject
 	// =======================
 	//      SETTERS
 	// =======================
+	public function set_id(int $id): void
+	{
+			$this->id = $id;
+	}
+	
+	public function set_attribut($attribut): void
+	{
+			$this->attribut = (new AttributRepository())->get_attribut_by_id($attribut);
+	}
+	
+	public function set_aggregation($aggregation): void
+	{
+			$this->aggregation = (new AggregationRepository())->get_aggregation_by_id($aggregation);
+	}
+	
+	public function set_grouping($grouping): void
+	{
+			$this->grouping = (new GrouppingRepository())->get_groupping_by_id($grouping);
+	}
+	
+	public function set_params($params): void
+	{
+			$this->params = $params;
+	}
 
+	public function set_visu($value) {
+		$this->repr = (new RepresentationRepository())->get_representation_by_id($value);
+	}
+	
 	// =======================
 	//    PUBLIC METHODS
 	// =======================

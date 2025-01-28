@@ -16,11 +16,6 @@ class ControllerTests extends AbstractController
 		header('Location: ?controller=ControllerGeneral');
 	}
 
-	static function getActionsList(): array
-	{
-		return [];
-	}
-
 	public static function testDash()
 	{
 		// try {

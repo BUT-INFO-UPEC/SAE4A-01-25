@@ -16,11 +16,6 @@ class ControllerGeneral extends AbstractController
 		ControllerGeneral::home();
 	}
 
-	static function getActionsList(): array
-	{
-		return array('Accueil' => 'action=home');
-	}
-
 	// =======================
 	//    ENTRY METHODS
 	// =======================
