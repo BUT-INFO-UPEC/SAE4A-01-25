@@ -136,14 +136,14 @@ class ControllerDashboard extends AbstractController
 				if (UserManagement::getUser() == null) MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir sauvegarder un dashboard');
 
 				$constructeur = new DashboardRepository();
-				if ($dash->get_createur() == UserManagement::getUser()->getId() or isset($_POST["duplicate"])) {
-					$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
-					$_GET["dashId"] = $dash->get_id();
-
-					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", MsgRepository::NO_REDIRECT);
-				} else {
+				if ($dash->get_createur() != UserManagement::getUser()->getId() or isset($_POST["duplicate"])) {
 					$constructeur->save_new_dashboard($dash);
 					MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&actoin=visu_dashboard");
+				} else {
+					$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
+					$dashId = $dash->get_id();
+
+					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards', ?controller=ControllerDashboard&action=visu_dashboard&dash&dashId=$dashId", MsgRepository::NO_REDIRECT);
 				}
 			} else {
 				MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");

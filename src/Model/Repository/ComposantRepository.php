@@ -15,6 +15,10 @@ class ComposantRepository extends AbstractRepository
 		return $compId;
 	}
 
+	public function MAJ(Composant $composant) {
+		$this->update($composant, $composant->get_id());
+	}
+
 	public function get_composant_by_id($id): Composant
 	{
 		return $this->select($id);

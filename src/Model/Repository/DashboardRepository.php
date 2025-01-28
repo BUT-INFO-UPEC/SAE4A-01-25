@@ -102,9 +102,15 @@ class DashboardRepository extends AbstractRepository
 		$dashId = (int) $this->create($dash, $values);
 
 		// enregistrer les liens critereGeo
+		foreach ($dash->get_region() as $type => $ids) {
+			foreach ($ids as $value) {
+				$query = "INSERT INTO CritereGeo_dashboard (dashboard_id, type_critere, critere_id) VALUES (:dashboard_id, :type_critere, :critere_id)";
+				$values = [":dashboard_id" => $dashId, ":type_critere" => $type, ":critere_id" => $value];
+				DatabaseConnection::executeQuery($query, $values);
+			}
+		}
 
 		// parcourir les composants et les enregistrés
-		$compsIds = [];
 		foreach ($dash->get_composants() as $comp) {
 			$compId = (new ComposantRepository)->save($comp);
 
