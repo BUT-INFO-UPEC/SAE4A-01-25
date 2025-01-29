@@ -8,7 +8,6 @@ class UserManagement
 {
 	public static function getUser(): ?Utilisateur
 	{
-		if (isset($_SESSION["user"])) return $_SESSION["user"];
-		else return null;
+		return isset($_SESSION["user"]) ? $_SESSION["user"] : null;
 	}
 }

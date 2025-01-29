@@ -2,9 +2,6 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Src\Config\ConfAPP;
-use Src\Controllers\ControllerDashboard;
-use Src\Controllers\ControllerGeneral;
-use Src\Model\Repository\UtilisateurRepository;
 
 // DEFINITION DES CHEMINS
 $originalPath = rtrim(dirname($_SERVER['SCRIPT_NAME'], 2), '/'); // Récupère le chemin relatif sans le dernier segmet

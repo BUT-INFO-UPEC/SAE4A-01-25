@@ -63,7 +63,7 @@ class DashboardRepository extends AbstractRepository
 		return $this->select($id);
 	}
 
-	public function get_dashboards($region, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation): array
+	public function get_dashboards($criteres_geo, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation): array
 	{
 		// construire les paramètres where et ajouter des paramètres a mettre dans une liste associative pour filtrer par visibilité entre autre
 

@@ -30,7 +30,7 @@ class ControllerDashboard extends AbstractController
 	static public function browse(): void
 	{
 		// Ajout des filtres et tri pour les tableaux de bord
-		$region = $_GET['region'] ?? null;
+		$criteres_geo = ControllerDashboard::GET_POST_criteres_geo($_GET);
 		$order = $_GET['order'] ?? 'recent'; // Valeurs possibles : recent, most_viewed
 		$dateFilter = $_GET['date'] ?? 'today';
 		$customStartDate = $_GET['start_date'] ?? null;
@@ -38,7 +38,7 @@ class ControllerDashboard extends AbstractController
 		$privatisation = $_GET['privatisation'] ?? null;
 
 		$constructeur = new DashboardRepository();
-		$dashboards = $constructeur->get_dashboards($region, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation);
+		$dashboards = $constructeur->get_dashboards($criteres_geo, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation);
 
 		$titrePage = "Liste Des Dashboards";
 		$cheminVueBody = "browse.php";
@@ -63,19 +63,6 @@ class ControllerDashboard extends AbstractController
 			'stations'
 		];
 		try {
-			// Récupération des données depuis les tables
-			$regions = DatabaseConnection::getTable('regions');
-			$depts = DatabaseConnection::getTable('depts');
-			$villes = DatabaseConnection::getTable('villes');
-			$stations = DatabaseConnection::getTable('stations');
-			// foreach ($stations as $key => $value) {
-			// 	// Application de la transformation sur chaque élément de $value
-			// 	if ($key == "numer_sta") {
-			// 		$value = str_pad($value, 5, "0", STR_PAD_LEFT);
-			// 		$value = "'" . $value . "'";
-			// 	}
-			// }
-
 			$represtation = new RepresentationRepository();
 			$valeurs = new AttributRepository();
 			$association = new GrouppingRepository();
@@ -191,6 +178,22 @@ class ControllerDashboard extends AbstractController
 	#region post
 	#endregion post
 
+	private static function GET_POST_criteres_geo(&$tab)
+	{ // récupérer toutes les staitons, régions, ect... chéckés
+		$cryteres_geo = [];
+		if (!empty($tab['regions']))
+			$criteres_geo['reg_id'] = $tab['regions'];
+
+		if (!empty($tab['depts']))
+			$criteres_geo['epci_id'] = $tab['depts'];
+
+		if (!empty($tab['villes']))
+			$criteres_geo['ville_id'] = $tab['villes'];
+
+		if (!empty($tab['stations']))
+			$criteres_geo['numer_sta'] = $tab['stations'];
+		return $cryteres_geo;
+	}
 	private static function update_dashboard_from_POST(Dashboard &$dash): array
 	{
 		// récupérer les POST
@@ -199,19 +202,7 @@ class ControllerDashboard extends AbstractController
 		$dash->setEndDate($_POST['end_date']);
 		$dash->setEndDateRelative(isset($_POST['dynamic_end']) && $_POST['dynamic_end'] == 'on');
 
-		// récupérer toutes les staitons, régions, ect... chéckés
-		$cryteres_geo = [];
-		if (!empty($_POST['regions']))
-				$criteres_geo['reg_id'] = $_POST['regions'];
-		
-		if (!empty($_POST['depts']))
-				$criteres_geo['epci_id'] = $_POST['depts'];
-		
-		if (!empty($_POST['villes']))
-				$criteres_geo['ville_id'] = $_POST['villes'];
-		
-		if (!empty($_POST['stations']))
-				$criteres_geo['numer_sta'] = $_POST['stations'];
+		$cryteres_geo = ControllerDashboard::GET_POST_criteres_geo($_POST);
 
 		// MsgRepository::newWarning("Verif POST citeres geo", var_export($cryteres_geo, true), MsgRepository::NO_REDIRECT);
 

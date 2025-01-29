@@ -13,6 +13,10 @@ use Src\Model\DataObject\Groupping;
 
 		if (UserManagement::getUser() != null && UserManagement::getUser()->getId() == $dash->get_createur()) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
+		<?php endif;
+		
+		if (UserManagement::getUser() != null) : ?>
+			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&duplicate=true" value="Dupliquer">
 		<?php endif; ?>
 
 		<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false" value="Visualiser" />
@@ -40,8 +44,10 @@ use Src\Model\DataObject\Groupping;
 			</h3>
 			<hr>
 			<div class="row">
-				<?php include __DIR__ . '/../../Plugins/listElements.php'; ?>
-				
+				<div class="col-md-6 card">
+					<?php include __DIR__ . '/../../Plugins/listElements.php'; ?>
+				</div>
+
 				<div class="col-md-6">
 					<h4>Période temporelle</h4>
 					<div class="mb-3">
@@ -57,7 +63,7 @@ use Src\Model\DataObject\Groupping;
 						<input type="text" id="end_date" name="end_date" class="form-control" placeholder="JJ/MM/AAAA" value="<?= htmlspecialchars($dash_date_fin) ?>" required>
 						<div class="form-check">
 							<input type="checkbox" class="form-check-input" id="dynamic_end" name="dynamic_end" <?= $dash_date_fin_r ? 'checked' : '' ?>>
-							<label class="form-check-label" for="dynamic_end" >Dynamique</label>
+							<label class="form-check-label" for="dynamic_end">Dynamique</label>
 						</div>
 					</div>
 				</div>
@@ -173,14 +179,25 @@ use Src\Model\DataObject\Groupping;
 	// Ton code JS pour la gestion des onglets et des données
 	angular.module('myApp', [])
 		.controller('myCtrl', function($scope) {
-			$scope.tabs = [
-				{ name: 'Onglet 1', active: true, content: 'onglet1.html' },
-				{ name: 'Onglet 2', active: false, content: 'onglet2.html' }
+			$scope.tabs = [{
+					name: 'Onglet 1',
+					active: true,
+					content: 'onglet1.html'
+				},
+				{
+					name: 'Onglet 2',
+					active: false,
+					content: 'onglet2.html'
+				}
 			];
 
 			$scope.addTab = function() {
 				var newTabIndex = $scope.tabs.length + 1;
-				$scope.tabs.push({ name: 'Onglet ' + newTabIndex, active: false, content: 'onglet' + newTabIndex + '.html' });
+				$scope.tabs.push({
+					name: 'Onglet ' + newTabIndex,
+					active: false,
+					content: 'onglet' + newTabIndex + '.html'
+				});
 			};
 
 			$scope.selectTab = function(index) {

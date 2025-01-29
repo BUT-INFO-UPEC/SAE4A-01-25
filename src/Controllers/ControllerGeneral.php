@@ -136,9 +136,9 @@ class ControllerGeneral extends AbstractController
 
 	public static function profile()
 	{
-		if (UserManagement::getUser() == null) {
+		if (UserManagement::getUser() == null)
 			MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard', "?action=home");
-		}
+
 		$titrePage = "Profile";
 		$cheminVueBody = "profil.php";
 		$user = $_SESSION['user'];
