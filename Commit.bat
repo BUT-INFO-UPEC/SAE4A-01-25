@@ -12,7 +12,7 @@ set "description="
 set /p line="> "
 if "!line!"=="" goto descEnd
 if "!line!"==" " goto descEnd
-set "description=!description!!line!;"
+set "description=!description!!line!"
 goto descLoop
 
 :descEnd
@@ -24,21 +24,26 @@ set "changes="
 set /p change="- "
 if /i "!change!"=="FIN" goto changeEnd
 if "!change!"=="" goto changeLoop
-set "changes=!changes!!change!;"
+set "changes=!changes!!change!"
 goto changeLoop
 
 :changeEnd
 
 :: Construction du message de commit
 set "commitMessage=Nom du commit: %commitName%"
-set "commitMessage=%commitMessage%\n- Desc :"
-for %%a in (!description!) do set "commitMessage=!commitMessage!\n  - %%a"
-set "commitMessage=%commitMessage%\n- Change :"
-for %%b in (!changes!) do set "commitMessage=!commitMessage!\n  - %%b"
+set "commitMessage=!commitMessage!\n- Desc :"
+for %%a in (!description!) do (
+    set "commitMessage=!commitMessage!\n  - %%a"
+)
+set "commitMessage=!commitMessage!\n- Change :"
+for %%b in (!changes!) do (
+    set "commitMessage=!commitMessage!\n  - %%b"
+)
 
+:: Affichage formaté du commit
 echo.
 echo Aperçu du commit :
-echo %commitMessage%
+echo !commitMessage!
 echo.
 
 :: Confirmation du commit
@@ -49,10 +54,20 @@ if /i "%confirm%" NEQ "O" exit /b
 git add .
 
 :: Tentative de commit
-git commit -m "%commitMessage%"
+git commit -m "!commitMessage!"
 if %errorlevel% NEQ 0 (
     echo Erreur lors du commit.
     exit /b
 )
 
 echo Commit effectué avec succès !
+
+:: Synchronisation avec le dépôt distant (git push)
+echo Synchronisation avec le dépôt distant...
+git push
+if %errorlevel% NEQ 0 (
+    echo Erreur lors de la synchronisation.
+    exit /b
+)
+
+echo Synchronisation effectuée avec succès !
