@@ -1,8 +1,10 @@
 <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style_filtre.css">
 
 <!-- Interface utilisateur pour les filtres -->
-<form method="GET" class="filters">
-	<?php require __DIR__ . "/../../Plugins/listElements.php"; ?>
+<form method="GET" class="filters" action="?action=browse">
+	<div style="height: min-content;">
+		<?php require __DIR__ . "/../../Plugins/listElements.php"; ?>
+	</div>
 
 	<!-- <label for="order">Trier par :</label>
 	<select name="order" id="order">
@@ -26,12 +28,15 @@
 		<input type="date" name="end_date" id="end_date" value="<?= htmlspecialchars($customEndDate) ?>">
 	</div> -->
 
-	<?php use Src\Config\UserManagement;
-		if (UserManagement::getUser() != null) : ?>
+	<?php
+
+	use Src\Config\UserManagement;
+
+	if (UserManagement::getUser() != null) : ?>
 		<select name="privatisation" id="" privatisation>
-				<option value=null <?= $privatisation === null ? 'selected' : '' ?>>Tout</option>
-				<option value="private" <?= $privatisation === 'private' ? 'selected' : '' ?>>Mes dashboards</option>
-				<option value="public" <?= $privatisation === 'public' ? 'selected' : '' ?>>dashboards publiques</option>
+			<option value=null <?= $privatisation === null ? 'selected' : '' ?>>Tout</option>
+			<option value="private" <?= $privatisation === 'private' ? 'selected' : '' ?>>Mes dashboards</option>
+			<option value="public" <?= $privatisation === 'public' ? 'selected' : '' ?>>dashboards publiques</option>
 		</select>
 	<?php else : ?>
 

@@ -29,8 +29,8 @@ use Src\Model\Repository\GeoRepository;
         </li>
     </ul>
 
-    <div class="tab-content">
-        <div class="tab-pane active" id="regions" role="tabpanel" aria-labelledby="regions-tab">
+    <div class="tab-content scroll-list">
+        <div class="active" id="regions" role="tabpanel" aria-labelledby="regions-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getRegions() as $item) : ?>
                     <label class="list-group-item">
