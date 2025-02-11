@@ -289,3 +289,8 @@ p {
 .button:hover {
 	background-color: #0056b3;
 }
+
+/* définir la taille min et max pour les listes de stations */
+.scroll-list {
+	min-height: 10vh;
+}
