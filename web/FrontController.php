@@ -21,6 +21,7 @@ if ($action == 'setCookies') {
 	$_COOKIE['acceptationCookies'] = True;
 	$action = "default";
 }
+// helloworld !
 if ($action == 'refuseCookies') {
 	ConfAPP::setCookie(
 		"acceptationCookies",
