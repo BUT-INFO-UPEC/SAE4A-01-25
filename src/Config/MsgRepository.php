@@ -7,18 +7,19 @@ use Src\Config\Msg;
 class MsgRepository
 {
 	const NO_REDIRECT = "none";
+	const LAST_PAGE = "last";
 
-	public static function newSuccess(string $success, string $message = "", string $redirection = "last")
+	public static function newSuccess(string $success, string $message = "", string $redirection = MsgRepository::LAST_PAGE)
 	{
 		$_SESSION['MSGs']["list_messages"][] = new Msg("success", $success, $message);
 		MsgRepository::redirect($redirection);
 	}
-	public static function newError(string $error, string $message = "", string $redirection = "last")
+	public static function newError(string $error, string $message = "", string $redirection = MsgRepository::LAST_PAGE)
 	{
 		$_SESSION['MSGs']["list_messages"][] = new Msg("danger", $error, $message);
 		MsgRepository::redirect($redirection);
 	}
-	public static function newWarning(string $warning, string $message = "", string $redirection = "last")
+	public static function newWarning(string $warning, string $message = "", string $redirection = MsgRepository::LAST_PAGE)
 	{
 		$_SESSION['MSGs']["list_messages"][] = new Msg("warning", $warning, $message);
 		MsgRepository::redirect($redirection);
@@ -40,7 +41,7 @@ class MsgRepository
 	static public function redirect($redirection): void
 	{
 		if ($redirection != MsgRepository::NO_REDIRECT) {
-			$redirectUrl = $redirection != "last" ? $redirection : '?contorller=ControllerGeneral&action=home';
+			$redirectUrl = $redirection != MsgRepository::LAST_PAGE ? $redirection : '?contorller=ControllerGeneral&action=home';
 			header('Location: ' . $redirectUrl);
 
 			unset($redirection);
