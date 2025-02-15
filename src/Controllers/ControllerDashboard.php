@@ -93,6 +93,7 @@ class ControllerDashboard extends AbstractController
 			$dash = $_SESSION['dash'];
 		}
 
+		// Appel page
 		$titrePage = "Visualisatoin du Dashboard";
 		$cheminVueBody = "visu.php";
 		require('../src/Views/Template/views.php');
