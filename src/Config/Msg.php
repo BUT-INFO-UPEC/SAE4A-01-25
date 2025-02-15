@@ -7,45 +7,48 @@ namespace Src\Config;
  */
 class Msg
 {
-	/**
-	 * Class or type of the message.
-	 * 
-	 * @var string
-	 */
-	private string $error_type;
-	/**
-	 * Error name or code.
-	 * 
-	 * @var string
-	 */
+	public const ERROR = "danger";
+	public const WARNING = "danger";
+	public const SUCCESS = "danger";
+
+	private string $message_type;
 	private string $header;
-	/**
-	 * Message content (operation description).
-	 * 
-	 * @var string 
-	 */
 	private string $message;
 
 	/**
-	 * Constructor.
-	 *
-	 * @param string $msg The message to set.
+	 * @param string $message_type Le type de message a afficher (succés, avertissement ou erreur)
+	 * @param string $header
+	 * @param string $message
 	 */
-	public function __construct(string $error_type, string $header, string $message)
+	public function __construct(string $message_type, string $header, string $message)
 	{
-		$this->error_type = $error_type;
+		$this->message_type = $message_type;
 		$this->header = $header;
 		$this->message = $message;
 	}
 
+	/** Get the type of the message
+	 * 
+	 * One of Msg constant : ERROR, WARNING or SUCCESS
+	 * 
+	 * @return string
+	 */
 	public function getType(): string
 	{
-		return $this->error_type;
+		return $this->message_type;
 	}
-	public function getError(): string
+	/** Get the main title of the message
+	 * 
+	 * @return string
+	 */
+	public function getTitle(): string
 	{
 		return $this->header;
 	}
+	/** Get the compelementory description of the message
+	 * 
+	 * @return string
+	 */
 	public function getMessage(): string
 	{
 		return $this->message;

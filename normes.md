@@ -1,38 +1,5 @@
-perso je ne ferais pas de retour a la ligne même quand la ligne fait des miliers de caractères car j'ai actionné le retour a la ligne en fin de page, dites moi ce que vous en pensez, si vous voulez acitver/désactiver cette fonctionnalité:
-alt + z
 
----
-
-- Acronymes et mots clé:
-  Acronymes:
-
-BDD\_ = Base De Données
-
-abréviations:
-
-qqc = quelque chose
-qqn = quelqu'un
-param = paramètre(s)
-id = identifiant
-pswd = password = mot de passe
-repr = representation
-data = donnée(s)
-override = outrepasser les protocoles de sécurité
-depts = departements
-epcis = tructures administratives permettant à plusieurs communes d'exercer des compétences en commun
-
-mots clés:
-
-dashboard = tableau de bords
-composant = composant du dashboard (la représentation de lanalyse d'une donnée (un atribut))
-grouping = critère d'association des valeurs pour application de la fonction d'aggregation (jour, heure, mois, année, commune, ville)
-aggregation = fonction analytique appliquée sun un tableau de données pour en tirer une valeur synthétique (min, max, moy)
-fetch = récupération d'informations depuis la BDD
-representation = mise en forme visuelle des données pour permettre leur comprehension (sous forme de graphique par exemple)
-
----
-
-- Structure de codes:
+# Structure de codes:
 
 ## BDD
 
@@ -76,62 +43,62 @@ structurer les classes java avec des commentaires:
  * Description de la classe
  */
 class MyClass {
-    // =======================
-    //        ATTRIBUTES
-    // =======================
-    #region Attributs
-    #endregion Attributs
+	// =======================
+	//        ATTRIBUTES
+	// =======================
+	#region Attributs
+	#endregion Attributs
 
-    // =======================
-    //      CONSTRUCTOR
-    // =======================
-
-
-    // =======================
-    //      GETTERS
-    // =======================
-    #region Getters
-
-    #endregion Getters
+	// =======================
+	//      CONSTRUCTOR
+	// =======================
 
 
-    // =======================
-    //      SETTERS
-    // =======================
-    #region Stters
+	// =======================
+	//      GETTERS
+	// =======================
+	#region Getters
 
-    #endregion Stters
-
-
-    // =======================
-    //    PUBLIC METHODS
-    // =======================
-    #region Publiques
-
-    #endregion Publiques
+	#endregion Getters
 
 
-    // =======================
-    //    PRIVATE METHODS
-    // =======================
-    #region Privees
+	// =======================
+	//      SETTERS
+	// =======================
+	#region Stters
 
-    #endregion Privees
-
-    // =======================
-    //    STATIC METHODS
-    // =======================
-    #region Statiques
-
-    #endregion Statiques
+	#endregion Stters
 
 
-    // =======================
-    //    OVERIDES
-    // =======================
-    #region Overides
+	// =======================
+	//    PUBLIC METHODS
+	// =======================
+	#region Publiques
 
-    #endregion Overides
+	#endregion Publiques
+
+
+	// =======================
+	//    PRIVATE METHODS
+	// =======================
+	#region Privees
+
+	#endregion Privees
+
+	// =======================
+	//    STATIC METHODS
+	// =======================
+	#region Statiques
+
+	#endregion Statiques
+
+
+	// =======================
+	//    OVERIDES
+	// =======================
+	#region Overides
+
+	#endregion Overides
 
 }
 ```
@@ -143,15 +110,48 @@ NomOuID
 
 ```html
 <balise_parente>
-  <balise_parente>
-    <balise_sans_enfant> </balise_sans_enfant>
+	<balise_parente>
+		<balise_sans_enfant> </balise_sans_enfant>
 
-    <balise_sans_enfant> </balise_sans_enfant>
-  </balise_parente>
+		<balise_sans_enfant> </balise_sans_enfant>
+	</balise_parente>
 
-  <balise_sans_enfant> </balise_sans_enfant>
-  <balise_parente></balise_parente
-></balise_parente>
+	<balise_sans_enfant> </balise_sans_enfant>
+	<balise_parente> </balise_parente>
+</balise_parente>
 ```
 
 - pas de saut de ligne entre la balise parente ouvrante et ses balises parente et 1er enfant (juste retour a la ligne et tabulation) mais entre les différentes balises enfants (maj+alt+F)
+
+
+## Acronymes et mots clé:
+  Acronymes:
+
+BDD = Base De Données
+
+abréviations:
+
+qqc = quelque chose
+qqn = quelqu'un
+param = paramètre(s)
+id = identifiant
+pswd = password = mot de passe
+repr = representation
+data = donnée(s)
+override = outrepasser les protocoles de sécurité
+depts = departements
+epcis = tructures administratives permettant à plusieurs communes d'exercer des compétences en commun
+
+mots clés:
+
+dashboard = tableau de bords
+composant = composant du dashboard (la représentation de lanalyse d'une donnée (un atribut))
+grouping = critère d'association des valeurs pour application de la fonction d'aggregation (jour, heure, mois, année, commune, ville)
+aggregation = fonction analytique appliquée sun un tableau de données pour en tirer une valeur synthétique (min, max, moy)
+fetch = récupération d'informations depuis la BDD
+representation = mise en forme visuelle des données pour permettre leur comprehension (sous forme de graphique par exemple)
+
+---
+
+perso je ne ferais pas de retour a la ligne même quand la ligne fait des miliers de caractères car j'ai actionné le retour a la ligne en fin de page, dites moi ce que vous en pensez, si vous voulez acitver/désactiver cette fonctionnalité:
+alt + z

@@ -41,11 +41,6 @@ class ControllerGeneral extends AbstractController
 
 	#endregion get
 
-	#region POST
-	// =======================
-	//    POST METHODS
-	// =======================
-
 	#region user
 	// =======================
 	//    USER METHODS
@@ -177,5 +172,4 @@ class ControllerGeneral extends AbstractController
 		require('../src/Views/Template/views.php');
 	}
 	#endregion user
-	#endregion POST
 }
