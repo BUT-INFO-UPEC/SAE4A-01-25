@@ -7,9 +7,11 @@ namespace Src\Config;
  */
 class Msg
 {
+	public const PRIMARY = "primary";
+	public const SECONDARY = "secondary";
+	public const SUCCESS = "success";
 	public const ERROR = "danger";
-	public const WARNING = "danger";
-	public const SUCCESS = "danger";
+	public const WARNING = "warning";
 
 	private string $message_type;
 	private string $header;

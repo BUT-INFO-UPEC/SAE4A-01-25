@@ -26,7 +26,7 @@ class DashboardRepository extends AbstractRepository
 		$composants = $this->BuildComposants($objetFormatTableau['id']);
 		$criteres_geo = $this->BuildGeo($objetFormatTableau['id']);
 
-		return new Dashboard($objetFormatTableau['id'], $objetFormatTableau['privatisation'], $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, $objetFormatTableau['params']);
+		return new Dashboard($objetFormatTableau['id'], $objetFormatTableau['privatisation'], $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, [$objetFormatTableau['params']]);
 	}
 
 	public function BuildGeo($id): array
