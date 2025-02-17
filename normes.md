@@ -45,10 +45,11 @@ structurer les classes java avec des commentaires:
  * Description de la classe
  */
 class MyClass {
+	#region Attributs
 	// =======================
 	//        ATTRIBUTES
 	// =======================
-	#region Attributs
+
 	#endregion Attributs
 
 	// =======================
@@ -56,49 +57,64 @@ class MyClass {
 	// =======================
 
 
+	#region Getters
 	// =======================
 	//      GETTERS
 	// =======================
-	#region Getters
 
 	#endregion Getters
 
 
+	#region Stters
 	// =======================
 	//      SETTERS
 	// =======================
-	#region Stters
 
 	#endregion Stters
 
 
+	#region Publiques
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
-	#region Publiques
 
 	#endregion Publiques
 
 
+	#region Privees
 	// =======================
 	//    PRIVATE METHODS
 	// =======================
-	#region Privees
 
 	#endregion Privees
 
+	#region Statiques
 	// =======================
 	//    STATIC METHODS
 	// =======================
-	#region Statiques
 
 	#endregion Statiques
 
 
+	#region Abstracts
+	// =======================
+	//    ABSTRACTS
+	// =======================
+
+	#endregion Abstracts
+
+	#region Protected
+	// =======================
+	//    PUBLIC PROTECTED
+	// =======================
+
+	#endregion Protected
+
+
+	#region Overides
 	// =======================
 	//    OVERIDES
 	// =======================
-	#region Overides
 
 	#endregion Overides
 
