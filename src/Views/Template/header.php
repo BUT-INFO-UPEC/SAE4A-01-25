@@ -13,6 +13,6 @@
 		<?php require __DIR__ . "/navbar.php"; ?>
 
 		<!-- Icône alignée à droite -->
-		<?php include __DIR__ . "/icon_account.php"; ?>
+		<?php include __DIR__ . "/Popups/Acount_icon.php"; ?>
 	</div>
 </header>
