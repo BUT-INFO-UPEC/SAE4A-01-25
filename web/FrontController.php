@@ -66,8 +66,8 @@ if (isset($_COOKIE['acceptationCookies'])) {
 			require __DIR__ . '/error.php';
 		}
 	} else {
-		require('../src/Views/Template/cookiesRefused.php');
+		require('/cookiesRefused.php');
 	}
 } else {
-	require('../src/Views/Template/acceptCookies.php');
+	require('/acceptCookies.php');
 }
