@@ -97,7 +97,7 @@ class DashboardRepository extends AbstractRepository
 	public function save_new_dashboard(Dashboard $dash)
 	{
 		$values = $dash->formatTableau();
-		$values[":original_id"] = $values[":id"];
+		$values[":createur_id"] = $values[":id"];
 		$values[":id"] = null;
 		$dashId = (int) $this->create($dash, $values);
 

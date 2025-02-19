@@ -1,11 +1,7 @@
 <?php
 
-use Src\Model\DataObject\Representation;
-use Src\Model\DataObject\Attribut;
-use Src\Model\DataObject\Aggregation;
-use Src\Model\DataObject\Groupping;
 ?>
-<form method="POST" action="?action=save" class="container-fluid mt-4">
+<form method="POST" action="?action=save&upload=false" class="container-fluid mt-4">
 	<div id="edit-btns" style="position: sticky;">
 		<?php
 
@@ -19,7 +15,7 @@ use Src\Model\DataObject\Groupping;
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&duplicate=true" value="Dupliquer">
 		<?php endif; ?>
 
-		<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false" value="Visualiser" />
+		<input type="submit" class="btn btn-primary mb-4" value="Visualiser" />
 
 	</div>
 
@@ -31,8 +27,8 @@ use Src\Model\DataObject\Groupping;
 		<div class="col-md-6 text-end">
 			<label for="visibility" class="form-label">Visibilité :</label>
 			<select id="visibility" name="visibility" class="form-select" required>
-				<option value="0" <?= $dash_private == "0" ? 'checked' : '' ?>>Publique</option>
-				<option value="1" <?= $dash_private == "1" ? 'checked' : '' ?>>Privée</option>
+				<option value="0" <?= $dash_private == "publique" ? 'selected' : '' ?>>Publique</option>
+				<option value="1" <?= $dash_private == "privé" ? 'selected' : '' ?>>Privée</option>
 			</select>
 		</div>
 	</div>

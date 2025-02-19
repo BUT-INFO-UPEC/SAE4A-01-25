@@ -161,6 +161,8 @@ class ControllerDashboard extends AbstractController
 			$composant_rep[] = $composant->get_representation()->get_id();
 		}
 
+		MsgRepository::newWarning("géo", var_export($defaultGeo, true), MsgRepository::NO_REDIRECT);
+
 		// Appel page
 		$titrePage = "Edition d'un Dashboard";
 		$cheminVueBody = "edit.php";
@@ -236,9 +238,9 @@ class ControllerDashboard extends AbstractController
 	 * 
 	 * @return array Liste encapsulatn toutes les donénes géographiques
 	 */
-	private static function GET_POST_criteres_geo(&$tab): array
+	private static function GET_POST_criteres_geo($tab): array
 	{ // récupérer toutes les staitons, régions, ect... chéckés
-		$cryteres_geo = [];
+		$criteres_geo = [];
 		if (!empty($tab['regions']))
 			$criteres_geo['reg_id'] = $tab['regions'];
 
@@ -250,8 +252,9 @@ class ControllerDashboard extends AbstractController
 
 		if (!empty($tab['stations']))
 			$criteres_geo['numer_sta'] = $tab['stations'];
-		return $cryteres_geo;
+		return $criteres_geo;
 	}
+
 	/** Performe une mise ajour des données dynamiques (instance) d'un dashboard deppuis une requette POST
 	 * 
 	 * @param Dashboard $dash Le dashboard a mettre a jour
@@ -262,6 +265,8 @@ class ControllerDashboard extends AbstractController
 	private static function update_dashboard_from_POST(Dashboard &$dash): array
 	{
 		// récupérer les POST simples
+		$dash->setTitle($_POST['nom_meteotheque']);
+		$dash->setVisibility($_POST['visibility']);
 		$dash->setStartDate($_POST['start_date']);
 		$dash->setStartDateRelative(isset($_POST['dynamic_start']) && $_POST['dynamic_start'] == 'on');
 		$dash->setEndDate($_POST['end_date']);
