@@ -59,15 +59,15 @@ if (isset($_COOKIE['acceptationCookies'])) {
 				$controller::$action();
 			} else {
 				$error = "Erreur: La méthode $action du controller '$controller' n'existe pas.";
-				require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
+				require __DIR__ . '/error.php';
 			}
 		} else {
 			$error = "Erreur: Le controller '$controller' n'existe pas.";
-			require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
+			require __DIR__ . '/error.php';
 		}
 	} else {
-		require('../src/Views/Template/cookiesRefused.php');
+		require('/cookiesRefused.php');
 	}
 } else {
-	require('../src/Views/Template/acceptCookies.php');
+	require('/acceptCookies.php');
 }

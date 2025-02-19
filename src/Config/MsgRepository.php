@@ -7,44 +7,59 @@ use Src\Config\Msg;
 class MsgRepository
 {
 	const NO_REDIRECT = "none";
+	const LAST_PAGE = "last";
 
-	public static function newSuccess(string $success, string $message = "", string $redirection = "last")
-	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("success", $success, $message);
-		MsgRepository::redirect($redirection);
-	}
-	public static function newError(string $error, string $message = "", string $redirection = "last")
-	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("danger", $error, $message);
-		MsgRepository::redirect($redirection);
-	}
-	public static function newWarning(string $warning, string $message = "", string $redirection = "last")
-	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("warning", $warning, $message);
-		MsgRepository::redirect($redirection);
-	}
-
-	/**
-	 * Check if a user is logged in. Redirect with an error if not.
+	/** Create a new message of type success
+	 * 
+	 * @param string $success
+	 * @param string $message
+	 * @param string $redirection
+	 * 
+	 * @return void
 	 */
-	public static function checkLogin(): void
+	public static function newSuccess(string $success, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
 	{
-		if (!isset($_SESSION['login'])) {
-			MsgRepository::newError("Vous devez être connecté pour effectuer cette action.", "Not loged in");
-		}
+		$_SESSION['MSGs']["list_messages"][] = new Msg(Msg::SUCCESS, $success, $message);
+		MsgRepository::redirect($redirection);
 	}
 
-	/**
-	 * Redirect to the previous page or a fallback home page.
+	/** Create a new message of type error
+	 * @param string $error
+	 * @param string $message
+	 * @param string $redirection
+	 * 
+	 * @return void
 	 */
+	public static function newError(string $error, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
+	{
+		$_SESSION['MSGs']["list_messages"][] = new Msg(Msg::ERROR, $error, $message);
+		MsgRepository::redirect($redirection);
+	}
+
+	/** Create a new message of type error
+	 * @param string $warning
+	 * @param string $message
+	 * @param string $redirection
+	 * 
+	 * @return void
+	 */
+	public static function newWarning(string $warning, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
+	{
+		$_SESSION['MSGs']["list_messages"][] = new Msg(Msg::WARNING, $warning, $message);
+		MsgRepository::redirect($redirection);
+	}
+
+ /** Redirect to a specified destination, the previous page or a fallback home page.
+	* 
+  * @param mixed $redirection
+  * 
+  * @return void
+  */
 	static public function redirect($redirection): void
 	{
 		if ($redirection != MsgRepository::NO_REDIRECT) {
-			$redirectUrl = $redirection != "last" ? $redirection : '?contorller=ControllerGeneral&action=home';
+			$redirectUrl = $redirection != MsgRepository::LAST_PAGE ? $redirection : '?contorller=ControllerGeneral&action=home';
 			header('Location: ' . $redirectUrl);
-
-			unset($redirection);
-			exit;
-		} else return;
+		}
 	}
 }
