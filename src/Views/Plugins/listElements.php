@@ -30,7 +30,8 @@ use Src\Model\Repository\GeoRepository;
     </ul>
 
     <div class="tab-content scroll-list">
-        <div class="active" id="regions" role="tabpanel" aria-labelledby="regions-tab">
+        <!-- Regions Tab -->
+        <div class="tab-pane fade show active" id="regions" role="tabpanel" aria-labelledby="regions-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getRegions() as $item) : ?>
                     <label class="list-group-item">
@@ -45,7 +46,8 @@ use Src\Model\Repository\GeoRepository;
             </div>
         </div>
 
-        <div class="tab-pane" id="depts" role="tabpanel" aria-labelledby="depts-tab">
+        <!-- Departments Tab -->
+        <div class="tab-pane fade" id="depts" role="tabpanel" aria-labelledby="depts-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getDepts() as $item) : ?>
                     <label class="list-group-item">
@@ -60,7 +62,8 @@ use Src\Model\Repository\GeoRepository;
             </div>
         </div>
 
-        <div class="tab-pane" id="villes" role="tabpanel" aria-labelledby="villes-tab">
+        <!-- Cities Tab -->
+        <div class="tab-pane fade" id="villes" role="tabpanel" aria-labelledby="villes-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getVilles() as $item) : ?>
                     <label class="list-group-item">
@@ -75,7 +78,8 @@ use Src\Model\Repository\GeoRepository;
             </div>
         </div>
 
-        <div class="tab-pane" id="stations" role="tabpanel" aria-labelledby="stations-tab">
+        <!-- Stations Tab -->
+        <div class="tab-pane fade" id="stations" role="tabpanel" aria-labelledby="stations-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getStations() as $item) : ?>
                     <label class="list-group-item">
