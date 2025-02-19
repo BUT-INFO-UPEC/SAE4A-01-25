@@ -30,7 +30,7 @@
 	</div>
 </div>
 
-<?php if (isset($dash->get_params()['commentaire'])) { ?>
+<?php if ($dash->get_comment() != null) { ?>
 	<div class="container">
 		<h3> Commentaires </h3>
 
