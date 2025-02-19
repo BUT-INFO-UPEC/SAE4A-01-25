@@ -10,39 +10,27 @@ use Src\Model\Repository\AbstractRepository;
  */
 abstract class AbstractRequestComponant extends AbstractRepository
 {
+	#region Attributs
+	// =======================
+	//        ATTRIBUTES
+	// =======================
 
-	// Ce cache est partagé par toutes les classes filles
+	// Ce cache est partagé par toutes les classes filles pour éviter les redondance d'instances
 	protected static $sharedCache = [];
+	#endregion Attributs
 
-	// Méthode pour obtenir ou manipuler le cache
-	protected function getCache(string $key)
-	{
-		$className = get_called_class();  // Récupère le nom de la classe fille actuelle
-		if (!isset(self::$sharedCache[$className])) {
-			self::$sharedCache[$className] = [];  // Initialiser le cache pour cette classe fille
-		}
-		return self::$sharedCache[$className][$key] ?? null;
-	}
+	#region Publiques
+	// =======================
+	//    PUBLIC METHODS
+	// =======================
 
-	protected function setCache(string $key, $value)
-	{
-		$className = get_called_class();
-		if (!isset(self::$sharedCache[$className])) {
-			self::$sharedCache[$className] = [];
-		}
-		self::$sharedCache[$className][$key] = $value;
-	}
-
-	protected function getCacheFull()
-	{
-		$className = get_called_class();  // Récupère le nom de la classe fille actuelle
-		if (!isset(self::$sharedCache[$className])) {
-			self::$sharedCache[$className] = [];  // Initialiser le cache pour cette classe fille
-		}
-		return self::$sharedCache[$className] ?? null;
-	}
-
-	function get_object_by_id($id): AbstractDataObject
+	/** Vérifie si l'objet est dans le cache, si oui, le retourne, sinon l'instancie dans le cache avant
+	 * 
+	 * @param int $id
+	 * 
+	 * @return AbstractDataObject
+	 */
+	public function get_object_by_id(int $id): AbstractDataObject
 	{
 		// Vérifie si l'objet est déjà dans le cache spécifique à cette classe
 		if ($this->getCache($id) != null) {  // Utilisation de static::$cache
@@ -58,7 +46,11 @@ abstract class AbstractRequestComponant extends AbstractRepository
 		return $objet;
 	}
 
-	public function get_static_objects_list()
+	/** Retourne la liste entière des objets de ce tpe en instanciant ceux manquant dans le cache
+	 * 
+	 * @return array
+	 */
+	public function get_static_objects_list(): array
 	{
 		// Initialise les objets avec le cache spécifique à cette classe
 		$objet = $this->getCacheFull();  // Utilisation de static::$cache
@@ -95,4 +87,55 @@ abstract class AbstractRequestComponant extends AbstractRepository
 		}
 		return $objet;
 	}
+	#endregion Publiques
+
+	#region Protected
+	// =======================
+	//    PUBLIC PROTECTED
+	// =======================
+
+	/** Récupère l'instance associée a la clée dans le cache si il existe
+	 * 
+	 * @param string $key
+	 * 
+	 * @return AbstractDataObject|null
+	 */
+	protected function getCache(string $key): ?AbstractDataObject
+	{
+		$className = get_called_class();  // Récupère le nom de la classe fille actuelle
+		if (!isset(self::$sharedCache[$className])) {
+			self::$sharedCache[$className] = [];  // Initialiser le cache pour cette classe fille
+		}
+		return self::$sharedCache[$className][$key] ?? null;
+	}
+
+	/** Associe une instance a une clé dans le cache commun
+	 * 
+	 * @param string $key
+	 * @param AbstractDataObject|bool $value l'instance a associer ou un booléen si la clée est "full"
+	 * 
+	 * @return void
+	 */
+	protected function setCache(string $key, AbstractDataObject|bool $value): void
+	{
+		$className = get_called_class();
+		if (!isset(self::$sharedCache[$className])) {
+			self::$sharedCache[$className] = [];
+		}
+		self::$sharedCache[$className][$key] = $value;
+	}
+
+	/** Récupère l'intégralité du cache pour la classe l'appelant
+	 * 
+	 * @return array
+	 */
+	protected function getCacheFull(): array
+	{
+		$className = get_called_class();  // Récupère le nom de la classe fille actuelle
+		if (!isset(self::$sharedCache[$className])) {
+			self::$sharedCache[$className] = [];  // Initialiser le cache pour cette classe fille
+		}
+		return self::$sharedCache[$className] ?? null;
+	}
+	#endregion Publiques
 }

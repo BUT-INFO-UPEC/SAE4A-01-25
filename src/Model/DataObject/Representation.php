@@ -6,39 +6,70 @@ use Src\Model\DataObject\AbstractDataObject;
 
 class Representation extends AbstractDataObject
 {
-	private $id;
-	private $nom;
-	private $grouppings;
-	private $fichier_visu;
+	#region Attributs
+	// =======================
+	//        ATTRIBUTES
+	// =======================
+	
+	private int $id;
+	private string $nom;
+	private string $fichier_visu;
+	#endregion Attributs
+
+	// =======================
+	//      CONSTRUCTOR
+	// =======================
 
 	function __construct($id, $nom, $grouppings, $fichier_visu)
 	{
 		$this->id = $id;
 		$this->nom = $nom;
-		$this->grouppings = $grouppings;
 		$this->fichier_visu = $fichier_visu;
 	}
 
-	function get_id()
+	#region Getters
+	// =======================
+	//      GETTERS
+	// =======================
+
+	/** L'identifiant de la représentation dans la BDD
+	 * 
+	 * @return int
+	 */
+	function get_id(): int
 	{
 		return $this->id;
 	}
-	function get_nom()
+
+	/** Le nom associé a la représentation
+	 * 
+	 * @return string
+	 */
+	function get_nom(): string
 	{
 		return $this->nom;
 	}
-	function get_grouppings()
-	{
-		return $this->grouppings;
-	}
-	function get_visu_file()
+
+	/** Récupère le nom du ficher de génération de la représentation spécifiée
+	 * 
+	 * @return string
+	 */
+	function get_visu_file(): string
 	{
 		return $this->fichier_visu;
 	}
+	#endregion Getters
+	
+	#region Overides
+	// =======================
+	//    OVERIDES
+	// =======================
+
 	public function formatTableau(): array
 	{
 		return [
 			":id" => $this->get_id()
 		];
 	}
+	#endregion Overides
 }

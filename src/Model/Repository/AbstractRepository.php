@@ -2,9 +2,7 @@
 
 namespace Src\Model\Repository;
 
-use PDO;
 use Src\Model\DataObject\AbstractDataObject;
-use Src\Config\MsgRepository;
 
 /**
  * classe mêre de toutes les données statiques du site pour eviter la redondance.
@@ -12,6 +10,9 @@ use Src\Config\MsgRepository;
 abstract class AbstractRepository
 {
 	#region CRUD
+	// =======================
+	//  Create Read Update Delete
+	// =======================
 
 	/**
 	 * Selectionne un objet de la BDD_ selon un critère de clé primaire et le renvoie construit
@@ -132,6 +133,10 @@ abstract class AbstractRepository
 	#endregion CRUD
 
 	#region abstraites
+	// =======================
+	//    ABSTRACTS
+	// =======================
+
 	/**
 	 * Définie le nom de la table de la BDD_ correspondant au type d'objet
 	 * 
