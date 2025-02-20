@@ -49,19 +49,16 @@ class MsgRepository
 		MsgRepository::redirect($redirection);
 	}
 
-<<<<<<< HEAD
 	public static function newPrimary(string $title, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void {
 		$_SESSION['MSGs']["list_messages"][] = new Msg(Msg::PRIMARY, $title, $message);
 		MsgRepository::redirect($redirection);
 	}
 
-=======
 	/**
 	 * Summary of Debug
 	 * @param mixed $var
 	 * @return void
 	 */
->>>>>>> 8bd129a60ce14eaa23870a879149e9e965c4dbae
 	public static function Debug(mixed $var): void {
 		$_SESSION["MSGs"]['list_messages'][] = new Msg(Msg::SECONDARY, "debuging", var_export($var, true));
 		MsgRepository::redirect(MsgRepository::NO_REDIRECT);
