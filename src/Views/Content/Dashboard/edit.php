@@ -6,7 +6,7 @@
 		<?php
 
 		use Src\Config\UserManagement;
-use Src\Model\DataObject\Composant;
+		use Src\Model\DataObject\Composant;
 
 		if (UserManagement::getUser() != null && UserManagement::getUser()->getId() == $dash->get_createur()) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
@@ -70,10 +70,10 @@ use Src\Model\DataObject\Composant;
 		<div ng-app="myApp" ng-controller="myCtrl">
 			<ul class="nav nav-tabs onglet">
 				<li>
-					<a href="#" ng-click="addTab()">Ajouter un onglet</a>
+					<a ng-click="addTab()">Ajouter un onglet</a>
 				</li>
 				<li ng-repeat="tab in tabs" ng-class="{'active': tab.active}">
-					<a href="#" ng-click="selectTab($index)">{{tab.name}}</a>
+					<a ng-click="selectTab($index)">{{tab.name}}</>
 					<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;">&times;</span>
 				</li>
 			</ul>
@@ -95,7 +95,9 @@ use Src\Model\DataObject\Composant;
 							<label for="visu_type_{{tab.id}}" class="form-label">Type de visualisation :</label>
 							<select id="visu_type_{{tab.id}}"
 								name="visu_type_{{tab.id}}"
-								class="form-select" required>
+								class="form-select"
+								ng-model="tab.selectedVisu"
+								required>
 								<?php if (!empty($represtation)) : ?>
 									<?php foreach ($represtation as $item) : ?>
 										<option value="<?= htmlspecialchars($item->get_id()) ?>">
@@ -113,7 +115,9 @@ use Src\Model\DataObject\Composant;
 							<label for="value_type_{{tab.id}}" class="form-label">Valeur étudiée :</label>
 							<select id="value_type_{{tab.id}}"
 								name="value_type_{{tab.id}}"
-								class="form-select" required>
+								class="form-select"
+								ng-model="tab.selectedValue"
+								required>
 								<?php if (!empty($valeurs)) : ?>
 									<?php foreach ($valeurs as $item) : ?>
 										<option value="<?= htmlspecialchars($item->get_id()) ?>">
@@ -129,7 +133,9 @@ use Src\Model\DataObject\Composant;
 							<label for="association_{{tab.id}}" class="form-label">Association :</label>
 							<select id="association_{{tab.id}}"
 								name="association_{{tab.id}}"
-								class="form-select" required>
+								class="form-select"
+								ng-model="tab.selectedGroup"
+								required>
 								<?php if (!empty($association)) : ?>
 									<?php foreach ($association as $item) : ?>
 										<option value="<?= htmlspecialchars($item->get_id()) ?>">
@@ -145,7 +151,9 @@ use Src\Model\DataObject\Composant;
 							<label for="analysis_{{tab.id}}" class="form-label">Analyse :</label>
 							<select id="analysis_{{tab.id}}"
 								name="analysis_{{tab.id}}"
-								class="form-select" required>
+								class="form-select"
+								ng-model="tab.selectedAggreg"
+								required>
 								<?php if (!empty($analysis)) : ?>
 									<?php foreach ($analysis as $item) : ?>
 										<option value="<?= htmlspecialchars($item->get_id()) ?>">
@@ -178,13 +186,15 @@ use Src\Model\DataObject\Composant;
 				<?php foreach ($composants as $index => $composant) : ?> {
 						id: <?= $index + 1 ?>,
 						name: "<?= htmlspecialchars($composant->get_params()["titre"]) ?>",
-						active: <?= $index === 0 ? 'true' : 'false' ?>
+						active: <?= $index === 0 ? 'true' : 'false' ?>,
+						selectedVisu: "<?= (string)$composant->get_representation()->get_id() ?>",
+						selectedAggreg: "<?= (string)$composant->get_aggregation()->get_id() ?>",
+						selectedGroup: "<?= (string)$composant->get_grouping()->get_id() ?>",
+						selectedValue: "<?= (string)$composant->get_attribut()->get_id() ?>"
 					}
 					<?= $index < count($composants) - 1 ? ',' : '' ?>
 				<?php endforeach; ?>
 			];
-			
-			console.log("Valeurs initiales des tabs :", $scope.tabs);
 
 			$scope.addTab = function() {
 				var newTabIndex = $scope.tabs.length + 1;
