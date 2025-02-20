@@ -128,6 +128,16 @@ class DashboardRepository extends AbstractRepository
 
 		return $dashId;
 	}
+
+	public function delete_dashboard(Dashboard $dash): void {
+		// supprimer le dashboard
+
+		// supprimer les liens géo
+
+		// supprimer les liens avec les composants
+
+		// supprimer les composants
+	}
 	#endregion Publiques
 
 	#region abstractRepo

@@ -208,7 +208,7 @@ class ControllerDashboard extends AbstractController
 					// Ecraser l'ancien dashboard pour le mettre a jour avec les données de la requette
 					$constructeur->update_dashboard_by_id($dash, componantsToDelete: $componantsToDelete);
 					$dashId = $dash->get_id();
-					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&action=visu_dashboard&dash&dashId=$dashId");
+					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré", "?controller=ControllerDashboard&action=visu_dashboard&dash&dashId=$dashId");
 				} else {
 					// Créer un nouveau dashboard a partir des données de la requette
 					$constructeur->save_new_dashboard($dash);
@@ -217,8 +217,30 @@ class ControllerDashboard extends AbstractController
 			} else {
 				MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
 			}
-		} catch (PDOException $e) {
+		} catch (Exception $e) {
 			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard', $e->getMessage());
+		}
+	}
+
+	static function delete(): void {
+		$constructeur = new DashboardRepository();
+		if (!isset($_SESSION['dash'])) {
+			$dash = $_SESSION['dash'];
+		}
+		if (!isset($_GET["dash_id"])) {
+			$dash = $constructeur->get_dashboard_by_id($_GET["dash_id"]);
+			$_SESSION['dash'] = $dash;
+		}
+		if (isset($dash)) {
+			if ($dash->get_id() == UserManagement::getUser()->getId()) {
+				$constructeur->delete_dashboard($dash);
+				MsgRepository::newPrimary('Dashboard supprimmé', "<a href='?controller=ControllerDashboard&action=save'> dernierre chance de le récupérer ! </a>");
+			} else {
+				MsgRepository::newError("Hacker !!!", "C'est pas bien d'essayer de supprimer les dashboards des autres !!!");
+			}
+		}
+		else {
+			MsgRepository::newError("Aucun dashboard séléctionné", "vous devez séléctionner un dashboard pour le supprimer", MsgRepository::LAST_PAGE);
 		}
 	}
 	#endregion post
