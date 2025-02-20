@@ -15,7 +15,7 @@ class DashboardRepository extends AbstractRepository
 	#region attributes
 
 	const TYPES_CRITERES_GEO = [0 => "numer_sta", 1 => "code_epci", 2 => "code_geo", 3 => "code_reg", 4 => "code_dept"];
-	const REVERSE_TYPE_GEO = ["numer_sta" => 0, "epci_id" => 1, "ville_id"=> 2, "reg_id"=> 3, "dept_id" => 4];
+	const REVERSE_TYPE_GEO = ["numer_sta" => 0, "epci_id" => 1, "ville_id" => 2, "reg_id" => 3, "dept_id" => 4];
 	#endregion
 
 	#region Publiques
@@ -65,7 +65,12 @@ class DashboardRepository extends AbstractRepository
 		$values["createur_id"] = UserManagement::getUser() == null ? 0 : UserManagement::getUser()->getId();
 		$values["privatisation"] = 0;
 
-		return $this->select($id, $values);
+		var_dump($values);
+
+
+		$qeury = $this->select($id, $values);
+
+		return $qeury;
 	}
 
 	public function get_dashboards($criteres_geo, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation): array
