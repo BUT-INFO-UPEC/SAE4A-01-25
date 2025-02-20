@@ -58,7 +58,7 @@ class MsgRepository
 	static public function redirect($redirection): void
 	{
 		if ($redirection != MsgRepository::NO_REDIRECT) {
-			$redirectUrl = $redirection != MsgRepository::LAST_PAGE ? $redirection : '?controller=ControllerGeneral&action=home';
+			$redirectUrl = $redirection != MsgRepository::LAST_PAGE ? $redirection : '?action=default';
 			header('Location: ' . $redirectUrl);
 		}
 	}
