@@ -15,10 +15,10 @@ abstract class AbstractRepository
 	// =======================
 
 	/**
-	 * Selectionne un objet de la BDD_ selon un critère de clé primaire et le renvoie construit
-	 * 
+	 * Selectionne un objet de la BDD selon un critère de clé primaire et le renvoie construit
+	 *
 	 * @param string $valeurClePrimaire
-	 * 
+	 *
 	 * @return AbstractDataObject|null
 	 */
 	public function select(string $valeurClePrimaire, array $additionnalRestrictions = []): ?AbstractDataObject
@@ -26,6 +26,7 @@ abstract class AbstractRepository
 		$nomTable = $this->getTableName();
 		$nomClePrimaire = $this->getNomClePrimaire();
 
+		$additionnalQuery = "";
 		if ($additionnalRestrictions != []) {
 			$additionnalQuery = "and ";
 			foreach ($additionnalRestrictions as $key => $value) {
@@ -33,7 +34,7 @@ abstract class AbstractRepository
 			}
 		}
 
-		$query = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire ";
+		$query = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire " . $additionnalQuery;
 		$values = [ // préparation des valeurs
 			"clePrimaire" => $valeurClePrimaire,
 		];
@@ -45,8 +46,8 @@ abstract class AbstractRepository
 	}
 
 	/**
-	 * Selectionne tout les objets correspondants de la BDD_ et les construits pour en renvoyer le tableau
-	 * 
+	 * Selectionne tout les objets correspondants de la BDD et les construits pour en renvoyer le tableau
+	 *
 	 * @return AbstractDataObject[]
 	 */
 	public function selectAll($adiitionnalQuery, $values): array
@@ -67,9 +68,9 @@ abstract class AbstractRepository
 
 	/**
 	 * Inscrit statiquement l'objet dans la BDD
-	 * 
+	 *
 	 * @param AbstractDataObject $object L'objet de la classe dynamique correspondante
-	 * 
+	 *
 	 * @return void
 	 */
 	public function create(AbstractDataObject $object, $values = null): mixed
@@ -92,9 +93,9 @@ abstract class AbstractRepository
 
 	/**
 	 * Mets a jour un objet dynamique correspondant dans la BDD
-	 * 
+	 *
 	 * @param AbstractDataObject $object L'objet de la classe dynamique correspondante
-	 * 
+	 *
 	 * @return void
 	 */
 	public function update(AbstractDataObject $object, string $ancienneClePrimaire): void
@@ -112,9 +113,9 @@ abstract class AbstractRepository
 
 	/**
 	 * détruit un objet de la BDD_ selon un critère de clé primaire
-	 * 
+	 *
 	 * @param string $valeurClePrimaire
-	 * 
+	 *
 	 * @return void
 	 */
 	public function delete(string $valeurClePrimaire): void
@@ -139,30 +140,30 @@ abstract class AbstractRepository
 
 	/**
 	 * Définie le nom de la table de la BDD_ correspondant au type d'objet
-	 * 
+	 *
 	 * @return string
 	 */
 	protected abstract function getTableName(): string;
 
 	/**
 	 * Construit l'instance dynamique a partir des données statiques
-	 * 
+	 *
 	 * @param array $objetFormatTableau
-	 * 
+	 *
 	 * @return AbstractDataObject
 	 */
 	protected abstract function arrayConstructor(array $objetFormatTableau): AbstractDataObject;
 
 	/**
 	 * Définie le nom de la clé primaire du type d'objet dans la BDD
-	 * 
+	 *
 	 * @return string
 	 */
 	protected abstract function getNomClePrimaire(): string;
 
 	/**
 	 * Définie les différentes données présentes dans la BDD
-	 * 
+	 *
 	 * @return array
 	 */
 	protected abstract function getNomsColonnes(): array;
