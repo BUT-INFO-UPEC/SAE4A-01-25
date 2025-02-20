@@ -161,7 +161,7 @@ class ControllerDashboard extends AbstractController
 			$composant_rep[] = $composant->get_representation()->get_id();
 		}
 
-		MsgRepository::newWarning("géo", var_export($defaultGeo, true), MsgRepository::NO_REDIRECT);
+		// MsgRepository::newWarning("géo", var_export($defaultGeo, true), MsgRepository::NO_REDIRECT);
 
 		// Appel page
 		$titrePage = "Edition d'un Dashboard";
