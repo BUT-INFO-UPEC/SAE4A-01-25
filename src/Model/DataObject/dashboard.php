@@ -192,22 +192,42 @@ class Dashboard extends AbstractDataObject
 
 	/** Change l'identifiant du dashboard pour la BDD
 	 * 
-	 * @param mixed $id
+	 * @param int $id
 	 * 
 	 * @return void
 	 */
-	public function setId($id): void
+	public function setId(int $id): void
 	{
 		$this->dashboardId = $id;
 	}
 
-	/** Change la valeur de la date de début
+	/** Change le nmo de la lmétéothèque
 	 * 
-	 * @param mixed $startDate
+	 * @param string $title
 	 * 
 	 * @return void
 	 */
-	public function setStartDate($startDate): void
+	public function setTitle(string $title): void {
+		$this->params[0] = $title;
+	}
+
+	/** Change la publicité du dashboard
+	 * 
+	 * @param int $visibility
+	 * 
+	 * @return void
+	 */
+	public function setVisibility(int $visibility): void {
+		$this->privatisation = $visibility;
+	}
+
+	/** Change la valeur de la date de début
+	 * 
+	 * @param string $startDate
+	 * 
+	 * @return void
+	 */
+	public function setStartDate(string $startDate): void
 	{
 		$this->dateDebut = $startDate;
 	}
@@ -225,11 +245,11 @@ class Dashboard extends AbstractDataObject
 
 	/** Change la valeur de la date de fin
 	 * 
-	 * @param mixed $endDate
+	 * @param string $endDate
 	 * 
 	 * @return void
 	 */
-	public function setEndDate($endDate): void
+	public function setEndDate(string $endDate): void
 	{
 		$this->dateFin = $endDate;
 	}
@@ -247,7 +267,7 @@ class Dashboard extends AbstractDataObject
 
 	/** Actualise les paramètres géographiques de la séléction de données
 	 * 
-	 * @param mixed $CryteresGeo
+	 * @param mixed $CryteresGeo Array?
 	 * 
 	 * @return void
 	 */
