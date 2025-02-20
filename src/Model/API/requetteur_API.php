@@ -78,6 +78,9 @@ class Requetteur_API
 			throw new Exception("Erreur de décodage JSON : " . json_last_error_msg());
 		}
 
+		// fermeture de la connexion
+		curl_close($ch);
+
 		return $decoded_response;
 	}
 }
