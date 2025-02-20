@@ -10,11 +10,11 @@ class MsgRepository
 	const LAST_PAGE = "last";
 
 	/** Create a new message of type success
-	 * 
+	 *
 	 * @param string $success
 	 * @param string $message
 	 * @param string $redirection
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function newSuccess(string $success, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
@@ -27,7 +27,7 @@ class MsgRepository
 	 * @param string $error
 	 * @param string $message
 	 * @param string $redirection
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function newError(string $error, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
@@ -40,7 +40,7 @@ class MsgRepository
 	 * @param string $warning
 	 * @param string $message
 	 * @param string $redirection
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function newWarning(string $warning, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
@@ -49,15 +49,20 @@ class MsgRepository
 		MsgRepository::redirect($redirection);
 	}
 
+	/**
+	 * Summary of Debug
+	 * @param mixed $var
+	 * @return void
+	 */
 	public static function Debug(mixed $var): void {
 		$_SESSION["MSGs"]['list_messages'][] = new Msg(Msg::SECONDARY, "debuging", var_export($var, true));
 		MsgRepository::redirect(MsgRepository::NO_REDIRECT);
 	}
 
  /** Redirect to a specified destination, the previous page or a fallback home page.
-	* 
+	*
   * @param mixed $redirection
-  * 
+  *
   * @return void
   */
 	static public function redirect($redirection): void
