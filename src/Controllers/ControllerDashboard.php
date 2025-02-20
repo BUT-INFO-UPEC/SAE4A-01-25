@@ -196,7 +196,7 @@ class ControllerDashboard extends AbstractController
 
 				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
 				if (isset($_GET["upload"]) && $_GET["upload"] == "false") {
-					header("Location: ?controller=ControllerDashboard&action=visu_dashboard");
+					header("?controller=ControllerDashboard&action=visu_dashboard");
 					exit;
 				}
 
@@ -204,23 +204,21 @@ class ControllerDashboard extends AbstractController
 				if (UserManagement::getUser() == null) MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir sauvegarder un dashboard');
 
 				$constructeur = new DashboardRepository();
-				if ($dash->get_createur() != UserManagement::getUser()->getId() or isset($_POST["duplicate"])) {
+				if ($dash->get_createur() == UserManagement::getUser()->getId() and !isset($_GET["duplicate"])) {
+					// Ecraser l'ancien dashboard pour le mettre a jour avec les données de la requette
+					$constructeur->update_dashboard_by_id($dash, componantsToDelete: $componantsToDelete);
+					$dashId = $dash->get_id();
+					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&action=visu_dashboard&dash&dashId=$dashId");
+				} else {
 					// Créer un nouveau dashboard a partir des données de la requette
 					$constructeur->save_new_dashboard($dash);
-					MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "Location: ?controller=ControllerDashboard&actoin=visu_dashboard");
-				} else {
-					// Ecraser l'ancien dashboard pour le mettre a jour avec les données de la requette
-					$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
-					$dashId = $dash->get_id();
-					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "Location: ?controller=ControllerDashboard&action=visu_dashboard&dash&dashId=$dashId");
+					MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&action=visu_dashboard");
 				}
 			} else {
 				MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
 			}
 		} catch (PDOException $e) {
-			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard');
-		} catch (Exception $e) {
-			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard');
+			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard', $e->getMessage());
 		}
 	}
 	#endregion post

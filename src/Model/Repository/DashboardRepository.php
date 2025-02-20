@@ -2,6 +2,7 @@
 
 namespace Src\Model\Repository;
 
+use Src\Config\MsgRepository;
 use Src\Config\UserManagement;
 use Src\Model\DataObject\Dashboard;
 
@@ -14,6 +15,7 @@ class DashboardRepository extends AbstractRepository
 	#region attributes
 
 	const TYPES_CRITERES_GEO = [0 => "numer_sta", 1 => "code_epci", 2 => "code_geo", 3 => "code_reg", 4 => "code_dept"];
+	const REVERSE_TYPE_GEO = ["numer_sta" => 0, "epci_id" => 1, "ville_id"=> 2, "reg_id"=> 3, "dept_id" => 4];
 	#endregion
 
 	#region Publiques
@@ -97,15 +99,16 @@ class DashboardRepository extends AbstractRepository
 	public function save_new_dashboard(Dashboard $dash)
 	{
 		$values = $dash->formatTableau();
-		$values[":createur_id"] = $values[":id"];
-		$values[":id"] = null;
+		$values[":createur_id"] = UserManagement::getUser()->getId();
+		$values[":id"] = NULL;
 		$dashId = (int) $this->create($dash, $values);
 
 		// enregistrer les liens critereGeo
 		foreach ($dash->get_region() as $type => $ids) {
+			$DB_type = DashboardRepository::REVERSE_TYPE_GEO[$type];
 			foreach ($ids as $value) {
 				$query = "INSERT INTO CritereGeo_dashboard (dashboard_id, type_critere, critere_id) VALUES (:dashboard_id, :type_critere, :critere_id)";
-				$values = [":dashboard_id" => $dashId, ":type_critere" => $type, ":critere_id" => $value];
+				$values = [":dashboard_id" => $dashId, ":type_critere" => $DB_type, ":critere_id" => $value];
 				DatabaseConnection::executeQuery($query, $values);
 			}
 		}
@@ -138,7 +141,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function getNomsColonnes(): array
 	{
-		return ['id', 'privatisation', 'createur_id', 'date_debut', 'date_fin', 'date_debut_relatif', 'date_fin_relatif', 'params', 'original_id'];
+		return ['id', 'privatisation', 'createur_id', 'date_debut', 'date_fin', 'date_debut_relatif', 'date_fin_relatif', 'params'];
 	}
 	#endregion abstractRepo
 
