@@ -62,7 +62,10 @@ class DashboardRepository extends AbstractRepository
 	{
 		// ajouter vérif appartenance a l'utilisateur ou visibilité publique ICI
 
-		return $this->select($id);
+		$values["createur_id"] = UserManagement::getUser() == null ? 0 : UserManagement::getUser()->getId();
+		$values["privatisation"] = 0;
+
+		return $this->select($id, $values);
 	}
 
 	public function get_dashboards($criteres_geo, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation): array
