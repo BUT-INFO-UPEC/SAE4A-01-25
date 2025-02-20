@@ -6,11 +6,12 @@
 		<?php
 
 		use Src\Config\UserManagement;
+use Src\Model\DataObject\Composant;
 
 		if (UserManagement::getUser() != null && UserManagement::getUser()->getId() == $dash->get_createur()) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
 		<?php endif;
-		
+
 		if (UserManagement::getUser() != null) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&duplicate=true" value="Dupliquer">
 		<?php endif; ?>
@@ -81,12 +82,11 @@
 				<div class="mb-4">
 					<h4>Titre du composant</h4>
 					<div class="row g-3">
-						<div ng-include="tab.content"></div>
 						<div class="col-md-6">
 							<label class="form-label">Titre :</label>
 							<input type="text"
 								name="titre_composant_{{tab.id}}"
-								ng-model="tab.name"
+								value="{{tab.name}}"
 								placeholder="Nom de l'onglet"
 								class="form-control" required>
 						</div>
@@ -170,29 +170,27 @@
 
 	<input type="hidden" name="count_id" ng-value="count_id">
 </form>
-
 <script>
 	// Ton code JS pour la gestion des onglets et des données
 	angular.module('myApp', [])
 		.controller('myCtrl', function($scope) {
-			$scope.tabs = [{
-					name: 'Onglet 1',
-					active: true,
-					content: 'onglet1.html'
-				},
-				{
-					name: 'Onglet 2',
-					active: false,
-					content: 'onglet2.html'
-				}
+			$scope.tabs = [
+				<?php foreach ($composants as $index => $composant) : ?> {
+						id: <?= $index + 1 ?>,
+						name: "<?= htmlspecialchars($composant->get_params()["titre"]) ?>",
+						active: <?= $index === 0 ? 'true' : 'false' ?>
+					}
+					<?= $index < count($composants) - 1 ? ',' : '' ?>
+				<?php endforeach; ?>
 			];
+			
+			console.log("Valeurs initiales des tabs :", $scope.tabs);
 
 			$scope.addTab = function() {
 				var newTabIndex = $scope.tabs.length + 1;
 				$scope.tabs.push({
 					name: 'Onglet ' + newTabIndex,
 					active: false,
-					content: 'onglet' + newTabIndex + '.html'
 				});
 			};
 

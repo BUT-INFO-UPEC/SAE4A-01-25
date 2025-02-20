@@ -147,19 +147,7 @@ class ControllerDashboard extends AbstractController
 		$dash_date_fin = $dash->get_date("fin");
 		$dash_date_fin_r = $dash->dateFinRelatif;
 		$defaultGeo = $dash->get_region();
-
-		// Initialisation des composants du dashboard pour la vue
 		$composants = $dash->get_composants();
-		$composant_attr = [];
-		$composant_agr = [];
-		$composant_grou = [];
-		$composant_rep = [];
-		foreach ($composants as $composant) {
-			$composant_attr[] = $composant->get_attribut()->get_id();
-			$composant_agr[] = $composant->get_aggregation()->get_id();
-			$composant_grou[] = $composant->get_grouping()->get_id();
-			$composant_rep[] = $composant->get_representation()->get_id();
-		}
 
 		// MsgRepository::newWarning("géo", var_export($defaultGeo, true), MsgRepository::NO_REDIRECT);
 
