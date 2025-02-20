@@ -18,7 +18,7 @@ if (!empty($_SESSION['MSGs']["list_messages"])) {
 			const alertMessages = document.querySelectorAll('[id^="alertMessage"]');
 
 			alertMessages.forEach((msg) => {
-				if (!msg.classList.contains('alert-secondary')) {
+				if (!msg.classList.contains('alert-primary') && !msg.classList.contains('alert-secondary')) {
 					setTimeout(() => {
 						msg.classList.add('fade'); // Ajoute la transition de disparition
 						setTimeout(() => msg.remove(), 500); // Supprime complètement après 0.5s

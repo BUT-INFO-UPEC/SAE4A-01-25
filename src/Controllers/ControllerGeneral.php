@@ -73,7 +73,7 @@ class ControllerGeneral extends AbstractController
 
 				UtilisateurRepository::updateNbConn();
 
-				MsgRepository::newSuccess("Connexion réussie.");
+				MsgRepository::newSuccess("Connexion réussie.", "", MsgRepository::LAST_PAGE);
 			} else {
 				MsgRepository::newError("Utilisateur introuvable.", "Identifiants incorrects.");
 			}
