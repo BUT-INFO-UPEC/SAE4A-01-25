@@ -49,6 +49,11 @@ class MsgRepository
 		MsgRepository::redirect($redirection);
 	}
 
+	public static function Debug(mixed $var): void {
+		$_SESSION["MSGs"]['list_messages'][] = new Msg(Msg::SECONDARY, "debuging", var_export($var, true));
+		MsgRepository::redirect(MsgRepository::NO_REDIRECT);
+	}
+
  /** Redirect to a specified destination, the previous page or a fallback home page.
 	* 
   * @param mixed $redirection
