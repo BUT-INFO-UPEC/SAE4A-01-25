@@ -184,7 +184,8 @@ class ControllerDashboard extends AbstractController
 
 				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
 				if (isset($_GET["upload"]) && $_GET["upload"] == "false") {
-					header("?controller=ControllerDashboard&action=visu_dashboard");
+					MsgRepository::Debug($dash);
+					header("Location: ?controller=ControllerDashboard&action=visu_dashboard");
 					exit;
 				}
 
@@ -274,6 +275,7 @@ class ControllerDashboard extends AbstractController
 	{
 		// récupérer les POST simples
 		$dash->setTitle($_POST['nom_meteotheque']);
+		$dash->setComments($_POST['comments']);
 		$dash->setVisibility($_POST['visibility']);
 		$dash->setStartDate($_POST['start_date']);
 		$dash->setStartDateRelative(isset($_POST['dynamic_start']) && $_POST['dynamic_start'] == 'on');

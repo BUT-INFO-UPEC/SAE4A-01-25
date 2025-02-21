@@ -211,6 +211,10 @@ class Dashboard extends AbstractDataObject
 		$this->params[0] = $title;
 	}
 
+	public function setComments(string $comments): void {
+		$this->params[1] = $comments;
+	}
+
 	/** Change la publicité du dashboard
 	 * 
 	 * @param int $visibility
