@@ -178,13 +178,14 @@
 		</div>
 	</div>
 </form>
+
 <script>
 	// Ton code JS pour la gestion des onglets et des données
 	angular.module('myApp', [])
 		.controller('myCtrl', function($scope) {
 			$scope.tabs = <?= json_encode(array_map(function ($composant, $index) {
 											return [
-												"id" => $index + 1,
+												"id" => $index,
 												"name" => htmlspecialchars($composant->get_params()["titre"]),
 												"active" => $index === 0,
 												"selectedVisu" => (string)$composant->get_representation()->get_id(),
@@ -197,10 +198,15 @@
 			$scope.comp_count = $scope.tabs.length; // Initialisation du compteur d'onglets
 
 			$scope.addTab = function() {
-				var newTabIndex = $scope.tabs.length + 1;
+				var newTabIndex = $scope.tabs.length;
 				$scope.tabs.push({
+					id: newTabIndex,
 					name: 'Onglet ' + newTabIndex,
 					active: false,
+					selectedVisu: "1",
+					selectedAggreg: "1",
+					selectedGroup: "1",
+					selectedValue: "1"
 				});
 				$scope.comp_count = $scope.tabs.length; // Mise à jour du compteur d'onglets
 			};
@@ -213,9 +219,16 @@
 
 			$scope.removeTab = function(index) {
 				$scope.tabs.splice(index, 1);
+
+				// Recalculer et renuméroter les onglets
+				$scope.tabs.forEach(function(tab, i) {
+					tab.id = i; // Déplacer les indices des onglets (id = i + 1)
+				});
+
 				if ($scope.tabs.length === 0) {
 					$scope.addTab(); // Ajouter un nouvel onglet si tout est supprimé
 				}
+
 				$scope.comp_count = $scope.tabs.length; // Mise à jour du compteur d'onglets
 			};
 		});

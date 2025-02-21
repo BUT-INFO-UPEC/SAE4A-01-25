@@ -293,7 +293,6 @@ class ControllerDashboard extends AbstractController
 
 		foreach ($dash->get_composants() as $index => $comp) {
 			// Mettre a jour les composants
-			$index = $index + 1;
 			$params['titre'] = $_POST["titre_composant_$index"];
 			$params['chartId'] = $index;
 			$comp->set_params($params);
@@ -306,10 +305,10 @@ class ControllerDashboard extends AbstractController
 			// Ajouter les composants suplémentaires
 			$objetFormatTableau = [];
 			$objetFormatTableau['id'] = null;
-			$objetFormatTableau['attribut'] = $_POST["value_type_$i"];
-			$objetFormatTableau['aggregation'] = $_POST["analysis_$i"];
-			$objetFormatTableau['groupping'] = $_POST["association_$index"];
-			$objetFormatTableau['repr_type'] = $_POST["visu_type_$index"];
+			$objetFormatTableau['attribut'] = (int) $_POST["value_type_$i"];
+			$objetFormatTableau['aggregation'] = (int) $_POST["analysis_$i"];
+			$objetFormatTableau['groupping'] = (int) $_POST["association_$i"];
+			$objetFormatTableau['repr_type'] = (int) $_POST["visu_type_$i"];
 
 			$params['titre'] = $_POST["titre_composant_$i"];
 			$params['chartId'] = $i;
