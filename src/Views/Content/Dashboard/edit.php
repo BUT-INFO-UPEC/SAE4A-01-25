@@ -107,6 +107,7 @@
 							</select>
 						</div>
 					</div>
+
 					<div class="row g-3">
 						<div class="col-md-6">
 							<label for="value_type_{{tab.id}}" class="form-label">Valeur étudiée :</label>
@@ -126,6 +127,7 @@
 								<?php endif; ?>
 							</select>
 						</div>
+
 						<div class="col-md-6">
 							<label for="association_{{tab.id}}" class="form-label">Association :</label>
 							<select id="association_{{tab.id}}"
@@ -144,6 +146,7 @@
 								<?php endif; ?>
 							</select>
 						</div>
+
 						<div class="col-md-6">
 							<label for="analysis_{{tab.id}}" class="form-label">Analyse :</label>
 							<select id="analysis_{{tab.id}}"
@@ -165,6 +168,8 @@
 					</div>
 				</div>
 			</div>
+
+			<input type="hidden" id="comp_count" name="comp_count" value="{{comp_count}}">
 		</div>
 
 		<div class="mb-4">
@@ -172,8 +177,6 @@
 			<textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"><?= $dash->get_comment(); ?></textarea>
 		</div>
 	</div>
-
-	<input type="hidden" name="count_id" ng-model="count_id">
 </form>
 <script>
 	// Ton code JS pour la gestion des onglets et des données
@@ -191,12 +194,15 @@
 											];
 										}, $composants, array_keys($composants))); ?>;
 
+			$scope.comp_count = $scope.tabs.length; // Initialisation du compteur d'onglets
+
 			$scope.addTab = function() {
 				var newTabIndex = $scope.tabs.length + 1;
 				$scope.tabs.push({
 					name: 'Onglet ' + newTabIndex,
 					active: false,
 				});
+				$scope.comp_count = $scope.tabs.length; // Mise à jour du compteur d'onglets
 			};
 
 			$scope.selectTab = function(index) {
@@ -210,6 +216,7 @@
 				if ($scope.tabs.length === 0) {
 					$scope.addTab(); // Ajouter un nouvel onglet si tout est supprimé
 				}
+				$scope.comp_count = $scope.tabs.length; // Mise à jour du compteur d'onglets
 			};
 		});
 </script>

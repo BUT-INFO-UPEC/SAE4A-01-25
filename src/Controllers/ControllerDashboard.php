@@ -184,7 +184,6 @@ class ControllerDashboard extends AbstractController
 
 				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
 				if (isset($_GET["upload"]) && $_GET["upload"] == "false") {
-					MsgRepository::Debug($dash);
 					header("Location: ?controller=ControllerDashboard&action=visu_dashboard");
 					exit;
 				}
@@ -289,7 +288,7 @@ class ControllerDashboard extends AbstractController
 		// MsgRepository::newWarning("Verif update citeres geo", var_export($dash, true), MsgRepository::NO_REDIRECT);
 
 		// mise a jour des composants
-		$compNb = $_POST["count_id"];
+		$compNb = $_POST["comp_count"];
 		$componantsToDelete = $dash->delComposants((int) $compNb);
 
 		foreach ($dash->get_composants() as $index => $comp) {
