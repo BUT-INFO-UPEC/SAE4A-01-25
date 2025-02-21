@@ -62,8 +62,10 @@ class MsgRepository
 	 * @return void
 	 */
 	public static function newPrimary(string $title, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void {
-		$_SESSION['MSGs']["list_messages"][] = new Msg(Msg::PRIMARY, $title, $message);
+		$debugMsg = new Msg(Msg::PRIMARY, $title, $message);
 		MsgRepository::redirect($redirection);
+		$_SESSION["MSGs"]['list_messages'][] = $debugMsg;
+		$_SESSION['MSGs']["undying"][] = $debugMsg;
 	}
 
 	/** Create a new message of type secondary wich is reserved for developpement puroses
@@ -86,6 +88,11 @@ class MsgRepository
 	{
 		if ($redirection != MsgRepository::NO_REDIRECT) {
 			$redirectUrl = $redirection != MsgRepository::LAST_PAGE ? $redirection : '?action=default';
+
+			//allimenter le log pour deboggage
+			$_SESSION['MSGs']["undying"][] = [$_SESSION["MSGs"]['list_messages'], $redirectUrl];
+
+			// rediriger vers la destination définie
 			header('Location: ' . $redirectUrl);
 		}
 	}
