@@ -68,6 +68,7 @@
 		</div>
 
 		<div ng-app="myApp" ng-controller="myCtrl">
+
 			<ul class="nav nav-tabs onglet">
 				<li>
 					<a ng-click="addTab()">Ajouter un onglet</a>
@@ -79,6 +80,7 @@
 			</ul>
 
 			<div ng-repeat="tab in tabs" ng-show="tab.active">
+
 				<div class="mb-4">
 					<h4>Titre du composant</h4>
 					<div class="row g-3">
@@ -86,7 +88,7 @@
 							<label class="form-label">Titre :</label>
 							<input type="text"
 								name="titre_composant_{{tab.id}}"
-								value="{{tab.name}}"
+								ng-model="tab.name"
 								placeholder="Nom de l'onglet"
 								class="form-control" required>
 						</div>
@@ -208,6 +210,7 @@
 				$scope.tabs.forEach(function(tab, i) {
 					tab.active = (i === index);
 				});
+				console.log("Tab sélectionné :", $scope.tabs[index]);
 			};
 
 			$scope.removeTab = function(index) {
