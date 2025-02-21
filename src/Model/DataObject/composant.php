@@ -297,7 +297,7 @@ class Composant extends AbstractDataObject
 			":attribut" => $this->get_attribut()->get_id(),
 			":aggregation" => $this->get_aggregation()->get_id(),
 			":groupping" => $this->get_grouping()->get_id(),
-			":params_affich" => $this->params ?? ""
+			":params_affich" => json_encode($this->params) ?? ""
 		];
 	}
 	#endregion Overides
