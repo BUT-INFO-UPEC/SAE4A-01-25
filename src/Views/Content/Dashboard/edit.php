@@ -165,11 +165,11 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="mb-4">
-				<h4>Commentaires</h4>
-				<textarea name="comments_{{tab.id}}" id="comments_{{tab.id}}" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
-			</div>
+		<div class="mb-4">
+			<h4>Commentaires</h4>
+			<textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"><?= $dash->get_comment(); ?></textarea>
 		</div>
 	</div>
 
@@ -180,16 +180,16 @@
 	angular.module('myApp', [])
 		.controller('myCtrl', function($scope) {
 			$scope.tabs = <?= json_encode(array_map(function ($composant, $index) {
-								return [
-									"id" => $index + 1,
-									"name" => htmlspecialchars($composant->get_params()["titre"]),
-									"active" => $index === 0,
-									"selectedVisu" => (string)$composant->get_representation()->get_id(),
-									"selectedAggreg" => (string)$composant->get_aggregation()->get_id(),
-									"selectedGroup" => (string)$composant->get_grouping()->get_id(),
-									"selectedValue" => (string)$composant->get_attribut()->get_id(),
-								];
-							}, $composants, array_keys($composants))); ?>;
+											return [
+												"id" => $index + 1,
+												"name" => htmlspecialchars($composant->get_params()["titre"]),
+												"active" => $index === 0,
+												"selectedVisu" => (string)$composant->get_representation()->get_id(),
+												"selectedAggreg" => (string)$composant->get_aggregation()->get_id(),
+												"selectedGroup" => (string)$composant->get_grouping()->get_id(),
+												"selectedValue" => (string)$composant->get_attribut()->get_id(),
+											];
+										}, $composants, array_keys($composants))); ?>;
 
 			$scope.addTab = function() {
 				var newTabIndex = $scope.tabs.length + 1;
