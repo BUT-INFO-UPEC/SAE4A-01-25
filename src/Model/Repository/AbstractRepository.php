@@ -2,6 +2,7 @@
 
 namespace Src\Model\Repository;
 
+use Src\Config\MsgRepository;
 use Src\Model\DataObject\AbstractDataObject;
 
 /**
@@ -21,24 +22,17 @@ abstract class AbstractRepository
 	 *
 	 * @return AbstractDataObject|null
 	 */
-	public function select(string $valeurClePrimaire, array $additionnalRestrictions = []): ?AbstractDataObject
+	public function select(string $valeurClePrimaire, $adiitionnalQuery="", $aditionnalValues=[]): ?AbstractDataObject
 	{
 		$nomTable = $this->getTableName();
 		$nomClePrimaire = $this->getNomClePrimaire();
 
-		$additionnalQuery = "";
-		if ($additionnalRestrictions != []) {
-			$additionnalQuery = "and ";
-			foreach ($additionnalRestrictions as $key => $value) {
-				$additionnalQuery .= "$key= :$key";
-			}
-		}
-
-		$query = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire " . $additionnalQuery;
+		$query = "SELECT * from $nomTable WHERE $nomClePrimaire = :clePrimaire " . $adiitionnalQuery;
 		$values = [ // préparation des valeurs
 			"clePrimaire" => $valeurClePrimaire,
 		];
-		$values = array_merge($values, $additionnalRestrictions);
+		$values = array_merge($values, $aditionnalValues);
+
 		$objet = DatabaseConnection::fetchOne($query, $values);
 
 		if (!($objet)) return null;

@@ -60,17 +60,15 @@ class DashboardRepository extends AbstractRepository
 
 	public function get_dashboard_by_id(string $id): ?Dashboard
 	{
-		// ajouter vérif appartenance a l'utilisateur ou visibilité publique ICI
-
+		// ajouter vérif appartenance a l'utilisateur ou visibilité publique
 		$values["createur_id"] = UserManagement::getUser() == null ? 0 : UserManagement::getUser()->getId();
 		$values["privatisation"] = 0;
 
-		var_dump($values);
+		$query = "and (createur_id=:createur_id or privatisation=:privatisation)";
 
+		$dash = $this->select($id, $query, $values);
 
-		$qeury = $this->select($id, $values);
-
-		return $qeury;
+		return $dash;
 	}
 
 	public function get_dashboards($criteres_geo, $order, $dateFilter, $customStartDate, $customEndDate, $privatisation): array
@@ -94,6 +92,7 @@ class DashboardRepository extends AbstractRepository
 		$query = $wherequery . $orderquery;
 		return $this->selectAll($query, $values);
 	}
+	
 	public function update_dashboard_by_id(Dashboard $dash, $componantsToDelete)
 	{
 		$this->update($dash, $dash->get_id());

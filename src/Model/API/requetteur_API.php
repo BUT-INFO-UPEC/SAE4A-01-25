@@ -66,6 +66,7 @@ class Requetteur_API
 		$response = curl_exec($ch);
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+		// fermeture de la connexion
 		curl_close($ch);
 
 		if ($httpCode != 200) {
@@ -77,9 +78,6 @@ class Requetteur_API
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			throw new Exception("Erreur de décodage JSON : " . json_last_error_msg());
 		}
-
-		// fermeture de la connexion
-		curl_close($ch);
 
 		return $decoded_response;
 	}
