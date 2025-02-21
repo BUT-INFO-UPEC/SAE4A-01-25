@@ -86,12 +86,12 @@ class ControllerDashboard extends AbstractController
 		if (isset($_GET['dashId'])) {
 			$constructeur = new DashboardRepository();
 			$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
-			$dash->buildData();
 
 			$_SESSION['dash'] = $dash;
 		} elseif (isset($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
 		}
+		$dash->buildData();
 
 		// Appel page
 		$titrePage = "Visualisatoin du Dashboard";
