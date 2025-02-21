@@ -83,7 +83,7 @@
 							<label class="form-label">Titre :</label>
 							<input type="text"
 								name="titre_composant_{{tab.id}}"
-								value="{{tab.name}}"
+								ng-model="tab.name"
 								placeholder="Nom de l'onglet"
 								class="form-control" required>
 						</div>
