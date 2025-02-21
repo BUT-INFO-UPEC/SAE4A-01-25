@@ -305,10 +305,10 @@ class ControllerDashboard extends AbstractController
 			// Ajouter les composants suplémentaires
 			$objetFormatTableau = [];
 			$objetFormatTableau['id'] = null;
-			$objetFormatTableau['attribut'] = "";
-			$objetFormatTableau['aggregation'] = '';
-			$objetFormatTableau['groupping'] = "";
-			$objetFormatTableau['repr_type'] = '';
+			$objetFormatTableau['attribut'] = $_POST["value_type_$i"];
+			$objetFormatTableau['aggregation'] = $_POST["analysis_$i"];
+			$objetFormatTableau['groupping'] = $_POST["association_$index"];
+			$objetFormatTableau['repr_type'] = $_POST["visu_type_$index"];
 
 			$params['titre'] = $_POST["titre_composant_$i"];
 			$params['chartId'] = $i;
