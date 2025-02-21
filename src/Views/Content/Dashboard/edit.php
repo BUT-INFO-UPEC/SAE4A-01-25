@@ -1,8 +1,5 @@
-<?php
-
-?>
 <form method="POST" action="?action=save&upload=false" class="container-fluid mt-4">
-	<div id="edit-btns" style="position: sticky;">
+	<div id="edit-btns" style="position: sticky; top: 0; z-index: 100;">
 		<?php
 
 		use Src\Config\UserManagement;
@@ -74,7 +71,7 @@
 					<a ng-click="addTab()">Ajouter un onglet</a>
 				</li>
 				<li ng-repeat="tab in tabs" ng-class="{'active': tab.active}">
-					<a ng-click="selectTab($index)">{{tab.name}}</>
+					<a ng-click="selectTab($index)">{{tab.name}}</a>
 					<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;">&times;</span>
 				</li>
 			</ul>
@@ -178,25 +175,23 @@
 		</div>
 	</div>
 
-	<input type="hidden" name="count_id" ng-value="count_id">
+	<input type="hidden" name="count_id" ng-model="count_id">
 </form>
 <script>
 	// Ton code JS pour la gestion des onglets et des données
 	angular.module('myApp', [])
 		.controller('myCtrl', function($scope) {
-			$scope.tabs = [
-				<?php foreach ($composants as $index => $composant) : ?> {
-						id: <?= $index + 1 ?>,
-						name: "<?= htmlspecialchars($composant->get_params()["titre"]) ?>",
-						active: <?= $index === 0 ? 'true' : 'false' ?>,
-						selectedVisu: "<?= (string)$composant->get_representation()->get_id() ?>",
-						selectedAggreg: "<?= (string)$composant->get_aggregation()->get_id() ?>",
-						selectedGroup: "<?= (string)$composant->get_grouping()->get_id() ?>",
-						selectedValue: "<?= (string)$composant->get_attribut()->get_id() ?>"
-					}
-					<?= $index < count($composants) - 1 ? ',' : '' ?>
-				<?php endforeach; ?>
-			];
+			$scope.tabs = <?= json_encode(array_map(function ($composant, $index) {
+								return [
+									"id" => $index + 1,
+									"name" => htmlspecialchars($composant->get_params()["titre"]),
+									"active" => $index === 0,
+									"selectedVisu" => (string)$composant->get_representation()->get_id(),
+									"selectedAggreg" => (string)$composant->get_aggregation()->get_id(),
+									"selectedGroup" => (string)$composant->get_grouping()->get_id(),
+									"selectedValue" => (string)$composant->get_attribut()->get_id(),
+								];
+							}, $composants, array_keys($composants))); ?>;
 
 			$scope.addTab = function() {
 				var newTabIndex = $scope.tabs.length + 1;
