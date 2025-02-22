@@ -146,7 +146,7 @@ abstract class AbstractRepository
 	 *
 	 * @return AbstractDataObject
 	 */
-	protected abstract function arrayConstructor(array $objetFormatTableau): AbstractDataObject;
+	protected abstract function arrayConstructor(array $objetFormatTableau): ?AbstractDataObject;
 
 	/**
 	 * Définie le nom de la clé primaire du type d'objet dans la BDD

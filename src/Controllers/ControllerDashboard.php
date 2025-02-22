@@ -250,13 +250,13 @@ class ControllerDashboard extends AbstractController
 	{ // récupérer toutes les staitons, régions, ect... chéckés
 		$criteres_geo = [];
 		if (!empty($tab['regions']))
-			$criteres_geo['reg_id'] = $tab['regions'];
+			$criteres_geo['code_reg'] = $tab['regions'];
 
 		if (!empty($tab['depts']))
-			$criteres_geo['epci_id'] = $tab['depts'];
+			$criteres_geo['code_dep'] = $tab['depts'];
 
 		if (!empty($tab['villes']))
-			$criteres_geo['ville_id'] = $tab['villes'];
+			$criteres_geo['codegeo'] = $tab['villes'];
 
 		if (!empty($tab['stations']))
 			$criteres_geo['numer_sta'] = $tab['stations'];

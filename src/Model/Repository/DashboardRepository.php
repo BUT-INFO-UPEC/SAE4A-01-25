@@ -16,8 +16,8 @@ class DashboardRepository extends AbstractRepository
 	// =======================
 	#region attributes
 
-	const TYPES_CRITERES_GEO = [0 => "numer_sta", 1 => "code_epci", 2 => "code_geo", 3 => "code_reg", 4 => "code_dept"];
-	const REVERSE_TYPE_GEO = ["numer_sta" => 0, "epci_id" => 1, "ville_id" => 2, "reg_id" => 3, "dept_id" => 4];
+	const TYPES_CRITERES_GEO = [0 => "numer_sta", 1 => "code_epci", 2 => "codegeo", 3 => "code_reg", 4 => "code_dep"];
+	const REVERSE_TYPE_GEO = ["numer_sta" => 0, "codegeo" => 2, "code_reg" => 3, "code_dep" => 4];
 	#endregion
 
 	#region Publiques
@@ -25,7 +25,7 @@ class DashboardRepository extends AbstractRepository
 	//    PUBLIC METHODS
 	// =======================
 
-	public function arrayConstructor(array $objetFormatTableau): Dashboard
+	public function arrayConstructor(array $objetFormatTableau): ?Dashboard
 	{
 		try {
 			$composants = $this->BuildComposants($objetFormatTableau['id']);

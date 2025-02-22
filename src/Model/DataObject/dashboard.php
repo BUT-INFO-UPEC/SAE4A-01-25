@@ -158,8 +158,12 @@ class Dashboard extends AbstractDataObject
 		foreach ($this->selectionGeo as $key => $value) {
 			// Application de la transformation sur chaque élément de $value
 			$formattedValues = array_map(function ($valueInValue) use ($key) {
-				if ($key == "numer_sta") {
+				if (in_array($key, ["numer_sta", "codegeo"])) {
 					$valueInValue = str_pad($valueInValue, 5, "0", STR_PAD_LEFT);
+					$valueInValue = "'" . $valueInValue . "'";
+				}
+				if (in_array($key, ["code_reg", "code_dep"])) {
+					$valueInValue = str_pad($valueInValue, 2, "0", STR_PAD_LEFT);
 					$valueInValue = "'" . $valueInValue . "'";
 				}
 				return $valueInValue;
@@ -169,7 +173,7 @@ class Dashboard extends AbstractDataObject
 			$returnValue[] = "$key=" . implode(" or $key=", $formattedValues);
 		}
 
-		return sizeof($returnValue) == 0 ? null : "(" . implode(" and ", $returnValue) . ")";
+		return sizeof($returnValue) == 0 ? null : "(" . implode(" or ", $returnValue) . ")";
 	}
 
 	/** Construit les critères temporelles dans une chaine de caractère a mettre dans la requette a l'API (formatage)
