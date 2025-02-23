@@ -2,14 +2,14 @@
 	<div id="edit-btns" style="position: sticky;">
 		<?php
 
-		use Src\Config\UserManagement;
+		use Src\Config\SessionManagement;
 		use Src\Model\DataObject\Composant;
 
-		if (UserManagement::getUser() != null && UserManagement::getUser()->getId() == $dash->get_createur()) : ?>
+		if (SessionManagement::getUser() != null && SessionManagement::getUser()->getId() == $dash->get_createur()) : ?>
 			<input type="submit" class="btn btn-primary mb-4" value="Sauvegarder">
 		<?php endif;
 
-		if (UserManagement::getUser() != null) : ?>
+		if (SessionManagement::getUser() != null) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&duplicate=true" value="Dupliquer">
 		<?php endif; ?>
 

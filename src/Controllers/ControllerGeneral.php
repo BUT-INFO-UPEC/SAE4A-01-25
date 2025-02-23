@@ -7,7 +7,7 @@ use PDOException;
 use Src\Config\MsgRepository;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
-use Src\Config\UserManagement;
+use Src\Config\SessionManagement;
 
 class ControllerGeneral extends AbstractController
 {
@@ -161,7 +161,7 @@ class ControllerGeneral extends AbstractController
 	 */
 	public static function profile(): void
 	{
-		if (UserManagement::getUser() == null)
+		if (SessionManagement::getUser() == null)
 			// Erreur + rediréction si l'utilisateur n'est pas connécté
 			MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir enregistrer un dashboard', "?action=home");
 

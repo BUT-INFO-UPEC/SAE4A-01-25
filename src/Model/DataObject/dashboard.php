@@ -5,7 +5,7 @@ namespace Src\Model\DataObject;
 use DateTime;
 use Exception;
 use OutOfBoundsException;
-use Src\Config\UserManagement;
+use Src\Config\SessionManagement;
 
 /** Classe comportant les informations d'analyse des données météorologiques
  */
@@ -312,19 +312,19 @@ class Dashboard extends AbstractDataObject
 		$this->composants[] = $composant;
 	}
 
-	/** Supprime des composants de la liste du dashboard et retourne une liste des composants supprimés
+	/** Supprime des composants de la liste du dashboard et retourne une liste des composants supprimés dans la session
 	 * 
 	 * @param int $nbComps
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function delComposants(int $nbComps): array
+	public function delComposants(int $nbComps): void
 	{
-		$del_comp = [];
 		while (count($this->composants) > $nbComps) {
-			$del_comp[] = array_pop($this->composants);
+			$del_comp = array_pop($this->composants);
+			// si le composant est initialisé dans la BDD (il a un id), il faudra potentiellement le supprimer, il faut donc conserver son identifiant
+			if ($del_comp->get_id() != null) $_SESSION["componants_to_delete"][] = $del_comp->get_id();
 		}
-		return $del_comp;
 	}
 	#endregion public
 
@@ -358,7 +358,7 @@ class Dashboard extends AbstractDataObject
 		return [
 			":id" => $this->dashboardId,
 			":privatisation" => $this->privatisation,
-			':createur_id' => UserManagement::getUser()->getId(),
+			':createur_id' => SessionManagement::getUser()->getId(),
 			":date_debut" => $this->get_date('debut'),
 			":date_fin" => $this->get_date('fin'),
 			":date_debut_relatif" => $this->dateDebutRelatif,

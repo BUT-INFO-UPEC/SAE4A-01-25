@@ -5,7 +5,7 @@ namespace Src\Model\Repository;
 use Exception;
 use PDOException;
 use Src\Config\MsgRepository;
-use Src\Config\UserManagement;
+use Src\Config\SessionManagement;
 use Src\Model\DataObject\Dashboard;
 
 class DashboardRepository extends AbstractRepository
@@ -88,7 +88,7 @@ class DashboardRepository extends AbstractRepository
 	{
 		// ajouter vérif appartenance a l'utilisateur ou visibilité publique
 		try {
-			$values["createur_id"] = UserManagement::getUser() == null ? 0 : UserManagement::getUser()->getId();
+			$values["createur_id"] = SessionManagement::getUser() == null ? 0 : SessionManagement::getUser()->getId();
 			$values["privatisation"] = 0;
 
 			$query = "and (createur_id=:createur_id or privatisation=:privatisation)";
@@ -135,8 +135,9 @@ class DashboardRepository extends AbstractRepository
 		}
 	}
 
-	public function update_dashboard_by_id(Dashboard $dash, $componantsToDelete)
+	public function update_dashboard_by_id(Dashboard $dash)
 	{
+		$componantsToDelete = $_SESSION["componants_to_delete"];
 		$this->update($dash, $dash->get_id());
 		foreach ($dash->get_composants() as $$value) {
 			// update les différents composants
@@ -149,7 +150,7 @@ class DashboardRepository extends AbstractRepository
 	{
 		try {
 			$values = $dash->formatTableau();
-			$values[":createur_id"] = UserManagement::getUser()->getId();
+			$values[":createur_id"] = SessionManagement::getUser()->getId();
 			$values[":id"] = NULL;
 			$dashId = (int) $this->create($dash, $values);
 
@@ -215,7 +216,7 @@ class DashboardRepository extends AbstractRepository
 
 	private function buildPrivatisation(&$values, ?string $privatisation = null)
 	{
-		$values[":userId"] = UserManagement::getUser() == null ? 0 : UserManagement::getUser()->getId();
+		$values[":userId"] = SessionManagement::getUser() == null ? 0 : SessionManagement::getUser()->getId();
 		$private_values = ["privatisation = 0", "createur_id = :userId"];
 		switch ($privatisation) {
 			case 'private':

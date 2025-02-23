@@ -9,7 +9,7 @@ use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
-use Src\Config\UserManagement;
+use Src\Config\SessionManagement;
 use Src\Model\DataObject\Dashboard;
 use Src\Model\Repository\ComposantRepository;
 use Src\Model\Repository\GrouppingRepository;
@@ -87,7 +87,7 @@ class ControllerDashboard extends AbstractController
 			$constructeur = new DashboardRepository();
 			$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
 
-			$_SESSION['dash'] = $dash;
+			SessionManagement::setDash($dash);
 		} elseif (isset($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
 		}
@@ -128,7 +128,7 @@ class ControllerDashboard extends AbstractController
 			// Prioriser un id spécifié, tester la récupération du dashbord
 			try {
 				$dash = (new DashboardRepository())->get_dashboard_by_id($_GET['dashId']);
-				$_SESSION['dash'] = $dash;
+				SessionManagement::setDash($dash);
 			} catch (RuntimeException $e) {
 				MsgRepository::newError('Erreur lors de la récupération du dashboard', $e->getMessage());
 			}
@@ -179,7 +179,7 @@ class ControllerDashboard extends AbstractController
 			if (!empty($_SESSION['dash'])) {
 				// Mettre a jour le dashboard dans la session (données dynamiques)
 				$dash = $_SESSION['dash'];
-				$componantsToDelete = ControllerDashboard::update_dashboard_from_POST($dash);
+				ControllerDashboard::update_dashboard_from_POST($dash);
 				$_SESSION["dash"] = $dash;
 
 				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
@@ -189,12 +189,12 @@ class ControllerDashboard extends AbstractController
 				}
 
 				// vérifier si l'utilisateur est connécté
-				if (UserManagement::getUser() == null) MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir sauvegarder un dashboard');
+				if (SessionManagement::getUser() == null) MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir sauvegarder un dashboard');
 
 				$constructeur = new DashboardRepository();
-				if ($dash->get_createur() == UserManagement::getUser()->getId() and !isset($_GET["duplicate"])) {
+				if ($dash->get_createur() == SessionManagement::getUser()->getId() and !isset($_GET["duplicate"])) {
 					// Ecraser l'ancien dashboard pour le mettre a jour avec les données de la requette
-					$constructeur->update_dashboard_by_id($dash, componantsToDelete: $componantsToDelete);
+					$constructeur->update_dashboard_by_id($dash);
 					$dashId = $dash->get_id();
 					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré", "?controller=ControllerDashboard&action=visu_dashboard&dash&dashId=$dashId");
 				} else {
@@ -217,10 +217,10 @@ class ControllerDashboard extends AbstractController
 		}
 		if (!isset($_GET["dash_id"])) {
 			$dash = $constructeur->get_dashboard_by_id($_GET["dash_id"]);
-			$_SESSION['dash'] = $dash;
+			SessionManagement::setDash($dash);
 		}
 		if (isset($dash)) {
-			if ($dash->get_id() == UserManagement::getUser()->getId()) {
+			if ($dash->get_id() == SessionManagement::getUser()->getId()) {
 				$constructeur->delete_dashboard($dash);
 				MsgRepository::newPrimary('Dashboard supprimmé', "<a href='?controller=ControllerDashboard&action=save'> dernierre chance de le récupérer ! </a>");
 			} else {
@@ -270,7 +270,7 @@ class ControllerDashboard extends AbstractController
 	 * @return array Le résultat du delComposants.
 	 * @see Dashboard::delComposants(int $nbComps)
 	 */
-	private static function update_dashboard_from_POST(Dashboard &$dash): array
+	private static function update_dashboard_from_POST(Dashboard &$dash): void
 	{
 		// récupérer les POST simples
 		$dash->setTitle($_POST['nom_meteotheque']);
@@ -289,7 +289,7 @@ class ControllerDashboard extends AbstractController
 
 		// mise a jour des composants
 		$compNb = $_POST["comp_count"];
-		$componantsToDelete = $dash->delComposants((int) $compNb);
+		$dash->delComposants((int) $compNb);
 
 		foreach ($dash->get_composants() as $index => $comp) {
 			// Mettre a jour les composants
@@ -304,7 +304,7 @@ class ControllerDashboard extends AbstractController
 		for ($i = count($dash->get_composants()); $i < $compNb; $i++) {
 			// Ajouter les composants suplémentaires
 			$objetFormatTableau = [];
-			$objetFormatTableau['id'] = null;
+			$objetFormatTableau['id'] = $_SESSION["componants_to_delete"] ? null : array_pop($_SESSION["componants_to_delete"]); // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression création lors d'une mise a jour peraine et juste faire la dite mise a jour
 			$objetFormatTableau['attribut'] = (int) $_POST["value_type_$i"];
 			$objetFormatTableau['aggregation'] = (int) $_POST["analysis_$i"];
 			$objetFormatTableau['groupping'] = (int) $_POST["association_$i"];
@@ -315,9 +315,6 @@ class ControllerDashboard extends AbstractController
 			$objetFormatTableau['params_affich'] = $params;
 			$dash->addComposant((new ComposantRepository)->arrayConstructor($objetFormatTableau));
 		}
-
-		// retourner les composants qui sont de trop aprés les avoir unset
-		return $componantsToDelete;
 	}
 	#endregion utility
 }
