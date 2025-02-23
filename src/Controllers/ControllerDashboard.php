@@ -4,6 +4,7 @@ namespace Src\Controllers;
 
 use Exception;
 use PDOException;
+use PSpell\Config;
 use RuntimeException;
 use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
@@ -28,7 +29,7 @@ class ControllerDashboard extends AbstractController
 	// =======================
 
 	/** Retourne la page d'édition de dashboards avec initialisation sur le dashboard par défaut
-	 * 
+	 *
 	 * @return void
 	 */
 	static function new_dashboard(): void
@@ -49,10 +50,10 @@ class ControllerDashboard extends AbstractController
 	// =======================
 
 	/** Requette de la liste des dashboard selon des paramètres optionnels en GET
-	 * 
+	 *
 	 * Retourne la page de liste avec la liste des dashboards selon les filtres apliqués
 	 * La liste des filtres disponible est disponible sur la page liste sous la forme d'un formulaire
-	 * 
+	 *
 	 * @return void
 	 */
 	static public function browse(): void
@@ -76,9 +77,9 @@ class ControllerDashboard extends AbstractController
 	}
 
 	/** Retourne la page de visualisatoin du dashboard précisé
-	 * 
+	 *
 	 * La page de visualisation permet de voir les informations du dashboard ainsi que ses graphiques analytiques
-	 * 
+	 *
 	 * @return void
 	 */
 	static public function visu_dashboard(): void
@@ -100,9 +101,9 @@ class ControllerDashboard extends AbstractController
 	}
 
 	/** Retourne une page d'édition où les données du dashboard en cours ou celui de l'id précisé
-	 * 
+	 *
 	 * La page charge les données du dashboard et offre des options de visualisation ou sauvegarde en fonction des droits de l'utilisateur sur le dit dashboard
-	 * 
+	 *
 	 * @return void
 	 */
 	static function edit(): void
@@ -164,13 +165,13 @@ class ControllerDashboard extends AbstractController
 	// =======================
 
 	/** Fonction interne de la mise a jour d'un dashboard avec option de duplication ou écrasement
-	 * 
+	 *
 	 * Mets a jour le dashbord dans la session a partir des paramètres POST
 	 * Peut ajouter un nouveau dashboard dans la BDD partir du dashboard mis a jour
 	 * Peur écraser le dashboard original dans la BDD avec les données du nouveau pour sauvegarde
-	 * 
+	 *
 	 * Redirige ensuite vers la visualisatoin du dashboard mis a jour
-	 * 
+	 *
 	 * @return void
 	 */
 	static function save(): void
@@ -239,11 +240,11 @@ class ControllerDashboard extends AbstractController
 	// =======================
 
 	/** Mets en forme la liste des stations, villes départements et régions
-	 * 
+	 *
 	 * Mets en forme la liste des critères géographiques séléctionnés pour utilisation dans liste elements
-	 * 
+	 *
 	 * @param mixed $tab
-	 * 
+	 *
 	 * @return array Liste encapsulatn toutes les donénes géographiques
 	 */
 	private static function GET_POST_criteres_geo($tab): array
@@ -264,9 +265,9 @@ class ControllerDashboard extends AbstractController
 	}
 
 	/** Performe une mise ajour des données dynamiques (instance) d'un dashboard deppuis une requette POST
-	 * 
+	 *
 	 * @param Dashboard $dash Le dashboard a mettre a jour
-	 * 
+	 *
 	 * @return array Le résultat du delComposants.
 	 * @see Dashboard::delComposants(int $nbComps)
 	 */
