@@ -192,13 +192,26 @@ class DashboardRepository extends AbstractRepository
 
 	public function delete_dashboard(Dashboard $dash): void
 	{
-		// supprimer le dashboard
+		try {
+			// supprimer le dashboard
+			$this->delete($dash->get_id());
 
-		// supprimer les liens géo
+			// supprimer les liens géo
+			$query = "DELETE FROM CritereGeo_dashboard WHERE dashboard_id = :dashboard_id";
+			DatabaseConnection::executeQuery($query, [":dashboard_id" => $dash->get_id()]);
+			// supprimer les liens avec les composants
+			$query = "DELETE FROM Composant_dashboard WHERE dashboard_id = :dashboard_id";
+			DatabaseConnection::executeQuery($query, [":dashboard_id" => $dash->get_id()]);
 
-		// supprimer les liens avec les composants
+			// supprimer les composants
+			$query = "DELETE FROM Composant WHERE id IN (SELECT composant_id FROM Composant_dashboard WHERE dashboard_id = :dashboard_id)";
+			DatabaseConnection::executeQuery($query, [":dashboard_id" => $dash->get_id()]);
 
-		// supprimer les composants
+		} catch (PDOException $e) {
+			MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
+		} catch (Exception $e) {
+			MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
+		}
 	}
 	#endregion Publiques
 

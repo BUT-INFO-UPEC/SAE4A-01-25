@@ -4,7 +4,6 @@ namespace Src\Controllers;
 
 use Exception;
 use PDOException;
-use PSpell\Config;
 use RuntimeException;
 use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
@@ -124,11 +123,13 @@ class ControllerDashboard extends AbstractController
 			die("Erreur lors de la récupération des données : " . $e->getMessage());
 		}
 
+		$dashid = $_GET['dashId'] ?? null;
+
 		// Initialisation du dashboard a éditer
-		if (isset($_GET['dashId'])) {
+		if (isset($dashid)) {
 			// Prioriser un id spécifié, tester la récupération du dashbord
 			try {
-				$dash = (new DashboardRepository())->get_dashboard_by_id($_GET['dashId']);
+				$dash = (new DashboardRepository())->get_dashboard_by_id($dashid);
 				SessionManagement::setDash($dash);
 			} catch (RuntimeException $e) {
 				MsgRepository::newError('Erreur lors de la récupération du dashboard', $e->getMessage());
@@ -231,6 +232,8 @@ class ControllerDashboard extends AbstractController
 		else {
 			MsgRepository::newError("Aucun dashboard séléctionné", "vous devez séléctionner un dashboard pour le supprimer", MsgRepository::LAST_PAGE);
 		}
+
+
 	}
 	#endregion post
 
