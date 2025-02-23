@@ -214,10 +214,10 @@ class ControllerDashboard extends AbstractController
 
 	static function delete(): void {
 		$constructeur = new DashboardRepository();
-		if (!isset($_SESSION['dash'])) {
+		if (isset($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
 		}
-		if (!isset($_GET["dash_id"])) {
+		if (isset($_GET["dash_id"])) {
 			$dash = $constructeur->get_dashboard_by_id($_GET["dash_id"]);
 			SessionManagement::setDash($dash);
 		}
