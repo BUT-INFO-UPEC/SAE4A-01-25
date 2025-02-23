@@ -1,5 +1,5 @@
 <form method="POST" action="?action=save&upload=false" class="container-fluid mt-4">
-	<div id="edit-btns" style="position: sticky;">
+	<div id="edit-btns" style="position: sticky; top: 0; z-index: 100;">
 		<?php
 
 		use Src\Config\SessionManagement;
@@ -11,6 +11,9 @@
 
 		if (SessionManagement::getUser() != null) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&duplicate=true" value="Dupliquer">
+		<?php endif; ?>
+		<?php if (SessionManagement::getUser() != null && SessionManagement::getUser()->getId() == $dash->get_createur()) : ?>
+			<input type="submit" class="btn btn-danger mb-4" formaction="?action=delete&dash_id=<?= $dashid ?>" value="Supprimer">
 		<?php endif; ?>
 
 		<input type="submit" class="btn btn-primary mb-4" value="Visualiser" />
@@ -184,16 +187,16 @@
 	angular.module('myApp', [])
 		.controller('myCtrl', function($scope) {
 			$scope.tabs = <?= json_encode(array_map(function ($composant, $index) {
-											return [
-												"id" => $index,
-												"name" => htmlspecialchars($composant->get_params()["titre"]),
-												"active" => $index === 0,
-												"selectedVisu" => (string)$composant->get_representation()->get_id(),
-												"selectedAggreg" => (string)$composant->get_aggregation()->get_id(),
-												"selectedGroup" => (string)$composant->get_grouping()->get_id(),
-												"selectedValue" => (string)$composant->get_attribut()->get_id(),
-											];
-										}, $composants, array_keys($composants))); ?>;
+								return [
+									"id" => $index,
+									"name" => htmlspecialchars($composant->get_params()["titre"]),
+									"active" => $index === 0,
+									"selectedVisu" => (string)$composant->get_representation()->get_id(),
+									"selectedAggreg" => (string)$composant->get_aggregation()->get_id(),
+									"selectedGroup" => (string)$composant->get_grouping()->get_id(),
+									"selectedValue" => (string)$composant->get_attribut()->get_id(),
+								];
+							}, $composants, array_keys($composants))); ?>;
 
 			$scope.comp_count = $scope.tabs.length; // Initialisation du compteur d'onglets
 
