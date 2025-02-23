@@ -137,12 +137,18 @@ class DashboardRepository extends AbstractRepository
 
 	public function update_dashboard_by_id(Dashboard $dash)
 	{
-		$componantsToDelete = $_SESSION["componants_to_delete"];
-		$this->update($dash, $dash->get_id());
-		foreach ($dash->get_composants() as $$value) {
-			// update les différents composants
+		try {
+			$componantsToDelete = $_SESSION["componants_to_delete"];
+			$this->update($dash, $dash->get_id());
+			foreach ($dash->get_composants() as $value) {
+				// update les différents composants
+				(new ComposantRepository)->update($value, $value->get_id());
+			}
+		} catch (Exception $e) {
+			MsgRepository::newError("Erreur lors de la mise à jour du dashboard", "Le dashboard n'a pas pu être mis à jour.\n" . $e->getMessage());
+		} catch (PDOException $e) {
+			MsgRepository::newError("Erreur lors de la mise à jour du dashboard", "Le dashboard n'a pas pu être mis à jour.\n" . $e->getMessage());
 		}
-
 		// suprimer les composants qui ont été unsset
 	}
 
@@ -216,18 +222,23 @@ class DashboardRepository extends AbstractRepository
 
 	private function buildPrivatisation(&$values, ?string $privatisation = null)
 	{
-		$values[":userId"] = SessionManagement::getUser() == null ? 0 : SessionManagement::getUser()->getId();
-		$private_values = ["privatisation = 0", "createur_id = :userId"];
-		switch ($privatisation) {
-			case 'private':
-				unset($private_values[0]);
-				break;
+		try {
+			$values[":userId"] = SessionManagement::getUser() == null ? 0 : SessionManagement::getUser()->getId();
+			$private_values = ["privatisation = 0", "createur_id = :userId"];
+			switch ($privatisation) {
+				case 'private':
+					unset($private_values[0]);
+					break;
 
-			case 'public':
-				unset($private_values[1]);
-				unset($values[':userId']);
-				break;
+				case 'public':
+					unset($private_values[1]);
+					unset($values[':userId']);
+					break;
+			}
+			return implode(" or ", $private_values);
+		} catch (Exception $e) {
+			MsgRepository::newError("Erreur lors de la construction de la requête de visibilité", "La requête de visibilité n'a pas pu être construite.\n" . $e->getMessage());
+			return "";
 		}
-		return implode(" or ", $private_values);
 	}
 }
