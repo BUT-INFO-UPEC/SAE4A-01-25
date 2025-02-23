@@ -18,7 +18,7 @@
 
 		<div class="footer-content">
 			<h3>NOUS REJOINDRE</h3>
-			<a href="https://github.com/MrcotinSol/SAE.git" target="github">GitHub</a>
+			<a href="https://github.com/BUT-INFO-UPEC/SAE4A-01-25" target="github">GitHub</a>
 		</div>
 
 		<div class="footer-content">
@@ -30,5 +30,5 @@
 	</div>
 
 	<em>"Face au changement climatique, nous devons faire de la nature notre alliée." – Jean Jouzel</em>
-	<p>© Tous droits réservés.</p>
+	<p>©<?= date('Y') ?> Tous droits réservés.</p>
 </footer>

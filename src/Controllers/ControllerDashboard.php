@@ -147,19 +147,9 @@ class ControllerDashboard extends AbstractController
 		$dash_date_fin = $dash->get_date("fin");
 		$dash_date_fin_r = $dash->dateFinRelatif;
 		$defaultGeo = $dash->get_region();
-
-		// Initialisation des composants du dashboard pour la vue
 		$composants = $dash->get_composants();
-		$composant_attr = [];
-		$composant_agr = [];
-		$composant_grou = [];
-		$composant_rep = [];
-		foreach ($composants as $composant) {
-			$composant_attr[] = $composant->get_attribut()->get_id();
-			$composant_agr[] = $composant->get_aggregation()->get_id();
-			$composant_grou[] = $composant->get_grouping()->get_id();
-			$composant_rep[] = $composant->get_representation()->get_id();
-		}
+
+		// MsgRepository::newWarning("géo", var_export($defaultGeo, true), MsgRepository::NO_REDIRECT);
 
 		// Appel page
 		$titrePage = "Edition d'un Dashboard";
@@ -236,9 +226,9 @@ class ControllerDashboard extends AbstractController
 	 * 
 	 * @return array Liste encapsulatn toutes les donénes géographiques
 	 */
-	private static function GET_POST_criteres_geo(&$tab): array
+	private static function GET_POST_criteres_geo($tab): array
 	{ // récupérer toutes les staitons, régions, ect... chéckés
-		$cryteres_geo = [];
+		$criteres_geo = [];
 		if (!empty($tab['regions']))
 			$criteres_geo['reg_id'] = $tab['regions'];
 
@@ -250,8 +240,9 @@ class ControllerDashboard extends AbstractController
 
 		if (!empty($tab['stations']))
 			$criteres_geo['numer_sta'] = $tab['stations'];
-		return $cryteres_geo;
+		return $criteres_geo;
 	}
+
 	/** Performe une mise ajour des données dynamiques (instance) d'un dashboard deppuis une requette POST
 	 * 
 	 * @param Dashboard $dash Le dashboard a mettre a jour
@@ -262,6 +253,8 @@ class ControllerDashboard extends AbstractController
 	private static function update_dashboard_from_POST(Dashboard &$dash): array
 	{
 		// récupérer les POST simples
+		$dash->setTitle($_POST['nom_meteotheque']);
+		$dash->setVisibility($_POST['visibility']);
 		$dash->setStartDate($_POST['start_date']);
 		$dash->setStartDateRelative(isset($_POST['dynamic_start']) && $_POST['dynamic_start'] == 'on');
 		$dash->setEndDate($_POST['end_date']);

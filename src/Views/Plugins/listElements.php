@@ -1,7 +1,5 @@
 <?php
-
 use Src\Model\Repository\GeoRepository;
-
 ?>
 
 <div>
@@ -38,7 +36,7 @@ use Src\Model\Repository\GeoRepository;
                                type="checkbox"
                                name="regions[]"
                                value="<?= htmlspecialchars($item['id']) ?>"
-                               <?= (in_array($item['id'], $defaultGeo['code_geo'] ?? []) ? 'checked' : '') ?> />
+                               <?= (in_array($item['id'], $defaultGeo['reg_id'] ?? []) ? 'checked' : '') ?> />
                         <?= htmlspecialchars($item['name']) ?>
                     </label>
                 <?php endforeach; ?>
@@ -53,7 +51,7 @@ use Src\Model\Repository\GeoRepository;
                                type="checkbox"
                                name="depts[]"
                                value="<?= htmlspecialchars($item['id']) ?>"
-                               <?= (in_array($item['id'], $defaultGeo['code_geo'] ?? []) ? 'checked' : '') ?> />
+                               <?= (in_array($item['id'], $defaultGeo['epci_id'] ?? []) ? 'checked' : '') ?> />
                         <?= htmlspecialchars($item['name']) ?>
                     </label>
                 <?php endforeach; ?>
@@ -68,7 +66,7 @@ use Src\Model\Repository\GeoRepository;
                                type="checkbox"
                                name="villes[]"
                                value="<?= htmlspecialchars($item['id']) ?>"
-                               <?= (in_array($item['id'], $defaultGeo['code_geo'] ?? []) ? 'checked' : '') ?> />
+                               <?= (in_array($item['id'], $defaultGeo['ville_id'] ?? []) ? 'checked' : '') ?> />
                         <?= htmlspecialchars($item['name']) ?>
                     </label>
                 <?php endforeach; ?>
