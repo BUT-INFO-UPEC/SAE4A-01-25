@@ -30,8 +30,9 @@ class ComposantRepository extends AbstractRepository
 		$aggr = (new AggregationRepository)->get_aggregation_by_id($objetFormatTableau['aggregation']);
 		$grp = (new GrouppingRepository)->get_groupping_by_id($objetFormatTableau['groupping']);
 		$repr = (new RepresentationRepository())->get_representation_by_id($objetFormatTableau['repr_type']);
+		$params = gettype($objetFormatTableau['params_affich']) == "string" ? $objetFormatTableau['params_affich'] : json_encode($objetFormatTableau['params_affich']);
 
-		return new Composant($objetFormatTableau['id'], $att, $aggr, $grp, $repr, $objetFormatTableau['params_affich']);
+		return new Composant($att, $aggr, $grp, $repr, $params, $objetFormatTableau['id']);
 	}
 
 	public function getNomClePrimaire(): string

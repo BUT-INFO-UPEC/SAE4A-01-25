@@ -2,9 +2,10 @@
 
 namespace Src\Config;
 
+use Src\Model\DataObject\Dashboard;
 use Src\Model\DataObject\Utilisateur;
 
-class UserManagement
+class SessionManagement
 {
 	/** Return the curent loged user or null if not found
 	 * 
@@ -26,4 +27,8 @@ class UserManagement
 		}
 	}
 
+	public static function setDash(Dashboard $dashboard):void {
+		$_SESSION["dash"] = $dashboard;
+		$_SESSION["componants_to_delete"] = [];
+	}
 }

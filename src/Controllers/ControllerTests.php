@@ -64,4 +64,18 @@ class ControllerTests extends AbstractController
 		// Chargement du template principal
 		require('../src/Views/Template/views.php');
 	}
+
+	public static function developpement_log()
+	{
+		$titrePage = "Historique des messages";
+		// Chemin vers la vue
+		$cheminVueBody = "log.php";
+		// Chargement du template principal
+		require('../src/Views/Template/views.php');
+	}
+
+	public static function clear_log() {
+		unset($_SESSION['MSGs']["undying"]);
+		MsgRepository::newWarning("Log éffacé", "Le log a été nétoyé.");
+	}
 }
