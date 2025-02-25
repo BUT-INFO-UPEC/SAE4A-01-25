@@ -88,7 +88,7 @@ class DashboardRepository extends AbstractRepository
 	{
 		// ajouter vérif appartenance a l'utilisateur ou visibilité publique
 		try {
-			$values["createur_id"] = SessionManagement::getUser() == null ? 0 : SessionManagement::getUser()->getId();
+			$values["createur_id"] = SessionManagement::getUser() == null;
 			$values["privatisation"] = 0;
 
 			$query = "and (createur_id=:createur_id or privatisation=:privatisation)";

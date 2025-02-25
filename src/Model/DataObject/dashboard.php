@@ -361,8 +361,8 @@ class Dashboard extends AbstractDataObject
 			':createur_id' => SessionManagement::getUser()->getId(),
 			":date_debut" => $this->get_date('debut'),
 			":date_fin" => $this->get_date('fin'),
-			":date_debut_relatif" => $this->dateDebutRelatif,
-			":date_fin_relatif" => $this->dateDebutRelatif,
+			":date_debut_relatif" => $this->dateDebutRelatif ? "True" :"False",
+			":date_fin_relatif" => $this->dateFinRelatif? "True" : "False",
 			":params" => $this->get_name()
 		];
 	}

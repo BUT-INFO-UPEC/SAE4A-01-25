@@ -67,19 +67,23 @@ abstract class AbstractRepository
 	 *
 	 * @return void
 	 */
-	public function create(AbstractDataObject $object, $values = null): mixed
+	public function create(AbstractDataObject $object, $values = []): mixed
 	{
 		$nomTable = $this->getTableName();
 		$nomsColones = $this->getNomsColonnes();
-		$values = $values ?? $object->formatTableau();
+		$values = array_merge($object->formatTableau(), $values); // bien mettre $values en deuxiemme pour écraser toute clé partagée par ses vapeurs au lieu de celle par défaut
 
-		$valeurs = implode(", ", $nomsColones);
+		$valeurs = implode(", ", $nomsColones); // juste le nom des différentes collones
 
-		$cles = implode(", ", array_keys($values));
+		$cles = implode(", ", array_keys($values)); // noms des clés des valeurs avec les ":"
 
 		$clePrimaire = $this->getNomClePrimaire();
 
-		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles) RETURNING $clePrimaire;";
+		MsgRepository::Debug($valeurs);
+		MsgRepository::Debug($cles);
+		MsgRepository::Debug($values);
+
+		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles) RETURNING $clePrimaire;"; // enregistrer et récupérer la clé primaire
 
 		$v = DatabaseConnection::fetchOne($query, $values);
 		return $v[$clePrimaire];
