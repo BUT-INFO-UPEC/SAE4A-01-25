@@ -222,7 +222,7 @@ class ControllerDashboard extends AbstractController
 			SessionManagement::setDash($dash);
 		}
 		if (isset($dash)) {
-			if ($dash->get_id() == SessionManagement::getUser()->getId()) {
+			if ($dash->get_createur() == SessionManagement::getUser()->getId()) {
 				$constructeur->delete_dashboard($dash);
 				MsgRepository::newPrimary('Dashboard supprimmé', "<a href='?controller=ControllerDashboard&action=save'> dernierre chance de le récupérer ! </a>"); // le dashboard est toujours enregistré dans la session, si l'utilisateur clique sur le lien, il sera a nouveau enregistré (sous un nouvel id)
 			} else {
