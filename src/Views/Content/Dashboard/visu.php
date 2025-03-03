@@ -34,7 +34,7 @@
 	<div class="container">
 		<h3> Commentaires </h3>
 
-		<?= $dash->get_params()['commentaire']; ?>
+		<?= $dash->get_comment(); ?>
 	</div>
 <?php } ?>
 

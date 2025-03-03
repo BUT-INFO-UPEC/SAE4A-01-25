@@ -1,25 +1,22 @@
-<?php
-
-use Src\Model\DataObject\Representation;
-use Src\Model\DataObject\Attribut;
-use Src\Model\DataObject\Aggregation;
-use Src\Model\DataObject\Groupping;
-?>
-<form method="POST" action="?action=save" class="container-fluid mt-4">
-	<div id="edit-btns" style="position: sticky;">
+<form method="POST" action="?action=save&upload=false" class="container-fluid mt-4">
+	<div id="edit-btns" style="position: sticky; top: 0; z-index: 100;">
 		<?php
 
-		use Src\Config\UserManagement;
+		use Src\Config\SessionManagement;
+		use Src\Model\DataObject\Composant;
 
-		if (UserManagement::getUser() != null && UserManagement::getUser()->getId() == $dash->get_createur()) : ?>
-			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
+		if (SessionManagement::getUser() != null && SessionManagement::getUser()->getId() == $dash->get_createur()) : ?>
+			<input type="submit" class="btn btn-primary mb-4" value="Sauvegarder">
 		<?php endif;
-		
-		if (UserManagement::getUser() != null) : ?>
+
+		if (SessionManagement::getUser() != null) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&duplicate=true" value="Dupliquer">
 		<?php endif; ?>
+		<?php if (SessionManagement::getUser() != null && SessionManagement::getUser()->getId() == $dash->get_createur()) : ?>
+			<input type="submit" class="btn btn-danger mb-4" formaction="?action=delete&dash_id=<?= $dashid ?>" value="Supprimer">
+		<?php endif; ?>
 
-		<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&upload=false" value="Visualiser" />
+		<input type="submit" class="btn btn-primary mb-4" value="Visualiser" />
 
 	</div>
 
@@ -31,8 +28,8 @@ use Src\Model\DataObject\Groupping;
 		<div class="col-md-6 text-end">
 			<label for="visibility" class="form-label">Visibilité :</label>
 			<select id="visibility" name="visibility" class="form-select" required>
-				<option value="0" <?= $dash_private == "0" ? 'checked' : '' ?>>Publique</option>
-				<option value="1" <?= $dash_private == "1" ? 'checked' : '' ?>>Privée</option>
+				<option value="0" <?= $dash_private == "publique" ? 'selected' : '' ?>>Publique</option>
+				<option value="1" <?= $dash_private == "privé" ? 'selected' : '' ?>>Privée</option>
 			</select>
 		</div>
 	</div>
@@ -73,10 +70,10 @@ use Src\Model\DataObject\Groupping;
 		<div ng-app="myApp" ng-controller="myCtrl">
 			<ul class="nav nav-tabs onglet">
 				<li>
-					<a href="#" ng-click="addTab()">Ajouter un onglet</a>
+					<a ng-click="addTab()">Ajouter un onglet</a>
 				</li>
 				<li ng-repeat="tab in tabs" ng-class="{'active': tab.active}">
-					<a href="#" ng-click="selectTab($index)">{{tab.name}}</a>
+					<a ng-click="selectTab($index)">{{tab.name}}</a>
 					<span ng-click="removeTab($index)" class="glyphicon glyphicon-remove" style="cursor: pointer;">&times;</span>
 				</li>
 			</ul>
@@ -85,7 +82,6 @@ use Src\Model\DataObject\Groupping;
 				<div class="mb-4">
 					<h4>Titre du composant</h4>
 					<div class="row g-3">
-						<div ng-include="tab.content"></div>
 						<div class="col-md-6">
 							<label class="form-label">Titre :</label>
 							<input type="text"
@@ -99,7 +95,9 @@ use Src\Model\DataObject\Groupping;
 							<label for="visu_type_{{tab.id}}" class="form-label">Type de visualisation :</label>
 							<select id="visu_type_{{tab.id}}"
 								name="visu_type_{{tab.id}}"
-								class="form-select" required>
+								class="form-select"
+								ng-model="tab.selectedVisu"
+								required>
 								<?php if (!empty($represtation)) : ?>
 									<?php foreach ($represtation as $item) : ?>
 										<option value="<?= htmlspecialchars($item->get_id()) ?>">
@@ -112,12 +110,15 @@ use Src\Model\DataObject\Groupping;
 							</select>
 						</div>
 					</div>
+
 					<div class="row g-3">
 						<div class="col-md-6">
 							<label for="value_type_{{tab.id}}" class="form-label">Valeur étudiée :</label>
 							<select id="value_type_{{tab.id}}"
 								name="value_type_{{tab.id}}"
-								class="form-select" required>
+								class="form-select"
+								ng-model="tab.selectedValue"
+								required>
 								<?php if (!empty($valeurs)) : ?>
 									<?php foreach ($valeurs as $item) : ?>
 										<option value="<?= htmlspecialchars($item->get_id()) ?>">
@@ -129,11 +130,14 @@ use Src\Model\DataObject\Groupping;
 								<?php endif; ?>
 							</select>
 						</div>
+
 						<div class="col-md-6">
 							<label for="association_{{tab.id}}" class="form-label">Association :</label>
 							<select id="association_{{tab.id}}"
 								name="association_{{tab.id}}"
-								class="form-select" required>
+								class="form-select"
+								ng-model="tab.selectedGroup"
+								required>
 								<?php if (!empty($association)) : ?>
 									<?php foreach ($association as $item) : ?>
 										<option value="<?= htmlspecialchars($item->get_id()) ?>">
@@ -145,11 +149,14 @@ use Src\Model\DataObject\Groupping;
 								<?php endif; ?>
 							</select>
 						</div>
+
 						<div class="col-md-6">
 							<label for="analysis_{{tab.id}}" class="form-label">Analyse :</label>
 							<select id="analysis_{{tab.id}}"
 								name="analysis_{{tab.id}}"
-								class="form-select" required>
+								class="form-select"
+								ng-model="tab.selectedAggreg"
+								required>
 								<?php if (!empty($analysis)) : ?>
 									<?php foreach ($analysis as $item) : ?>
 										<option value="<?= htmlspecialchars($item->get_id()) ?>">
@@ -165,39 +172,46 @@ use Src\Model\DataObject\Groupping;
 				</div>
 			</div>
 
-			<div class="mb-4">
-				<h4>Commentaires</h4>
-				<textarea name="comments_{{tab.id}}" id="comments_{{tab.id}}" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"></textarea>
-			</div>
+			<input type="hidden" id="comp_count" name="comp_count" value="{{comp_count}}">
+		</div>
+
+		<div class="mb-4">
+			<h4>Commentaires</h4>
+			<textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Commentaires explicatifs de l'analyse"><?= $dash->get_comment(); ?></textarea>
 		</div>
 	</div>
-
-	<input type="hidden" name="count_id" ng-value="count_id">
 </form>
 
 <script>
 	// Ton code JS pour la gestion des onglets et des données
 	angular.module('myApp', [])
 		.controller('myCtrl', function($scope) {
-			$scope.tabs = [{
-					name: 'Onglet 1',
-					active: true,
-					content: 'onglet1.html'
-				},
-				{
-					name: 'Onglet 2',
-					active: false,
-					content: 'onglet2.html'
-				}
-			];
+			$scope.tabs = <?= json_encode(array_map(function ($composant, $index) {
+								return [
+									"id" => $index,
+									"name" => htmlspecialchars($composant->get_params()["titre"]),
+									"active" => $index === 0,
+									"selectedVisu" => (string)$composant->get_representation()->get_id(),
+									"selectedAggreg" => (string)$composant->get_aggregation()->get_id(),
+									"selectedGroup" => (string)$composant->get_grouping()->get_id(),
+									"selectedValue" => (string)$composant->get_attribut()->get_id(),
+								];
+							}, $composants, array_keys($composants))); ?>;
+
+			$scope.comp_count = $scope.tabs.length; // Initialisation du compteur d'onglets
 
 			$scope.addTab = function() {
-				var newTabIndex = $scope.tabs.length + 1;
+				var newTabIndex = $scope.tabs.length;
 				$scope.tabs.push({
+					id: newTabIndex,
 					name: 'Onglet ' + newTabIndex,
 					active: false,
-					content: 'onglet' + newTabIndex + '.html'
+					selectedVisu: "1",
+					selectedAggreg: "1",
+					selectedGroup: "1",
+					selectedValue: "1"
 				});
+				$scope.comp_count = $scope.tabs.length; // Mise à jour du compteur d'onglets
 			};
 
 			$scope.selectTab = function(index) {
@@ -208,9 +222,17 @@ use Src\Model\DataObject\Groupping;
 
 			$scope.removeTab = function(index) {
 				$scope.tabs.splice(index, 1);
+
+				// Recalculer et renuméroter les onglets
+				$scope.tabs.forEach(function(tab, i) {
+					tab.id = i; // Déplacer les indices des onglets (id = i + 1)
+				});
+
 				if ($scope.tabs.length === 0) {
 					$scope.addTab(); // Ajouter un nouvel onglet si tout est supprimé
 				}
+
+				$scope.comp_count = $scope.tabs.length; // Mise à jour du compteur d'onglets
 			};
 		});
 </script>

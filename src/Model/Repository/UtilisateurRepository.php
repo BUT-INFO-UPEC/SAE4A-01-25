@@ -3,7 +3,7 @@
 namespace Src\Model\Repository;
 
 use Src\Model\DataObject\Utilisateur;
-use Src\Config\UserManagement;
+use Src\Config\SessionManagement;
 
 class UtilisateurRepository extends AbstractRepository
 {
@@ -35,7 +35,7 @@ class UtilisateurRepository extends AbstractRepository
 		$query = "UPDATE utilisateur SET created_at = :last_conn WHERE utilisateur_mail = :id";
 		$params = [
 			":last_conn" => date('Y-m-d H:i:s'),
-			":id" => UserManagement::getUser()->getId()
+			":id" => SessionManagement::getUser()->getId()
 		];
 		DatabaseConnection::executeQuery($query, $params);
 	}
@@ -44,7 +44,7 @@ class UtilisateurRepository extends AbstractRepository
 	{
 		$query = "UPDATE utilisateur SET utilisateur_nb_conn = utilisateur_nb_conn + 1 WHERE utilisateur_mail = :id";
 		$params = [
-			":id" => UserManagement::getUser()->getId()
+			":id" => SessionManagement::getUser()->getId()
 		];
 		return DatabaseConnection::executeQuery($query, $params);
 	}

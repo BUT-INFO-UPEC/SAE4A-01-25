@@ -5,7 +5,7 @@ namespace Src\Model\DataObject;
 use DateTime;
 use Exception;
 use OutOfBoundsException;
-use Src\Config\UserManagement;
+use Src\Config\SessionManagement;
 
 /** Classe comportant les informations d'analyse des données météorologiques
  */
@@ -158,8 +158,12 @@ class Dashboard extends AbstractDataObject
 		foreach ($this->selectionGeo as $key => $value) {
 			// Application de la transformation sur chaque élément de $value
 			$formattedValues = array_map(function ($valueInValue) use ($key) {
-				if ($key == "numer_sta") {
+				if (in_array($key, ["numer_sta", "codegeo"])) {
 					$valueInValue = str_pad($valueInValue, 5, "0", STR_PAD_LEFT);
+					$valueInValue = "'" . $valueInValue . "'";
+				}
+				if (in_array($key, ["code_reg", "code_dep"])) {
+					$valueInValue = str_pad($valueInValue, 2, "0", STR_PAD_LEFT);
 					$valueInValue = "'" . $valueInValue . "'";
 				}
 				return $valueInValue;
@@ -169,7 +173,7 @@ class Dashboard extends AbstractDataObject
 			$returnValue[] = "$key=" . implode(" or $key=", $formattedValues);
 		}
 
-		return sizeof($returnValue) == 0 ? null : "(" . implode(" and ", $returnValue) . ")";
+		return sizeof($returnValue) == 0 ? null : "(" . implode(" or ", $returnValue) . ")";
 	}
 
 	/** Construit les critères temporelles dans une chaine de caractère a mettre dans la requette a l'API (formatage)
@@ -192,22 +196,46 @@ class Dashboard extends AbstractDataObject
 
 	/** Change l'identifiant du dashboard pour la BDD
 	 * 
-	 * @param mixed $id
+	 * @param int $id
 	 * 
 	 * @return void
 	 */
-	public function setId($id): void
+	public function setId(int $id): void
 	{
 		$this->dashboardId = $id;
 	}
 
-	/** Change la valeur de la date de début
+	/** Change le nmo de la lmétéothèque
 	 * 
-	 * @param mixed $startDate
+	 * @param string $title
 	 * 
 	 * @return void
 	 */
-	public function setStartDate($startDate): void
+	public function setTitle(string $title): void {
+		$this->params[0] = $title;
+	}
+
+	public function setComments(string $comments): void {
+		$this->params[1] = $comments;
+	}
+
+	/** Change la publicité du dashboard
+	 * 
+	 * @param int $visibility
+	 * 
+	 * @return void
+	 */
+	public function setVisibility(int $visibility): void {
+		$this->privatisation = $visibility;
+	}
+
+	/** Change la valeur de la date de début
+	 * 
+	 * @param string $startDate
+	 * 
+	 * @return void
+	 */
+	public function setStartDate(string $startDate): void
 	{
 		$this->dateDebut = $startDate;
 	}
@@ -225,11 +253,11 @@ class Dashboard extends AbstractDataObject
 
 	/** Change la valeur de la date de fin
 	 * 
-	 * @param mixed $endDate
+	 * @param string $endDate
 	 * 
 	 * @return void
 	 */
-	public function setEndDate($endDate): void
+	public function setEndDate(string $endDate): void
 	{
 		$this->dateFin = $endDate;
 	}
@@ -247,7 +275,7 @@ class Dashboard extends AbstractDataObject
 
 	/** Actualise les paramètres géographiques de la séléction de données
 	 * 
-	 * @param mixed $CryteresGeo
+	 * @param mixed $CryteresGeo Array?
 	 * 
 	 * @return void
 	 */
@@ -284,19 +312,19 @@ class Dashboard extends AbstractDataObject
 		$this->composants[] = $composant;
 	}
 
-	/** Supprime des composants de la liste du dashboard et retourne une liste des composants supprimés
+	/** Supprime des composants de la liste du dashboard et retourne une liste des composants supprimés dans la session
 	 * 
 	 * @param int $nbComps
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function delComposants(int $nbComps): array
+	public function delComposants(int $nbComps): void
 	{
-		$del_comp = [];
 		while (count($this->composants) > $nbComps) {
-			$del_comp[] = array_pop($this->composants);
+			$del_comp = array_pop($this->composants);
+			// si le composant est initialisé dans la BDD (il a un id), il faudra potentiellement le supprimer, il faut donc conserver son identifiant
+			if ($del_comp->get_id() != null) $_SESSION["componants_to_delete"][] = $del_comp->get_id();
 		}
-		return $del_comp;
 	}
 	#endregion public
 
@@ -330,11 +358,11 @@ class Dashboard extends AbstractDataObject
 		return [
 			":id" => $this->dashboardId,
 			":privatisation" => $this->privatisation,
-			':createur_id' => UserManagement::getUser()->getId(),
+			':createur_id' => SessionManagement::getUser()->getId(),
 			":date_debut" => $this->get_date('debut'),
 			":date_fin" => $this->get_date('fin'),
-			":date_debut_relatif" => $this->dateDebutRelatif,
-			":date_fin_relatif" => $this->dateDebutRelatif,
+			":date_debut_relatif" => $this->dateDebutRelatif ? "True" :"False",
+			":date_fin_relatif" => $this->dateFinRelatif? "True" : "False",
 			":params" => $this->get_name()
 		];
 	}

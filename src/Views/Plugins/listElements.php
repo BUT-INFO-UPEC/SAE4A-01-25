@@ -1,7 +1,5 @@
 <?php
-
 use Src\Model\Repository\GeoRepository;
-
 ?>
 
 <div>
@@ -30,7 +28,8 @@ use Src\Model\Repository\GeoRepository;
     </ul>
 
     <div class="tab-content scroll-list">
-        <div class="active" id="regions" role="tabpanel" aria-labelledby="regions-tab">
+        <!-- Regions Tab -->
+        <div class="tab-pane fade show active" id="regions" role="tabpanel" aria-labelledby="regions-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getRegions() as $item) : ?>
                     <label class="list-group-item">
@@ -38,14 +37,15 @@ use Src\Model\Repository\GeoRepository;
                                type="checkbox"
                                name="regions[]"
                                value="<?= htmlspecialchars($item['id']) ?>"
-                               <?= (in_array($item['id'], $defaultGeo['code_geo'] ?? []) ? 'checked' : '') ?> />
+                               <?= in_array($item['id'], $defaultGeo['code_reg'] ?? []) ? 'checked' : '' ?> />
                         <?= htmlspecialchars($item['name']) ?>
                     </label>
                 <?php endforeach; ?>
             </div>
         </div>
 
-        <div class="tab-pane" id="depts" role="tabpanel" aria-labelledby="depts-tab">
+        <!-- Departments Tab -->
+        <div class="tab-pane fade" id="depts" role="tabpanel" aria-labelledby="depts-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getDepts() as $item) : ?>
                     <label class="list-group-item">
@@ -53,14 +53,15 @@ use Src\Model\Repository\GeoRepository;
                                type="checkbox"
                                name="depts[]"
                                value="<?= htmlspecialchars($item['id']) ?>"
-                               <?= (in_array($item['id'], $defaultGeo['code_geo'] ?? []) ? 'checked' : '') ?> />
+                               <?= (in_array($item['id'], $defaultGeo['code_dep'] ?? []) ? 'checked' : '') ?> />
                         <?= htmlspecialchars($item['name']) ?>
                     </label>
                 <?php endforeach; ?>
             </div>
         </div>
 
-        <div class="tab-pane" id="villes" role="tabpanel" aria-labelledby="villes-tab">
+        <!-- Cities Tab -->
+        <div class="tab-pane fade" id="villes" role="tabpanel" aria-labelledby="villes-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getVilles() as $item) : ?>
                     <label class="list-group-item">
@@ -68,14 +69,15 @@ use Src\Model\Repository\GeoRepository;
                                type="checkbox"
                                name="villes[]"
                                value="<?= htmlspecialchars($item['id']) ?>"
-                               <?= (in_array($item['id'], $defaultGeo['code_geo'] ?? []) ? 'checked' : '') ?> />
+                               <?= (in_array($item['id'], $defaultGeo['codegeo'] ?? []) ? 'checked' : '') ?> />
                         <?= htmlspecialchars($item['name']) ?>
                     </label>
                 <?php endforeach; ?>
             </div>
         </div>
 
-        <div class="tab-pane" id="stations" role="tabpanel" aria-labelledby="stations-tab">
+        <!-- Stations Tab -->
+        <div class="tab-pane fade" id="stations" role="tabpanel" aria-labelledby="stations-tab">
             <div class="list-group check">
                 <?php foreach (GeoRepository::getStations() as $item) : ?>
                     <label class="list-group-item">

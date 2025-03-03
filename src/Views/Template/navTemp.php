@@ -7,3 +7,5 @@
 <a href="<?= CONTROLLER_URL ?>?controller=ControllerDashboard&action=visu_dashboard&dashId=1" class="nav-link"> Visualisation </a>
 
 <a href="<?= CONTROLLER_URL ?>?controller=ControllerTests&action=developpement_js" class="nav-link"> Onglets js </a>
+
+<a href="<?= CONTROLLER_URL ?>?controller=ControllerTests&action=developpement_log" class="nav-link"> LOG </a>
