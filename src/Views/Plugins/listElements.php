@@ -37,7 +37,7 @@ use Src\Model\Repository\GeoRepository;
                                type="checkbox"
                                name="regions[]"
                                value="<?= htmlspecialchars($item['id']) ?>"
-                               <?= (in_array($item['id'], $defaultGeo['code_reg'] ?? []) ? 'checked' : '') ?> />
+                               <?= in_array($item['id'], $defaultGeo['code_reg'] ?? []) ? 'checked' : '' ?> />
                         <?= htmlspecialchars($item['name']) ?>
                     </label>
                 <?php endforeach; ?>
