@@ -7,7 +7,7 @@ use Src\Model\DataObject\Composant;
 class ComposantRepository extends AbstractRepository
 {
 
-	public function save(Composant $composant)
+	public function save_new(Composant $composant)
 	{
 		$values = $composant->formatTableau();
 		$values[":id"] = null;
@@ -15,13 +15,23 @@ class ComposantRepository extends AbstractRepository
 		return $compId;
 	}
 
-	public function MAJ(Composant $composant) {
-		$this->update($composant, $composant->get_id());
+	public function update_or_create_comp(Composant $composant): int|null
+	{
+		if ($composant->get_id() != null) { // Si le composant existe, le mettre a jour
+			$this->update($composant, $composant->get_id());
+			return null;
+		} else { // ajouter le composant a la BDD et récupérer l'ID
+			return $this->save_new($composant);
+		}
 	}
 
 	public function get_composant_by_id($id): Composant
 	{
 		return $this->select($id);
+	}
+
+	public function try_delete(Composant $comp) {
+		$this->delete($comp->get_id());
 	}
 
 	public function arrayConstructor(array $objetFormatTableau): Composant

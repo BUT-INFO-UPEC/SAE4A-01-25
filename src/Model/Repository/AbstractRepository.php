@@ -79,10 +79,6 @@ abstract class AbstractRepository
 
 		$clePrimaire = $this->getNomClePrimaire();
 
-		MsgRepository::Debug($valeurs);
-		MsgRepository::Debug($cles);
-		MsgRepository::Debug($values);
-
 		$query = "INSERT INTO $nomTable ($valeurs) VALUES ($cles) RETURNING $clePrimaire;"; // enregistrer et récupérer la clé primaire
 
 		$v = DatabaseConnection::fetchOne($query, $values);
@@ -102,9 +98,14 @@ abstract class AbstractRepository
 		$nomClePrimaire = $this->getNomClePrimaire();
 
 		$values = $object->formatTableau();
-		$valeurs = array_keys($values);
+		$insert = "";
+		foreach ($values as $key=>$value) {
+			$insert .= substr($key, 1) . " = " . $key . ", ";
+		}
+		$insert = substr($insert, 0, -2);
 
-		$query = "UPDATE $nomTable SET $valeurs WHERE $nomClePrimaire = :OLD" . $nomClePrimaire . "Tag;";
+		$query = "UPDATE $nomTable SET $insert WHERE $nomClePrimaire = :OLD" . $nomClePrimaire . "Tag;";
+		MsgRepository::Debug($query);
 		$values[":OLD" . $nomClePrimaire . "Tag"] = $ancienneClePrimaire;
 		DatabaseConnection::executeQuery($query, $values);
 	}

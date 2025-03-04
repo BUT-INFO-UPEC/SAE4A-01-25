@@ -65,7 +65,7 @@ class MsgRepository
 		$debugMsg = new Msg(Msg::PRIMARY, $title, $message);
 		MsgRepository::redirect($redirection);
 		$_SESSION["MSGs"]['list_messages'][] = $debugMsg;
-		$_SESSION['MSGs']["undying"][] = $debugMsg;
+		$_SESSION['MSGs']["undying"][] = [$debugMsg];
 	}
 
 	/** Create a new message of type secondary wich is reserved for developpement puroses
