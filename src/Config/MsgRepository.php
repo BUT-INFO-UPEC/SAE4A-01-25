@@ -4,47 +4,96 @@ namespace Src\Config;
 
 use Src\Config\Msg;
 
+/** Create different kind of messages, instanciate them in a list and redirect
+ */
 class MsgRepository
 {
 	const NO_REDIRECT = "none";
+	const LAST_PAGE = "last";
 
-	public static function newSuccess(string $success, string $message = "", string $redirection = "last")
-	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("success", $success, $message);
-		MsgRepository::redirect($redirection);
-	}
-	public static function newError(string $error, string $message = "", string $redirection = "last")
-	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("danger", $error, $message);
-		MsgRepository::redirect($redirection);
-	}
-	public static function newWarning(string $warning, string $message = "", string $redirection = "last")
-	{
-		$_SESSION['MSGs']["list_messages"][] = new Msg("warning", $warning, $message);
-		MsgRepository::redirect($redirection);
-	}
-
-	/**
-	 * Check if a user is logged in. Redirect with an error if not.
+	/** Create a new message of type success
+	 *
+	 * @param string $success
+	 * @param string $message
+	 * @param string $redirection
+	 *
+	 * @return void
 	 */
-	public static function checkLogin(): void
+	public static function newSuccess(string $success, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
 	{
-		if (!isset($_SESSION['login'])) {
-			MsgRepository::newError("Vous devez être connecté pour effectuer cette action.", "Not loged in");
-		}
+		$_SESSION['MSGs']["list_messages"][] = new Msg(Msg::SUCCESS, $success, $message);
+		MsgRepository::redirect($redirection);
 	}
 
-	/**
-	 * Redirect to the previous page or a fallback home page.
+	/** Create a new message of type error
+	 * 
+	 * @param string $error
+	 * @param string $message
+	 * @param string $redirection
+	 *
+	 * @return void
 	 */
+	public static function newError(string $error, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
+	{
+		$_SESSION['MSGs']["list_messages"][] = new Msg(Msg::ERROR, $error, $message);
+		MsgRepository::redirect($redirection);
+	}
+
+	/** Create a new message of type warning
+	 * 
+	 * @param string $warning
+	 * @param string $message
+	 * @param string $redirection
+	 *
+	 * @return void
+	 */
+	public static function newWarning(string $warning, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void
+	{
+		$_SESSION['MSGs']["list_messages"][] = new Msg(Msg::WARNING, $warning, $message);
+		MsgRepository::redirect($redirection);
+	}
+
+	/** Create a new message of type primary
+	 * 
+	 * @param string $title
+	 * @param string $message
+	 * @param string $redirection
+	 * 
+	 * @return void
+	 */
+	public static function newPrimary(string $title, string $message = "", string $redirection = MsgRepository::LAST_PAGE): void {
+		$debugMsg = new Msg(Msg::PRIMARY, $title, $message);
+		MsgRepository::redirect($redirection);
+		$_SESSION["MSGs"]['list_messages'][] = $debugMsg;
+		$_SESSION['MSGs']["undying"][] = $debugMsg;
+	}
+
+	/** Create a new message of type secondary wich is reserved for developpement puroses
+	 * 
+	 * @param mixed $var
+	 * @return void
+	 */
+	public static function Debug(mixed $var): void {
+		$_SESSION["MSGs"]['list_messages'][] = new Msg(Msg::SECONDARY, "debuging", var_export($var, true));
+		MsgRepository::redirect(MsgRepository::NO_REDIRECT);
+	}
+
+ /** Redirect to a specified destination, the previous page or a fallback home page.
+	*
+  * @param mixed $redirection
+  *
+  * @return void
+  */
 	static public function redirect($redirection): void
 	{
 		if ($redirection != MsgRepository::NO_REDIRECT) {
-			$redirectUrl = $redirection != "last" ? $redirection : '?contorller=ControllerGeneral&action=home';
-			header('Location: ' . $redirectUrl);
+			$redirectUrl = $redirection != MsgRepository::LAST_PAGE ? $redirection : '?action=default';
 
-			unset($redirection);
-			exit;
-		} else return;
+			//allimenter le log pour deboggage
+			$_SESSION['MSGs']["undying"][] = [$_SESSION["MSGs"]['list_messages'], $redirectUrl];
+
+			// rediriger vers la destination définie
+			header('Location: ' . $redirectUrl);
+		}
 	}
 }
