@@ -20,7 +20,7 @@ class Composant extends AbstractDataObject
 	//        ATTRIBUTES
 	// =======================
 
-	private int $id;
+	private ?int $id;
 	private Attribut $attribut;
 	private Aggregation $aggregation;
 	private Groupping $grouping;
@@ -33,7 +33,7 @@ class Composant extends AbstractDataObject
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
-	public function __construct(int $composant_id, Attribut $attribut, Aggregation $aggregation, Groupping $grouping, Representation $repr_type, string $param_affich)
+	public function __construct(Attribut $attribut, Aggregation $aggregation, Groupping $grouping, Representation $repr_type, string $param_affich, ?int $composant_id)
 	{
 		$this->id = $composant_id;
 		$this->attribut = $attribut;
@@ -50,9 +50,9 @@ class Composant extends AbstractDataObject
 
 	/** L'id du composant dans la BDD
 	 * 
-	 * @return int
+	 * @return int|null
 	 */
-	public function get_id(): int
+	public function get_id(): ?int
 	{
 		return $this->id;
 	}
@@ -297,7 +297,7 @@ class Composant extends AbstractDataObject
 			":attribut" => $this->get_attribut()->get_id(),
 			":aggregation" => $this->get_aggregation()->get_id(),
 			":groupping" => $this->get_grouping()->get_id(),
-			":params_affich" => $this->params ?? ""
+			":params_affich" => json_encode($this->params) ?? ""
 		];
 	}
 	#endregion Overides

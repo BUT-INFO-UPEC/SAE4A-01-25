@@ -30,9 +30,9 @@
 
 	<?php
 
-	use Src\Config\UserManagement;
+	use Src\Config\SessionManagement;
 
-	if (UserManagement::getUser() != null) : ?>
+	if (SessionManagement::getUser() != null) : ?>
 		<select name="privatisation" id="" privatisation>
 			<option value=null <?= $privatisation === null ? 'selected' : '' ?>>Tout</option>
 			<option value="private" <?= $privatisation === 'private' ? 'selected' : '' ?>>Mes dashboards</option>

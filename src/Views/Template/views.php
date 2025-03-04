@@ -30,8 +30,6 @@ $controller = $_SESSION['controller'];
 	</div>
 
 	<div class="flex main-container">
-		<img src="<?= BASE_URL ?>assets/img/fondaccueil.jpg" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
-
 		<?php if (isset($_SESSION['user']))  require __DIR__ . "/Popups/Sidebar.php"; ?>
 
 		<div class="w-100 m-3 glass">

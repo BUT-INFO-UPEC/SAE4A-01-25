@@ -2,7 +2,7 @@
 
 namespace Src\Config;
 
-class ConfAPP
+class CookiesConf
 {
  /** Crée un cookie sur l
 	* 
