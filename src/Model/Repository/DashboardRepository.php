@@ -221,13 +221,8 @@ class DashboardRepository extends AbstractRepository
 
 			$compo = new ComposantRepository();
 			foreach ($dash->get_composants() as $item) {
-				// try_delete : $compo
-			// supprimer les composants
-			$query = "DELETE FROM Composant WHERE id IN (SELECT composant_id FROM Composant_dashboard WHERE dashboard_id = :dashboard_id)";
-			DatabaseConnection::executeQuery($query, [":dashboard_id" => $dash->get_id()]);
-
+				$compo->try_delete($item);
 			}
-
 		} catch (PDOException $e) {
 			MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
 		} catch (Exception $e) {
