@@ -305,7 +305,7 @@ class ControllerDashboard extends AbstractController
 			$comp->set_grouping($_POST["association_$index"]);
 			$comp->set_visu($_POST["visu_type_$index"]);
 		}
-		for ($i = count($dash->get_composants()); $i < $compNb; $i++) {
+		for ($i = \count($dash->get_composants()); $i < $compNb; $i++) {
 			// Ajouter les composants suplémentaires
 			$objetFormatTableau = [];
 			$objetFormatTableau['id'] = $_SESSION["componants_to_delete"] ? null : array_pop($_SESSION["componants_to_delete"]); // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression + création lors d'une mise a jour péraine et juste faire la dite mise a jour
