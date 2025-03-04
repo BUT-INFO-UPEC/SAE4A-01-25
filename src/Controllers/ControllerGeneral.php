@@ -145,4 +145,11 @@ class ControllerGeneral extends AbstractController
 		require('../src/Views/Template/views.php');
 	}
 	#endregion
+
+	public static function tuto(): void
+	{
+		$titrePage = "Tutoriel";
+		$cheminVueBody = "tuto.php";
+		require('../src/Views/Template/views.php');
+	}
 }

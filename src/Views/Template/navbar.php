@@ -4,6 +4,8 @@
 
 	<a href="<?= CONTROLLER_URL ?>?controller=ControllerDashboard&action=new_dashboard" class="nav-link"> Création </a>
 
+	<a href="<?= CONTROLLER_URL ?>?controller=ControllerDashboard&action=tuto" class="nav-link"> Tutoriel </a>
+
 	<a href="<?= CONTROLLER_URL ?>?controller=ControllerDashboard&action=browse" class="nav-link"> Liste </a>
 	<?php if (isset($_SESSION['dash'])) : ?>
 		<a href="<?= CONTROLLER_URL ?>?controller=ControllerDashboard&action=visu_dashboard" class="nav-link"> Visualisation </a>
