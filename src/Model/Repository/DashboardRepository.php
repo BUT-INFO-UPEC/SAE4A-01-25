@@ -139,27 +139,22 @@ class DashboardRepository extends AbstractRepository
 	{
 		try {
 			$this->update($dash, $dash->get_id());
+			$dashId = $dash->get_id();
 
 			$comp_repo = new ComposantRepository;
 			$new_comp_id_to_link = [];
 			// créer ou modifier les composants dans la BDD
 			foreach ($dash->get_composants() as $comp) {
-				$compId = $comp_repo->update_or_create_comp($comp);
-				if ($compId != null) $new_comp_id_to_link[] = $compId;
+				$comp_repo->update_or_create_comp($comp, $dashId);
 			}
-
-			// enregistrer les liens dashboard composants pour les nouvraux composants
-			foreach ($new_comp_id_to_link as $dashId) { // parcourir les entrées de dash_comp qui possèdent l'id du dashboerd, regarder si il y a un composant a y attacher, sinon le supprimer
-				$query = "INSERT INTO Composant_dashboard (dashboard_id, composant_id) VALUES (:dashboard_id, :composant_id);";
-				$values = [":composant_id" => $compId, ":dashboard_id" => $dashId];
-				DatabaseConnection::executeQuery($query, $values);
-			}
-			// si il reste des composants non attachés, les ajoutés
 
 			// supprimer les composants qui ne sont plus utilisés
 			$componantsToDelete = $_SESSION["componants_to_delete"];
 			foreach ($componantsToDelete as $compid) {
 				$comp_repo->try_delete($comp_repo->get_composant_by_id($compid));
+				$query = "DELETE from Composant_dashboard WHERE composant_id = :compId AND dashboard_id = :dashId";
+				$values = [":compId" => $compid, ":dashId" => $dashId];
+				DatabaseConnection::executeQuery($query, $values);
 			}
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la mise à jour du dashboard", "Le dashboard n'a pas pu être mis à jour.\n" . $e->getMessage());
@@ -188,12 +183,7 @@ class DashboardRepository extends AbstractRepository
 
 			// parcourir les composants et les enregistrés
 			foreach ($dash->get_composants() as $comp) {
-				$compId = (new ComposantRepository)->save_new($comp);
-
-				// enregistrer les liens dashboard composants
-				$query = "INSERT INTO Composant_dashboard (dashboard_id, composant_id) VALUES (:dashboard_id, :composant_id);";
-				$values = [":composant_id" => $compId, ":dashboard_id" => $dashId];
-				DatabaseConnection::executeQuery($query, $values);
+				$compId = (new ComposantRepository)->save_new($comp, $dashId);
 			}
 
 			return $dashId;

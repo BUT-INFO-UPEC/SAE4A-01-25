@@ -7,21 +7,27 @@ use Src\Model\DataObject\Composant;
 class ComposantRepository extends AbstractRepository
 {
 
-	public function save_new(Composant $composant)
+	public function save_new(Composant $composant, int $dashId)
 	{
 		$values = $composant->formatTableau();
 		$values[":id"] = null;
 		$compId = (int) $this->create($composant, $values);
+
+		// enregistrer les liens dashboard composants
+		$query = "INSERT INTO Composant_dashboard (dashboard_id, composant_id) VALUES (:dashboard_id, :composant_id);";
+		$values = [":composant_id" => $compId, ":dashboard_id" => $dashId];
+		DatabaseConnection::executeQuery($query, $values);
+
 		return $compId;
 	}
 
-	public function update_or_create_comp(Composant $composant): int|null
+	public function update_or_create_comp(Composant $composant, int $dashId): int|null
 	{
 		if ($composant->get_id() != null) { // Si le composant existe, le mettre a jour
 			$this->update($composant, $composant->get_id());
 			return null;
 		} else { // ajouter le composant a la BDD et récupérer l'ID
-			return $this->save_new($composant);
+			return $this->save_new($composant, $dashId);
 		}
 	}
 

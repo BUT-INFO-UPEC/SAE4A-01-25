@@ -105,7 +105,6 @@ abstract class AbstractRepository
 		$insert = substr($insert, 0, -2);
 
 		$query = "UPDATE $nomTable SET $insert WHERE $nomClePrimaire = :OLD" . $nomClePrimaire . "Tag;";
-		MsgRepository::Debug($query);
 		$values[":OLD" . $nomClePrimaire . "Tag"] = $ancienneClePrimaire;
 		DatabaseConnection::executeQuery($query, $values);
 	}
