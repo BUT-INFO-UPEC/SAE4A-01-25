@@ -169,7 +169,7 @@ class ControllerDashboard extends AbstractController
 	 *
 	 * Mets a jour le dashbord dans la session a partir des paramètres POST
 	 * Peut ajouter un nouveau dashboard dans la BDD partir du dashboard mis a jour
-	 * Peur écraser le dashboard original dans la BDD avec les données du nouveau pour sauvegarde
+	 * Peut écraser le dashboard original dans la BDD avec les données du nouveau pour sauvegarde
 	 *
 	 * Redirige ensuite vers la visualisatoin du dashboard mis a jour
 	 *
@@ -181,7 +181,7 @@ class ControllerDashboard extends AbstractController
 			if (!empty($_SESSION['dash'])) {
 				// Mettre a jour le dashboard dans la session (données dynamiques)
 				$dash = $_SESSION['dash'];
-				if (isset($_POST)) ControllerDashboard::update_dashboard_from_POST($dash); // ne mettre a jour le dashboard que si demander, concretement, important pour la récupération lors d'une délétion regrétée
+				if (!empty($_POST)) ControllerDashboard::update_dashboard_from_POST($dash); // ne mettre a jour le dashboard que si demander, concretement, important pour la récupération lors d'une délétion regrétée
 				$_SESSION["dash"] = $dash;
 
 				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
@@ -223,8 +223,8 @@ class ControllerDashboard extends AbstractController
 		}
 		if (isset($dash)) {
 			if ($dash->get_createur() == SessionManagement::getUser()->getId()) {
-				$constructeur->delete_dashboard($dash);
-				MsgRepository::newPrimary('Dashboard supprimmé', "<a href='?controller=ControllerDashboard&action=save'> dernierre chance de le récupérer ! </a>"); // le dashboard est toujours enregistré dans la session, si l'utilisateur clique sur le lien, il sera a nouveau enregistré (sous un nouvel id)
+				$_SESSION['dash'] = $constructeur->delete_dashboard($dash);
+				MsgRepository::newPrimary('Dashboard supprimmé', "<a href='?controller=ControllerDashboard&action=save&duplicate=true'> dernierre chance de le récupérer ! </a>"); // le dashboard est toujours enregistré dans la session, si l'utilisateur clique sur le lien, il sera a nouveau enregistré (sous un nouvel id)
 			} else {
 				MsgRepository::newError("Hacker !!!", "C'est pas bien d'essayer de supprimer les dashboards des autres !!!");
 			}
