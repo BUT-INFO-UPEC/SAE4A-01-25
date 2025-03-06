@@ -196,7 +196,7 @@ class DashboardRepository extends AbstractRepository
 		}
 	}
 
-	public function delete_dashboard(Dashboard $dash): void
+	public function delete_dashboard(Dashboard $dash): Dashboard|null
 	{
 		try {
 			// supprimer le dashboard
@@ -213,10 +213,14 @@ class DashboardRepository extends AbstractRepository
 			foreach ($dash->get_composants() as $item) {
 				$compo->try_delete($item);
 			}
+			$dash->setId(null);
+			return $dash;
 		} catch (PDOException $e) {
 			MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
+			return null;
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
+			return null;
 		}
 	}
 	#endregion Publiques
