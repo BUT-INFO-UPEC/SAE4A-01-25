@@ -23,29 +23,27 @@ $controller = $_SESSION['controller'];
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl">
-	<?php require __DIR__ . "/header.php"; ?>
+	<?php require __DIR__ . "/Header.php"; ?>
 
 	<div class="slim-list">
 		<?php require __DIR__ . "/navTemp.php"; ?>
 	</div>
 
 	<div class="flex main-container">
-		<img src="<?= BASE_URL ?>assets/img/fondaccueil.jpg" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
-
-		<?php if (isset($_SESSION['user']))  require __DIR__ . "/sidebar.php"; ?>
+		<?php if (isset($_SESSION['user']))  require __DIR__ . "/Popups/Sidebar.php"; ?>
 
 		<div class="w-100 m-3 glass">
 			<main class="m-3">
-				<?php require __DIR__ . "/message.php"; ?>
+				<?php require __DIR__ . "/Popups/Messages.php"; ?>
 				<?php require __DIR__ . "/../Content/$controller/$cheminVueBody"; ?>
 			</main>
 		</div>
 	</div>
 
 	<!-- Formulaire avec rechargement automatique -->
-	<?php require __DIR__ . "/Form.php"; ?>
+	<?php require __DIR__ . "/Popups/User_auth_Forms.php"; ?>
 
-	<?php require __DIR__ . "/footer.php"; ?>
+	<?php require __DIR__ . "/Footer.php"; ?>
 </body>
 
 </html>

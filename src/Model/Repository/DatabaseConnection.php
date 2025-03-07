@@ -12,11 +12,14 @@ use PDOStatement;
  */
 class DatabaseConnection
 {
+	#region attributes
 	// =======================
 	//        ATTRIBUTS
 	// =======================
+
 	private static ?DatabaseConnection $instance = null;
 	private PDO $pdo;
+	#endregion attributes
 
 	// =======================
 	//      CONSTRUCTEUR
@@ -45,6 +48,7 @@ class DatabaseConnection
 		}
 	}
 
+	#region static
 	// =======================
 	//    MÉTHODES STATIQUES
 	// =======================
@@ -128,9 +132,16 @@ class DatabaseConnection
 		return static::$instance;
 	}
 
-	public static function getTable(string $table)
+	/** Récupère la totalité des informations de la table
+	 * 
+	 * @param string $table
+	 * 
+	 * @return array
+	 */
+	public static function getTable(string $table): array
 	{
 		$query = "SELECT * FROM $table";
 		return self::fetchAll($query);
 	}
+	#endregion static
 }

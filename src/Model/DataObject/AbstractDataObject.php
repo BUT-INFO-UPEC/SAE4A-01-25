@@ -2,54 +2,54 @@
 
 namespace Src\Model\DataObject;
 
-/**Classe mêre de toutes les données dynamiques du site pour eviter la redondance.
+/**Classe mêre de toutes les données dynamiques du site pour structurer la gestion des données et eviter la redondance.
  */
 abstract class AbstractDataObject
 {
+	#region Attributs
 	// =======================
 	//        ATTRIBUTES
 	// =======================
-	#region Attributs
 	#endregion Attributs
 
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
 
+	#region Getters
 	// =======================
 	//      GETTERS
 	// =======================
-	#region Getters
 	#endregion Getters
 
+	#region Stters
 	// =======================
 	//      SETTERS
 	// =======================
-	#region Stters
 	#endregion Stters
 
+	#region Publiques
 	// =======================
 	//    PUBLIC METHODS
 	// =======================
-	#region Publiques
 	#endregion Publiques
 
+	#region Privees
 	// =======================
 	//    PRIVATE METHODS
 	// =======================
-	#region Privees
 	#endregion Privees
 
+	#region Statiques
 	// =======================
 	//    STATIC METHODS
 	// =======================
-	#region Statiques
 	#endregion Statiques
 
+	#region abstraites
 	// =======================
 	//    ABSTRACT METHODS
 	// =======================
-	#region abstraites
 	/**
 	 * Mets en forme l'objets en extrayant ses données au format tableau pour enregistrement dans la BDD
 	 * 
@@ -58,9 +58,9 @@ abstract class AbstractDataObject
 	public abstract function formatTableau(): array;
 	#endregion abstraites
 
+	#region Overides
 	// =======================
 	//    OVERIDES
 	// =======================
-	#region Overides
 	#endregion Overides
 }
