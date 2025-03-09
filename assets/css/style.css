@@ -203,6 +203,11 @@ hr {
 	overflow: hidden;
 }
 
+.sidebar_container {
+	position: sticky;
+	top: 0;
+}
+
 h1,
 p {
 	margin-top: 20px;

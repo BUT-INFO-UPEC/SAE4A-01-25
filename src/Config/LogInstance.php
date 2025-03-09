@@ -44,7 +44,7 @@ class LogInstance
 	}
 	function get_Redirection(): string
 	{
-		return $this->redirection ?? "Aucune rediréction.";
+		return "Redirigé : " . ($this->redirection ?? "Aucune rediréction.");
 	}
 	function get_Msgs(): array
 	{
