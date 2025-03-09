@@ -17,7 +17,7 @@ class Dashboard extends AbstractDataObject
 	// =======================
 	//        ATTRIBUTES
 	// =======================
-	private int $dashboardId;
+	private ?int $dashboardId;
 	private int $privatisation;
 	private array $composants = [];
 	private int $createurId;

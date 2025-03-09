@@ -1,7 +1,4 @@
 <div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
-	<?php
-	?>
-
 	<script type='text/javascript'>
 		window.onload = function() {
 			setTimeout(function() {

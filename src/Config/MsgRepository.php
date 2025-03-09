@@ -65,7 +65,7 @@ class MsgRepository
 		$debugMsg = new Msg(Msg::PRIMARY, $title, $message);
 		MsgRepository::redirect($redirection);
 		$_SESSION["MSGs"]['list_messages'][] = $debugMsg;
-		$_SESSION['MSGs']["undying"][] = [$debugMsg];
+		SessionManagement::get_curent_log_instance()->add_Msg($debugMsg);
 	}
 
 	/** Create a new message of type secondary wich is reserved for developpement puroses
@@ -75,6 +75,7 @@ class MsgRepository
 	 */
 	public static function Debug(mixed $var): void {
 		$_SESSION["MSGs"]['list_messages'][] = new Msg(Msg::SECONDARY, "debuging", var_export($var, true));
+		SessionManagement::get_curent_log_instance()->add_log(var_export($var, true));
 		MsgRepository::redirect(MsgRepository::NO_REDIRECT);
 	}
 
@@ -90,7 +91,8 @@ class MsgRepository
 			$redirectUrl = $redirection != MsgRepository::LAST_PAGE ? $redirection : '?action=default';
 
 			//allimenter le log pour deboggage
-			$_SESSION['MSGs']["undying"][] = [$_SESSION["MSGs"]['list_messages'], $redirectUrl];
+			SessionManagement::get_curent_log_instance()->add_Msgs($_SESSION["MSGs"]['list_messages']);
+			SessionManagement::get_curent_log_instance()->set_redirection($redirectUrl);
 
 			// rediriger vers la destination définie
 			header('Location: ' . $redirectUrl);

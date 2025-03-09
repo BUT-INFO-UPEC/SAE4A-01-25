@@ -13,7 +13,7 @@ class SessionManagement
 	 */
 	public static function getUser(): ?Utilisateur
 	{
-		return isset($_SESSION["user"]) ? $_SESSION["user"] : null;
+		return$_SESSION["user"] ?? null;
 	}
 
 	/** Check if a user is logged in. Redirect with an error if not.
@@ -30,5 +30,9 @@ class SessionManagement
 	public static function setDash(Dashboard $dashboard):void {
 		$_SESSION["dash"] = $dashboard;
 		$_SESSION["componants_to_delete"] = [];
+	}
+
+	public static function &get_curent_log_instance(): LogInstance {
+		return $_SESSION['MSGs']["undying"][array_key_last($_SESSION['MSGs']["undying"])];
 	}
 }

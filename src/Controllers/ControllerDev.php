@@ -3,12 +3,13 @@
 namespace Src\Controllers;
 
 use Exception;
+use Src\Config\LogInstance;
 use Src\Config\MsgRepository;
 use Src\Model\API\Requetteur_API;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\Repository\DatabaseConnection;
 
-class ControllerTests extends AbstractController
+class ControllerDev extends AbstractController
 {
 
 	static public function default(): void
@@ -76,6 +77,7 @@ class ControllerTests extends AbstractController
 
 	public static function clear_log() {
 		unset($_SESSION['MSGs']["undying"]);
+		$_SESSION['MSGs']["undying"][] = new LogInstance("Log reset"); // réinitialiser le cache des logs pour la session en cours
 		MsgRepository::newWarning("Log éffacé", "Le log a été nétoyé.");
 	}
 }

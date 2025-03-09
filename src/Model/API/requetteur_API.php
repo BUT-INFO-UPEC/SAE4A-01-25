@@ -55,6 +55,7 @@ class Requetteur_API
 	private static function executeCurl(string $url): array
 	{
 		$ch = curl_init();
+		MsgRepository::Debug(var: $url);
 
 		$options = [
 			CURLOPT_URL							=> $url,
@@ -74,6 +75,7 @@ class Requetteur_API
 		}
 		// MsgRepository::newSuccess($response, "", MsgRepository::NO_REDIRECT);
 		$decoded_response = json_decode($response, true);
+		MsgRepository::Debug($decoded_response);
 
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			throw new Exception("Erreur de décodage JSON : " . json_last_error_msg());

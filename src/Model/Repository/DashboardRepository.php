@@ -156,6 +156,9 @@ class DashboardRepository extends AbstractRepository
 				$values = [":compId" => $compid, ":dashId" => $dashId];
 				DatabaseConnection::executeQuery($query, $values);
 			}
+
+			// supprimer les instances de CritereGeo_dashboard
+			// juste construire une requette SQL
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la mise à jour du dashboard", "Le dashboard n'a pas pu être mis à jour.\n" . $e->getMessage());
 		} catch (PDOException $e) {
