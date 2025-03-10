@@ -2,6 +2,7 @@
 
 namespace Src\Model\Repository;
 
+use Src\Config\SessionManagement;
 use Src\Model\DataObject\AbstractDataObject;
 use Src\Model\Repository\AbstractRepository;
 
@@ -85,6 +86,7 @@ abstract class AbstractRequestComponant extends AbstractRepository
 			// Marquer le cache comme complet
 			$this->setCache("full", true);  // Utilisation de static::$cache_full
 		}
+		// SessionManagement::get_curent_log_instance()->new_log("Taille mémoire du cache : " . strval($this->get_cache_size()));
 		return $objet;
 	}
 	#endregion Publiques
@@ -138,4 +140,9 @@ abstract class AbstractRequestComponant extends AbstractRepository
 		return self::$sharedCache[$className] ?? null;
 	}
 	#endregion Publiques
+
+	private function get_cache_size(): int
+	{
+		return strlen(serialize(self::$sharedCache));
+	}
 }

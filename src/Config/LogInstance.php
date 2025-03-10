@@ -84,5 +84,8 @@ class LogInstance
 	{
 		$this->LogList[] = $message;
 	}
+	function new_log(string $message) {
+		$this->add_Log(Utils::get_calling_class() . " : " . $message); // ajouter le log avec la classe l'ayant initialiser en entete
+	}
 	#endregion public
 }

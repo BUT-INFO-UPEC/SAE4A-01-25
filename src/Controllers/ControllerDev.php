@@ -68,7 +68,7 @@ class ControllerDev extends AbstractController
 
 	public static function developpement_log()
 	{
-		$titrePage = "Historique des messages";
+		$titrePage = "Journal des logs";
 		// Chemin vers la vue
 		$cheminVueBody = "log.php";
 		// Chargement du template principal

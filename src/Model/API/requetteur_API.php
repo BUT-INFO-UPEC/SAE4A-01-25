@@ -4,6 +4,7 @@ namespace Src\Model\API;
 
 use Exception;
 use Src\Config\MsgRepository;
+use Src\Config\SessionManagement;
 
 class Requetteur_API
 {
@@ -17,6 +18,9 @@ class Requetteur_API
 			while (sizeof($totalData) < $APITotal) {
 				// Construire l'URL de la requête
 				$url = $requette->formatUrl();
+
+				$advance = sizeof($totalData)." / ".(($APITotal == 1) ? " ? ":$APITotal);
+				SessionManagement::get_curent_log_instance()->new_log("Requette $advance à l'API. url : ".$url);
 
 				// Exécuter la requête avec CURL
 				$response = self::executeCurl($url);
