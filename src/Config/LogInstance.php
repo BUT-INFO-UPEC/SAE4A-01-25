@@ -4,6 +4,11 @@ namespace Src\Config;
 
 class LogInstance
 {
+	public const GREY = "bg-secondary";
+	public const GREEN = "bg-success";
+	public const BLUE = "bg-info";
+	public const LIGHT = "bg-light";
+	public const IMPORTANT = "bg-primary";
 
 	#region attributs
 	// =======================
@@ -74,18 +79,19 @@ class LogInstance
 	{
 		$this->MsgList[] = $message;
 	}
-	function add_Msgs(Array $messages): void
+	function add_Msgs(array $messages): void
 	{
 		foreach ($messages as $message) {
 			$this->add_Msg($message);
 		}
 	}
-	function add_Log(string $message): void
+	function add_Log(string $message, $color = LogInstance::IMPORTANT): void
 	{
-		$this->LogList[] = $message;
+		$this->LogList[] = [$color, $message];
 	}
-	function new_log(string $message) {
-		$this->add_Log(Utils::get_calling_class() . " : " . $message); // ajouter le log avec la classe l'ayant initialiser en entete
+	function new_log(string $message, $color = "")
+	{
+		$this->add_Log(Utils::get_calling_class() . " : " . $message, $color); // ajouter le log avec la classe l'ayant initialiser en entete
 	}
 	#endregion public
 }

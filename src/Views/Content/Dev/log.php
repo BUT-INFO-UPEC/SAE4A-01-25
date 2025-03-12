@@ -42,8 +42,10 @@ if (!empty($_SESSION['MSGs']["undying"])) {
 						Liste des logs
 					</button>
 	<?php echo "<div class='collapse' id='log$Logindex'>";
-				foreach ($LogBundle as $log) {
-					echo "<p class='log_line'>$log</p>";
+				foreach ($LogBundle as $log_and_color) {
+					$color = $log_and_color[0];
+					$log = $log_and_color[1];
+					echo "<p class='log_line $color'>$log</p>";
 				}
 				echo "</div>";
 				$Logindex++;

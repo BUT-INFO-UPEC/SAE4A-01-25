@@ -5,6 +5,7 @@ namespace Src\Controllers;
 use Exception;
 use PDOException;
 use RuntimeException;
+use Src\Config\LogInstance;
 use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
@@ -308,7 +309,7 @@ class ControllerDashboard extends AbstractController
 			$comp->set_visu($_POST["visu_type_$index"]);
 		}
 		for ($i = \count($dash->get_composants()); $i < $compNb; $i++) {
-			SessionManagement::get_curent_log_instance()->new_log("Création du composant $i/$compNb");
+			SessionManagement::get_curent_log_instance()->new_log("Instanciation du composant $i/$compNb");
 			// Ajouter les composants suplémentaires
 			$objetFormatTableau = [];
 			if ($_SESSION["componants_to_delete"]) { // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression + création lors d'une mise a jour péraine et juste faire la dite mise a jour

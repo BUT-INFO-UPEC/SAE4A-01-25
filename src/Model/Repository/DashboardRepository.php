@@ -4,6 +4,7 @@ namespace Src\Model\Repository;
 
 use Exception;
 use PDOException;
+use Src\Config\LogInstance;
 use Src\Config\MsgRepository;
 use Src\Config\SessionManagement;
 use Src\Model\DataObject\Dashboard;
@@ -27,7 +28,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function arrayConstructor(array $objetFormatTableau): ?Dashboard
 	{
-		SessionManagement::get_curent_log_instance()->new_log("Création du dashboard " . $objetFormatTableau['id']);
+		SessionManagement::get_curent_log_instance()->new_log("Instanciation du dashboard " . $objetFormatTableau['id']);
 		try {
 			$composants = $this->BuildComposants($objetFormatTableau['id']);
 			$criteres_geo = $this->BuildGeo($objetFormatTableau['id']);
@@ -73,7 +74,7 @@ class DashboardRepository extends AbstractRepository
 			$constructeur = new ComposantRepository();
 			$composants = [];
 			foreach ($composantsId as $index => $compId) {
-				SessionManagement::get_curent_log_instance()->new_log("Création du composant " . $index + 1 . "/" . count($composantsId));
+				SessionManagement::get_curent_log_instance()->new_log("Instanciation du composant " . $index + 1 . "/" . count($composantsId));
 				$composants[] = $constructeur->get_composant_by_id($compId['composant_id']);
 			}
 			return $composants;
@@ -148,7 +149,7 @@ class DashboardRepository extends AbstractRepository
 			$new_comp_id_to_link = [];
 			// créer ou modifier les composants dans la BDD
 			foreach ($dash->get_composants() as $index => $comp) {
-				SessionManagement::get_curent_log_instance()->new_log("Mise a jour du composant " . $comp->getId() . " : " . $index + 1 . "/" .count($dash->get_composants()));
+				SessionManagement::get_curent_log_instance()->new_log("Mise a jour du composant " . $comp->get_id() . " : " . $index + 1 . "/" .count($dash->get_composants()));
 				$comp_repo->update_or_create_comp($comp, $dashId);
 			}
 
@@ -174,7 +175,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function save_new_dashboard(Dashboard $dash)
 	{
-		SessionManagement::get_curent_log_instance()->new_log("Enregistrement du dashboard dans la BDD...");
+		SessionManagement::get_curent_log_instance()->new_log("Enregistrement du dashboard dans la BDD...", LogInstance::IMPORTANT);
 		try {
 			$values = $dash->formatTableau();
 			$values[":createur_id"] = SessionManagement::getUser()->getId();
@@ -198,7 +199,7 @@ class DashboardRepository extends AbstractRepository
 				$compId = (new ComposantRepository)->save_new($comp, $dashId);
 			}
 
-			SessionManagement::get_curent_log_instance()->new_log("Dashboard enregistré");
+			SessionManagement::get_curent_log_instance()->new_log("Dashboard enregistré", LogInstance::GREEN);
 			return $dashId;
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la sauvegarde du dashboard", "Le dashboard n'a pas pu être sauvegardé.\n" . $e->getMessage());

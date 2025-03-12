@@ -19,17 +19,6 @@ class ControllerDev extends AbstractController
 
 	public static function testDash()
 	{
-		// try {
-		// 	// Appel de la méthode pour récupérer les données via l'API
-
-		// 	$requete = new Constructeur_Requette_API(
-		// 		["t"],
-		// 	);
-
-		// 	$data = Requetteur_API::fetchData($requete);
-		// } catch (Exception $e) {
-		// 	MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
-		// }
 		try {
 			// Appel de la méthode pour récupérer les données via l'API
 
@@ -39,7 +28,27 @@ class ControllerDev extends AbstractController
 				["MONTH(date)"],
 			);
 
-			$data2 = Requetteur_API::fetchData($requete, "MONTH(date)");
+			$data = Requetteur_API::fetchData($requete, "MONTH(date)");
+		} catch (Exception $e) {
+			MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
+		}
+
+		// Exploitation des données récupérées
+		$titrePage = "Test de récupération des données API";
+		$cheminVueBody = "test_dash.php";
+		require('../src/Views/Template/views.php');
+	}
+
+	public static function testAPI()
+	{
+		try {
+			// Appel de la méthode pour récupérer les données via l'API
+
+			$requete = new Constructeur_Requette_API(
+				["t"],
+			);
+
+			$data = Requetteur_API::fetchData($requete);
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
 		}

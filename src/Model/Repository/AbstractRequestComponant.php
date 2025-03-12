@@ -2,6 +2,7 @@
 
 namespace Src\Model\Repository;
 
+use Src\Config\LogInstance;
 use Src\Config\SessionManagement;
 use Src\Model\DataObject\AbstractDataObject;
 use Src\Model\Repository\AbstractRepository;
@@ -35,6 +36,7 @@ abstract class AbstractRequestComponant extends AbstractRepository
 	{
 		// Vérifie si l'objet est déjà dans le cache spécifique à cette classe
 		if ($this->getCache($id) != null) {  // Utilisation de static::$cache
+			SessionManagement::get_curent_log_instance()->new_log("Récupération d'un objet dans le cache (économie d'une requette SQL) repo du type d'objet : " . get_called_class(), LogInstance::BLUE);
 			return $this->getCache($id); // Retourne l'instance déjà initialisée
 		}
 

@@ -5,6 +5,7 @@ namespace Src\Model\DataObject;
 use DateTime;
 use Exception;
 use OutOfBoundsException;
+use Src\Config\LogInstance;
 use Src\Config\SessionManagement;
 
 /** Classe comportant les informations d'analyse des données météorologiques
@@ -45,6 +46,7 @@ class Dashboard extends AbstractDataObject
 		$this->params = $param;
 		$this->selectionGeo = $critere_geo;
 		$this->composants = $composants;
+		SessionManagement::get_curent_log_instance()->new_log("Dashboard instancié.");
 	}
 
 	#region getters

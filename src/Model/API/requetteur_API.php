@@ -19,7 +19,7 @@ class Requetteur_API
 				// Construire l'URL de la requête
 				$url = $requette->formatUrl();
 
-				$advance = sizeof($totalData)." / ".(($APITotal == 1) ? " ? ":$APITotal);
+				$advance = (sizeof($totalData)/100) + 1 ." / ".(($APITotal == 1) ? " ? ":$APITotal/100);
 				SessionManagement::get_curent_log_instance()->new_log("Requette $advance à l'API. url : ".$url);
 
 				// Exécuter la requête avec CURL

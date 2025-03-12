@@ -2,6 +2,8 @@
 
 namespace Src\Model\DataObject;
 
+use Src\Config\LogInstance;
+use Src\Config\SessionManagement;
 use Src\Model\Repository\RepresentationRepository;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\API\Requetteur_API;
@@ -41,6 +43,7 @@ class Composant extends AbstractDataObject
 		$this->grouping = $grouping;
 		$this->repr = $repr_type;
 		$this->params = json_decode($param_affich, true);
+		SessionManagement::get_curent_log_instance()->new_log("Composant instancié.");
 	}
 
 	#region Getters
