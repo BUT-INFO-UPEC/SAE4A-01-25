@@ -1,28 +1,50 @@
 <div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
-	<?php
-	?>
+    <h4><?= htmlspecialchars($params['titre']) ?></h4>
 
-	<script type='text/javascript'>
-		window.onload = function() {
-			setTimeout(function() {
-				google.charts.setOnLoadCallback(function() {
-					var rawData = <?= json_encode($data) ?>;
-					console.log("Données envoyées à Google Charts:", rawData);
-					var data = google.visualization.arrayToDataTable(rawData);
-					console.log("Données interprétées par Google Charts:", data);
+    <!-- Canvas pour le graphique -->
+    <canvas id="chart<?= $params['chartId'] ?>"></canvas>
 
-					var options = {
-						title: <?= json_encode($params['titre']) ?>,
-						fontName: 'Poppons'
-					};
+    <!-- Inclure Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var rawData = <?= json_encode($data) ?>;
+            console.log("Données reçues:", rawData);
 
-					var chart = new google.visualization.PieChart(document.getElementById('comp<?= $params['chartId'] ?>'));
+            // Extraction des labels et valeurs
+            var labels = Object.keys(rawData);
+            var values = Object.values(rawData).map(arr => arr[0]); // Prendre le premier élément de chaque colonne
 
-					console.log(options);
+            if (labels.includes('entier')) {
+                labels = labels.filter(label => label !== 'entier'); // Ne pas afficher 'entier' comme label
+                values = rawData.entier; // Utiliser entier comme valeurs si disponible
+            }
 
-					chart.draw(data, options);
-				});
-			}, 1000); // Attendre un peu pour s'assurer que la taille est correcte
-		}
-	</script>
+            // Définir les couleurs dynamiquement
+            var colors = labels.map((_, index) => `hsl(${index * 50}, 70%, 60%)`);
+
+            // Création du graphique
+            var ctx = document.getElementById("chart<?= $params['chartId'] ?>").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Répartition",
+                        data: values,
+                        backgroundColor: colors,
+                        borderColor: "#ffffff",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true },
+                        tooltip: { enabled: true }
+                    }
+                }
+            });
+        });
+    </script>
 </div>

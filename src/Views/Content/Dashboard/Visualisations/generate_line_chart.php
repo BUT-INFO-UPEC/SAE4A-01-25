@@ -1,37 +1,51 @@
 <div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
-	<?php
-	?>
+    <h4><?= htmlspecialchars($params['titre']) ?></h4>
 
-	<script type='text/javascript'>
-		window.onload = function() {
-			setTimeout(function() {
-				google.charts.setOnLoadCallback(function() {
-					var rawData = <?= json_encode($data) ?>;
-					console.log("Données envoyées à Google Charts:", rawData);
-					var data = google.visualization.arrayToDataTable(rawData);
-					console.log("Données interprétées par Google Charts:", data);
+    <!-- Canvas pour le graphique -->
+    <canvas id="chart<?= $params['chartId'] ?>"></canvas>
 
-					var options = {
-						title: <?= json_encode($params['titre']) ?>,
-						hAxis: {
-							title: <?= json_encode($params['hAxisTitle'] ?? 'Catégories') ?>
-						},
-						vAxis: {
-							title: <?= json_encode($params['vAxisTitle'] ?? 'Valeurs') ?>
-						},
-						legend: {
-							position: 'none'
-						},
-						fontName: 'Poppons'
-					};
+    <!-- Inclure Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var rawData = <?= json_encode($data) ?>;
+            console.log("Données reçues:", rawData);
 
-					var chart = new google.visualization.LineChart(document.getElementById('comp<?= $params['chartId'] ?>'));
+            var labels = Object.keys(rawData);
+            var values = Object.values(rawData).map(arr => arr[0]); // Prendre la première valeur par catégorie
 
-					console.log(options);
-
-					chart.draw(data, options);
-				});
-			}, 1000); // Attendre un peu pour s'assurer que la taille est correcte
-		}
-	</script>
+            var ctx = document.getElementById("chart<?= $params['chartId'] ?>").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Valeurs",
+                        data: values,
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: "#fff",
+                        pointBorderColor: "rgba(75, 192, 192, 1)"
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: { display: true, text: <?= json_encode($params['hAxisTitle'] ?? 'Catégories') ?> }
+                        },
+                        y: {
+                            title: { display: true, text: <?= json_encode($params['vAxisTitle'] ?? 'Valeurs') ?> },
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
+        });
+    </script>
 </div>
