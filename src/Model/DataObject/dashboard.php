@@ -196,11 +196,11 @@ class Dashboard extends AbstractDataObject
 
 	/** Change l'identifiant du dashboard pour la BDD
 	 * 
-	 * @param int $id
+	 * @param int|null $id
 	 * 
 	 * @return void
 	 */
-	public function setId(int $id): void
+	public function setId(?int $id): void
 	{
 		$this->dashboardId = $id;
 	}

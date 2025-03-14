@@ -1,19 +1,25 @@
 <?php
 if (!empty($_SESSION['MSGs']["undying"])) {
 	foreach ($_SESSION['MSGs']["undying"] as $index => $MsgBundle) {
-		echo "<div>";
-		foreach ($MsgBundle[0] as $index => $Msg) { ?>
-			<div class="alert alert-<?= $Msg->getType() ?>" role="alert" id="alertMessage<?= $index ?>">
-				<h3><?= $Msg->getTitle() ?></h3>
+		if (!empty($MsgBundle)) {
+			echo "<div>";
+			if (!empty($MsgBundle[0])) {
+				foreach ($MsgBundle[0] as $index => $Msg) { ?>
+					<div class="alert alert-<?= $Msg->getType() ?>" role="alert" id="alertMessage<?= $index ?>">
+						<h3><?= $Msg->getTitle() ?></h3>
 
 	<?php if ($Msg->getMessage() != null) {
-				echo "<p>" . $Msg->getMessage() . "</p>";
+						echo "<p>" . $Msg->getMessage() . "</p>";
+					}
+					echo '</div>';
+				}
+			} else {
+				echo "<p> Pas de message </p>";
 			}
-			echo '</div>';
-		}
-		echo "<p> $MsgBundle[1] </p>";
+			echo "<p> $MsgBundle[1] </p>";
 
-		echo "</div>";
+			echo "</div>";
+		}
 	}
 }
 	?>

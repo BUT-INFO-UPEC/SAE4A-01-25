@@ -49,7 +49,6 @@
 		google.charts.load('current', {
 			packages: ['corechart']
 		});
-		Array.prototype.reduce = undefined;
 	</script>
 
 	<div id='dashboard'>

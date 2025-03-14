@@ -169,7 +169,7 @@ class ControllerDashboard extends AbstractController
 	 *
 	 * Mets a jour le dashbord dans la session a partir des paramètres POST
 	 * Peut ajouter un nouveau dashboard dans la BDD partir du dashboard mis a jour
-	 * Peur écraser le dashboard original dans la BDD avec les données du nouveau pour sauvegarde
+	 * Peut écraser le dashboard original dans la BDD avec les données du nouveau pour sauvegarde
 	 *
 	 * Redirige ensuite vers la visualisatoin du dashboard mis a jour
 	 *
@@ -181,7 +181,7 @@ class ControllerDashboard extends AbstractController
 			if (!empty($_SESSION['dash'])) {
 				// Mettre a jour le dashboard dans la session (données dynamiques)
 				$dash = $_SESSION['dash'];
-				ControllerDashboard::update_dashboard_from_POST($dash);
+				if (!empty($_POST)) ControllerDashboard::update_dashboard_from_POST($dash); // ne mettre a jour le dashboard que si demander, concretement, important pour la récupération lors d'une délétion regrétée
 				$_SESSION["dash"] = $dash;
 
 				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
@@ -196,13 +196,13 @@ class ControllerDashboard extends AbstractController
 				$constructeur = new DashboardRepository();
 				if ($dash->get_createur() == SessionManagement::getUser()->getId() and !isset($_GET["duplicate"])) {
 					// Ecraser l'ancien dashboard pour le mettre a jour avec les données de la requette
-					$constructeur->update_dashboard_by_id($dash);
+					$constructeur->update_dashboard($dash);
 					$dashId = $dash->get_id();
-					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré", "?controller=ControllerDashboard&action=visu_dashboard&dash&dashId=$dashId");
+					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré", "?controller=ControllerDashboard&action=visu_dashboard&dashId=$dashId");
 				} else {
 					// Créer un nouveau dashboard a partir des données de la requette
-					$constructeur->save_new_dashboard($dash);
-					MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&action=visu_dashboard");
+					$dashId = $constructeur->save_new_dashboard($dash);
+					MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&action=visu_dashboard&dashId=$dashId");
 				}
 			} else {
 				MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
@@ -223,8 +223,8 @@ class ControllerDashboard extends AbstractController
 		}
 		if (isset($dash)) {
 			if ($dash->get_createur() == SessionManagement::getUser()->getId()) {
-				$constructeur->delete_dashboard($dash);
-				MsgRepository::newPrimary('Dashboard supprimmé', "<a href='?controller=ControllerDashboard&action=save'> dernierre chance de le récupérer ! </a>"); // le dashboard est toujours enregistré dans la session, si l'utilisateur clique sur le lien, il sera a nouveau enregistré (sous un nouvel id)
+				$_SESSION['dash'] = $constructeur->delete_dashboard($dash);
+				MsgRepository::newPrimary('Dashboard supprimmé', "<a href='?controller=ControllerDashboard&action=save&duplicate=true'> dernierre chance de le récupérer ! </a>"); // le dashboard est toujours enregistré dans la session, si l'utilisateur clique sur le lien, il sera a nouveau enregistré (sous un nouvel id)
 			} else {
 				MsgRepository::newError("Hacker !!!", "C'est pas bien d'essayer de supprimer les dashboards des autres !!!");
 			}
@@ -308,7 +308,7 @@ class ControllerDashboard extends AbstractController
 		for ($i = \count($dash->get_composants()); $i < $compNb; $i++) {
 			// Ajouter les composants suplémentaires
 			$objetFormatTableau = [];
-			$objetFormatTableau['id'] = $_SESSION["componants_to_delete"] ? null : array_pop($_SESSION["componants_to_delete"]); // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression création lors d'une mise a jour peraine et juste faire la dite mise a jour
+			$objetFormatTableau['id'] = $_SESSION["componants_to_delete"] ? null : array_pop($_SESSION["componants_to_delete"]); // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression + création lors d'une mise a jour péraine et juste faire la dite mise a jour
 			$objetFormatTableau['attribut'] = (int) $_POST["value_type_$i"];
 			$objetFormatTableau['aggregation'] = (int) $_POST["analysis_$i"];
 			$objetFormatTableau['groupping'] = (int) $_POST["association_$i"];
