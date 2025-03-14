@@ -329,4 +329,42 @@ class ControllerDashboard extends AbstractController
 		SessionManagement::get_curent_log_instance()->new_log("Dashboard dynamique a jours...");
 	}
 	#endregion utility
+
+	#region filtre
+	// =======================
+	//    FILTRE METHODS
+	// =======================
+
+	/** Retourne la page de filtre pour les dashboards
+	 *
+	 * La méthode filtre permet de séléctionner les critères de recherche pour les dashboards
+	 *
+	 */
+
+	 static function filtre(): void
+	 {
+		 try {
+			 $constructeur = new DashboardRepository();
+
+			 // Récupération sécurisée des paramètres GET avec valeur par défaut
+			 $date_debut = $_GET['date_debut'] ?? "";
+			 $date_fin = $_GET['date_fin'] ?? "";
+			 $privatisation = isset($_GET['privatisation']) ? (bool) $_GET['privatisation'] : null;
+
+			 // Récupérer les dashboards selon les critères de recherche
+			 $dashboards = $constructeur->filtre($date_debut, $date_fin, $privatisation);
+
+			 // Optionnel : Faire quelque chose avec $dashboards (affichage, retour, stockage en session, etc.)
+
+		 } catch (PDOException $e) {
+			 SessionManagement::get_curent_log_instance()->new_log(
+				 "Erreur PDO lors de la récupération des dashboards : " . $e->getMessage()
+			 );
+		 } catch (Exception $e) {
+			 SessionManagement::get_curent_log_instance()->new_log(
+				 "Erreur lors de la récupération des dashboards : " . $e->getMessage()
+			 );
+		 }
+	 }
+		 #endregion filtre
 }

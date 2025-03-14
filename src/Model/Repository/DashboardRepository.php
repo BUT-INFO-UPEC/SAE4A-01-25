@@ -149,7 +149,7 @@ class DashboardRepository extends AbstractRepository
 			$new_comp_id_to_link = [];
 			// créer ou modifier les composants dans la BDD
 			foreach ($dash->get_composants() as $index => $comp) {
-				SessionManagement::get_curent_log_instance()->new_log("Mise a jour du composant " . $comp->get_id() . " : " . $index + 1 . "/" .count($dash->get_composants()));
+				SessionManagement::get_curent_log_instance()->new_log("Mise a jour du composant " . $comp->get_id() . " : " . $index + 1 . "/" . count($dash->get_composants()));
 				$comp_repo->update_or_create_comp($comp, $dashId);
 			}
 
@@ -183,7 +183,7 @@ class DashboardRepository extends AbstractRepository
 			$dashId = (int) $this->create($dash, $values);
 
 			// enregistrer les liens critereGeo
-		SessionManagement::get_curent_log_instance()->new_log("Ajout des critères géographiques du dashboard");
+			SessionManagement::get_curent_log_instance()->new_log("Ajout des critères géographiques du dashboard");
 			foreach ($dash->get_region() as $type => $ids) {
 				$DB_type = DashboardRepository::REVERSE_TYPE_GEO[$type];
 				foreach ($ids as $value) {
@@ -257,7 +257,7 @@ class DashboardRepository extends AbstractRepository
 	}
 	#endregion abstractRepo
 
-	private function buildPrivatisation(&$values, ?string $privatisation = null)
+	public function buildPrivatisation(&$values, ?string $privatisation = null)
 	{
 		try {
 			$values[":userId"] = SessionManagement::getUser() == null ? 0 : SessionManagement::getUser()->getId();
@@ -277,5 +277,30 @@ class DashboardRepository extends AbstractRepository
 			MsgRepository::newError("Erreur lors de la construction de la requête de visibilité", "La requête de visibilité n'a pas pu être construite.\n" . $e->getMessage());
 			return "";
 		}
+	}
+
+	public function filtre(?string $date_debut, ?string $date_fin, ?bool $privatisation): array
+	{
+		$conditions = [];
+		$params = [];
+
+		if (!empty($date_debut)) {
+			$conditions[] = "date_debut >= :date_debut";
+			$params['date_debut'] = $date_debut;
+		}
+		if (!empty($date_fin)) {
+			$conditions[] = "date_fin <= :date_fin";
+			$params['date_fin'] = $date_fin;
+		}
+		if ($privatisation !== null) { // Vérification explicite de null
+			$conditions[] = "privatisation = :privatisation";
+			$params['privatisation'] = (int) $privatisation; // Convertir booléen en entier (0 ou 1)
+		}
+
+		$query = "SELECT * FROM Dashboards";
+		if (!empty($conditions)) {
+			$query .= " WHERE " . implode(" AND ", $conditions);
+		}
+		return DatabaseConnection::fetchAll($query, $params);
 	}
 }
