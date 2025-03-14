@@ -26,7 +26,7 @@ $controller = $_SESSION['controller'];
 	<?php require __DIR__ . "/Header.php"; ?>
 
 	<div class="slim-list">
-		<?php require __DIR__ . "/navTemp.php"; ?>
+		<?php require __DIR__ . "/navDev.php"; ?>
 	</div>
 
 	<div class="flex main-container">

@@ -6,17 +6,18 @@
 		use Src\Model\DataObject\Composant;
 
 		if (SessionManagement::getUser() != null && SessionManagement::getUser()->getId() == $dash->get_createur()) : ?>
-			<input type="submit" class="btn btn-primary mb-4" value="Sauvegarder">
+			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save" value="Sauvegarder">
 		<?php endif;
 
 		if (SessionManagement::getUser() != null) : ?>
 			<input type="submit" class="btn btn-primary mb-4" formaction="?action=save&duplicate=true" value="Dupliquer">
 		<?php endif; ?>
-		<?php if (SessionManagement::getUser() != null && SessionManagement::getUser()->getId() == $dash->get_createur()) : ?>
-			<input type="submit" class="btn btn-danger mb-4" formaction="?action=delete&dash_id=<?= $dashid ?>" value="Supprimer">
-		<?php endif; ?>
 
 		<input type="submit" class="btn btn-primary mb-4" value="Visualiser" />
+
+		<?php if (SessionManagement::getUser() != null && SessionManagement::getUser()->getId() == $dash->get_createur()) : ?>
+			<input type="submit" class="btn btn-danger mb-4 end" formaction="?action=delete&dash_id=<?= $dash->get_id() ?>" value="Supprimer">
+		<?php endif; ?>
 
 	</div>
 

@@ -42,6 +42,18 @@
 
 	<?php endif; ?>
 
+	<div class="flex">
+		<div>
+			<label for="start_date">Date de début :</label>
+			<input type="date" name="start_date" id="start_date" min="2016-11-05" max="<?= date("Y-m-d") ?>">
+		</div>
+
+		<div>
+			<label for="end_date">Date de fin :</label>
+			<input type="date" name="end_date" id="end_date" min="2016-11-05" max="<?= date("Y-m-d") ?>">
+		</div>
+	</div>
+
 	<button type="submit">Appliquer</button>
 </form>
 

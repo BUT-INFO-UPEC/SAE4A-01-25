@@ -1,3 +1,3 @@
 <?php
 var_dump(value: $requete);
-var_dump($data2);
+var_dump($data);
