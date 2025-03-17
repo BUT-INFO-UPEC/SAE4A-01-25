@@ -57,6 +57,7 @@
 			// récupérer les données de paramétrage et de visualisation
 			$visualisation_file = $composant->get_visu_file();
 			$data = $composant->get_data($dash); // construit les données en fesant une requette a l'API dans la classe composant
+			// var_dump($data);
 			$params = $composant->get_params();
 			// appeler la visualisation correspondante
 			require  __DIR__ . "/Visualisations/$visualisation_file";

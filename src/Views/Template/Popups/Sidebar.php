@@ -1,4 +1,4 @@
-<aside class="d-flex">
+<aside class="d-flex sidebar_container">
 	<!-- Sidebar -->
 	<div id="sidebar" class="sidebar">
 		<div class="content">
