@@ -171,5 +171,12 @@ class ControllerGeneral extends AbstractController
 		$user = $_SESSION['user'];
 		require('../src/Views/Template/views.php');
 	}
-	#endregion user
+	#endregion
+
+	public static function tuto(): void
+	{
+		$titrePage = "Tutoriel";
+		$cheminVueBody = "tuto.php";
+		require('../src/Views/Template/views.php');
+	}
 }
