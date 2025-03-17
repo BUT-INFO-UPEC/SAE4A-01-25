@@ -99,6 +99,29 @@ function generate_bar_chart($compId, $data)
     </script>";
 }
 
+function generate_combo_chart($compId, $data)
+{
+    $chartId = 'comp' . $compId;
+
+    return "
+    <div id='$chartId'></div>
+    <script type='text/javascript'>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(function() {
+            var data = google.visualization.arrayToDataTable($data);
+            var options = {
+                title : 'Combo Chart Example',
+                vAxis: {title: 'Value'},
+                hAxis: {title: 'Category'},
+                seriesType: 'bars',
+                series: {5: {type: 'line'}}
+            };
+            var chart = new google.visualization.ComboChart(document.getElementById('$chartId'));
+            chart.draw(data, options);
+        });
+    </script>";
+}
+
 ?>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
