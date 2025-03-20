@@ -1,1 +1,3 @@
 .venv
+database/databse.db
+src/Config/ServerParameters.php

@@ -8,7 +8,7 @@ use Src\Model\DataObject\AbstractDataObject;
 use Src\Model\Repository\AbstractRepository;
 
 /**
- * classe pour les données qui sont juste des données
+ * Classe mettant en place le design patern singleton
  */
 abstract class AbstractRequestComponant extends AbstractRepository
 {

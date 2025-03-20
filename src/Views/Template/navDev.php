@@ -11,3 +11,5 @@
 <a href="<?= CONTROLLER_URL ?>?controller=ControllerDev&action=developpement_js" class="nav-link"> Onglets js </a>
 
 <a href="<?= CONTROLLER_URL ?>?controller=ControllerDev&action=developpement_log" class="nav-link"> LOG </a>
+
+<a href="<?= CONTROLLER_URL ?>?controller=ControllerDev&action=update_db" class="nav-link"> MAJ BDD </a>

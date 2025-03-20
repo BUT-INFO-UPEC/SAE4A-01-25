@@ -3,6 +3,7 @@
 namespace Src\Controllers;
 
 use Exception;
+use Src\Config\db_manager;
 use Src\Config\LogInstance;
 use Src\Config\MsgRepository;
 use Src\Model\API\Requetteur_API;
@@ -88,5 +89,10 @@ class ControllerDev extends AbstractController
 		unset($_SESSION['MSGs']["undying"]);
 		$_SESSION['MSGs']["undying"][] = new LogInstance("Log reset"); // réinitialiser le cache des logs pour la session en cours
 		MsgRepository::newWarning("Log éffacé", "Le log a été nétoyé.");
+	}
+
+	public static function update_db(): void {
+		$updates_list = db_manager::update_fixtures();
+		MsgRepository::newSuccess("BDD updaté", message: "La base de données a été mise a jour avec les fixtures suivantes:</p><p>" . implode(", ", $updates_list));
 	}
 }
