@@ -2,7 +2,7 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Model\Repository\DatabaseConnection;
+use Src\Config\ServerConf\DatabaseConnection;
 use PDO;
 
 class Utilisateur extends AbstractDataObject

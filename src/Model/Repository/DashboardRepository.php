@@ -4,9 +4,10 @@ namespace Src\Model\Repository;
 
 use Exception;
 use PDOException;
-use Src\Config\LogInstance;
-use Src\Config\MsgRepository;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\MsgRepository;
+use Src\Config\Utils\SessionManagement;
+use Src\Config\ServerConf\DatabaseConnection;
 use Src\Model\DataObject\Dashboard;
 
 class DashboardRepository extends AbstractRepository

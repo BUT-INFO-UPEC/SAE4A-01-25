@@ -3,7 +3,8 @@
 namespace Src\Model\Repository;
 
 use Src\Model\DataObject\Utilisateur;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\SessionManagement;
+use Src\Config\ServerConf\DatabaseConnection;
 
 class UtilisateurRepository extends AbstractRepository
 {

@@ -3,12 +3,12 @@
 namespace Src\Controllers;
 
 use Exception;
-use Src\Config\db_manager;
-use Src\Config\LogInstance;
-use Src\Config\MsgRepository;
+use Src\Config\ServerConf\db_manager;
+use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\MsgRepository;
 use Src\Model\API\Requetteur_API;
 use Src\Model\API\Constructeur_Requette_API;
-use Src\Model\Repository\DatabaseConnection;
+use Src\Config\ServerConf\DatabaseConnection;
 
 class ControllerDev extends AbstractController
 {

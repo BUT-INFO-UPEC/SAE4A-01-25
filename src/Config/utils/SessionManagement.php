@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Config;
+namespace Src\Config\Utils;
 
 use Src\Model\DataObject\Dashboard;
 use Src\Model\DataObject\Utilisateur;

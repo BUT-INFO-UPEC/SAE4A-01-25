@@ -4,10 +4,10 @@ namespace Src\Controllers;
 
 use Exception;
 use PDOException;
-use Src\Config\MsgRepository;
+use Src\Config\Utils\MsgRepository;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\SessionManagement;
 
 class ControllerGeneral extends AbstractController
 {
@@ -151,7 +151,10 @@ class ControllerGeneral extends AbstractController
 	public static function deconnexion(): void
 	{
 		// Suppression de la session utilisateur
-		session_unset();
+		$logs = $_SESSION['MSGs']["undying"];
+		session_unset(); // supprimer toutes les infos de session
+		session_start();
+		$_SESSION['MSGs']["undying"] = $logs; // récupérer les logs
 		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant déconnécté(e)");
 	}
 

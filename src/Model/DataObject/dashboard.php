@@ -5,8 +5,8 @@ namespace Src\Model\DataObject;
 use DateTime;
 use Exception;
 use OutOfBoundsException;
-use Src\Config\LogInstance;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\SessionManagement;
 
 /** Classe comportant les informations d'analyse des données météorologiques
  */

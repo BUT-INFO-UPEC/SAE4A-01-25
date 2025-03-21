@@ -1,33 +1,3 @@
--- DROP TABLE Attributs;
-
--- DROP TABLE Grouppings;
-
--- DROP TABLE Representations;
-
--- DROP TABLE Aggregations;
-
--- DROP TABLE Saves;
-
--- DROP TABLE Dashboards;
-
--- DROP TABLE Composants;
-
--- DROP TABLE Analyses;
-
--- DROP TABLE CritereGeo_dashboard;
-
--- DROP TABLE regions;
-
--- DROP TABLE depts;
-
--- DROP TABLE epcis;
-
--- DROP TABLE villes;
-
--- DROP TABLE stations;
-
--- DROP TABLE utilisateur;
-
 CREATE TABLE
 	Attributs (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,

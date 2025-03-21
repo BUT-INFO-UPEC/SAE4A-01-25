@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Config;
+namespace Src\Config\ServerConf;
 
 /**
  * Description de la classe

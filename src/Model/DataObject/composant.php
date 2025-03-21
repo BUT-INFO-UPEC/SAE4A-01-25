@@ -2,8 +2,8 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Config\LogInstance;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\SessionManagement;
 use Src\Model\Repository\RepresentationRepository;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\API\Requetteur_API;

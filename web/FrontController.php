@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Src\Config\CookiesConf;
-use Src\Config\LogInstance;
+use Src\Config\Utils\CookiesConf;
+use Src\Config\Utils\LogInstance;
 
 // DEFINITION DES CHEMINS
 $originalPath = rtrim(dirname($_SERVER['SCRIPT_NAME'], 2), '/'); // Récupère le chemin relatif sans le dernier segmet

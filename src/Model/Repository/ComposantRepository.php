@@ -3,6 +3,7 @@
 namespace Src\Model\Repository;
 
 use Src\Model\DataObject\Composant;
+use Src\Config\ServerConf\DatabaseConnection;
 
 class ComposantRepository extends AbstractRepository
 {

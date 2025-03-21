@@ -3,13 +3,13 @@
 -- ===============================
 
 -- Suppression de la base si elle existe
-DROP DATABASE IF EXISTS ma_base;
+DROP DATABASE IF EXISTS dev_meteoscop;
 
 -- Création de la base
-CREATE DATABASE ma_base CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE dev_meteoscop CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Sélection de la base
-USE ma_base;
+USE dev_meteoscop;
 
 -- ===============================
 -- IMPORT DES SCRIPTS EXTERNES
