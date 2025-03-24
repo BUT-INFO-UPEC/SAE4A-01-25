@@ -1,6 +1,5 @@
 <div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
     <h4><?= htmlspecialchars($params['titre']) ?></h4>
-
     <!-- Canvas pour le graphique -->
     <canvas id="chart<?= $params['chartId'] ?>"></canvas>
 
@@ -11,38 +10,56 @@
             var rawData = <?= json_encode($data) ?>;
             console.log("Données reçues:", rawData);
 
-            var labels = Object.keys(rawData);
-            var values = Object.values(rawData).map(arr => arr[0]); // Prendre la première valeur par catégorie
+            // Vérifie si les titres des axes sont présents dans les premières lignes
+            var xAxisTitle = rawData[0] && rawData[0][0] ? rawData[0][0] : 'Valeur ligne 0';
+            var yAxisTitle = rawData[0] && rawData[0][1] ? rawData[0][1] : 'Valeur ligne 1';
+
+            // Extraire les labels (numer_sta) et les valeurs (Moyenne_Temperature) à partir de la ligne 1
+            var labels = rawData.slice(1).map(item => item[0]);
+            var values = rawData.slice(1).map(item => item[1]);
+
+            // Générer des couleurs dynamiques pour la ligne
+            var colors = ["#ceddde", "#9cd2d5", "#8ecfd8", "#007fa9", "#00334A"]; 
 
             var ctx = document.getElementById("chart<?= $params['chartId'] ?>").getContext("2d");
+
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: "Valeurs",
+                        label: yAxisTitle,
                         data: values,
-                        borderColor: "rgba(75, 192, 192, 1)",
-                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        borderColor: "#007fa9", // Couleur de la ligne
+                        backgroundColor: "rgba(0,127,169,0.2)", // Fond léger sous la ligne
                         borderWidth: 2,
+                        pointBackgroundColor: colors, // Couleurs dynamiques pour les points
+                        pointBorderColor: "#ffffff",
                         pointRadius: 5,
-                        pointBackgroundColor: "#fff",
-                        pointBorderColor: "rgba(75, 192, 192, 1)"
+                        fill: true // Remplissage sous la courbe
                     }]
                 },
                 options: {
                     responsive: true,
                     scales: {
                         x: {
-                            title: { display: true, text: <?= json_encode($params['hAxisTitle'] ?? 'Catégories') ?> }
+                            title: {
+                                display: true,
+                                text: xAxisTitle
+                            }
                         },
                         y: {
-                            title: { display: true, text: <?= json_encode($params['vAxisTitle'] ?? 'Valeurs') ?> },
+                            title: {
+                                display: true,
+                                text: yAxisTitle
+                            },
                             beginAtZero: true
                         }
                     },
                     plugins: {
-                        legend: { display: true }
+                        legend: {
+                            display: false
+                        }
                     }
                 }
             });
