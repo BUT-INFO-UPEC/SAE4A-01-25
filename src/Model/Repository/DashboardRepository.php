@@ -12,11 +12,10 @@ use Src\Model\DataObject\Dashboard;
 
 class DashboardRepository extends AbstractRepository
 {
-
+	#region attributes
 	// =======================
 	//        ATTRIBUTES
 	// =======================
-	#region attributes
 
 	const TYPES_CRITERES_GEO = [0 => "numer_sta", 1 => "code_epci", 2 => "codegeo", 3 => "code_reg", 4 => "code_dep"];
 	const REVERSE_TYPE_GEO = ["numer_sta" => 0, "codegeo" => 2, "code_reg" => 3, "code_dep" => 4];
@@ -31,7 +30,7 @@ class DashboardRepository extends AbstractRepository
 	{
 		SessionManagement::get_curent_log_instance()->new_log("Instanciation du dashboard " . $objetFormatTableau['id']);
 		try {
-			$composants = $this->BuildComposants($objetFormatTableau['id']);
+			$composants = (new ComposantRepository)->get_composants_from_dashboard($objetFormatTableau['id']);
 			$criteres_geo = $this->BuildGeo($objetFormatTableau['id']);
 
 			return new Dashboard($objetFormatTableau['id'], $objetFormatTableau['privatisation'], $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, [$objetFormatTableau['params']]);
@@ -62,28 +61,6 @@ class DashboardRepository extends AbstractRepository
 			return [];
 		} catch (PDOException $e) {
 			MsgRepository::newError("Erreur lors de la récupération des critères géographiques", "Les critères géographiques n'ont pas pu être récupérés.\n" . $e->getMessage());
-			return [];
-		}
-	}
-
-	public function BuildComposants($id): array
-	{
-		try {
-			$query = "SELECT composant_id FROM Composant_dashboard WHERE dashboard_id = :ID";
-			$values = ["ID" => $id];
-			$composantsId = DatabaseConnection::fetchAll($query, $values); // récupéraiton des id des composants du dashboard
-			$constructeur = new ComposantRepository();
-			$composants = [];
-			foreach ($composantsId as $index => $compId) {
-				SessionManagement::get_curent_log_instance()->new_log("Instanciation du composant " . $index + 1 . "/" . count($composantsId));
-				$composants[] = $constructeur->get_composant_by_id($compId['composant_id']);
-			}
-			return $composants;
-		} catch (Exception $e) {
-			MsgRepository::newError("Erreur lors de la récupération des composants", "Les composants n'ont pas pu être récupérés.\n" . $e->getMessage());
-			return [];
-		} catch (PDOException $e) {
-			MsgRepository::newError("Erreur lors de la récupération des composants", "Les composants n'ont pas pu être récupérés.\n" . $e->getMessage());
 			return [];
 		}
 	}
@@ -147,25 +124,16 @@ class DashboardRepository extends AbstractRepository
 			$dashId = $dash->get_id();
 
 			$comp_repo = new ComposantRepository;
-			$new_comp_id_to_link = [];
+			$active_comps = [];
 			// créer ou modifier les composants dans la BDD
 			foreach ($dash->get_composants() as $index => $comp) {
 				SessionManagement::get_curent_log_instance()->new_log("Mise a jour du composant " . $comp->get_id() . " : " . $index + 1 . "/" . count($dash->get_composants()));
-				$comp_repo->update_or_create_comp($comp, $dashId);
+				$active_comps[] = $comp_repo->update_or_create_comp($comp, $dashId);
 			}
 
-			// supprimer les composants qui ne sont plus utilisés
-			$componantsToDelete = $_SESSION["componants_to_delete"];
-			foreach ($componantsToDelete as $index => $compid) {
-				SessionManagement::get_curent_log_instance()->new_log("Suppréssion du lien du composant $compid : " . $index + count($dash->get_composants()) . "/" . count($dash->get_composants()) + count($componantsToDelete));
-				$comp_repo->try_delete($comp_repo->get_composant_by_id($compid));
-				$query = "DELETE from Composant_dashboard WHERE composant_id = :compId AND dashboard_id = :dashId";
-				$values = [":compId" => $compid, ":dashId" => $dashId];
-				DatabaseConnection::executeQuery($query, $values);
-			}
+			// TODO : requète pour les composants liés a ce dashboard => supprimer si id pas dans $active_comps
 
-			// supprimer les instances de CritereGeo_dashboard
-			// juste construire une requette SQL
+			// TODO : maj les instances de CritereGeo_dashboard
 			SessionManagement::get_curent_log_instance()->new_log("Mise a jour complète");
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la mise à jour du dashboard", "Le dashboard n'a pas pu être mis à jour.\n" . $e->getMessage());
@@ -221,9 +189,6 @@ class DashboardRepository extends AbstractRepository
 			$query = "DELETE FROM CritereGeo_dashboard WHERE dashboard_id = :dashboard_id";
 			DatabaseConnection::executeQuery($query, [":dashboard_id" => $dash->get_id()]);
 			// supprimer les liens avec les composants
-			$query = "DELETE FROM Composant_dashboard WHERE dashboard_id = :dashboard_id";
-			DatabaseConnection::executeQuery($query, [":dashboard_id" => $dash->get_id()]);
-
 			$compo = new ComposantRepository();
 			foreach ($dash->get_composants() as $item) {
 				$compo->try_delete($item);

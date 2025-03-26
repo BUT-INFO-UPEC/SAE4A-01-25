@@ -43,6 +43,8 @@ abstract class AbstractRequestComponant extends AbstractRepository
 		// Sinon, récupère l'objet depuis la base de données
 		$objet = $this->select($id);
 
+		SessionManagement::get_curent_log_instance()->new_log(var_export($objet, true));
+
 		// Stocke l'instance dans le cache de la classe
 		$this->setCache($id, $objet);  // Utilisation de static::$cache
 

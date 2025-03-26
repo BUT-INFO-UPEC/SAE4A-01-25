@@ -4,11 +4,13 @@ namespace Src\Model\Repository;
 
 use Src\Model\DataObject\Analysis;
 
-class AnalysisRepository extends AbstractRequestComponant {
+class AnalysisRepository extends AbstractRequestComponant
+{
 
+	public function try_delete(Analysis $ana): void {}
 	public function arrayConstructor(array $objetFormatTableau): Analysis
 	{
-		return new Analysis($objetFormatTableau["id"], $objetFormatTableau["nom"], $objetFormatTableau["cle"]);
+		return new Analysis($objetFormatTableau["id"], $objetFormatTableau["attribut"], $objetFormatTableau["aggregation"], $objetFormatTableau["groupping"], $objetFormatTableau["repr_type"]);
 	}
 	public  function getNomClePrimaire(): string
 	{
@@ -16,10 +18,10 @@ class AnalysisRepository extends AbstractRequestComponant {
 	}
 	public  function getNomsColonnes(): array
 	{
-		return ["id", "nom", "cle"];
+		return ["id", "repr_type", "attribut", "aggregation", "groupping"];
 	}
 	public  function getTableName(): string
 	{
-		return "Aggregations";
+		return "Analyses";
 	}
 }
