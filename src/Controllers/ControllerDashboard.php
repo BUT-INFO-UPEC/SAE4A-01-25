@@ -6,7 +6,9 @@ use Exception;
 use PDOException;
 use RuntimeException;
 use Src\Config\Utils\LogInstance;
+use Src\Model\DataObject\Composant;
 use Src\Model\Repository\AggregationRepository;
+use Src\Model\Repository\AnalysisRepository;
 use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\Utils\MsgRepository;
@@ -308,23 +310,25 @@ class ControllerDashboard extends AbstractController
 			$comp->set_grouping($_POST["association_$index"]);
 			$comp->set_visu($_POST["visu_type_$index"]);
 		}
+
+		// Ajouter les composants suplémentaires
 		for ($i = \count($dash->get_composants()); $i < $compNb; $i++) {
 			SessionManagement::get_curent_log_instance()->new_log("Instanciation du composant $i/$compNb");
-			// Ajouter les composants suplémentaires
-			$objetFormatTableau = [];
-			if ($_SESSION["componants_to_delete"]) { // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression + création lors d'une mise a jour péraine et juste faire la dite mise a jour
-				$objetFormatTableau['id'] = array_pop($_SESSION["componants_to_delete"]);
-				SessionManagement::get_curent_log_instance()->new_log("Récupération de l'id de composant " . $objetFormatTableau['id'] . "précédement supprimé.");
-			} else $objetFormatTableau['id'] = null;
-			$objetFormatTableau['attribut'] = (int) $_POST["value_type_$i"];
-			$objetFormatTableau['aggregation'] = (int) $_POST["analysis_$i"];
-			$objetFormatTableau['groupping'] = (int) $_POST["association_$i"];
-			$objetFormatTableau['repr_type'] = (int) $_POST["visu_type_$i"];
+			$tab_analyse['id'] = null;
+			$tab_analyse['attribut'] = (int) $_POST["value_type_$i"];
+			$tab_analyse['aggregation'] = (int) $_POST["analysis_$i"];
+			$tab_analyse['groupping'] = (int) $_POST["association_$i"];
+			$tab_analyse['repr_type'] = (int) $_POST["visu_type_$i"];
+			$ana = (new AnalysisRepository)->arrayConstructor($tab_analyse);
 
+			if ($_SESSION["componants_to_delete"]) { // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression + création lors d'une mise a jour péraine et juste faire la dite mise a jour
+				$id = array_pop($_SESSION["componants_to_delete"]);
+				SessionManagement::get_curent_log_instance()->new_log("Récupération de l'id de composant " . $id . "précédement supprimé.");
+			} else $id = null;
 			$params['titre'] = $_POST["titre_composant_$i"];
 			$params['chartId'] = $i;
-			$objetFormatTableau['params_affich'] = $params;
-			$dash->addComposant((new ComposantRepository)->arrayConstructor($objetFormatTableau));
+			$new_comp = new Composant($ana, json_encode($params), $id);
+			$dash->addComposant($new_comp);
 		}
 		SessionManagement::get_curent_log_instance()->new_log("Dashboard dynamique a jours...");
 	}

@@ -22,7 +22,7 @@ class Analysis extends AbstractDataObject
 	private Groupping $groupping;
 	private Representation $representation;
 	#endregion Attributes
-	public function __construct(int $id, int $attribut, int $aggregation, int $groupping, int $repr_type)
+	public function __construct(?int $id, int $attribut, int $aggregation, int $groupping, int $repr_type)
 	{
 		$this->id = $id;
 		$this->attribut = (new AttributRepository)->get_attribut_by_id($attribut);
