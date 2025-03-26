@@ -93,6 +93,6 @@ class ControllerDev extends AbstractController
 
 	public static function update_db(): void {
 		$updates_list = db_manager::update_fixtures();
-		MsgRepository::newSuccess("BDD updaté", message: "La base de données a été mise a jour avec les fixtures suivantes:</p><p>" . implode(", ", $updates_list));
+		MsgRepository::newSuccess("BDD updaté", message: empty($updates_list) ? "Aucune mise a jour nécéssaire." : "La base de données a été mise a jour avec les fixtures suivantes:</p><p>" . implode(", ", $updates_list));
 	}
 }

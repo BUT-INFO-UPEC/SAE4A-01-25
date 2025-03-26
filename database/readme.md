@@ -14,4 +14,4 @@ Certains fichiers de ce dossier contiennent des instructions sql nécéssairent 
 Le fichier "databaseUpdates.log" contient les opérations réalisées lors de l'utilisation de l'application en phase de test et de développement pour maintenir une continuité des données et ne pas perdre les données créées lors des phases de test.
 Il est consitué des opérations réalisées lors de l'utilisation de l'application.
 
-Le fichier "src/Config/db_manager.php" a pour role d'éxécuter les opérations recorées dans "databaseUpdate.log" qui ne sont pas déja implémentées sur la BDD locale.
+Le fichier "src/Config/ServerConf/db_manager.php" a pour role d'éxécuter les opérations recorées dans "database/Fixtures" qui ne sont pas déja implémentées sur la BDD locale.

@@ -5,7 +5,7 @@ use Src\Config\Utils\SessionManagement;
 if (SessionManagement::getUser()) :
 ?>
 	<div class="slim-list">
-		<p>Liens temporaires pour le developpement :</p>
+		<p>Liens de developpement :</p>
 
 		<a href="<?= CONTROLLER_URL ?>?controller=ControllerDev&action=carte_region" class="nav-link"> Carte </a>
 

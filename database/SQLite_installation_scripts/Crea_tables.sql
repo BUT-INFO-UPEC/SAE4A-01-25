@@ -33,33 +33,17 @@ CREATE TABLE
 	);
 
 CREATE TABLE
-	Saves (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		createur_id INTEGER NOT NULL,
-		date_debut Date NOT NULL,
-		date_fin Date NOT NULL,
-		date_debut_relatif Boolean NOT NULL,
-		date_fin_relatif Boolean NOT NULL,
-		params TEXT NOT NULL,
-		components_save TEXT NOT NULL, --sauvegarde JSON avec une liste de tableaux contennants les paramètres des composants
-		geo_save TEXT NOT NULL, --sauvegarde JSON avec un tableaux contennants les critères géographiques
-		CONSTRAINT Dashboards_Creator_FK FOREIGN KEY (createur_id) REFERENCES Utilisateur (utilisateur_id) ON UPDATE CASCADE
-	);
-
-CREATE TABLE
 	Dashboards (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		privatisation INTEGER DEFAULT (0) NOT NULL,
 		createur_id INTEGER NOT NULL,
-		immortalised_id INTEGER DEFAULT (NULL),
 		original_id INTEGER DEFAULT (0) NOT NULL,
 		date_debut Date DEFAULT ('0000-00-00') NOT NULL,
 		date_fin Date DEFAULT ('0000-00-00') NOT NULL,
 		date_debut_relatif Boolean DEFAULT (False) NOT NULL,
 		date_fin_relatif Boolean DEFAULT (False) NOT NULL,
 		params TEXT DEFAULT ('NOM_METEOTHEQUE'),
-		CONSTRAINT Dashboards_Immortal_FK FOREIGN KEY (immortalised_id) REFERENCES Saves (id) ON UPDATE CASCADE,
-		CONSTRAINT Dashboards_Saves_FK FOREIGN KEY (original_id) REFERENCES Saves (id) ON UPDATE CASCADE,
+		CONSTRAINT Dashboards_Saves_FK FOREIGN KEY (original_id) REFERENCES Dashboards (id) ON UPDATE CASCADE,
 		CONSTRAINT Dashboards_Creator_FK FOREIGN KEY (createur_id) REFERENCES Utilisateur (utilisateur_id) ON UPDATE CASCADE
 	);
 
@@ -148,3 +132,6 @@ CREATE TABLE
 		utilisateur_nb_conn INTEGER DEFAULT 0,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);
+
+CREATE TABLE
+	FixturesHistory (name TEXT PRIMARY KEY, num int);

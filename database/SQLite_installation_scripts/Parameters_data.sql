@@ -108,3 +108,6 @@ VALUES ('Moyenne', 'avg'),
 ('Minimum', 'min'),
 ('Somme', 'sum'),
 ('Enumérer', 'count');
+
+INSERT INTO FixturesHistory (name, num) 
+VALUES ("00_db_revamp", 2);
