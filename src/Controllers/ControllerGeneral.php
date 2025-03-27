@@ -69,11 +69,12 @@ class ControllerGeneral extends AbstractController
 			$user = (new UtilisateurRepository)->getUserByMailMdp($email, $mdp);
 
 			if ($user !== null) {
-				$_SESSION['user'] = $user;
+			$_SESSION['user'] = $user;
 
-				UtilisateurRepository::updateNbConn();
+			UtilisateurRepository::updateNbConn();
 
-				MsgRepository::newSuccess("Connexion réussie.", "", MsgRepository::LAST_PAGE);
+			MsgRepository::newSuccess("Connexion réussie.", "", MsgRepository::LAST_PAGE);
+				
 			} else {
 				MsgRepository::newError("Utilisateur introuvable.", "Identifiants incorrects.");
 			}
