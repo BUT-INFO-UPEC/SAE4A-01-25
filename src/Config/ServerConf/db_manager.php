@@ -165,10 +165,9 @@ class db_manager
 				$filename = $fixtures[$i];
 				require self::$DIR . DIRECTORY_SEPARATOR . $branch . DIRECTORY_SEPARATOR . $filename;
 				$appliedFixtures[] = $filename;
+				// Mise à jour de la table des fixtures dans la BDD (après application de chaque nouvelle fixture en cas de problème en cours de route)
+				self::updateDoneFixtures($branch, $numberOfFixturesForBranch);
 			}
-
-			// Mise à jour de la table des fixtures dans la BDD (après application des nouvelles fixtures)
-			self::updateDoneFixtures($branch, $numberOfFixturesForBranch);
 		}
 
 		return $appliedFixtures;

@@ -22,6 +22,7 @@ class Dashboard extends AbstractDataObject
 	private int $privatisation;
 	private array $composants = [];
 	private int $createurId;
+	private int $originalId;
 	private string $dateDebut;
 	private string $dateFin;
 	public bool $dateDebutRelatif;
@@ -34,11 +35,12 @@ class Dashboard extends AbstractDataObject
 	//      CONSTRUCTOR
 	// =======================
 
-	public function __construct(int $dashboard_id, int $privatisation, int $createurId, string $date_debut, string $date_fin, string $date_debut_relatif, string $date_fin_relatif, array $composants, array $critere_geo, array $param)
+	public function __construct(int $dashboard_id, int $privatisation, int $createurId, int $originalId, string $date_debut, string $date_fin, string $date_debut_relatif, string $date_fin_relatif, array $composants, array $critere_geo, array $param)
 	{
 		$this->dashboardId = $dashboard_id;
 		$this->privatisation = $privatisation;
 		$this->createurId = $createurId;
+		$this->originalId = $originalId;
 		$this->dateDebut = $date_debut;
 		$this->dateFin = $date_fin;
 		$this->dateDebutRelatif = $date_debut_relatif == '1';
@@ -188,6 +190,10 @@ class Dashboard extends AbstractDataObject
 		$dateFin = $this->get_date_relative("fin");
 
 		return "(date >= '$dateDebut" . "' and date <= '" . $dateFin . "')";
+	}
+
+	public function get_original_dashboard_id(): int {
+		return $this->originalId;
 	}
 	#endregion getters
 
@@ -361,6 +367,7 @@ class Dashboard extends AbstractDataObject
 			":id" => $this->dashboardId,
 			":privatisation" => $this->privatisation,
 			':createur_id' => SessionManagement::getUser()->getId(),
+			':original_id' => $this->originalId,
 			":date_debut" => $this->get_date('debut'),
 			":date_fin" => $this->get_date('fin'),
 			":date_debut_relatif" => $this->dateDebutRelatif ? "True" :"False",

@@ -33,7 +33,7 @@ class DashboardRepository extends AbstractRepository
 			$composants = (new ComposantRepository)->get_composants_from_dashboard($objetFormatTableau['id']);
 			$criteres_geo = $this->BuildGeo($objetFormatTableau['id']);
 
-			return new Dashboard($objetFormatTableau['id'], $objetFormatTableau['privatisation'], $objetFormatTableau['createur_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, [$objetFormatTableau['params']]);
+			return new Dashboard($objetFormatTableau['id'], $objetFormatTableau['privatisation'], $objetFormatTableau['createur_id'], $objetFormatTableau['original_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, [$objetFormatTableau['params']]);
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la construction du dashboard", "Le dashboard n'a pas pu être construit.\n" . $e->getMessage());
 			return null;
@@ -69,7 +69,7 @@ class DashboardRepository extends AbstractRepository
 	{
 		// ajouter vérif appartenance a l'utilisateur ou visibilité publique
 		try {
-			$values["createur_id"] = SessionManagement::getUser() == null;
+			$values["createur_id"] = SessionManagement::getUser()->getId() ?? 0;
 			$values["privatisation"] = 0;
 
 			$query = "and (createur_id=:createur_id or privatisation=:privatisation)";
@@ -128,13 +128,14 @@ class DashboardRepository extends AbstractRepository
 			// créer ou modifier les composants dans la BDD
 			foreach ($dash->get_composants() as $index => $comp) {
 				SessionManagement::get_curent_log_instance()->new_log("Mise a jour du composant " . $comp->get_id() . " : " . $index + 1 . "/" . count($dash->get_composants()));
-				$active_comps[] = $comp_repo->update_or_create_comp($comp, $dashId);
+				$active_comps[] = $comp_repo->update_comp($comp, $dashId);
 			}
 
 			// TODO : requète pour les composants liés a ce dashboard => supprimer si id pas dans $active_comps
 
 			// TODO : maj les instances de CritereGeo_dashboard
 			SessionManagement::get_curent_log_instance()->new_log("Mise a jour complète");
+			return $dashId;
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la mise à jour du dashboard", "Le dashboard n'a pas pu être mis à jour.\n" . $e->getMessage());
 		} catch (PDOException $e) {
@@ -148,6 +149,7 @@ class DashboardRepository extends AbstractRepository
 		try {
 			$values = $dash->formatTableau();
 			$values[":createur_id"] = SessionManagement::getUser()->getId();
+			$values[":original_id"] = $values[":id"];
 			$values[":id"] = NULL;
 			$dashId = (int) $this->create($dash, $values);
 
@@ -165,7 +167,7 @@ class DashboardRepository extends AbstractRepository
 			// parcourir les composants et les enregistrés
 			foreach ($dash->get_composants() as $index => $comp) {
 				SessionManagement::get_curent_log_instance()->new_log("Enregistrement du composant " . $index + 1 . "/" . count($dash->get_composants()));
-				$compId = (new ComposantRepository)->save_new($comp, $dashId);
+				(new ComposantRepository)->save_new($comp, $dashId);
 			}
 
 			SessionManagement::get_curent_log_instance()->new_log("Dashboard enregistré", LogInstance::GREEN);
@@ -219,7 +221,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function getNomsColonnes(): array
 	{
-		return ['id', 'privatisation', 'createur_id', 'date_debut', 'date_fin', 'date_debut_relatif', 'date_fin_relatif', 'params'];
+		return ['id', 'privatisation', 'createur_id', "original_id", 'date_debut', 'date_fin', 'date_debut_relatif', 'date_fin_relatif', 'params'];
 	}
 	#endregion abstractRepo
 

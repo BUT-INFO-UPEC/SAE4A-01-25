@@ -2,7 +2,6 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Config\Utils\MsgRepository;
 use Src\Model\DataObject\AbstractDataObject;
 use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
@@ -34,6 +33,10 @@ class Analysis extends AbstractDataObject
 	// =======================
 	//      GETTERS
 	// =======================
+
+	public function getId(): ?int {
+		return $this->id;
+	}
 	public function getAttribut(): Attribut
 	{
 		return $this->attribut;
@@ -57,6 +60,10 @@ class Analysis extends AbstractDataObject
 	// =======================
 	//      SETTERS
 	// =======================
+
+	public function setId(int $id): void{
+		$this->id = $id;
+	}
 
 	public function setAttribut(Attribut $obj): void
 	{

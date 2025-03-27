@@ -3,14 +3,14 @@
 namespace Src\Model\Repository;
 
 use Src\Model\DataObject\Composant;
-use Src\Config\ServerConf\DatabaseConnection;
 
 class ComposantRepository extends AbstractRepository
 {
-
 	public function save_new(Composant $composant, int $dashId)
 	{
-		// TODO : s'assurer que l'analyse est définie
+		// s'assurer que l'analyse est définie
+		$ana = $composant->get_analysis();
+		if (!$ana->getId()) (new AnalysisRepository)->try_create($ana);
 
 		$values = $composant->formatTableau();
 		$values[":id"] = null;
@@ -20,9 +20,10 @@ class ComposantRepository extends AbstractRepository
 		return $compId;
 	}
 
-	public function update_or_create_comp(Composant $composant, int $dashId): int|null
+	public function update_comp(Composant $composant, int $dashId): int|null
 	{
 		if ($composant->get_id() != null) { // Si le composant existe, le mettre a jour
+			(new AnalysisRepository)->try_create($composant->get_analysis());
 			$this->update($composant, $composant->get_id());
 			return null;
 		} else { // ajouter le composant a la BDD et récupérer l'ID
@@ -34,6 +35,7 @@ class ComposantRepository extends AbstractRepository
 	{
 		return $this->select($id);
 	}
+	
 	public function get_composants_from_dashboard($dash_id): array
 	{
 		try {
@@ -67,7 +69,7 @@ class ComposantRepository extends AbstractRepository
 
 	public function getNomsColonnes(): array
 	{
-		return ['id', 'dashboard_id', 'analysis_id', 'params_affich'];
+		return ['id', 'analysis_id', 'params_affich', 'dashboard_id'];
 	}
 
 	public function getTableName(): string

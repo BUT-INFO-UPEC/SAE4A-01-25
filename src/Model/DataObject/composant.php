@@ -295,10 +295,7 @@ class Composant extends AbstractDataObject
 	{
 		return [
 			":id" => $this->get_id(),
-			":repr_type" => $this->get_representation()->get_id(),
-			":attribut" => $this->get_attribut()->get_id(),
-			":aggregation" => $this->get_aggregation()->get_id(),
-			":groupping" => $this->get_grouping()->get_id(),
+			":analysis_id" => $this->analysis->getId(),
 			":params_affich" => json_encode($this->params) ?? ""
 		];
 	}
