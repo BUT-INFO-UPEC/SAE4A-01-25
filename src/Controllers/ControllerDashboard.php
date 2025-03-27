@@ -5,11 +5,12 @@ namespace Src\Controllers;
 use Exception;
 use PDOException;
 use RuntimeException;
+use Src\Config\LogInstance;
 use Src\Model\Repository\AggregationRepository;
 use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
 use Src\Config\MsgRepository;
-use Src\Config\UserManagement;
+use Src\Config\SessionManagement;
 use Src\Model\DataObject\Dashboard;
 use Src\Model\Repository\ComposantRepository;
 use Src\Model\Repository\GrouppingRepository;
@@ -28,7 +29,7 @@ class ControllerDashboard extends AbstractController
 	// =======================
 
 	/** Retourne la page d'édition de dashboards avec initialisation sur le dashboard par défaut
-	 * 
+	 *
 	 * @return void
 	 */
 	static function new_dashboard(): void
@@ -49,10 +50,10 @@ class ControllerDashboard extends AbstractController
 	// =======================
 
 	/** Requette de la liste des dashboard selon des paramètres optionnels en GET
-	 * 
+	 *
 	 * Retourne la page de liste avec la liste des dashboards selon les filtres apliqués
 	 * La liste des filtres disponible est disponible sur la page liste sous la forme d'un formulaire
-	 * 
+	 *
 	 * @return void
 	 */
 	static public function browse(): void
@@ -76,9 +77,9 @@ class ControllerDashboard extends AbstractController
 	}
 
 	/** Retourne la page de visualisatoin du dashboard précisé
-	 * 
+	 *
 	 * La page de visualisation permet de voir les informations du dashboard ainsi que ses graphiques analytiques
-	 * 
+	 *
 	 * @return void
 	 */
 	static public function visu_dashboard(): void
@@ -86,22 +87,23 @@ class ControllerDashboard extends AbstractController
 		if (isset($_GET['dashId'])) {
 			$constructeur = new DashboardRepository();
 			$dash = $constructeur->get_dashboard_by_id($_GET["dashId"]);
-			$dash->buildData();
 
-			$_SESSION['dash'] = $dash;
+			SessionManagement::setDash($dash);
 		} elseif (isset($_SESSION['dash'])) {
 			$dash = $_SESSION['dash'];
 		}
+		$dash->buildData();
 
+		// Appel page
 		$titrePage = "Visualisatoin du Dashboard";
 		$cheminVueBody = "visu.php";
 		require('../src/Views/Template/views.php');
 	}
 
 	/** Retourne une page d'édition où les données du dashboard en cours ou celui de l'id précisé
-	 * 
+	 *
 	 * La page charge les données du dashboard et offre des options de visualisation ou sauvegarde en fonction des droits de l'utilisateur sur le dit dashboard
-	 * 
+	 *
 	 * @return void
 	 */
 	static function edit(): void
@@ -122,12 +124,14 @@ class ControllerDashboard extends AbstractController
 			die("Erreur lors de la récupération des données : " . $e->getMessage());
 		}
 
+		$dashid = $_GET['dashId'] ?? null;
+
 		// Initialisation du dashboard a éditer
-		if (isset($_GET['dashId'])) {
+		if (isset($dashid)) {
 			// Prioriser un id spécifié, tester la récupération du dashbord
 			try {
-				$dash = (new DashboardRepository())->get_dashboard_by_id($_GET['dashId']);
-				$_SESSION['dash'] = $dash;
+				$dash = (new DashboardRepository())->get_dashboard_by_id($dashid);
+				SessionManagement::setDash($dash);
 			} catch (RuntimeException $e) {
 				MsgRepository::newError('Erreur lors de la récupération du dashboard', $e->getMessage());
 			}
@@ -146,19 +150,9 @@ class ControllerDashboard extends AbstractController
 		$dash_date_fin = $dash->get_date("fin");
 		$dash_date_fin_r = $dash->dateFinRelatif;
 		$defaultGeo = $dash->get_region();
-
-		// Initialisation des composants du dashboard pour la vue
 		$composants = $dash->get_composants();
-		$composant_attr = [];
-		$composant_agr = [];
-		$composant_grou = [];
-		$composant_rep = [];
-		foreach ($composants as $composant) {
-			$composant_attr[] = $composant->get_attribut()->get_id();
-			$composant_agr[] = $composant->get_aggregation()->get_id();
-			$composant_grou[] = $composant->get_grouping()->get_id();
-			$composant_rep[] = $composant->get_representation()->get_id();
-		}
+
+		// MsgRepository::newWarning("géo", var_export($defaultGeo, true), MsgRepository::NO_REDIRECT);
 
 		// Appel page
 		$titrePage = "Edition d'un Dashboard";
@@ -173,13 +167,13 @@ class ControllerDashboard extends AbstractController
 	// =======================
 
 	/** Fonction interne de la mise a jour d'un dashboard avec option de duplication ou écrasement
-	 * 
+	 *
 	 * Mets a jour le dashbord dans la session a partir des paramètres POST
 	 * Peut ajouter un nouveau dashboard dans la BDD partir du dashboard mis a jour
-	 * Peur écraser le dashboard original dans la BDD avec les données du nouveau pour sauvegarde
-	 * 
+	 * Peut écraser le dashboard original dans la BDD avec les données du nouveau pour sauvegarde
+	 *
 	 * Redirige ensuite vers la visualisatoin du dashboard mis a jour
-	 * 
+	 *
 	 * @return void
 	 */
 	static function save(): void
@@ -188,7 +182,7 @@ class ControllerDashboard extends AbstractController
 			if (!empty($_SESSION['dash'])) {
 				// Mettre a jour le dashboard dans la session (données dynamiques)
 				$dash = $_SESSION['dash'];
-				$componantsToDelete = ControllerDashboard::update_dashboard_from_POST($dash);
+				if (!empty($_POST)) ControllerDashboard::update_dashboard_from_POST($dash); // ne mettre a jour le dashboard que si demander, concretement, important pour la récupération lors d'une délétion regrétée
 				$_SESSION["dash"] = $dash;
 
 				// vérifier si c'est une requette "visualiser modifications sans enregisterer"
@@ -198,26 +192,46 @@ class ControllerDashboard extends AbstractController
 				}
 
 				// vérifier si l'utilisateur est connécté
-				if (UserManagement::getUser() == null) MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir sauvegarder un dashboard');
+				if (SessionManagement::getUser() == null) MsgRepository::newWarning('Non connécté', 'Vous devez etre enregistré(e) pour pouvoir sauvegarder un dashboard');
 
 				$constructeur = new DashboardRepository();
-				if ($dash->get_createur() != UserManagement::getUser()->getId() or isset($_POST["duplicate"])) {
-					// Créer un nouveau dashboard a partir des données de la requette
-					$constructeur->save_new_dashboard($dash);
-					MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "Location: ?controller=ControllerDashboard&actoin=visu_dashboard");
-				} else {
+				if ($dash->get_createur() == SessionManagement::getUser()->getId() and !isset($_GET["duplicate"])) {
 					// Ecraser l'ancien dashboard pour le mettre a jour avec les données de la requette
-					$constructeur->update_dashboard_by_id($dash, $componantsToDelete);
+					$constructeur->update_dashboard($dash);
 					$dashId = $dash->get_id();
-					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "Location: ?controller=ControllerDashboard&action=visu_dashboard&dash&dashId=$dashId");
+					MsgRepository::newSuccess("Dashboard mis à jour", "Votre dashboard a bien été enregistré", "?controller=ControllerDashboard&action=visu_dashboard&dashId=$dashId");
+				} else {
+					// Créer un nouveau dashboard a partir des données de la requette
+					$dashId = $constructeur->save_new_dashboard($dash);
+					MsgRepository::newSuccess("Dashboard crée avec succés", "Votre dashboard a bien été enregistré, vous pouvez le retrouver dans 'Mes dashboards'", "?controller=ControllerDashboard&action=visu_dashboard&dashId=$dashId");
 				}
 			} else {
 				MsgRepository::newWarning("Dashboard non défini", "Pour sauvegarder un dashboard, merci d'utiliser les boutons prévus a cet effet.");
 			}
-		} catch (PDOException $e) {
-			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard');
 		} catch (Exception $e) {
-			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard');
+			MsgRepository::newError('Erreur lors de la sauvegarde du dashboard', $e->getMessage());
+		}
+	}
+
+	static function delete(): void
+	{
+		$constructeur = new DashboardRepository();
+		if (isset($_SESSION['dash'])) {
+			$dash = $_SESSION['dash'];
+		}
+		if (isset($_GET["dash_id"])) {
+			$dash = $constructeur->get_dashboard_by_id($_GET["dash_id"]);
+			SessionManagement::setDash($dash);
+		}
+		if (isset($dash)) {
+			if ($dash->get_createur() == SessionManagement::getUser()->getId()) {
+				$_SESSION['dash'] = $constructeur->delete_dashboard($dash);
+				MsgRepository::newPrimary('Dashboard supprimmé', "<a href='?controller=ControllerDashboard&action=save&duplicate=true'> dernierre chance de le récupérer ! </a>"); // le dashboard est toujours enregistré dans la session, si l'utilisateur clique sur le lien, il sera a nouveau enregistré (sous un nouvel id)
+			} else {
+				MsgRepository::newError("Hacker !!!", "C'est pas bien d'essayer de supprimer les dashboards des autres !!!");
+			}
+		} else {
+			MsgRepository::newError("Aucun dashboard séléctionné", "vous devez séléctionner un dashboard pour le supprimer", MsgRepository::LAST_PAGE);
 		}
 	}
 	#endregion post
@@ -228,39 +242,44 @@ class ControllerDashboard extends AbstractController
 	// =======================
 
 	/** Mets en forme la liste des stations, villes départements et régions
-	 * 
+	 *
 	 * Mets en forme la liste des critères géographiques séléctionnés pour utilisation dans liste elements
-	 * 
+	 *
 	 * @param mixed $tab
-	 * 
+	 *
 	 * @return array Liste encapsulatn toutes les donénes géographiques
 	 */
-	private static function GET_POST_criteres_geo(&$tab): array
+	private static function GET_POST_criteres_geo($tab): array
 	{ // récupérer toutes les staitons, régions, ect... chéckés
-		$cryteres_geo = [];
+		$criteres_geo = [];
 		if (!empty($tab['regions']))
-			$criteres_geo['reg_id'] = $tab['regions'];
+			$criteres_geo['code_reg'] = $tab['regions'];
 
 		if (!empty($tab['depts']))
-			$criteres_geo['epci_id'] = $tab['depts'];
+			$criteres_geo['code_dep'] = $tab['depts'];
 
 		if (!empty($tab['villes']))
-			$criteres_geo['ville_id'] = $tab['villes'];
+			$criteres_geo['codegeo'] = $tab['villes'];
 
 		if (!empty($tab['stations']))
 			$criteres_geo['numer_sta'] = $tab['stations'];
-		return $cryteres_geo;
+		return $criteres_geo;
 	}
+
 	/** Performe une mise ajour des données dynamiques (instance) d'un dashboard deppuis une requette POST
-	 * 
+	 *
 	 * @param Dashboard $dash Le dashboard a mettre a jour
-	 * 
+	 *
 	 * @return array Le résultat du delComposants.
 	 * @see Dashboard::delComposants(int $nbComps)
 	 */
-	private static function update_dashboard_from_POST(Dashboard &$dash): array
+	private static function update_dashboard_from_POST(Dashboard &$dash): void
 	{
+		SessionManagement::get_curent_log_instance()->new_log("Mise a jours dynamique du dashboard...");
 		// récupérer les POST simples
+		$dash->setTitle($_POST['nom_meteotheque']);
+		$dash->setComments($_POST['comments']);
+		$dash->setVisibility($_POST['visibility']);
 		$dash->setStartDate($_POST['start_date']);
 		$dash->setStartDateRelative(isset($_POST['dynamic_start']) && $_POST['dynamic_start'] == 'on');
 		$dash->setEndDate($_POST['end_date']);
@@ -273,12 +292,14 @@ class ControllerDashboard extends AbstractController
 		// MsgRepository::newWarning("Verif update citeres geo", var_export($dash, true), MsgRepository::NO_REDIRECT);
 
 		// mise a jour des composants
-		$compNb = $_POST["count_id"];
-		$componantsToDelete = $dash->delComposants((int) $compNb);
+		$compNb = $_POST["comp_count"];
+		$dash->delComposants((int) $compNb);
+		$nb_comps_initiaux = count($dash->get_composants());
 
 		foreach ($dash->get_composants() as $index => $comp) {
+			SessionManagement::get_curent_log_instance()->new_log("Mise a jours du composant " . $index + 1 . " / " . $nb_comps_initiaux);
+
 			// Mettre a jour les composants
-			$index = $index + 1;
 			$params['titre'] = $_POST["titre_composant_$index"];
 			$params['chartId'] = $index;
 			$comp->set_params($params);
@@ -287,23 +308,63 @@ class ControllerDashboard extends AbstractController
 			$comp->set_grouping($_POST["association_$index"]);
 			$comp->set_visu($_POST["visu_type_$index"]);
 		}
-		for ($i = count($dash->get_composants()); $i < $compNb; $i++) {
+		for ($i = \count($dash->get_composants()); $i < $compNb; $i++) {
+			SessionManagement::get_curent_log_instance()->new_log("Instanciation du composant $i/$compNb");
 			// Ajouter les composants suplémentaires
 			$objetFormatTableau = [];
-			$objetFormatTableau['id'] = null;
-			$objetFormatTableau['attribut'] = "";
-			$objetFormatTableau['aggregation'] = '';
-			$objetFormatTableau['groupping'] = "";
-			$objetFormatTableau['repr_type'] = '';
+			if ($_SESSION["componants_to_delete"]) { // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression + création lors d'une mise a jour péraine et juste faire la dite mise a jour
+				$objetFormatTableau['id'] = array_pop($_SESSION["componants_to_delete"]);
+				SessionManagement::get_curent_log_instance()->new_log("Récupération de l'id de composant " . $objetFormatTableau['id'] . "précédement supprimé.");
+			} else $objetFormatTableau['id'] = null;
+			$objetFormatTableau['attribut'] = (int) $_POST["value_type_$i"];
+			$objetFormatTableau['aggregation'] = (int) $_POST["analysis_$i"];
+			$objetFormatTableau['groupping'] = (int) $_POST["association_$i"];
+			$objetFormatTableau['repr_type'] = (int) $_POST["visu_type_$i"];
 
 			$params['titre'] = $_POST["titre_composant_$i"];
 			$params['chartId'] = $i;
 			$objetFormatTableau['params_affich'] = $params;
 			$dash->addComposant((new ComposantRepository)->arrayConstructor($objetFormatTableau));
 		}
-
-		// retourner les composants qui sont de trop aprés les avoir unset
-		return $componantsToDelete;
+		SessionManagement::get_curent_log_instance()->new_log("Dashboard dynamique a jours...");
 	}
 	#endregion utility
+
+	#region filtre
+	// =======================
+	//    FILTRE METHODS
+	// =======================
+
+	/** Retourne la page de filtre pour les dashboards
+	 *
+	 * La méthode filtre permet de séléctionner les critères de recherche pour les dashboards
+	 *
+	 */
+
+	 static function filtre(): void
+	 {
+		 try {
+			 $constructeur = new DashboardRepository();
+
+			 // Récupération sécurisée des paramètres GET avec valeur par défaut
+			 $date_debut = $_GET['date_debut'] ?? "";
+			 $date_fin = $_GET['date_fin'] ?? "";
+			 $privatisation = isset($_GET['privatisation']) ? (bool) $_GET['privatisation'] : null;
+
+			 // Récupérer les dashboards selon les critères de recherche
+			 $dashboards = $constructeur->filtre($date_debut, $date_fin, $privatisation);
+
+			 // Optionnel : Faire quelque chose avec $dashboards (affichage, retour, stockage en session, etc.)
+
+		 } catch (PDOException $e) {
+			 SessionManagement::get_curent_log_instance()->new_log(
+				 "Erreur PDO lors de la récupération des dashboards : " . $e->getMessage()
+			 );
+		 } catch (Exception $e) {
+			 SessionManagement::get_curent_log_instance()->new_log(
+				 "Erreur lors de la récupération des dashboards : " . $e->getMessage()
+			 );
+		 }
+	 }
+		 #endregion filtre
 }

@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Src\Config\ConfAPP;
+use Src\Config\CookiesConf;
+use Src\Config\LogInstance;
 
 // DEFINITION DES CHEMINS
 $originalPath = rtrim(dirname($_SERVER['SCRIPT_NAME'], 2), '/'); // Récupère le chemin relatif sans le dernier segmet
@@ -14,7 +15,7 @@ $action = $_GET["action"] ?? "default";
 
 // actions spéciales pour l'accéptation des cookies
 if ($action == 'setCookies') {
-	ConfAPP::setCookie(
+	CookiesConf::setCookie(
 		"acceptationCookies",
 		True,
 	);
@@ -23,7 +24,7 @@ if ($action == 'setCookies') {
 }
 // helloworld !
 if ($action == 'refuseCookies') {
-	ConfAPP::setCookie(
+	CookiesConf::setCookie(
 		"acceptationCookies",
 		False,
 	);
@@ -41,7 +42,7 @@ if (isset($_COOKIE['acceptationCookies'])) {
 		$defaultController = $_COOKIE["CurrentContoller"] ?? "ControllerGeneral"; // Vérifier si l'utilisateur a déja été sur le site, si oui, il retourne sur ce qu'il etait en train de faire, sinon, page d'accueil
 		$controller = $_GET["controller"] ?? $defaultController; // On vérifie si l'utilisateur se dirige vers un autre controleur spéxifié, sion on le mets sur celui décidé précédament
 
-		ConfAPP::setCookie("CurrentContoller", $controller);
+		CookiesConf::setCookie("CurrentContoller", $controller);
 		$_COOKIE["CurrentContoller"] = $controller; //ajout manuel pour utilisation immédiate
 
 		// Extraire la partie du contrôleur apres'Controller' pour définir le model avec lequel on travail
@@ -55,19 +56,22 @@ if (isset($_COOKIE['acceptationCookies'])) {
 		if (class_exists($controller)) {
 			// Vérification de l'existence de la méthode
 			if (method_exists($controller, $action)) {
+				// Initialisation d'une instance de log dans la session
+				$_SESSION['MSGs']["undying"][] = new LogInstance($controller . " : " . $action);
+
 				// Appel de la méthode statique $action du controleur actif
 				$controller::$action();
 			} else {
 				$error = "Erreur: La méthode $action du controller '$controller' n'existe pas.";
-				require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
+				require __DIR__ . '/error.php';
 			}
 		} else {
 			$error = "Erreur: Le controller '$controller' n'existe pas.";
-			require __DIR__ . '/../src/Views/Plugins/composants_balistiques_specifiques/error.php';
+			require __DIR__ . '/error.php';
 		}
 	} else {
-		require('../src/Views/Template/cookiesRefused.php');
+		require(__DIR__ . '/cookiesRefused.php');
 	}
 } else {
-	require('../src/Views/Template/acceptCookies.php');
+	require(__DIR__ . '/acceptCookies.php');
 }

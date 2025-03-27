@@ -11,26 +11,19 @@
             var rawData = <?= json_encode($data) ?>;
             console.log("Données reçues:", rawData);
 
-            // Extraction des labels et valeurs
             var labels = Object.keys(rawData);
-            var values = Object.values(rawData).map(arr => arr[0]); // Prendre le premier élément de chaque colonne
+            var values = Object.values(rawData).map(arr => arr[0]); // Prendre la première valeur par catégorie
 
-            if (labels.includes('entier')) {
-                labels = labels.filter(label => label !== 'entier'); // Ne pas afficher 'entier' comme label
-                values = rawData.entier; // Utiliser entier comme valeurs si disponible
-            }
-
-            // Définir les couleurs dynamiquement
+            // Générer des couleurs dynamiques
             var colors = labels.map((_, index) => `hsl(${index * 50}, 70%, 60%)`);
 
-            // Création du graphique
             var ctx = document.getElementById("chart<?= $params['chartId'] ?>").getContext("2d");
             var myChart = new Chart(ctx, {
-                type: 'pie',
+                type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: "Répartition",
+                        label: "Valeurs",
                         data: values,
                         backgroundColor: colors,
                         borderColor: "#ffffff",
@@ -39,9 +32,17 @@
                 },
                 options: {
                     responsive: true,
+                    scales: {
+                        x: {
+                            title: { display: true, text: <?= json_encode($params['hAxisTitle'] ?? 'Catégories') ?> }
+                        },
+                        y: {
+                            title: { display: true, text: <?= json_encode($params['vAxisTitle'] ?? 'Valeurs') ?> },
+                            beginAtZero: true
+                        }
+                    },
                     plugins: {
-                        legend: { display: true },
-                        tooltip: { enabled: true }
+                        legend: { display: false }
                     }
                 }
             });

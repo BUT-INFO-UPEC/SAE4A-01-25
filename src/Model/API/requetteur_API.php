@@ -4,6 +4,7 @@ namespace Src\Model\API;
 
 use Exception;
 use Src\Config\MsgRepository;
+use Src\Config\SessionManagement;
 
 class Requetteur_API
 {
@@ -17,6 +18,9 @@ class Requetteur_API
 			while (sizeof($totalData) < $APITotal) {
 				// Construire l'URL de la requête
 				$url = $requette->formatUrl();
+
+				$advance = (sizeof($totalData)/100) + 1 ." / ".(($APITotal == 1) ? " ? ":$APITotal/100);
+				SessionManagement::get_curent_log_instance()->new_log("Requette $advance à l'API. url : ".$url);
 
 				// Exécuter la requête avec CURL
 				$response = self::executeCurl($url);
@@ -55,6 +59,7 @@ class Requetteur_API
 	private static function executeCurl(string $url): array
 	{
 		$ch = curl_init();
+		// MsgRepository::Debug(var: $url);
 
 		$options = [
 			CURLOPT_URL							=> $url,
@@ -66,6 +71,7 @@ class Requetteur_API
 		$response = curl_exec($ch);
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+		// fermeture de la connexion
 		curl_close($ch);
 
 		if ($httpCode != 200) {
@@ -73,6 +79,7 @@ class Requetteur_API
 		}
 		// MsgRepository::newSuccess($response, "", MsgRepository::NO_REDIRECT);
 		$decoded_response = json_decode($response, true);
+		// MsgRepository::Debug($decoded_response);
 
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			throw new Exception("Erreur de décodage JSON : " . json_last_error_msg());

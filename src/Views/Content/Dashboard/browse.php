@@ -30,9 +30,9 @@
 
 	<?php
 
-	use Src\Config\UserManagement;
+	use Src\Config\SessionManagement;
 
-	if (UserManagement::getUser() != null) : ?>
+	if (SessionManagement::getUser() != null) : ?>
 		<select name="privatisation" id="" privatisation>
 			<option value=null <?= $privatisation === null ? 'selected' : '' ?>>Tout</option>
 			<option value="private" <?= $privatisation === 'private' ? 'selected' : '' ?>>Mes dashboards</option>
@@ -41,6 +41,18 @@
 	<?php else : ?>
 
 	<?php endif; ?>
+
+	<div class="flex">
+		<div>
+			<label for="start_date">Date de début :</label>
+			<input type="date" name="start_date" id="start_date" min="2016-11-05" max="<?= date("Y-m-d") ?>">
+		</div>
+
+		<div>
+			<label for="end_date">Date de fin :</label>
+			<input type="date" name="end_date" id="end_date" min="2016-11-05" max="<?= date("Y-m-d") ?>">
+		</div>
+	</div>
 
 	<button type="submit">Appliquer</button>
 </form>

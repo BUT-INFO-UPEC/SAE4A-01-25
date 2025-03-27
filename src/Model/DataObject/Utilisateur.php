@@ -7,15 +7,18 @@ use PDO;
 
 class Utilisateur extends AbstractDataObject
 {
+	#region attributs
 	// =======================
 	//        ATTRIBUTES
 	// =======================
+
 	private ?int $id;
 	private string $utilisateur_pseudo;
 	private string $utilisateur_mail;
 	private string $utilisateur_nom;
 	private string $utilisateur_prenom;
 	private ?string $utilisateur_crea;
+	#endregion attributs
 
 	// =======================
 	//      CONSTRUCTOR
@@ -40,35 +43,66 @@ class Utilisateur extends AbstractDataObject
 	// =======================
 	//      GETTERS
 	// =======================
+
+	/** Récupère l'identifiant de l'utilisateur dans la BDD
+	 * 
+	 * @return int|null
+	 */
 	public function getId(): ?int
 	{
 		return $this->id;
 	}
+
+	/** Récupère le pseudonyme de l'utilisateur
+	 * 
+	 * @return string
+	 */
 	public function getPseudo(): string
 	{
 		return $this->utilisateur_pseudo;
 	}
 
+	/** récupère l'email de l'tuilisateur
+	 * 
+	 * @return string
+	 */
 	public function getEmail(): string
 	{
 		return $this->utilisateur_mail;
 	}
 
+	/** Récupère le nom de l'utilisateur
+	 * 
+	 * @return string
+	 */
 	public function getNom(): string
 	{
 		return $this->utilisateur_nom;
 	}
 
+	/** Récupère le prénom de l'utilisateur
+	 * 
+	 * @return string
+	 */
 	public function getPrenom(): string
 	{
 		return $this->utilisateur_prenom;
 	}
+
+	/** Retourne la date de création de l'utilisateurs
+	 * 
+	 * @return string|null
+	 */
 	public function getUtilisateur_crea(): ?string
 	{
 		return $this->utilisateur_crea;
 	}
 
-	public function getNbPubli()
+	/** Retourne le nombre de dashboard dont l'utilisateur est l'auteur
+	 * 
+	 * @return int
+	 */
+	public function getNbPubli(): int
 	{
 		$query = "SELECT count(*) FROM Dashboards WHERE createur_id = :createur_id";
 		$values = [":createur_id" => $this->getId()];
@@ -78,7 +112,17 @@ class Utilisateur extends AbstractDataObject
 	#endregion
 
 	#region setters
-	public function setId($id)
+	// =======================
+	//      SETTERS
+	// =======================
+
+	/** Change l'identifiant de l'utilisateur
+	 * 
+	 * @param mixed $id
+	 * 
+	 * @return void
+	 */
+	public function setId($id):void
 	{
 		$this->id = $id;
 	}
@@ -86,8 +130,9 @@ class Utilisateur extends AbstractDataObject
 
 	#region public methods
 	// =======================
-	//    PUBLIC METHODS
+	//    OVERIDES
 	// =======================
+
 	public function formatTableau(): array
 	{
 		return [

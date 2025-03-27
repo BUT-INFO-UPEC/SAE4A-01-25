@@ -30,11 +30,11 @@
 	</div>
 </div>
 
-<?php if (isset($dash->get_params()['commentaire'])) { ?>
+<?php if ($dash->get_comment() != null) { ?>
 	<div class="container">
 		<h3> Commentaires </h3>
 
-		<?= $dash->get_params()['commentaire']; ?>
+		<?= $dash->get_comment(); ?>
 	</div>
 <?php } ?>
 
@@ -49,7 +49,6 @@
 		google.charts.load('current', {
 			packages: ['corechart']
 		});
-		Array.prototype.reduce = undefined;
 	</script>
 
 	<div id='dashboard'>
@@ -58,6 +57,7 @@
 			// récupérer les données de paramétrage et de visualisation
 			$visualisation_file = $composant->get_visu_file();
 			$data = $composant->get_data($dash); // construit les données en fesant une requette a l'API dans la classe composant
+			// var_dump($data);
 			$params = $composant->get_params();
 			// appeler la visualisation correspondante
 			require  __DIR__ . "/Visualisations/$visualisation_file";

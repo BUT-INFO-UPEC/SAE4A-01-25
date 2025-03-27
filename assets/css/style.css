@@ -7,6 +7,9 @@ main * * {
 	padding: 0;
 	width: 100%;
 	flex: 1;
+	background-image: url("../img/fondaccueil.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 hr {
@@ -200,6 +203,11 @@ hr {
 	overflow: hidden;
 }
 
+.sidebar_container {
+	position: sticky;
+	top: 0;
+}
+
 h1,
 p {
 	margin-top: 20px;
@@ -274,7 +282,7 @@ p {
 	color: #0073e6;
 }
 
- /* classe pour transformer les liens en buttons */
+/* classe pour transformer les liens en buttons */
 .button {
 	background-color: #007bff;
 	color: white;
@@ -293,4 +301,18 @@ p {
 /* définir la taille min et max pour les listes de stations */
 .scroll-list {
 	min-height: 10vh;
+}
+
+/* Styles des logs (content/dev/log */
+.log {
+	margin: 10px;
+}
+.log * {
+	margin: 0;
+	padding: 0;
+}
+
+.log_line {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
 }

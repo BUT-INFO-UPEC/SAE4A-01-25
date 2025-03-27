@@ -6,17 +6,22 @@ use InvalidArgumentException;
 use PDO;
 use PDOException;
 use PDOStatement;
+use Src\Config\LogInstance;
+use Src\Config\SessionManagement;
 
 /**
  * Classe de gestion des connexions à la base de données (CRUD).
  */
 class DatabaseConnection
 {
+	#region attributes
 	// =======================
 	//        ATTRIBUTS
 	// =======================
+
 	private static ?DatabaseConnection $instance = null;
 	private PDO $pdo;
+	#endregion attributes
 
 	// =======================
 	//      CONSTRUCTEUR
@@ -45,6 +50,7 @@ class DatabaseConnection
 		}
 	}
 
+	#region static
 	// =======================
 	//    MÉTHODES STATIQUES
 	// =======================
@@ -71,6 +77,7 @@ class DatabaseConnection
 	public static function executeQuery(string $query, array $params = []): PDOStatement
 	{
 		try {
+			SessionManagement::get_curent_log_instance()->new_log("Requette a la BDD : $query -> paramètres : " . var_export($params, true), LogInstance::GREY);
 			$stmt = static::getPdo()->prepare($query);
 			$stmt->execute($params);
 			return $stmt;
@@ -128,9 +135,16 @@ class DatabaseConnection
 		return static::$instance;
 	}
 
-	public static function getTable(string $table)
+	/** Récupère la totalité des informations de la table
+	 * 
+	 * @param string $table
+	 * 
+	 * @return array
+	 */
+	public static function getTable(string $table): array
 	{
 		$query = "SELECT * FROM $table";
 		return self::fetchAll($query);
 	}
+	#endregion static
 }

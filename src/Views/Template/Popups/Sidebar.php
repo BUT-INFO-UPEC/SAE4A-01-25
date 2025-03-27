@@ -1,4 +1,4 @@
-<aside class="d-flex">
+<aside class="d-flex sidebar_container">
 	<!-- Sidebar -->
 	<div id="sidebar" class="sidebar">
 		<div class="content">
@@ -14,13 +14,24 @@
 	</button>
 
 	<script>
-		// JavaScript pour gérer la rétraction de la sidebar
+		// Sélection des éléments
 		const toggleButton = document.getElementById('toggleSidebar');
 		const sidebar = document.getElementById('sidebar');
 
+		// Vérifier l'état sauvegardé et l'appliquer
+		if (localStorage.getItem('sidebarCollapsed') === 'true') {
+			sidebar.classList.add('collapsed');
+			toggleButton.innerHTML = '&#9776;'; // Icône menu hamburger (ouvrir)
+		}
+
+		// Gestion du clic sur le bouton de bascule
 		toggleButton.addEventListener('click', () => {
 			sidebar.classList.toggle('collapsed');
-			// Change le texte du bouton en fonction de l'état de la sidebar
+
+			// Sauvegarde de l'état dans localStorage
+			localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+
+			// Mise à jour du texte du bouton
 			if (sidebar.classList.contains('collapsed')) {
 				toggleButton.innerHTML = '&#9776;'; // Icône menu hamburger (ouvrir)
 			} else {
