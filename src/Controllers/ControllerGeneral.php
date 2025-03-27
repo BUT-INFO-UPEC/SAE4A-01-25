@@ -151,7 +151,10 @@ class ControllerGeneral extends AbstractController
 	public static function deconnexion(): void
 	{
 		// Suppression de la session utilisateur
-		session_unset();
+		$logs = $_SESSION['MSGs']["undying"];
+		session_unset(); // supprimer toutes les infos de session
+		session_start();
+		$_SESSION['MSGs']["undying"] = $logs; // récupérer les logs
 		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant déconnécté(e)");
 	}
 
