@@ -21,13 +21,13 @@ class Analysis extends AbstractDataObject
 	private Groupping $groupping;
 	private Representation $representation;
 	#endregion Attributes
-	public function __construct(?int $id, int $attribut, int $aggregation, int $groupping, int $repr_type)
+	public function __construct(?int $id, Attribut $attribut, Aggregation $aggregation, Groupping $groupping, Representation $repr_type)
 	{
 		$this->id = $id;
-		$this->attribut = (new AttributRepository)->get_attribut_by_id($attribut);
-		$this->aggregation = (new AggregationRepository)->get_aggregation_by_id($aggregation);
-		$this->groupping = (new GrouppingRepository)->get_groupping_by_id($groupping);
-		$this->representation = (new RepresentationRepository)->get_representation_by_id($repr_type);
+		$this->attribut = $attribut;
+		$this->aggregation = $aggregation;
+		$this->groupping = $groupping;
+		$this->representation = $repr_type;
 	}
 	#region Getters
 	// =======================
@@ -96,5 +96,10 @@ class Analysis extends AbstractDataObject
 			"aggregation" => $this->aggregation->get_id(),
 			"groupping" => $this->groupping->get_id()
 		];
+	}
+
+	public function __toString(): string
+	{
+		return "new Analysis(" . ($this->id ?? 'null') . ", " . $this->attribut . ", " . $this->aggregation . ", " . $this->groupping . ", " . $this->representation . ")";
 	}
 }

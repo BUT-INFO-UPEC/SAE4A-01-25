@@ -4,6 +4,7 @@ namespace Src\Model\Repository;
 
 use Exception;
 use PDOException;
+use SessionHandler;
 use Src\Config\Utils\LogInstance;
 use Src\Config\Utils\MsgRepository;
 use Src\Config\Utils\SessionManagement;
@@ -169,6 +170,7 @@ class DashboardRepository extends AbstractRepository
 	public function save_new_dashboard(Dashboard $dash)
 	{
 		SessionManagement::get_curent_log_instance()->new_log("Enregistrement du dashboard dans la BDD...", LogInstance::IMPORTANT);
+		SessionManagement::get_curent_log_instance()->new_DB_log("DashboardRepository::save_new_dashboard(" . $dash . ");");
 		try {
 			$values = $dash->formatTableau();
 			$values[":createur_id"] = SessionManagement::getUser()->getId();

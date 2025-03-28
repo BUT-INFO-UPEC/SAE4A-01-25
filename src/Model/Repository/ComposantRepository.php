@@ -59,7 +59,7 @@ class ComposantRepository extends AbstractRepository
 	{
 		$params = gettype($objetFormatTableau['params_affich']) == "string" ? $objetFormatTableau['params_affich'] : json_encode($objetFormatTableau['params_affich']);
 		$analisis = (new AnalysisRepository)->get_object_by_id($objetFormatTableau["analysis_id"]);
-		return new Composant($analisis, $params, $objetFormatTableau['id']);
+		return new Composant($analisis, json_decode($params, true), $objetFormatTableau['id']);
 	}
 
 	public function getNomClePrimaire(): string

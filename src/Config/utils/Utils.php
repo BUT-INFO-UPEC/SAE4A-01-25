@@ -57,4 +57,24 @@ class Utils
 			'suppressions' => $suppressions
 		];
 	}
+	static function multi_implode($array, $glue)
+	{
+		$ret = '[';
+		$is_associative = array_keys($array) !== range(0, count($array) - 1);
+
+		foreach ($array as $key => $item) {
+			if ($is_associative) $ret .= "'" .$key . "'=>";
+			if (is_array($item)) {
+				$ret .= Utils::multi_implode($item, $glue) . $glue;
+			} else {
+				$processed_item = $item;
+				if (is_string($item)) $processed_item = "'" . $item . "'";
+				$ret .= $processed_item . $glue;
+			}
+		}
+
+		$ret = substr($ret, 0, 0 - strlen($glue));
+
+		return $ret . "]";
+	}
 }

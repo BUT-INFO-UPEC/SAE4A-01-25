@@ -71,5 +71,10 @@ class Representation extends AbstractDataObject
 			":id" => $this->get_id()
 		];
 	}
+
+	public function __toString()
+	{
+		return "new Groupping(" . ($this->id ?? 'null') . ", '" . $this->nom . "', null, '" . $this->fichier_visu . "')";
+	}
 	#endregion Overides
 }

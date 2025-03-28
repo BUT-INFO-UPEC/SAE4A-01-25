@@ -45,7 +45,11 @@ class AnalysisRepository extends AbstractRequestComponant
 	}
 	public function arrayConstructor(array $objetFormatTableau): Analysis
 	{
-		return new Analysis($objetFormatTableau["id"], $objetFormatTableau["attribut"], $objetFormatTableau["aggregation"], $objetFormatTableau["groupping"], $objetFormatTableau["repr_type"]);
+		return new Analysis($objetFormatTableau["id"],
+			(new AttributRepository)->get_attribut_by_id($objetFormatTableau["attribut"]),
+			(new AggregationRepository)->get_aggregation_by_id($objetFormatTableau["aggregation"]),
+				(new GrouppingRepository)->get_groupping_by_id($objetFormatTableau["groupping"]),
+					(new RepresentationRepository)->get_representation_by_id($objetFormatTableau["repr_type"]));
 	}
 	public  function getNomClePrimaire(): string
 	{

@@ -4,6 +4,7 @@ namespace Src\Model\DataObject;
 
 use Src\Config\Utils\LogInstance;
 use Src\Config\Utils\SessionManagement;
+use Src\Config\Utils\Utils;
 use Src\Model\Repository\RepresentationRepository;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\API\Requetteur_API;
@@ -32,11 +33,11 @@ class Composant extends AbstractDataObject
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
-	public function __construct(Analysis $analysis, string $param_affich, ?int $composant_id)
+	public function __construct(Analysis $analysis, array $param_affich, ?int $composant_id)
 	{
 		$this->id = $composant_id;
 		$this->analysis = $analysis;
-		$this->params = json_decode($param_affich, true);
+		$this->params = $param_affich;
 		SessionManagement::get_curent_log_instance()->new_log("Composant instancié.");
 	}
 
@@ -298,6 +299,12 @@ class Composant extends AbstractDataObject
 			":analysis_id" => $this->analysis->getId(),
 			":params_affich" => json_encode($this->params) ?? ""
 		];
+	}
+
+	public function __tostring(): string {
+		$p = Utils::multi_implode($this->params, ", "); 
+
+		return "new Composant(" . $this->analysis->__tostring() .", ". $p . ", " . ($this->id ?? 'null') . ")";
 	}
 	#endregion Overides
 }

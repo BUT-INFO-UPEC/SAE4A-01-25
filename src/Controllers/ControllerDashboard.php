@@ -327,7 +327,7 @@ class ControllerDashboard extends AbstractController
 			} else $id = null;
 			$params['titre'] = $_POST["titre_composant_$i"];
 			$params['chartId'] = $i;
-			$new_comp = new Composant($ana, json_encode($params), $id);
+			$new_comp = new Composant($ana, $params, $id);
 			$dash->addComposant($new_comp);
 		}
 		SessionManagement::get_curent_log_instance()->new_log("Dashboard dynamique a jours...");
