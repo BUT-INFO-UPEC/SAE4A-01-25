@@ -1,3 +1,5 @@
 .venv
-#database/DATABASE.db
-# src/Config/Config\ServerParameters.php
+database/DATABASE.db
+src/Config/Config\ServerParameters.php
+src/database/databaseUpdates.log
+database/DATABASE.db
