@@ -122,6 +122,7 @@ class DashboardRepository extends AbstractRepository
 	public function update_dashboard(Dashboard $dash)
 	{
 		SessionManagement::get_curent_log_instance()->new_log("Mise a jour du dashboard dans la BDD...");
+		SessionManagement::get_curent_log_instance()->new_DB_log("DashboardRepository::upadte_dashboard(" . $dash . ");", "UPDATE " . $dash->get_name());
 		try {
 			$this->update($dash, $dash->get_id());
 			$dashId = $dash->get_id();
@@ -170,7 +171,7 @@ class DashboardRepository extends AbstractRepository
 	public function save_new_dashboard(Dashboard $dash)
 	{
 		SessionManagement::get_curent_log_instance()->new_log("Enregistrement du dashboard dans la BDD...", LogInstance::IMPORTANT);
-		SessionManagement::get_curent_log_instance()->new_DB_log("DashboardRepository::save_new_dashboard(" . $dash . ");");
+		SessionManagement::get_curent_log_instance()->new_DB_log("DashboardRepository::save_new_dashboard(" . $dash . ");", "CREATE " . $dash->get_name());
 		try {
 			$values = $dash->formatTableau();
 			$values[":createur_id"] = SessionManagement::getUser()->getId();
@@ -201,26 +202,38 @@ class DashboardRepository extends AbstractRepository
 
 	public function delete_dashboard(Dashboard $dash): Dashboard|null
 	{
-		try {
-			// supprimer le dashboard
-			$this->delete($dash->get_id());
+		SessionManagement::get_curent_log_instance()->new_DB_log("DashboardRepository::delete_dashboard(" . $dash . ");", "DELETE " . $dash->get_name());
+		$query = "SELECT COUNT(*) FROM Dashboards WHERE original_id = :dash_id";
+		$values[":dash_id"] = $dash->get_id();
+		$childern = DatabaseConnection::fetchOne($query, $values);
+		if (empty($children)) {
+			try {
 
-			// supprimer les liens géo
-			$query = "DELETE FROM CritereGeo_dashboard WHERE dashboard_id = :dashboard_id";
-			DatabaseConnection::executeQuery($query, [":dashboard_id" => $dash->get_id()]);
-			// supprimer les liens avec les composants
-			$compo = new ComposantRepository();
-			foreach ($dash->get_composants() as $item) {
-				$compo->try_delete($item);
+				// supprimer le dashboard
+				$this->delete($dash->get_id());
+
+				// supprimer les liens géo
+				$query = "DELETE FROM CritereGeo_dashboard WHERE dashboard_id = :dashboard_id";
+				DatabaseConnection::executeQuery($query, [":dashboard_id" => $dash->get_id()]);
+				// supprimer les liens avec les composants
+				$compo = new ComposantRepository();
+				foreach ($dash->get_composants() as $item) {
+					$compo->try_delete($item);
+				}
+				$dash->setId(null);
+				return $dash;
+			} catch (PDOException $e) {
+				MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
+				return null;
+			} catch (Exception $e) {
+				MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
+				return null;
 			}
-			$dash->setId(null);
+		} else {
+			// Lhanger l'id créateur sur l'utilisateur par défaut pour les dashboards non réclamés (1: adoption center)
+			$query = "UPDATE Dashboards SET createur_id = 1 WHERE id = :dash_id";
+			DatabaseConnection::executeQuery($query, $values);
 			return $dash;
-		} catch (PDOException $e) {
-			MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
-			return null;
-		} catch (Exception $e) {
-			MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
-			return null;
 		}
 	}
 	#endregion Publiques

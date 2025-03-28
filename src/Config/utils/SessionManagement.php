@@ -2,6 +2,7 @@
 
 namespace Src\Config\Utils;
 
+use SessionHandler;
 use Src\Model\DataObject\Dashboard;
 use Src\Model\DataObject\Utilisateur;
 
@@ -38,12 +39,18 @@ class SessionManagement
 		}
 	}
 
-	public static function setDash(Dashboard $dashboard):void {
+	public static function setDash(Dashboard $dashboard): void
+	{
 		$_SESSION["dash"] = $dashboard;
 		$_SESSION["componants_to_delete"] = [];
 	}
 
-	public static function &get_curent_log_instance(): LogInstance {
+	public static function New_log_session() {
+		SessionManagement::get_curent_log_instance()->new_DB_log("Nouvelle session : " . date("Y-m-d G:i:s", time()), "\n-----\n");
+	}
+
+	public static function &get_curent_log_instance(): LogInstance
+	{
 		return $_SESSION['MSGs']["undying"][array_key_last($_SESSION['MSGs']["undying"])];
 	}
 }

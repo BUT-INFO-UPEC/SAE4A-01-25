@@ -3,7 +3,9 @@
 namespace Src\Config\ServerConf;
 
 /**
- * Description de la classe
+ * 				LE SEUL SGBD PRIS EN CHARGE POUR L'INSTANT EST SQLITE !!!!!!!!!!!
+ * 
+ * la compatibulité entre les SGBDs n'a pas encore été réalisée
  */
 class ServerParameters
 {

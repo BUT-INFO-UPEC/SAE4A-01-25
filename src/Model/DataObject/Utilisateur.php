@@ -144,5 +144,10 @@ class Utilisateur extends AbstractDataObject
 			':created_at' => $this->utilisateur_crea
 		];
 	}
+
+	public function __toString()
+	{
+		return "new Utilisateur('" . $this->utilisateur_pseudo . "', '" . $this->utilisateur_mail . "', '" . $this->utilisateur_nom . "', '" . $this->utilisateur_prenom . "', " . ($this->id ?? 'null') . ", 'null' )";
+	}
 	#endregion
 }

@@ -3,6 +3,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Src\Config\Utils\CookiesConf;
 use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\SessionManagement;
 
 // DEFINITION DES CHEMINS
 $originalPath = rtrim(dirname($_SERVER['SCRIPT_NAME'], 2), '/'); // Récupère le chemin relatif sans le dernier segmet
@@ -57,7 +58,11 @@ if (isset($_COOKIE['acceptationCookies'])) {
 			// Vérification de l'existence de la méthode
 			if (method_exists($controller, $action)) {
 				// Initialisation d'une instance de log dans la session
-				$_SESSION['MSGs']["undying"][] = new LogInstance($controller . " : " . $action);
+				if (! isset($_SESSION['MSGs']["undying"])) { // si les messages n'étaient pas nitialisés, c'est une nouvelle session
+					$_SESSION['MSGs']["undying"][] = new LogInstance($controller . " : " . $action);
+					SessionManagement::New_log_session();
+				}
+				else $_SESSION['MSGs']["undying"][] = new LogInstance($controller . " : " . $action);
 
 				// Appel de la méthode statique $action du controleur actif
 				$controller::$action();

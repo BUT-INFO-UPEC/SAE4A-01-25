@@ -3,12 +3,14 @@
 namespace Src\Controllers;
 
 use Exception;
+use SessionHandler;
 use Src\Config\ServerConf\db_manager;
 use Src\Config\Utils\LogInstance;
 use Src\Config\Utils\MsgRepository;
 use Src\Model\API\Requetteur_API;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Config\ServerConf\DatabaseConnection;
+use Src\Config\Utils\SessionManagement;
 
 class ControllerDev extends AbstractController
 {
@@ -88,6 +90,7 @@ class ControllerDev extends AbstractController
 	public static function clear_log() {
 		unset($_SESSION['MSGs']["undying"]);
 		$_SESSION['MSGs']["undying"][] = new LogInstance("Log reset"); // réinitialiser le cache des logs pour la session en cours
+		SessionManagement::New_log_session();
 		MsgRepository::newWarning("Log éffacé", "Le log a été nétoyé.");
 	}
 
