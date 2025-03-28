@@ -2,7 +2,7 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Model\Repository\DatabaseConnection;
+use Src\Config\ServerConf\DatabaseConnection;
 use PDO;
 
 class Utilisateur extends AbstractDataObject
@@ -143,6 +143,11 @@ class Utilisateur extends AbstractDataObject
 			':utilisateur_prenom' => $this->utilisateur_prenom,
 			':created_at' => $this->utilisateur_crea
 		];
+	}
+
+	public function __toString()
+	{
+		return "new Utilisateur('" . $this->utilisateur_pseudo . "', '" . $this->utilisateur_mail . "', '" . $this->utilisateur_nom . "', '" . $this->utilisateur_prenom . "', " . ($this->id ?? 'null') . ", 'null' )";
 	}
 	#endregion
 }

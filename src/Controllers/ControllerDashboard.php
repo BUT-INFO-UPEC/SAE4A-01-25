@@ -5,12 +5,14 @@ namespace Src\Controllers;
 use Exception;
 use PDOException;
 use RuntimeException;
-use Src\Config\LogInstance;
+use Src\Config\Utils\LogInstance;
+use Src\Model\DataObject\Composant;
 use Src\Model\Repository\AggregationRepository;
+use Src\Model\Repository\AnalysisRepository;
 use Src\Model\Repository\AttributRepository;
 use Src\Model\Repository\DashboardRepository;
-use Src\Config\MsgRepository;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\MsgRepository;
+use Src\Config\Utils\SessionManagement;
 use Src\Model\DataObject\Dashboard;
 use Src\Model\Repository\ComposantRepository;
 use Src\Model\Repository\GrouppingRepository;
@@ -35,7 +37,7 @@ class ControllerDashboard extends AbstractController
 	static function new_dashboard(): void
 	{
 		// Initialisation sur le dashboard par défaut (id = 0)
-		$_GET['dashId'] =  0;
+		$_GET['dashId'] =  1;
 
 		// MsgRepository::newSuccess("Nouveau dashboard initialisé", "", MsgRepository::NO_REDIRECT);
 
@@ -253,16 +255,16 @@ class ControllerDashboard extends AbstractController
 	{ // récupérer toutes les staitons, régions, ect... chéckés
 		$criteres_geo = [];
 		if (!empty($tab['regions']))
-			$criteres_geo['code_reg'] = $tab['regions'];
+			$criteres_geo['code_reg'] = array_map('intval', $tab['regions']);
 
 		if (!empty($tab['depts']))
-			$criteres_geo['code_dep'] = $tab['depts'];
+			$criteres_geo['code_dep'] = array_map('intval', $tab['depts']);
 
 		if (!empty($tab['villes']))
-			$criteres_geo['codegeo'] = $tab['villes'];
+			$criteres_geo['codegeo'] = array_map('intval', $tab['villes']);
 
 		if (!empty($tab['stations']))
-			$criteres_geo['numer_sta'] = $tab['stations'];
+			$criteres_geo['numer_sta'] = array_map('intval', $tab['stations']);
 		return $criteres_geo;
 	}
 
@@ -308,23 +310,25 @@ class ControllerDashboard extends AbstractController
 			$comp->set_grouping($_POST["association_$index"]);
 			$comp->set_visu($_POST["visu_type_$index"]);
 		}
+
+		// Ajouter les composants suplémentaires
 		for ($i = \count($dash->get_composants()); $i < $compNb; $i++) {
 			SessionManagement::get_curent_log_instance()->new_log("Instanciation du composant $i/$compNb");
-			// Ajouter les composants suplémentaires
-			$objetFormatTableau = [];
-			if ($_SESSION["componants_to_delete"]) { // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression + création lors d'une mise a jour péraine et juste faire la dite mise a jour
-				$objetFormatTableau['id'] = array_pop($_SESSION["componants_to_delete"]);
-				SessionManagement::get_curent_log_instance()->new_log("Récupération de l'id de composant " . $objetFormatTableau['id'] . "précédement supprimé.");
-			} else $objetFormatTableau['id'] = null;
-			$objetFormatTableau['attribut'] = (int) $_POST["value_type_$i"];
-			$objetFormatTableau['aggregation'] = (int) $_POST["analysis_$i"];
-			$objetFormatTableau['groupping'] = (int) $_POST["association_$i"];
-			$objetFormatTableau['repr_type'] = (int) $_POST["visu_type_$i"];
+			$tab_analyse['id'] = null;
+			$tab_analyse['attribut'] = (int) $_POST["value_type_$i"];
+			$tab_analyse['aggregation'] = (int) $_POST["analysis_$i"];
+			$tab_analyse['groupping'] = (int) $_POST["association_$i"];
+			$tab_analyse['repr_type'] = (int) $_POST["visu_type_$i"];
+			$ana = (new AnalysisRepository)->arrayConstructor($tab_analyse);
 
+			if ($_SESSION["componants_to_delete"]) { // récupérer l'id d'un composant précédement supprimé si il existe pour éviter une suppression + création lors d'une mise a jour péraine et juste faire la dite mise a jour
+				$id = array_pop($_SESSION["componants_to_delete"]);
+				SessionManagement::get_curent_log_instance()->new_log("Récupération de l'id de composant " . $id . "précédement supprimé.");
+			} else $id = null;
 			$params['titre'] = $_POST["titre_composant_$i"];
 			$params['chartId'] = $i;
-			$objetFormatTableau['params_affich'] = $params;
-			$dash->addComposant((new ComposantRepository)->arrayConstructor($objetFormatTableau));
+			$new_comp = new Composant($ana, $params, $id);
+			$dash->addComposant($new_comp);
 		}
 		SessionManagement::get_curent_log_instance()->new_log("Dashboard dynamique a jours...");
 	}
@@ -341,30 +345,30 @@ class ControllerDashboard extends AbstractController
 	 *
 	 */
 
-	 static function filtre(): void
-	 {
-		 try {
-			 $constructeur = new DashboardRepository();
+	static function filtre(): void
+	{
+		try {
+			$constructeur = new DashboardRepository();
 
-			 // Récupération sécurisée des paramètres GET avec valeur par défaut
-			 $date_debut = $_GET['date_debut'] ?? "";
-			 $date_fin = $_GET['date_fin'] ?? "";
-			 $privatisation = isset($_GET['privatisation']) ? (bool) $_GET['privatisation'] : null;
+			// Récupération sécurisée des paramètres GET avec valeur par défaut
+			$date_debut = $_GET['date_debut'] ?? "";
+			$date_fin = $_GET['date_fin'] ?? "";
+			$privatisation = isset($_GET['privatisation']) ? (bool) $_GET['privatisation'] : null;
 
-			 // Récupérer les dashboards selon les critères de recherche
-			 $dashboards = $constructeur->filtre($date_debut, $date_fin, $privatisation);
+			// Récupérer les dashboards selon les critères de recherche
+			$dashboards = $constructeur->filtre($date_debut, $date_fin, $privatisation);
 
-			 // Optionnel : Faire quelque chose avec $dashboards (affichage, retour, stockage en session, etc.)
+			// Optionnel : Faire quelque chose avec $dashboards (affichage, retour, stockage en session, etc.)
 
-		 } catch (PDOException $e) {
-			 SessionManagement::get_curent_log_instance()->new_log(
-				 "Erreur PDO lors de la récupération des dashboards : " . $e->getMessage()
-			 );
-		 } catch (Exception $e) {
-			 SessionManagement::get_curent_log_instance()->new_log(
-				 "Erreur lors de la récupération des dashboards : " . $e->getMessage()
-			 );
-		 }
-	 }
-		 #endregion filtre
+		} catch (PDOException $e) {
+			SessionManagement::get_curent_log_instance()->new_log(
+				"Erreur PDO lors de la récupération des dashboards : " . $e->getMessage()
+			);
+		} catch (Exception $e) {
+			SessionManagement::get_curent_log_instance()->new_log(
+				"Erreur lors de la récupération des dashboards : " . $e->getMessage()
+			);
+		}
+	}
+	#endregion filtre
 }

@@ -2,7 +2,8 @@
 
 namespace Src\Model\Repository;
 
-use Src\Config\MsgRepository;
+use Src\Config\Utils\MsgRepository;
+use Src\Config\ServerConf\DatabaseConnection;
 use Src\Model\DataObject\AbstractDataObject;
 
 /**

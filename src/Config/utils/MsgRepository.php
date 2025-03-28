@@ -1,9 +1,9 @@
 <?php
 
-namespace Src\Config;
+namespace Src\Config\Utils;
 
-use Src\Config\Msg;
-use Src\Config\Utils;
+use Src\Config\Utils\Msg;
+use Src\Config\Utils\Utils;
 
 /** Create different kind of messages, instanciate them in a list and redirect
  */

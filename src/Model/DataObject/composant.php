@@ -2,8 +2,9 @@
 
 namespace Src\Model\DataObject;
 
-use Src\Config\LogInstance;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\SessionManagement;
+use Src\Config\Utils\Utils;
 use Src\Model\Repository\RepresentationRepository;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\API\Requetteur_API;
@@ -23,10 +24,7 @@ class Composant extends AbstractDataObject
 	// =======================
 
 	private ?int $id;
-	private Attribut $attribut;
-	private Aggregation $aggregation;
-	private Groupping $grouping;
-	private Representation $repr;
+	private Analysis $analysis;
 	private array $params;
 	private array $data;
 	private string $keyTargetValue;
@@ -35,14 +33,11 @@ class Composant extends AbstractDataObject
 	// =======================
 	//      CONSTRUCTOR
 	// =======================
-	public function __construct(Attribut $attribut, Aggregation $aggregation, Groupping $grouping, Representation $repr_type, string $param_affich, ?int $composant_id)
+	public function __construct(Analysis $analysis, array $param_affich, ?int $composant_id)
 	{
 		$this->id = $composant_id;
-		$this->attribut = $attribut;
-		$this->aggregation = $aggregation;
-		$this->grouping = $grouping;
-		$this->repr = $repr_type;
-		$this->params = json_decode($param_affich, true);
+		$this->analysis = $analysis;
+		$this->params = $param_affich;
 		SessionManagement::get_curent_log_instance()->new_log("Composant instancié.");
 	}
 
@@ -59,13 +54,18 @@ class Composant extends AbstractDataObject
 	{
 		return $this->id;
 	}
+
+	public function get_analysis(): Analysis {
+		return $this->analysis;
+	}
+
 	/** L'attribut analysé dans le composant
 	 * 
 	 * @return Attribut
 	 */
 	public function get_attribut(): Attribut
 	{
-		return $this->attribut;
+		return $this->analysis->getAttribut();
 	}
 
 	/** L'aggregation analytique réalisée sur les données analysées
@@ -74,7 +74,7 @@ class Composant extends AbstractDataObject
 	 */
 	public function get_aggregation(): Aggregation
 	{
-		return $this->aggregation;
+		return $this->analysis->getAggregation();
 	}
 
 	/** Le groupement des donées réalisé pour la realisation des aggregations
@@ -83,7 +83,7 @@ class Composant extends AbstractDataObject
 	 */
 	public function get_grouping(): Groupping
 	{
-		return $this->grouping;
+		return $this->analysis->getGroupping();
 	}
 
 	/** Les paramètres complémentaires du composant pour la construction de sa représentaiton graphique
@@ -105,7 +105,7 @@ class Composant extends AbstractDataObject
 	 */
 	public function get_visu_file(): string
 	{
-		return $this->repr->get_visu_file();
+		return $this->analysis->getRepresentation()->get_visu_file();
 	}
 
 	/** Retourne l'instance de la représenation associée au composant
@@ -114,7 +114,7 @@ class Composant extends AbstractDataObject
 	 */
 	public function get_representation(): Representation
 	{
-		return $this->repr;
+		return $this->analysis->getRepresentation();
 	}
 	#endregion Getters
 
@@ -142,7 +142,7 @@ class Composant extends AbstractDataObject
 	 */
 	public function set_attribut(int $attribut): void
 	{
-		$this->attribut = (new AttributRepository())->get_attribut_by_id($attribut);
+		$this->analysis->setAttribut((new AttributRepository())->get_attribut_by_id($attribut));
 	}
 
 	/** Change l'aggregation de l'analyse que le composant réalise
@@ -153,7 +153,7 @@ class Composant extends AbstractDataObject
 	 */
 	public function set_aggregation(int $aggregation): void
 	{
-		$this->aggregation = (new AggregationRepository())->get_aggregation_by_id($aggregation);
+		$this->analysis->setAggregation((new AggregationRepository())->get_aggregation_by_id($aggregation));
 	}
 
 	/** Change le grouppement des données que le composant réalise pour analyser les données
@@ -164,7 +164,7 @@ class Composant extends AbstractDataObject
 	 */
 	public function set_grouping(int $grouping): void
 	{
-		$this->grouping = (new GrouppingRepository())->get_groupping_by_id($grouping);
+		$this->analysis->setGroupping((new GrouppingRepository())->get_groupping_by_id($grouping));
 	}
 
 	/** Change les paramètres complémentaires de la représentation graphique du composant
@@ -186,7 +186,7 @@ class Composant extends AbstractDataObject
 	 */
 	public function set_visu(int $value): void
 	{
-		$this->repr = (new RepresentationRepository())->get_representation_by_id($value);
+		$this->analysis->setRepresentation((new RepresentationRepository())->get_representation_by_id($value));
 	}
 	#endregion Setters
 
@@ -209,19 +209,19 @@ class Composant extends AbstractDataObject
 		$geo = $dash->get_params_API_geo();
 		if ($geo) $params["where"][] = $geo;
 		$params['where'][] = $dash->get_params_API_temporel();
-		$this->keyTargetValue = $this->nettoyer_chaine($this->aggregation->get_nom() . " " . $this->attribut->get_nom());
-		$params['select'][] = $this->aggregation->get_cle() . "(" . $this->attribut->get_cle() . ") as " . $this->keyTargetValue;
-		$params["group_by"][] = $this->grouping->get_cle();
+		$this->keyTargetValue = $this->nettoyer_chaine($this->get_aggregation()->get_nom() . " " . $this->get_attribut()->get_nom());
+		$params['select'][] = $this->get_aggregation()->get_cle() . "(" . $this->get_attribut()->get_cle() . ") as " . $this->keyTargetValue;
+		$params["group_by"][] = $this->get_grouping()->get_cle();
 		$keyValueSort = !empty($params["group_by"]) ? $params["group_by"][0] : "";
 
 		// Instancier le constructeur de requette avc les paramettres précédement définis
 		$requette = new Constructeur_Requette_API($params['select'], $params['where'], $params['group_by']);
 
 		// Envoyer la requette a l'API
-		$data = Requetteur_API::fetchData($requette, $keyValueSort, $this->keyTargetValue, ($this->grouping->get_cle() == '' ? 'total' : null));
+		$data = Requetteur_API::fetchData($requette, $keyValueSort, $this->keyTargetValue, ($this->get_grouping()->get_cle() == '' ? 'total' : null));
 
 		// Formater les donénes de l'API pour utilisation simplifiée coté génération de la visualisation (structure csv)
-		if ($this->grouping->get_cle() != '') {
+		if ($this->get_grouping()->get_cle() != '') {
 			// **Ajouter l'en-tête obligatoire pour Google Charts**
 			$formattedData = [[$keyValueSort, $this->keyTargetValue]]; // En-tête
 			foreach ($data as $key => $value) {
@@ -296,12 +296,15 @@ class Composant extends AbstractDataObject
 	{
 		return [
 			":id" => $this->get_id(),
-			":repr_type" => $this->repr->get_id(),
-			":attribut" => $this->get_attribut()->get_id(),
-			":aggregation" => $this->get_aggregation()->get_id(),
-			":groupping" => $this->get_grouping()->get_id(),
+			":analysis_id" => $this->analysis->getId(),
 			":params_affich" => json_encode($this->params) ?? ""
 		];
+	}
+
+	public function __tostring(): string {
+		$p = Utils::multi_implode($this->params, ", "); 
+
+		return "new Composant(" . $this->analysis->__tostring() .", ". $p . ", " . ($this->id ?? 'null') . ")";
 	}
 	#endregion Overides
 }

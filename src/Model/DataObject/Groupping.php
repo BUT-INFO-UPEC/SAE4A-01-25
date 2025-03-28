@@ -83,5 +83,10 @@ class Groupping extends AbstractDataObject
 			":id" => $this->get_id()
 		];
 	}
+
+	public function __toString()
+	{
+		return "new Groupping(" . ($this->id ?? 'null') . ", '" . $this->nom . "', '" . $this->type . "', '" . $this->cle . "')";
+	}
 	#endregion Overides
 }

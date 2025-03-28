@@ -2,7 +2,7 @@
 
 namespace Src\Model\Repository;
 
-use Src\Model\Repository\DatabaseConnection;
+use Src\Config\ServerConf\DatabaseConnection;
 
 class GeoRepository
 {

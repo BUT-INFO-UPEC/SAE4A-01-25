@@ -3,8 +3,8 @@
 namespace Src\Model\API;
 
 use Exception;
-use Src\Config\MsgRepository;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\MsgRepository;
+use Src\Config\Utils\SessionManagement;
 
 class Requetteur_API
 {

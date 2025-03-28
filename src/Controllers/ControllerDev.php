@@ -3,11 +3,14 @@
 namespace Src\Controllers;
 
 use Exception;
-use Src\Config\LogInstance;
-use Src\Config\MsgRepository;
+use SessionHandler;
+use Src\Config\ServerConf\db_manager;
+use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\MsgRepository;
 use Src\Model\API\Requetteur_API;
 use Src\Model\API\Constructeur_Requette_API;
-use Src\Model\Repository\DatabaseConnection;
+use Src\Config\ServerConf\DatabaseConnection;
+use Src\Config\Utils\SessionManagement;
 
 class ControllerDev extends AbstractController
 {
@@ -87,6 +90,12 @@ class ControllerDev extends AbstractController
 	public static function clear_log() {
 		unset($_SESSION['MSGs']["undying"]);
 		$_SESSION['MSGs']["undying"][] = new LogInstance("Log reset"); // réinitialiser le cache des logs pour la session en cours
+		SessionManagement::New_log_session();
 		MsgRepository::newWarning("Log éffacé", "Le log a été nétoyé.");
+	}
+
+	public static function update_db(): void {
+		$updates_list = db_manager::update_fixtures();
+		MsgRepository::newSuccess("BDD updaté", message: empty($updates_list) ? "Aucune mise a jour nécéssaire." : "La base de données a été mise a jour avec les fixtures suivantes:</p><p>" . implode(", ", $updates_list));
 	}
 }

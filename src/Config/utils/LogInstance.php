@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Config;
+namespace Src\Config\Utils;
 
 class LogInstance
 {
@@ -92,6 +92,17 @@ class LogInstance
 	function new_log(string $message, $color = "")
 	{
 		$this->add_Log(Utils::get_calling_class() . " : " . $message, $color); // ajouter le log avec la classe l'ayant initialiser en entete
+	}
+
+	function new_DB_log(string $message, string $header = "", $color = LogInstance::GREY){
+		$this->add_log("Database action : " . $message, $color);
+
+		// Le chemin vers le fichier
+		$fichier = __DIR__ . '/../../../database/databaseUpdates.log';
+		// Enlever les EOL (saut de ligne ou retour chariot)
+		$contenuNettoye = $header . "\n" . str_replace(["\r\n", "\n", "\r"], " ", $message) ."\n";
+		// Ajouter du texte à la fin du fichier
+		file_put_contents($fichier, $contenuNettoye, FILE_APPEND);
 	}
 	#endregion public
 }

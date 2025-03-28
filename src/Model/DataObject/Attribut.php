@@ -117,5 +117,11 @@ class Attribut extends AbstractDataObject
 			":id" => $this->get_id()
 		];
 	}
+
+
+	public function __toString()
+	{
+		return "new Attribut(" . ($this->id ?? 'null') . ", '" . $this->type_val . "', '" . $this->cle . "', '" . $this->nom . "', '" . $this->unite . "', '" . $this->description . "', '" . $this->exemple . "')";
+	}
 	#endregion Overides
 }

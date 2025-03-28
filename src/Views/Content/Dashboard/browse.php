@@ -30,7 +30,7 @@
 
 	<?php
 
-	use Src\Config\SessionManagement;
+	use Src\Config\Utils\SessionManagement;
 
 	if (SessionManagement::getUser() != null) : ?>
 		<select name="privatisation" id="" privatisation>

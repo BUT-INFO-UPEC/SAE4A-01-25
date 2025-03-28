@@ -4,10 +4,10 @@ namespace Src\Controllers;
 
 use Exception;
 use PDOException;
-use Src\Config\MsgRepository;
+use Src\Config\Utils\MsgRepository;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\SessionManagement;
 
 class ControllerGeneral extends AbstractController
 {
