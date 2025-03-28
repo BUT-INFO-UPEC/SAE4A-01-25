@@ -22,4 +22,39 @@ class Utils
 					return $trace[$i]['class'];
 		}
 	}
+
+	/**
+	 * Compare deux tableaux et renvoie les différences (ajouts et suppressions).
+	 *
+	 * @param array $ancienTab L'ancien tableau de référence.
+	 * @param array $nouveauTab Le nouveau tableau à comparer.
+	 * @return array Tableau contenant les ajouts et suppressions.
+	 */
+	public static function comparer_tableaux(array $ancienTab, array $nouveauTab): array
+	{
+		$ajouts = [];
+		$suppressions = [];
+
+		foreach ($ancienTab as $cle => $valeur) {
+			if (!isset($nouveauTab[$cle])) $suppressions[$cle] = $valeur;
+			else {
+				foreach ($valeur as $subval) {
+					if (!in_array($subval, $nouveauTab[$cle])) $suppressions[$cle][] = $subval;
+				}
+			}
+		}
+		foreach ($nouveauTab as $cle => $valeur) {
+			if (!isset($ancienTab[$cle])) $ajouts[$cle] = $valeur;
+			else {
+				foreach ($valeur as $subval) {
+					if (!in_array($subval, $ancienTab[$cle])) $ajouts[$cle][] = $subval;
+				}
+			}
+		}
+
+		return [
+			'ajouts' => $ajouts,
+			'suppressions' => $suppressions
+		];
+	}
 }

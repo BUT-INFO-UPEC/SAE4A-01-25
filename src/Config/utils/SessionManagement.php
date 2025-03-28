@@ -13,7 +13,18 @@ class SessionManagement
 	 */
 	public static function getUser(): ?Utilisateur
 	{
-		return$_SESSION["user"] ?? null;
+		return $_SESSION["user"] ?? null;
+	}
+
+	/** Return the curent loged user or null if not found
+	 * 
+	 * @return Utilisateur|null
+	 */
+	public static function getLogedId(): ?int
+	{
+		if (isset($_SESSION['user'])) {
+			return $_SESSION["user"]->getId();
+		} else return null;
 	}
 
 	/** Check if a user is logged in. Redirect with an error if not.
@@ -22,7 +33,7 @@ class SessionManagement
 	 */
 	public static function checkLogin(): void
 	{
-		if (!isset($_SESSION['login'])) {
+		if (!isset($_SESSION['user'])) {
 			MsgRepository::newError("Vous devez être connecté pour effectuer cette action.", "Not loged in");
 		}
 	}

@@ -8,6 +8,7 @@ use Src\Config\Utils\LogInstance;
 use Src\Config\Utils\MsgRepository;
 use Src\Config\Utils\SessionManagement;
 use Src\Config\ServerConf\DatabaseConnection;
+use Src\Config\Utils\Utils;
 use Src\Model\DataObject\Dashboard;
 
 class DashboardRepository extends AbstractRepository
@@ -46,13 +47,14 @@ class DashboardRepository extends AbstractRepository
 	public function BuildGeo($id): array
 	{
 		try {
+			//récupéraiton des criteres géographiques lié a l'id dashboard
 			$query = "SELECT type_critere, critere_id FROM CritereGeo_dashboard WHERE dashboard_id = :ID";
 			$values = ["ID" => $id];
-			$criteres = DatabaseConnection::fetchAll($query, $values); // récupéraiton des criteres géographiques lié a ce dashboard
+			$criteres = DatabaseConnection::fetchAll($query, $values);
 
 			$result = [];
 			foreach ($criteres as $value) {
-				$result[DashboardRepository::TYPES_CRITERES_GEO[$value['type_critere']]][] = $value['critere_id'];
+				$result[DashboardRepository::TYPES_CRITERES_GEO[$value['type_critere']]][] = (int) $value['critere_id'];
 			}
 
 			return $result;
@@ -69,7 +71,7 @@ class DashboardRepository extends AbstractRepository
 	{
 		// ajouter vérif appartenance a l'utilisateur ou visibilité publique
 		try {
-			$values["createur_id"] = SessionManagement::getUser()->getId() ?? 0;
+			$values["createur_id"] = SessionManagement::getLogedId() ?? 0;
 			$values["privatisation"] = 0;
 
 			$query = "and (createur_id=:createur_id or privatisation=:privatisation)";
@@ -131,9 +133,30 @@ class DashboardRepository extends AbstractRepository
 				$active_comps[] = $comp_repo->update_comp($comp, $dashId);
 			}
 
-			// TODO : requète pour les composants liés a ce dashboard => supprimer si id pas dans $active_comps
+			// Supprimer les composants flotants (non liés)
+			foreach ($comp_repo->get_composants_from_dashboard($dashId) as $comp) {
+				if (!in_array($comp->get_id(), $active_comps)) $comp_repo->try_delete($comp);
+			}
 
-			// TODO : maj les instances de CritereGeo_dashboard
+			// MAJ des instances de CritereGeo_dashboard
+			$curently_saved_cryteres = $this->BuildGeo($dashId);
+			$diffs = Utils::comparer_tableaux($curently_saved_cryteres, $dash->get_region());
+
+			// Ajouter les lignes inutiles
+			$this->addRegions($diffs["ajouts"], $dashId);
+			// Supprimer les nouvelles lignes
+			foreach ($diffs["suppressions"] as $type => $ids) {
+				$DB_type = DashboardRepository::REVERSE_TYPE_GEO[$type];
+				foreach ($ids as $value) {
+					$query = "DELETE FROM CritereGeo_dashboard 
+          WHERE dashboard_id = :dashboard_id 
+          AND type_critere = :type_critere 
+          AND critere_id = :critere_id";
+					$values = [":dashboard_id" => $dashId, ":type_critere" => $DB_type, ":critere_id" => $value];
+					DatabaseConnection::executeQuery($query, $values);
+				}
+			}
+
 			SessionManagement::get_curent_log_instance()->new_log("Mise a jour complète");
 			return $dashId;
 		} catch (Exception $e) {
@@ -155,14 +178,7 @@ class DashboardRepository extends AbstractRepository
 
 			// enregistrer les liens critereGeo
 			SessionManagement::get_curent_log_instance()->new_log("Ajout des critères géographiques du dashboard");
-			foreach ($dash->get_region() as $type => $ids) {
-				$DB_type = DashboardRepository::REVERSE_TYPE_GEO[$type];
-				foreach ($ids as $value) {
-					$query = "INSERT INTO CritereGeo_dashboard (dashboard_id, type_critere, critere_id) VALUES (:dashboard_id, :type_critere, :critere_id)";
-					$values = [":dashboard_id" => $dashId, ":type_critere" => $DB_type, ":critere_id" => $value];
-					DatabaseConnection::executeQuery($query, $values);
-				}
-			}
+			$this->addRegions($dash->get_region(), $dashId);
 
 			// parcourir les composants et les enregistrés
 			foreach ($dash->get_composants() as $index => $comp) {
@@ -206,6 +222,18 @@ class DashboardRepository extends AbstractRepository
 		}
 	}
 	#endregion Publiques
+
+	private function addRegions(array $regions, int $dashId)
+	{
+		foreach ($regions as $type => $ids) {
+			$DB_type = DashboardRepository::REVERSE_TYPE_GEO[$type];
+			foreach ($ids as $value) {
+				$query = "INSERT INTO CritereGeo_dashboard (dashboard_id, type_critere, critere_id) VALUES (:dashboard_id, :type_critere, :critere_id)";
+				$values = [":dashboard_id" => $dashId, ":type_critere" => $DB_type, ":critere_id" => $value];
+				DatabaseConnection::executeQuery($query, $values);
+			}
+		}
+	}
 
 	#region abstractRepo
 

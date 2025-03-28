@@ -10,7 +10,7 @@ class ComposantRepository extends AbstractRepository
 	{
 		// s'assurer que l'analyse est définie
 		$ana = $composant->get_analysis();
-		if (!$ana->getId()) (new AnalysisRepository)->try_create($ana);
+		(new AnalysisRepository)->try_create($ana);
 
 		$values = $composant->formatTableau();
 		$values[":id"] = null;

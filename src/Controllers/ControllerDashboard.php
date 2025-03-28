@@ -255,16 +255,16 @@ class ControllerDashboard extends AbstractController
 	{ // récupérer toutes les staitons, régions, ect... chéckés
 		$criteres_geo = [];
 		if (!empty($tab['regions']))
-			$criteres_geo['code_reg'] = $tab['regions'];
+			$criteres_geo['code_reg'] = array_map('intval', $tab['regions']);
 
 		if (!empty($tab['depts']))
-			$criteres_geo['code_dep'] = $tab['depts'];
+			$criteres_geo['code_dep'] = array_map('intval', $tab['depts']);
 
 		if (!empty($tab['villes']))
-			$criteres_geo['codegeo'] = $tab['villes'];
+			$criteres_geo['codegeo'] = array_map('intval', $tab['villes']);
 
 		if (!empty($tab['stations']))
-			$criteres_geo['numer_sta'] = $tab['stations'];
+			$criteres_geo['numer_sta'] = array_map('intval', $tab['stations']);
 		return $criteres_geo;
 	}
 
@@ -345,30 +345,30 @@ class ControllerDashboard extends AbstractController
 	 *
 	 */
 
-	 static function filtre(): void
-	 {
-		 try {
-			 $constructeur = new DashboardRepository();
+	static function filtre(): void
+	{
+		try {
+			$constructeur = new DashboardRepository();
 
-			 // Récupération sécurisée des paramètres GET avec valeur par défaut
-			 $date_debut = $_GET['date_debut'] ?? "";
-			 $date_fin = $_GET['date_fin'] ?? "";
-			 $privatisation = isset($_GET['privatisation']) ? (bool) $_GET['privatisation'] : null;
+			// Récupération sécurisée des paramètres GET avec valeur par défaut
+			$date_debut = $_GET['date_debut'] ?? "";
+			$date_fin = $_GET['date_fin'] ?? "";
+			$privatisation = isset($_GET['privatisation']) ? (bool) $_GET['privatisation'] : null;
 
-			 // Récupérer les dashboards selon les critères de recherche
-			 $dashboards = $constructeur->filtre($date_debut, $date_fin, $privatisation);
+			// Récupérer les dashboards selon les critères de recherche
+			$dashboards = $constructeur->filtre($date_debut, $date_fin, $privatisation);
 
-			 // Optionnel : Faire quelque chose avec $dashboards (affichage, retour, stockage en session, etc.)
+			// Optionnel : Faire quelque chose avec $dashboards (affichage, retour, stockage en session, etc.)
 
-		 } catch (PDOException $e) {
-			 SessionManagement::get_curent_log_instance()->new_log(
-				 "Erreur PDO lors de la récupération des dashboards : " . $e->getMessage()
-			 );
-		 } catch (Exception $e) {
-			 SessionManagement::get_curent_log_instance()->new_log(
-				 "Erreur lors de la récupération des dashboards : " . $e->getMessage()
-			 );
-		 }
-	 }
-		 #endregion filtre
+		} catch (PDOException $e) {
+			SessionManagement::get_curent_log_instance()->new_log(
+				"Erreur PDO lors de la récupération des dashboards : " . $e->getMessage()
+			);
+		} catch (Exception $e) {
+			SessionManagement::get_curent_log_instance()->new_log(
+				"Erreur lors de la récupération des dashboards : " . $e->getMessage()
+			);
+		}
+	}
+	#endregion filtre
 }

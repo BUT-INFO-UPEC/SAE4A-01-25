@@ -13,7 +13,9 @@ class AnalysisRepository extends AbstractRequestComponant
 	public function try_create(Analysis $ana): int
 	{
 		$ana_id = $ana->getId();
-		if ($ana_id) return $ana_id;
+		if ($ana_id != null) return $ana_id;
+		
+		// On ne peut pas utiliser le create car on ne fournie pas l'id
 		$querry = "INSERT INTO Analyses (repr_type, attribut, aggregation, groupping) VALUES
            (:repr_type, :attribut, :aggregation, :groupping)
           ON CONFLICT(repr_type, attribut, aggregation, groupping) DO NOTHING
@@ -37,7 +39,10 @@ class AnalysisRepository extends AbstractRequestComponant
 		$ana->setId($ana_id);
 		return $ana_id;
 	}
-	public function try_delete(Analysis $ana): void {}
+	public function try_delete(Analysis $ana): void {
+		// Tant qu'au moins un composant est lié a lanalyse, ne pas la supprimer, si aucun ne lui est lié, la supprimer
+		// TODO : if (select from composant where analysis_id == $ana->getId())/lengh == 0 => delete
+	}
 	public function arrayConstructor(array $objetFormatTableau): Analysis
 	{
 		return new Analysis($objetFormatTableau["id"], $objetFormatTableau["attribut"], $objetFormatTableau["aggregation"], $objetFormatTableau["groupping"], $objetFormatTableau["repr_type"]);
