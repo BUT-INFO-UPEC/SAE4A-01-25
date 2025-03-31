@@ -96,7 +96,7 @@ class DatabaseConnection
 	public static function executeQuery(string $query, array $params = []): PDOStatement
 	{
 		try {
-			SessionManagement::get_curent_log_instance()->new_log("Requette a la BDD : $query -> paramètres : " . var_export($params, true), LogInstance::GREY);
+			//SessionManagement::get_curent_log_instance()->new_log("Requette a la BDD : $query -> paramètres : " . var_export($params, true), LogInstance::GREY);
 			$stmt = static::getPdo()->prepare($query);
 			$stmt->execute($params);
 			return $stmt;

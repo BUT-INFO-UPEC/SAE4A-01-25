@@ -373,7 +373,7 @@ class Dashboard extends AbstractDataObject
 			":date_fin" => $this->get_date('fin'),
 			":date_debut_relatif" => $this->dateDebutRelatif ? "True" :"False",
 			":date_fin_relatif" => $this->dateFinRelatif? "True" : "False",
-			":params" => $this->get_name()
+			":params" => json_encode($this->params)
 		];
 	}
 
