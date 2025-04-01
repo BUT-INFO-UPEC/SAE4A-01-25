@@ -19,7 +19,7 @@
             var values = rawData.slice(1).map(item => item[1]);
 
             // Couleurs dynamiques pour le pie chart
-            var colors = ["#ceddde", "#9cd2d5", "#8ecfd8", "#007fa9", "#00334A"]; 
+            var colors = ["#9ccad5", "#2b6777", "#8ecfd8", "#9cd2d5", "#00334A", "#ceddde", "#5b9aa0"]; 
 
             var ctx = document.getElementById("chart<?= $params['chartId'] ?>").getContext("2d");
 
