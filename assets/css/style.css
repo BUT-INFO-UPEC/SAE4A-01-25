@@ -36,12 +36,12 @@ hr {
 }
 
 #dashboard {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 20px;
 	width: 100%;
 	margin: 0 0;
 	height: max-content;
+	/* Utilisation de max-content pour ajuster la hauteur */
+	justify-content: center;
+	/* Centrer le contenu */
 
 }
 
@@ -49,19 +49,8 @@ hr {
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	height: fit-content;
-	width: fit-content;
-	/* margin: auto; */
-
-}
-
-@keyframes fadeIn {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+	/* aligne le centent au centre */
+	align-content: center;
 }
 
 .dashboard-card * {
@@ -104,30 +93,6 @@ hr {
 	color: #0073e6;
 }
 
-@media (max-width: 768px) {
-	.dashboard {
-		grid-template-columns: 1fr 1fr;
-		grid-template-areas:
-			"overview overview"
-			"metric1 metric2"
-			"chart1 chart2"
-			"chart3 chart4";
-	}
-}
-
-@media (max-width: 480px) {
-	.dashboard {
-		grid-template-columns: 1fr;
-		grid-template-areas:
-			"overview"
-			"metric1"
-			"metric2"
-			"chart1"
-			"chart2"
-			"chart3"
-			"chart4";
-	}
-}
 
 .main {
 	width: 80vw;

@@ -1,8 +1,8 @@
 <div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
     <h4><?= htmlspecialchars($params['titre']) ?></h4>
 
-    <p id="textValue<?= $params['chartId'] ?>" 
-       style="font-size: 24px; font-weight: bold; text-align: center; transition: color 0.5s;">
+       <p id="textValue<?= $params['chartId'] ?>"
+   style="font-size: 24px; font-weight: bold; text-align: center; transition: color 0.5s;">
         Chargement...
     </p>
 
