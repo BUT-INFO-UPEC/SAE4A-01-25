@@ -35,7 +35,7 @@ class DashboardRepository extends AbstractRepository
 			$composants = (new ComposantRepository)->get_composants_from_dashboard($objetFormatTableau['id']);
 			$criteres_geo = $this->BuildGeo($objetFormatTableau['id']);
 
-			return new Dashboard($objetFormatTableau['id'], $objetFormatTableau['privatisation'], $objetFormatTableau['createur_id'], $objetFormatTableau['original_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, [$objetFormatTableau['params']]);
+			return new Dashboard($objetFormatTableau['id'], $objetFormatTableau['privatisation'], $objetFormatTableau['createur_id'], $objetFormatTableau['original_id'], $objetFormatTableau['date_debut'], $objetFormatTableau['date_fin'], $objetFormatTableau['date_debut_relatif'] == "True", $objetFormatTableau['date_fin_relatif'] == "True", $composants, $criteres_geo, json_decode($objetFormatTableau['params']));
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la construction du dashboard", "Le dashboard n'a pas pu être construit.\n" . $e->getMessage());
 			return null;
