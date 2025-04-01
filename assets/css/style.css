@@ -36,23 +36,32 @@ hr {
 }
 
 #dashboard {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: auto;
+	display: flex;
+	flex-wrap: wrap;
 	gap: 20px;
-	grid-template-areas:
-		"metric1 chart1  chart2 chart2"
-		"metric2 chart3 chart4 chart4";
 	width: 100%;
 	margin: 0 0;
 	height: max-content;
+
 }
 
 .dashboard-card {
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	text-align: center;
+	height: fit-content;
+	width: fit-content;
+	/* margin: auto; */
+
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
 .dashboard-card * {
