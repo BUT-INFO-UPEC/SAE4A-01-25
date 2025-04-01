@@ -20,11 +20,11 @@
 	</thead>
 	<tbody>
 		<?php foreach ($stations as $item) : ?>
-			<tr>
-				<td><?= $item['station_name'] ?></td>
-				<td><?= $item['ville_name'] ?></td>
-				<td><?= $item['dept_name'] ?></td>
-				<td><?= $item['region_name'] ?></td>
+			<tr onclick="window.location.href='<?= BASE_URL ?>?controller=ControllerGeneral&action=info_station&id=<?= $item['station_id'] ?>'">
+				<td><?= htmlspecialchars($item['station_name']) ?></td>
+				<td><?= htmlspecialchars($item['ville_name']) ?></td>
+				<td><?= htmlspecialchars($item['dept_name']) ?></td>
+				<td><?= htmlspecialchars($item['region_name']) ?></td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
@@ -34,13 +34,12 @@
 	// Activer DataTables sur le tableau
 	$(document).ready(function() {
 		$('#stations_table').DataTable({
-			// Options personnalisées si nécessaire
 			order: [
-				[0, 'asc'], // Tri par défaut sur la première colonne (Nom Station)
-			], // Pas de tri par défaut
+				[0, 'asc']
+			], // Tri par défaut sur la première colonne (Nom Station)
 			searching: true, // Activer la recherche
-			paging: false, // Activer la pagination
-			info: true, // Désactiver l'info sur le nombre d'éléments
+			paging: true, // Activer la pagination (changer à false si non souhaité)
+			info: false // Afficher le nombre d'éléments
 		});
 	});
 </script>

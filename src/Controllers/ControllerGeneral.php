@@ -5,9 +5,11 @@ namespace Src\Controllers;
 use Exception;
 use PDOException;
 use Src\Config\MsgRepository;
+use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
 use Src\Config\SessionManagement;
+use Src\Model\API\Requetteur_API;
 use Src\Model\Repository\DatabaseConnection;
 
 class ControllerGeneral extends AbstractController
@@ -191,6 +193,7 @@ class ControllerGeneral extends AbstractController
 		// Requête SQL corrigée avec les noms de tables corrects
 		$query = "
 			SELECT
+				s.id AS station_id,
 				s.name AS station_name,
 				v.name AS ville_name,
 				e.name AS epci_name,
@@ -211,4 +214,54 @@ class ControllerGeneral extends AbstractController
 
 		require('../src/Views/Template/views.php');
 	}
+
+	/**
+	 * Recupère les informations d'une station dans l'api pour les envoier en une variable
+	 * @param int $id
+	 * @return void
+	 */
+	public static function infoStation(int $id): array
+	{
+		// Requête SQL corrigée avec les noms de tables corrects
+		$requette = new Constructeur_Requette_API(
+			["all"],
+			["numer_sta=" . $id],
+			["numero_sta"],
+			"numero_sta",
+			"10000"
+		);
+		$station = Requetteur_API::fetchData($requette, "numer_sta", "nom_sta");
+		$station = $station[0];
+
+		// Vérification de l'existence de la station
+		if (empty($station)) {
+			MsgRepository::newError("Erreur", "Aucune station trouvée avec cet ID.");
+			return [];
+		}
+
+		return $station;
 	}
+
+	/**
+	 * Affiche la page d'information sur une station
+	 *
+	 * @param int $id
+	 * @return void
+	 */
+	// public static function info_station(): void
+	// {
+	// 	// Appel page
+	// 	$titrePage = "Informations sur la station";
+	// 	$cheminVueBody = "info_station.php";
+
+	// 	$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+	// 	// Récupération des informations de la station
+	// 	$station = self::infoStation($id);
+
+	// 	if (empty($station)) {
+	// 		return;
+	// 	}
+
+	// 	require('../src/Views/Template/views.php');
+	// }
+}
