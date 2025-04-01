@@ -46,11 +46,12 @@ hr {
 }
 
 .dashboard-card {
+	display: flex;
+	flex-direction: column;
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	/* aligne le centent au centre */
-	align-content: center;
 }
 
 .dashboard-card * {
@@ -58,41 +59,13 @@ hr {
 	margin: 0;
 }
 
-.chart1 {
-	grid-area: chart1;
-}
-
-.chart2 {
-	grid-area: chart2;
-}
-
-.chart3 {
-	grid-area: chart3;
-}
-
-.chart4 {
-	grid-area: chart4;
-}
-
-.metric1 {
-	grid-area: metric1;
-}
-
-.metric2 {
-	grid-area: metric2;
-}
-
 .dashboard-card h3 {
-	margin-top: 0;
 	color: #333;
 }
 
-.metric {
-	font-size: 2em;
-	font-weight: bold;
-	color: #0073e6;
+.tab_div::-webkit-scrollbar {
+	display: none;
 }
-
 
 .main {
 	width: 80vw;
