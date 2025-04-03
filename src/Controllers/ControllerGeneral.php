@@ -8,6 +8,7 @@ use Src\Config\MsgRepository;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
 use Src\Config\SessionManagement;
+use Src\Model\Repository\DatabaseConnection;
 
 class ControllerGeneral extends AbstractController
 {
@@ -22,7 +23,7 @@ class ControllerGeneral extends AbstractController
 	// =======================
 
 	/** Retourne une page d'accueil statique
-	 * 
+	 *
 	 * @return void
 	 */
 	static public function home(): void
@@ -47,11 +48,11 @@ class ControllerGeneral extends AbstractController
 	// =======================
 
 	/** Permet à l'utilisateur de se connecter
-	 * 
+	 *
 	 * Récupère les informations POST pour vérifier la correspondance a un utilisateur existant
-	 * 
+	 *
 	 * Redirige vers la dernière page visutée
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function connexion(): void
@@ -85,9 +86,9 @@ class ControllerGeneral extends AbstractController
 	}
 
 	/** Permet l'inscription d'un nouvel utilisateur dans la DBB
-	 * 
+	 *
 	 *  Redirige vers la page profil
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function inscription(): void
@@ -143,20 +144,23 @@ class ControllerGeneral extends AbstractController
 	}
 
 	/** Supprime l'utilisateur de la session
-	 * 
+	 *
 	 * Redirige vers la dernière page visitée
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function deconnexion(): void
 	{
 		// Suppression de la session utilisateur
-		session_unset();
+		$logs = $_SESSION['MSGs']["undying"];
+		session_unset(); // supprimer toutes les infos de session
+		session_start();
+		$_SESSION['MSGs']["undying"] = $logs; // récupérer les logs
 		MsgRepository::newSuccess("Déconnexion réussie !", "Vous etes maintenant déconnécté(e)");
 	}
 
 	/** Retourne la page d'information sur l'utilisateur connécté
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function profile(): void
@@ -172,4 +176,39 @@ class ControllerGeneral extends AbstractController
 		require('../src/Views/Template/views.php');
 	}
 	#endregion user
-}
+
+	/**
+	 * Affiche la liste des stations disponible dans l'api
+	 *
+	 * @return void
+	 */
+	public static function stations(): void
+	{
+		// Appel page
+		$titrePage = "Stations";
+		$cheminVueBody = "stations.php";
+
+		// Requête SQL corrigée avec les noms de tables corrects
+		$query = "
+			SELECT
+				s.name AS station_name,
+				v.name AS ville_name,
+				e.name AS epci_name,
+				d.name AS dept_name,
+				r.name AS region_name
+			FROM stations s
+			JOIN villes v ON s.ville_id = v.id
+			JOIN epcis e ON v.epci_id = e.id
+			JOIN depts d ON e.dept_id = d.id
+			JOIN regions r ON d.reg_id = r.id
+		";
+
+		try {
+			$stations = DatabaseConnection::executeQuery($query);
+		} catch (PDOException $e) {
+			die("Erreur SQL : " . $e->getMessage());
+		}
+
+		require('../src/Views/Template/views.php');
+	}
+	}
