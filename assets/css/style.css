@@ -54,6 +54,17 @@ hr {
 	/* aligne le centent au centre */
 }
 
+@media screen and (max-width: 768px) {
+	.dashboard-card {
+		width: 100%;
+	}
+
+	.dashboard-card table {
+		width: 100%;
+	}
+
+}
+
 .dashboard-card * {
 	padding: 0;
 	margin: 0;
