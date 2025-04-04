@@ -5,8 +5,9 @@ namespace Src\Model\DataObject;
 use DateTime;
 use Exception;
 use OutOfBoundsException;
-use Src\Config\LogInstance;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\SessionManagement;
+use Src\Config\Utils\Utils;
 
 /** Classe comportant les informations d'analyse des données météorologiques
  */
@@ -22,6 +23,7 @@ class Dashboard extends AbstractDataObject
 	private int $privatisation;
 	private array $composants = [];
 	private int $createurId;
+	private int $originalId;
 	private string $dateDebut;
 	private string $dateFin;
 	public bool $dateDebutRelatif;
@@ -34,15 +36,16 @@ class Dashboard extends AbstractDataObject
 	//      CONSTRUCTOR
 	// =======================
 
-	public function __construct(int $dashboard_id, int $privatisation, int $createurId, string $date_debut, string $date_fin, string $date_debut_relatif, string $date_fin_relatif, array $composants, array $critere_geo, array $param)
+	public function __construct(int $dashboard_id, int $privatisation, int $createurId, int $originalId, string $date_debut, string $date_fin, bool $date_debut_relatif, bool $date_fin_relatif, array $composants, array $critere_geo, array $param)
 	{
 		$this->dashboardId = $dashboard_id;
 		$this->privatisation = $privatisation;
 		$this->createurId = $createurId;
+		$this->originalId = $originalId;
 		$this->dateDebut = $date_debut;
 		$this->dateFin = $date_fin;
-		$this->dateDebutRelatif = $date_debut_relatif == '1';
-		$this->dateFinRelatif = $date_fin_relatif == '1';
+		$this->dateDebutRelatif = $date_debut_relatif;
+		$this->dateFinRelatif = $date_fin_relatif;
 		$this->params = $param;
 		$this->selectionGeo = $critere_geo;
 		$this->composants = $composants;
@@ -188,6 +191,10 @@ class Dashboard extends AbstractDataObject
 		$dateFin = $this->get_date_relative("fin");
 
 		return "(date >= '$dateDebut" . "' and date <= '" . $dateFin . "')";
+	}
+
+	public function get_original_dashboard_id(): int {
+		return $this->originalId;
 	}
 	#endregion getters
 
@@ -361,12 +368,25 @@ class Dashboard extends AbstractDataObject
 			":id" => $this->dashboardId,
 			":privatisation" => $this->privatisation,
 			':createur_id' => SessionManagement::getUser()->getId(),
+			':original_id' => $this->originalId,
 			":date_debut" => $this->get_date('debut'),
 			":date_fin" => $this->get_date('fin'),
 			":date_debut_relatif" => $this->dateDebutRelatif ? "True" :"False",
 			":date_fin_relatif" => $this->dateFinRelatif? "True" : "False",
-			":params" => $this->get_name()
+			":params" => json_encode($this->params)
 		];
+	}
+
+	public function __tostring(): string {
+		$comps = "[";
+		foreach ($this->composants as $comp) {
+			$comps .= $comp->__tostring();
+		}
+		$comps .= "]";
+		$geo = Utils::multi_implode($this->selectionGeo, ", ");
+		$params = Utils::multi_implode($this->params, ", ");
+
+		return "new Dashboard(" . ($this->dashboardId ?? 'null') . ", " .$this->privatisation . ", " . $this->createurId . ", " . $this->originalId . ", '" . $this->dateDebut . "', '" . $this->dateFin . "', " . $this->dateDebutRelatif . ", " . $this->dateFinRelatif . ", " . $params . ", " . $geo . ", " . $comps . ")";
 	}
 	#endregion Overides
 }

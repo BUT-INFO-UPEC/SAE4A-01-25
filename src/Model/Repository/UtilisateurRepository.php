@@ -3,7 +3,8 @@
 namespace Src\Model\Repository;
 
 use Src\Model\DataObject\Utilisateur;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\SessionManagement;
+use Src\Config\ServerConf\DatabaseConnection;
 
 class UtilisateurRepository extends AbstractRepository
 {
@@ -51,6 +52,7 @@ class UtilisateurRepository extends AbstractRepository
 
 	public function insertUser(Utilisateur $objet, string $mdp): int
 	{
+		SessionManagement::get_curent_log_instance()->new_DB_log("(new UtilisateurRepository)->insertUser(".$objet.", '" . $mdp . "');", "INSERT " . $objet->getPseudo());
 		$values = $objet->formatTableau();
 		$values[':utilisateur_mdp'] = $mdp;
 		return (int) $this->create($objet, $values);

@@ -73,5 +73,10 @@ class Aggregation extends AbstractDataObject
 			":id" => $this->get_id()
 		];
 	}
+
+	public function __toString()
+	{
+		return "new Aggregation(" . ($this->id ?? 'null') . ", '" . $this->nom . "', '" . $this->cle . "')";
+	}
 	#endregion Overides
 }

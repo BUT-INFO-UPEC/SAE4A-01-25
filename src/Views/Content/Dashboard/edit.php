@@ -2,7 +2,7 @@
 	<div id="edit-btns" style="position: sticky; top: 0; z-index: 100;">
 		<?php
 
-		use Src\Config\SessionManagement;
+		use Src\Config\Utils\SessionManagement;
 		use Src\Model\DataObject\Composant;
 
 		if (SessionManagement::getUser() != null && SessionManagement::getUser()->getId() == $dash->get_createur()) : ?>

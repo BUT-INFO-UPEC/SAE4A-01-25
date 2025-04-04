@@ -2,13 +2,13 @@
 
 namespace Src\Model\Repository;
 
-use Src\Config\LogInstance;
-use Src\Config\SessionManagement;
+use Src\Config\Utils\LogInstance;
+use Src\Config\Utils\SessionManagement;
 use Src\Model\DataObject\AbstractDataObject;
 use Src\Model\Repository\AbstractRepository;
 
 /**
- * classe pour les données qui sont juste des données
+ * Classe mettant en place le design patern singleton
  */
 abstract class AbstractRequestComponant extends AbstractRepository
 {
@@ -42,6 +42,8 @@ abstract class AbstractRequestComponant extends AbstractRepository
 
 		// Sinon, récupère l'objet depuis la base de données
 		$objet = $this->select($id);
+
+		SessionManagement::get_curent_log_instance()->new_log(var_export($objet, true));
 
 		// Stocke l'instance dans le cache de la classe
 		$this->setCache($id, $objet);  // Utilisation de static::$cache
@@ -88,7 +90,7 @@ abstract class AbstractRequestComponant extends AbstractRepository
 			// Marquer le cache comme complet
 			$this->setCache("full", true);  // Utilisation de static::$cache_full
 		}
-		// SessionManagement::get_curent_log_instance()->new_log("Taille mémoire du cache : " . strval($this->get_cache_size()));
+		SessionManagement::get_curent_log_instance()->new_log("Taille mémoire du cache : " . strval($this->get_cache_size()));
 		return $objet;
 	}
 	#endregion Publiques
