@@ -4,6 +4,7 @@ namespace Src\Model\Repository;
 
 use Exception;
 use PDOException;
+use Src\Config\LogInstance;
 use Src\Config\MsgRepository;
 use Src\Config\SessionManagement;
 use Src\Model\DataObject\Dashboard;
@@ -27,6 +28,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function arrayConstructor(array $objetFormatTableau): ?Dashboard
 	{
+		SessionManagement::get_curent_log_instance()->new_log("Instanciation du dashboard " . $objetFormatTableau['id']);
 		try {
 			$composants = $this->BuildComposants($objetFormatTableau['id']);
 			$criteres_geo = $this->BuildGeo($objetFormatTableau['id']);
@@ -71,7 +73,8 @@ class DashboardRepository extends AbstractRepository
 			$composantsId = DatabaseConnection::fetchAll($query, $values); // récupéraiton des id des composants du dashboard
 			$constructeur = new ComposantRepository();
 			$composants = [];
-			foreach ($composantsId as $compId) {
+			foreach ($composantsId as $index => $compId) {
+				SessionManagement::get_curent_log_instance()->new_log("Instanciation du composant " . $index + 1 . "/" . count($composantsId));
 				$composants[] = $constructeur->get_composant_by_id($compId['composant_id']);
 			}
 			return $composants;
@@ -137,6 +140,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function update_dashboard(Dashboard $dash)
 	{
+		SessionManagement::get_curent_log_instance()->new_log("Mise a jour du dashboard dans la BDD...");
 		try {
 			$this->update($dash, $dash->get_id());
 			$dashId = $dash->get_id();
@@ -144,18 +148,24 @@ class DashboardRepository extends AbstractRepository
 			$comp_repo = new ComposantRepository;
 			$new_comp_id_to_link = [];
 			// créer ou modifier les composants dans la BDD
-			foreach ($dash->get_composants() as $comp) {
+			foreach ($dash->get_composants() as $index => $comp) {
+				SessionManagement::get_curent_log_instance()->new_log("Mise a jour du composant " . $comp->get_id() . " : " . $index + 1 . "/" . count($dash->get_composants()));
 				$comp_repo->update_or_create_comp($comp, $dashId);
 			}
 
 			// supprimer les composants qui ne sont plus utilisés
 			$componantsToDelete = $_SESSION["componants_to_delete"];
-			foreach ($componantsToDelete as $compid) {
+			foreach ($componantsToDelete as $index => $compid) {
+				SessionManagement::get_curent_log_instance()->new_log("Suppréssion du lien du composant $compid : " . $index + count($dash->get_composants()) . "/" . count($dash->get_composants()) + count($componantsToDelete));
 				$comp_repo->try_delete($comp_repo->get_composant_by_id($compid));
 				$query = "DELETE from Composant_dashboard WHERE composant_id = :compId AND dashboard_id = :dashId";
 				$values = [":compId" => $compid, ":dashId" => $dashId];
 				DatabaseConnection::executeQuery($query, $values);
 			}
+
+			// supprimer les instances de CritereGeo_dashboard
+			// juste construire une requette SQL
+			SessionManagement::get_curent_log_instance()->new_log("Mise a jour complète");
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la mise à jour du dashboard", "Le dashboard n'a pas pu être mis à jour.\n" . $e->getMessage());
 		} catch (PDOException $e) {
@@ -165,6 +175,7 @@ class DashboardRepository extends AbstractRepository
 
 	public function save_new_dashboard(Dashboard $dash)
 	{
+		SessionManagement::get_curent_log_instance()->new_log("Enregistrement du dashboard dans la BDD...", LogInstance::IMPORTANT);
 		try {
 			$values = $dash->formatTableau();
 			$values[":createur_id"] = SessionManagement::getUser()->getId();
@@ -172,6 +183,7 @@ class DashboardRepository extends AbstractRepository
 			$dashId = (int) $this->create($dash, $values);
 
 			// enregistrer les liens critereGeo
+			SessionManagement::get_curent_log_instance()->new_log("Ajout des critères géographiques du dashboard");
 			foreach ($dash->get_region() as $type => $ids) {
 				$DB_type = DashboardRepository::REVERSE_TYPE_GEO[$type];
 				foreach ($ids as $value) {
@@ -182,10 +194,12 @@ class DashboardRepository extends AbstractRepository
 			}
 
 			// parcourir les composants et les enregistrés
-			foreach ($dash->get_composants() as $comp) {
+			foreach ($dash->get_composants() as $index => $comp) {
+				SessionManagement::get_curent_log_instance()->new_log("Enregistrement du composant " . $index + 1 . "/" . count($dash->get_composants()));
 				$compId = (new ComposantRepository)->save_new($comp, $dashId);
 			}
 
+			SessionManagement::get_curent_log_instance()->new_log("Dashboard enregistré", LogInstance::GREEN);
 			return $dashId;
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la sauvegarde du dashboard", "Le dashboard n'a pas pu être sauvegardé.\n" . $e->getMessage());
@@ -243,7 +257,7 @@ class DashboardRepository extends AbstractRepository
 	}
 	#endregion abstractRepo
 
-	private function buildPrivatisation(&$values, ?string $privatisation = null)
+	public function buildPrivatisation(&$values, ?string $privatisation = null)
 	{
 		try {
 			$values[":userId"] = SessionManagement::getUser() == null ? 0 : SessionManagement::getUser()->getId();
@@ -263,5 +277,30 @@ class DashboardRepository extends AbstractRepository
 			MsgRepository::newError("Erreur lors de la construction de la requête de visibilité", "La requête de visibilité n'a pas pu être construite.\n" . $e->getMessage());
 			return "";
 		}
+	}
+
+	public function filtre(?string $date_debut, ?string $date_fin, ?bool $privatisation): array
+	{
+		$conditions = [];
+		$params = [];
+
+		if (!empty($date_debut)) {
+			$conditions[] = "date_debut >= :date_debut";
+			$params['date_debut'] = $date_debut;
+		}
+		if (!empty($date_fin)) {
+			$conditions[] = "date_fin <= :date_fin";
+			$params['date_fin'] = $date_fin;
+		}
+		if ($privatisation !== null) { // Vérification explicite de null
+			$conditions[] = "privatisation = :privatisation";
+			$params['privatisation'] = (int) $privatisation; // Convertir booléen en entier (0 ou 1)
+		}
+
+		$query = "SELECT * FROM Dashboards";
+		if (!empty($conditions)) {
+			$query .= " WHERE " . implode(" AND ", $conditions);
+		}
+		return DatabaseConnection::fetchAll($query, $params);
 	}
 }

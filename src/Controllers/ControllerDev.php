@@ -3,12 +3,13 @@
 namespace Src\Controllers;
 
 use Exception;
+use Src\Config\LogInstance;
 use Src\Config\MsgRepository;
 use Src\Model\API\Requetteur_API;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\Repository\DatabaseConnection;
 
-class ControllerTests extends AbstractController
+class ControllerDev extends AbstractController
 {
 
 	static public function default(): void
@@ -18,17 +19,6 @@ class ControllerTests extends AbstractController
 
 	public static function testDash()
 	{
-		// try {
-		// 	// Appel de la méthode pour récupérer les données via l'API
-
-		// 	$requete = new Constructeur_Requette_API(
-		// 		["t"],
-		// 	);
-
-		// 	$data = Requetteur_API::fetchData($requete);
-		// } catch (Exception $e) {
-		// 	MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
-		// }
 		try {
 			// Appel de la méthode pour récupérer les données via l'API
 
@@ -38,7 +28,27 @@ class ControllerTests extends AbstractController
 				["MONTH(date)"],
 			);
 
-			$data2 = Requetteur_API::fetchData($requete, "MONTH(date)");
+			$data = Requetteur_API::fetchData($requete, "MONTH(date)");
+		} catch (Exception $e) {
+			MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
+		}
+
+		// Exploitation des données récupérées
+		$titrePage = "Test de récupération des données API";
+		$cheminVueBody = "test_dash.php";
+		require('../src/Views/Template/views.php');
+	}
+
+	public static function testAPI()
+	{
+		try {
+			// Appel de la méthode pour récupérer les données via l'API
+
+			$requete = new Constructeur_Requette_API(
+				["t"],
+			);
+
+			$data = Requetteur_API::fetchData($requete);
 		} catch (Exception $e) {
 			MsgRepository::newError("Erreur lors de la requette a la banque de donées de Météofrance", $e->getMessage(), MsgRepository::NO_REDIRECT);
 		}
@@ -67,7 +77,7 @@ class ControllerTests extends AbstractController
 
 	public static function developpement_log()
 	{
-		$titrePage = "Historique des messages";
+		$titrePage = "Journal des logs";
 		// Chemin vers la vue
 		$cheminVueBody = "log.php";
 		// Chargement du template principal
@@ -76,6 +86,7 @@ class ControllerTests extends AbstractController
 
 	public static function clear_log() {
 		unset($_SESSION['MSGs']["undying"]);
+		$_SESSION['MSGs']["undying"][] = new LogInstance("Log reset"); // réinitialiser le cache des logs pour la session en cours
 		MsgRepository::newWarning("Log éffacé", "Le log a été nétoyé.");
 	}
 }

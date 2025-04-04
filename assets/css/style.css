@@ -161,6 +161,11 @@ hr {
 	overflow: hidden;
 }
 
+.sidebar_container {
+	position: sticky;
+	top: 0;
+}
+
 h1,
 p {
 	margin-top: 20px;
@@ -235,7 +240,7 @@ p {
 	color: #0073e6;
 }
 
- /* classe pour transformer les liens en buttons */
+/* classe pour transformer les liens en buttons */
 .button {
 	background-color: #007bff;
 	color: white;
