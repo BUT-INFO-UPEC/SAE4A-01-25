@@ -86,3 +86,43 @@ DELETE dash1
 DashboardRepository::delete_dashboard(new Dashboard(17, 0, 3, 1, '0000-00-14', '0000-00-07', 1, 1, ['dash1'], ['numer_sta'=>[7139, 78925]], [new Composant(new Analysis(2, new Attribut(1, 'decimal ', 't', 'Température (K) ', 'K', 'Description manquante.', '303.45'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(12, 'TOTAL', '', ''), new Groupping(2, 'donnée textuelle', null, 'generate_text_representation.php')), ['titre'=>'coucou', 'chartId'=>0], 22)]));
 DELETE dash3
 DashboardRepository::delete_dashboard(new Dashboard(6, 0, 3, 3, '2017-04-06', '2018-04-06', , , ['dash3'], ['numer_sta'=>[7139, 78925]], [new Composant(new Analysis(1, new Attribut(1, 'decimal ', 't', 'Température (K) ', 'K', 'Description manquante.', '303.45'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(11, 'LISTE_STATIONS', 'geographique', 'numer_sta'), new Groupping(1, 'graphique circulaire', null, 'generate_pie_chart.php')), ['titre'=>'coucou', 'chartId'=>0], 8)new Composant(new Analysis(2, new Attribut(1, 'decimal ', 't', 'Température (K) ', 'K', 'Description manquante.', '303.45'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(12, 'TOTAL', '', ''), new Groupping(2, 'donnée textuelle', null, 'generate_text_representation.php')), ['titre'=>'coucou', 'chartId'=>1], 9)new Composant(new Analysis(4, new Attribut(1, 'decimal ', 't', 'Température (K) ', 'K', 'Description manquante.', '303.45'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(1, 'ANNEE', 'temporel', 'YEAR(date)'), new Groupping(1, 'graphique circulaire', null, 'generate_pie_chart.php')), ['titre'=>'Onglet 2', 'chartId'=>2], 10)new Composant(new Analysis(4, new Attribut(1, 'decimal ', 't', 'Température (K) ', 'K', 'Description manquante.', '303.45'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(1, 'ANNEE', 'temporel', 'YEAR(date)'), new Groupping(1, 'graphique circulaire', null, 'generate_pie_chart.php')), ['titre'=>'Onglet 3', 'chartId'=>3], 11)new Composant(new Analysis(4, new Attribut(1, 'decimal ', 't', 'Température (K) ', 'K', 'Description manquante.', '303.45'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(1, 'ANNEE', 'temporel', 'YEAR(date)'), new Groupping(1, 'graphique circulaire', null, 'generate_pie_chart.php')), ['titre'=>'Onglet 4', 'chartId'=>4], 12)]));
+
+-----
+
+Nouvelle session : 2025-04-07 15:58:25
+
+-----
+
+Nouvelle session : 2025-04-07 15:58:30
+
+-----
+
+Nouvelle session : 2025-04-07 15:58:32
+
+-----
+
+Nouvelle session : 2025-04-07 15:58:44
+
+-----
+
+Nouvelle session : 2025-04-07 15:58:48
+
+-----
+
+Nouvelle session : 2025-04-07 15:58:52
+
+-----
+
+Nouvelle session : 2025-04-07 15:59:10
+
+-----
+
+Nouvelle session : 2025-04-07 16:01:08
+
+-----
+
+Nouvelle session : 2025-04-07 16:01:32
+
+-----
+
+Nouvelle session : 2025-04-07 16:04:46
