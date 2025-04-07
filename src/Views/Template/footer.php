@@ -18,7 +18,7 @@
 
 		<div class="footer-content">
 			<h3>NOUS REJOINDRE</h3>
-			<a href="https://github.com/MrcotinSol/SAE.git" target="github">GitHub</a>
+			<a href="https://github.com/BUT-INFO-UPEC/SAE4A-01-25" target="github">GitHub</a>
 		</div>
 
 		<div class="footer-content">
