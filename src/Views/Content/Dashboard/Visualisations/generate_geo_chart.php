@@ -1,29 +1,37 @@
-<div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
-	<?php
-	?>
+<div class='dashboard-card' id='comp<?= $params['chartId'] ?>'> 
+    <h4><?= htmlspecialchars($params['titre']) ?></h4>
 
-	<script type='text/javascript'>
-		window.onload = function() {
-			setTimeout(function() {
-				google.charts.setOnLoadCallback(function() {
-					var rawData = <?= json_encode($data) ?>;
-					console.log("Données envoyées à Google Charts:", rawData);
-					var data = google.visualization.arrayToDataTable(rawData);
-					console.log("Données interprétées par Google Charts:", data);
+    <!-- Conteneur pour la carte -->
+    <div id="map<?= $params['chartId'] ?>" style="height: 300px; border-radius: 10px;"></div>
 
-					var options = {
-						title: <?= json_encode($params['titre']) ?>, 
-						fontName: 'Poppons'
-						region: <?= json_encode($params['region'] ?? 'FR') ?>, 
-					};
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+	<pre><?php var_dump($data); ?></pre>
+	<pre><?php var_dump($valeur); ?></pre>
 
-					var chart = new google.visualization.GeoChart(document.getElementById('comp<?= $params['chartId'] ?>'));
 
-					console.log(options);
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var rawData = <?= json_encode($data) ?>;
+            console.log("Données reçues:", rawData);
 
-					chart.draw(data, options);
-				});
-			}, 1000); // Attendre un peu pour s'assurer que la taille est correcte
-		}
-	</script>
+            var lat = rawData["lat"] !== undefined ? rawData["lat"] : null;
+            var lon = rawData["lon"] !== undefined ? rawData["lon"] : null;
+
+            if (lat !== null && lon !== null) {
+                var map = L.map("map<?= $params['chartId'] ?>").setView([lat, lon], 13);
+
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: "&copy; OpenStreetMap contributors"
+                }).addTo(map);
+
+                L.marker([lat, lon]).addTo(map)
+                    .bindPopup("Station ici !")
+                    .openPopup();
+            } else {
+                document.getElementById("map<?= $params['chartId'] ?>").innerHTML = "<p style='text-align:center; padding: 50px;'>Coordonnées non disponibles</p>";
+            }
+        });
+    </script>
 </div>
