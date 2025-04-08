@@ -7,9 +7,9 @@
 			max-width: 600px;
 		}
 	</style>
-	<div class="d-flex justify-content-center align-items-center h-100">
+	<div class="d-flex justify-content-center align-items-center h-100 ">
 		<div class="tab_div">
-			<table class="table table-bordered table-striped-columns table-responsive">
+			<table class="table table-bordered table-striped-columns">
 
 				<tbody>
 					<?php

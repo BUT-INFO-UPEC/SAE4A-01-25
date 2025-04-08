@@ -1,4 +1,4 @@
-<hr>
+
 <nav class="header-menu">
 	<a href="<?= CONTROLLER_URL ?>?controller=ControllerGeneral" class="nav-link"> Accueil </a>
 
@@ -13,5 +13,3 @@
 	<?php endif; ?>
 	<a href="<?= CONTROLLER_URL ?>?controller=ControllerGeneral&action=tuto" class="nav-link"> Tutoriel </a>
 </nav>
-<hr>
-
