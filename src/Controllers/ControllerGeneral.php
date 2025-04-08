@@ -4,20 +4,14 @@ namespace Src\Controllers;
 
 use Exception;
 use PDOException;
-<<<<<<< HEAD
+use Src\Config\ServerConf\DatabaseConnection;
 use Src\Config\Utils\MsgRepository;
-use Src\Model\DataObject\Utilisateur;
-use Src\Model\Repository\UtilisateurRepository;
 use Src\Config\Utils\SessionManagement;
-=======
-use Src\Config\MsgRepository;
 use Src\Model\API\Constructeur_Requette_API;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
-use Src\Config\SessionManagement;
 use Src\Model\API\Requetteur_API;
-use Src\Model\Repository\DatabaseConnection;
->>>>>>> Visualisation-v2
+
 
 class ControllerGeneral extends AbstractController
 {
@@ -84,7 +78,7 @@ class ControllerGeneral extends AbstractController
 			UtilisateurRepository::updateNbConn();
 
 			MsgRepository::newSuccess("Connexion réussie.", "", MsgRepository::LAST_PAGE);
-				
+
 			} else {
 				MsgRepository::newError("Utilisateur introuvable.", "Identifiants incorrects.");
 			}
