@@ -73,12 +73,11 @@ class ControllerGeneral extends AbstractController
 			$user = (new UtilisateurRepository)->getUserByMailMdp($email, $mdp);
 
 			if ($user !== null) {
-			$_SESSION['user'] = $user;
+				$_SESSION['user'] = $user;
 
-			UtilisateurRepository::updateNbConn();
+				UtilisateurRepository::updateNbConn();
 
-			MsgRepository::newSuccess("Connexion réussie.", "", MsgRepository::LAST_PAGE);
-
+				MsgRepository::newSuccess("Connexion réussie.", "", MsgRepository::LAST_PAGE);
 			} else {
 				MsgRepository::newError("Utilisateur introuvable.", "Identifiants incorrects.");
 			}
@@ -247,25 +246,32 @@ class ControllerGeneral extends AbstractController
 	/**
 	 * Affiche la page d'information sur une station
 	 *
-	 * @param int $id
 	 * @return void
 	 */
-	// public static function info_station(): void
-	// {
-	// 	// Appel page
-	// 	$titrePage = "Informations sur la station";
-	// 	$cheminVueBody = "info_station.php";
+	public static function info_station(): void
+	{
+		try {
+			if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+				MsgRepository::newError("ID manquant ou invalide", "Aucune station sélectionnée.");
+				return;
+			}
 
-	// 	$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
-	// 	// Récupération des informations de la station
-	// 	$station = self::infoStation($id);
+			$id = (int)$_GET['id'];
 
-	// 	if (empty($station)) {
-	// 		return;
-	// 	}
+			$station = self::infoStation($id);
 
-	// 	require('../src/Views/Template/views.php');
-	// }
+			if (empty($station)) {
+				return; // La méthode infoStation gère déjà l'erreur
+			}
+
+			$titrePage = "Informations sur la station";
+			$cheminVueBody = "info_station.php";
+
+			require('../src/Views/Template/views.php');
+		} catch (Exception $e) {
+			MsgRepository::newError("Erreur lors du chargement de la station", $e->getMessage());
+		}
+	}
 	#endregion
 
 	public static function tuto(): void
