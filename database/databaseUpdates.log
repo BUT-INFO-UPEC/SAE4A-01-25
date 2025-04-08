@@ -166,3 +166,7 @@ CREATE bonjoir
 DashboardRepository::save_new_dashboard(new Dashboard(1, 0, 0, 1, '0000-00-14', '0000-00-07', 1, 1, ['bonjoir', ''], ['numer_sta'=>[7139, 78925]], [new Composant(new Analysis(null, new Attribut(1, 'decimal ', 't', 'Température (K) ', 'K', 'Description manquante.', '303.45'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(12, 'TOTAL', '', ''), new Groupping(2, 'donnée textuelle', null, 'generate_text_representation.php')), ['titre'=>'Composant 1', 'chartId'=>0], 1)]));
 UPDATE bonjoir
 DashboardRepository::upadte_dashboard(new Dashboard(18, 0, 2, 1, '2020-01-14', '2021-01-14', , , ['bonjoir', ''], ['numer_sta'=>[7139, 78925]], [new Composant(new Analysis(null, new Attribut(1, 'decimal ', 't', 'Température (K) ', 'K', 'Description manquante.', '303.45'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(12, 'TOTAL', '', ''), new Groupping(2, 'donnée textuelle', null, 'generate_text_representation.php')), ['titre'=>'Composant 1', 'chartId'=>0], 23)new Composant(new Analysis(null, new Attribut(6, 'int', 'dd', 'degré', ' valeur unitaire', 'Description manquante.', '110'), new Aggregation(1, 'Moyenne', 'avg'), new Groupping(11, 'LISTE_STATIONS', 'geographique', 'numer_sta'), new Groupping(1, 'graphique circulaire', null, 'generate_pie_chart.php')), ['titre'=>'Composant 2', 'chartId'=>1], null)]));
+
+-----
+
+Nouvelle session : 2025-04-08 16:19:31

@@ -1,4 +1,4 @@
-<div class='dashboard-card' id='comp<?= $params['chartId'] ?>'> 
+<div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
     <h4><?= htmlspecialchars($params['titre']) ?></h4>
 
     <!-- Conteneur pour la carte -->
@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 	<pre><?php var_dump($data); ?></pre>
-	<pre><?php var_dump($valeur); ?></pre>
 
 
     <script>
@@ -16,8 +15,8 @@
             var rawData = <?= json_encode($data) ?>;
             console.log("Données reçues:", rawData);
 
-            var lat = rawData["lat"] !== undefined ? rawData["lat"] : null;
-            var lon = rawData["lon"] !== undefined ? rawData["lon"] : null;
+            var lat = rawData[2] !== undefined ? rawData["lat"] : null;
+            var lon = rawData[3] !== undefined ? rawData["lon"] : null;
 
             if (lat !== null && lon !== null) {
                 var map = L.map("map<?= $params['chartId'] ?>").setView([lat, lon], 13);
