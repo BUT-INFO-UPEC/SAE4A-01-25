@@ -1,5 +1,5 @@
 <div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
-	<h4><?= htmlspecialchars($params['titre']) ?></h4>
+	<h4><?= htmlspecialchars(string: $params['titre']) ?></h4>
 	<!-- Canvas pour le graphique -->
 	<div class="d-flex justify-content-center align-items-center h-100">		<canvas id="chart<?= $params['chartId'] ?>" class="composant_componenent"></canvas>
 

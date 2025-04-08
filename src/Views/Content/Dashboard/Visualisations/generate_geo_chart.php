@@ -1,36 +1,60 @@
-<div class='dashboard-card' id='comp<?= $params['chartId'] ?>'>
-    <h4><?= htmlspecialchars($params['titre']) ?></h4>
+<div class="dashboard-card">
+	<h4>
+	<?= htmlspecialchars($params['titre']) ?>
+	</h4>
 
-    <!-- Conteneur pour la carte -->
-    <div id="map<?= $params['chartId'] ?>" style="height: 300px; border-radius: 10px;"></div>
+<style>
+	.leaf{
+		width: 400px;
 
-    <!-- Leaflet CSS & JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-	<pre><?php var_dump($data); ?></pre>
+	}
+</style>
+	<div class="leaf">
 
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var rawData = <?= json_encode($data) ?>;
-            console.log("Données reçues:", rawData);
+		<div id="map-station" style="height: 400px; border-radius: 10px;"></div>
 
-            var lat = rawData[2] !== undefined ? rawData["lat"] : null;
-            var lon = rawData[3] !== undefined ? rawData["lon"] : null;
+	</div>
+	<!-- Leaflet CSS & JS -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 
-            if (lat !== null && lon !== null) {
-                var map = L.map("map<?= $params['chartId'] ?>").setView([lat, lon], 13);
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			// Données PHP
+			const rawData = <?= json_encode($data) ?>;
+			console.log("Données brutes:", rawData);
 
-                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                    attribution: "&copy; OpenStreetMap contributors"
-                }).addTo(map);
+			// Extraction des clés depuis la première ligne
+			const headers = rawData[0];
 
-                L.marker([lat, lon]).addTo(map)
-                    .bindPopup("Station ici !")
-                    .openPopup();
-            } else {
-                document.getElementById("map<?= $params['chartId'] ?>").innerHTML = "<p style='text-align:center; padding: 50px;'>Coordonnées non disponibles</p>";
-            }
-        });
-    </script>
+			// Construction d'un tableau d'objets à partir des lignes suivantes
+			const stations = rawData.slice(1).map(row => {
+				const station = {};
+				headers.forEach((key, i) => {
+					station[key] = row[i];
+				});
+				return station;
+			});
+
+			console.log("Stations formatées:", stations);
+
+			// Initialisation de la carte (centrée sur la première station)
+			const map = L.map("map-station").setView([stations[0].lat, stations[0].lon], 5);
+
+			L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+				attribution: "&copy; OpenStreetMap contributors"
+			}).addTo(map);
+
+			// Ajout des marqueurs
+			stations.forEach(station => {
+				const tempC = (station.Moyenne_Temperature_K - 273.15).toFixed(1);
+				L.marker([station.lat, station.lon]).addTo(map)
+					.bindPopup(`
+                        <strong>Station ${station.numer_sta}</strong><br>
+                        Température moyenne : ${tempC}
+                    `);
+			});
+		});
+	</script>
 </div>
