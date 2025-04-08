@@ -8,6 +8,7 @@ use Src\Config\ServerConf\DatabaseConnection;
 use Src\Config\Utils\MsgRepository;
 use Src\Config\Utils\SessionManagement;
 use Src\Model\API\Constructeur_Requette_API;
+use Src\Model\DataObject\Composant;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
 use Src\Model\API\Requetteur_API;
@@ -227,11 +228,11 @@ class ControllerGeneral extends AbstractController
 		$requette = new Constructeur_Requette_API(
 			["all"],
 			["numer_sta=" . $id],
-			["numero_sta"],
-			"numero_sta",
+			["numer _sta"],
+			"numer _sta",
 			"10000"
 		);
-		$station = Requetteur_API::fetchData($requette, "numer_sta", "nom_sta");
+		$station = Requetteur_API::fetchData($requette, "numer_sta", "numer_sta");
 		$station = $station[0];
 
 		// Vérification de l'existence de la station
