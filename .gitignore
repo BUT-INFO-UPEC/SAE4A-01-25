@@ -1,4 +1,8 @@
 .venv
+<<<<<<< HEAD
 src/Config/Config/ServerParameters.php
 database/DATABASE.db
 database/databaseUpdates.log
+=======
+.ignore
+>>>>>>> Visualisation-v2

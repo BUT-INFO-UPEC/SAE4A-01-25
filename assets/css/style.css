@@ -36,23 +36,33 @@ hr {
 }
 
 #dashboard {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: auto;
-	gap: 20px;
-	grid-template-areas:
-		"metric1 chart1  chart2 chart2"
-		"metric2 chart3 chart4 chart4";
 	width: 100%;
 	margin: 0 0;
 	height: max-content;
+	/* Utilisation de max-content pour ajuster la hauteur */
+	justify-content: center;
+	/* Centrer le contenu */
+
 }
 
 .dashboard-card {
+	display: flex;
+	flex-direction: column;
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	text-align: center;
+	/* aligne le centent au centre */
+}
+
+@media screen and (max-width: 768px) {
+	.dashboard-card {
+		width: 100%;
+	}
+
+	.dashboard-card table {
+		width: 100%;
+	}
+
 }
 
 .dashboard-card * {
@@ -60,64 +70,12 @@ hr {
 	margin: 0;
 }
 
-.chart1 {
-	grid-area: chart1;
-}
-
-.chart2 {
-	grid-area: chart2;
-}
-
-.chart3 {
-	grid-area: chart3;
-}
-
-.chart4 {
-	grid-area: chart4;
-}
-
-.metric1 {
-	grid-area: metric1;
-}
-
-.metric2 {
-	grid-area: metric2;
-}
-
 .dashboard-card h3 {
-	margin-top: 0;
 	color: #333;
 }
 
-.metric {
-	font-size: 2em;
-	font-weight: bold;
-	color: #0073e6;
-}
-
-@media (max-width: 768px) {
-	.dashboard {
-		grid-template-columns: 1fr 1fr;
-		grid-template-areas:
-			"overview overview"
-			"metric1 metric2"
-			"chart1 chart2"
-			"chart3 chart4";
-	}
-}
-
-@media (max-width: 480px) {
-	.dashboard {
-		grid-template-columns: 1fr;
-		grid-template-areas:
-			"overview"
-			"metric1"
-			"metric2"
-			"chart1"
-			"chart2"
-			"chart3"
-			"chart4";
-	}
+.tab_div::-webkit-scrollbar {
+	display: none;
 }
 
 .main {
@@ -301,18 +259,4 @@ p {
 /* définir la taille min et max pour les listes de stations */
 .scroll-list {
 	min-height: 10vh;
-}
-
-/* Styles des logs (content/dev/log */
-.log {
-	margin: 10px;
-}
-.log * {
-	margin: 0;
-	padding: 0;
-}
-
-.log_line {
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
 }

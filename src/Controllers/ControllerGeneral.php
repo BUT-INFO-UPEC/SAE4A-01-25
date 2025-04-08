@@ -4,10 +4,20 @@ namespace Src\Controllers;
 
 use Exception;
 use PDOException;
+<<<<<<< HEAD
 use Src\Config\Utils\MsgRepository;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
 use Src\Config\Utils\SessionManagement;
+=======
+use Src\Config\MsgRepository;
+use Src\Model\API\Constructeur_Requette_API;
+use Src\Model\DataObject\Utilisateur;
+use Src\Model\Repository\UtilisateurRepository;
+use Src\Config\SessionManagement;
+use Src\Model\API\Requetteur_API;
+use Src\Model\Repository\DatabaseConnection;
+>>>>>>> Visualisation-v2
 
 class ControllerGeneral extends AbstractController
 {
@@ -22,7 +32,7 @@ class ControllerGeneral extends AbstractController
 	// =======================
 
 	/** Retourne une page d'accueil statique
-	 * 
+	 *
 	 * @return void
 	 */
 	static public function home(): void
@@ -47,11 +57,11 @@ class ControllerGeneral extends AbstractController
 	// =======================
 
 	/** Permet à l'utilisateur de se connecter
-	 * 
+	 *
 	 * Récupère les informations POST pour vérifier la correspondance a un utilisateur existant
-	 * 
+	 *
 	 * Redirige vers la dernière page visutée
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function connexion(): void
@@ -86,9 +96,9 @@ class ControllerGeneral extends AbstractController
 	}
 
 	/** Permet l'inscription d'un nouvel utilisateur dans la DBB
-	 * 
+	 *
 	 *  Redirige vers la page profil
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function inscription(): void
@@ -144,9 +154,9 @@ class ControllerGeneral extends AbstractController
 	}
 
 	/** Supprime l'utilisateur de la session
-	 * 
+	 *
 	 * Redirige vers la dernière page visitée
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function deconnexion(): void
@@ -160,7 +170,7 @@ class ControllerGeneral extends AbstractController
 	}
 
 	/** Retourne la page d'information sur l'utilisateur connécté
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function profile(): void
@@ -175,6 +185,93 @@ class ControllerGeneral extends AbstractController
 		$user = $_SESSION['user'];
 		require('../src/Views/Template/views.php');
 	}
+	#endregion user
+
+	/**
+	 * Affiche la liste des stations disponible dans l'api
+	 *
+	 * @return void
+	 */
+	public static function stations(): void
+	{
+		// Appel page
+		$titrePage = "Stations";
+		$cheminVueBody = "stations.php";
+
+		// Requête SQL corrigée avec les noms de tables corrects
+		$query = "
+			SELECT
+				s.id AS station_id,
+				s.name AS station_name,
+				v.name AS ville_name,
+				e.name AS epci_name,
+				d.name AS dept_name,
+				r.name AS region_name
+			FROM stations s
+			JOIN villes v ON s.ville_id = v.id
+			JOIN epcis e ON v.epci_id = e.id
+			JOIN depts d ON e.dept_id = d.id
+			JOIN regions r ON d.reg_id = r.id
+		";
+
+		try {
+			$stations = DatabaseConnection::executeQuery($query);
+		} catch (PDOException $e) {
+			die("Erreur SQL : " . $e->getMessage());
+		}
+
+		require('../src/Views/Template/views.php');
+	}
+
+	/**
+	 * Recupère les informations d'une station dans l'api pour les envoier en une variable
+	 * @param int $id
+	 * @return void
+	 */
+	public static function infoStation(int $id): array
+	{
+		// Requête SQL corrigée avec les noms de tables corrects
+		$requette = new Constructeur_Requette_API(
+			["all"],
+			["numer_sta=" . $id],
+			["numero_sta"],
+			"numero_sta",
+			"10000"
+		);
+		$station = Requetteur_API::fetchData($requette, "numer_sta", "nom_sta");
+		$station = $station[0];
+
+		// Vérification de l'existence de la station
+		if (empty($station)) {
+			MsgRepository::newError("Erreur", "Aucune station trouvée avec cet ID.");
+			return [];
+		}
+
+		return $station;
+	}
+
+	/**
+	 * Affiche la page d'information sur une station
+	 *
+	 * @param int $id
+	 * @return void
+	 */
+	// public static function info_station(): void
+	// {
+	// 	// Appel page
+	// 	$titrePage = "Informations sur la station";
+	// 	$cheminVueBody = "info_station.php";
+
+	// 	$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+	// 	// Récupération des informations de la station
+	// 	$station = self::infoStation($id);
+
+	// 	if (empty($station)) {
+	// 		return;
+	// 	}
+
+	// 	require('../src/Views/Template/views.php');
+	// }
 	#endregion
 
 	public static function tuto(): void
