@@ -25,9 +25,7 @@ $controller = $_SESSION['controller'];
 <body ng-app="myApp" ng-controller="myCtrl">
 	<?php require __DIR__ . "/Header.php"; ?>
 
-	<div class="slim-list">
-		<?php require __DIR__ . "/navDev.php"; ?>
-	</div>
+	<?php require __DIR__ . "/Popups/navDev.php"; ?>
 
 	<div class="flex main-container">
 		<?php if (isset($_SESSION['user']))  require __DIR__ . "/Popups/Sidebar.php"; ?>

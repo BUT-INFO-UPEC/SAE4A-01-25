@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Config;
+namespace Src\Config\Utils;
 
 /**
  * Utility class for managing session messages.

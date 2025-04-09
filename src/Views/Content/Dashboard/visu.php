@@ -51,7 +51,7 @@
 		});
 	</script>
 
-	<div id='dashboard'>
+	<div id='dashboard' class="d-flex flex-wrap gap-4">
 		<?php
 		foreach ($dash->get_composants() as $composant) { // parcourir les composants
 			// récupérer les données de paramétrage et de visualisation
