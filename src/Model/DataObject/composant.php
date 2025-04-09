@@ -56,7 +56,8 @@ class Composant extends AbstractDataObject
 		return $this->id;
 	}
 
-	public function get_analysis(): Analysis {
+	public function get_analysis(): Analysis
+	{
 		return $this->analysis;
 	}
 
@@ -225,7 +226,12 @@ class Composant extends AbstractDataObject
 		$requette = new Constructeur_Requette_API($params['select'], $params['where'], $params['group_by']);
 
 		// Envoyer la requette a l'API
-		$data = Requetteur_API::fetchData($requette, $keyValueSort, $this->keyTargetValue, ($this->get_grouping()->get_cle() == '' ? 'total' : null));
+		$data = Requetteur_API::fetchData(
+			$requette,
+			$keyValueSort,
+			$this->keyTargetValue,
+			($this->get_grouping()->get_cle() == '' ? 'total' : null)
+		);
 		$geo_file = $this->get_visu_file() == "generate_geo_chart.php";
 		// Formater les donénes de l'API pour utilisation simplifiée coté génération de la visualisation (structure csv)
 		if ($this->get_grouping()->get_cle() != '') {
@@ -247,8 +253,6 @@ class Composant extends AbstractDataObject
 					$var[] = $station['latitude'];
 				}
 				$formattedData[] = $var;
-
-
 			}
 			$data = $formattedData;
 		}
@@ -324,10 +328,11 @@ class Composant extends AbstractDataObject
 		];
 	}
 
-	public function __tostring(): string {
+	public function __tostring(): string
+	{
 		$p = Utils::multi_implode($this->params, ", ");
 
-		return "new Composant(" . $this->analysis->__tostring() .", ". $p . ", " . ($this->id ?? 'null') . ")";
+		return "new Composant(" . $this->analysis->__tostring() . ", " . $p . ", " . ($this->id ?? 'null') . ")";
 	}
 	#endregion Overides
 }

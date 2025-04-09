@@ -67,10 +67,11 @@ class Requetteur_API
 		// MsgRepository::Debug(var: $url);
 
 		$options = [
-			CURLOPT_URL							=> $url,
+			CURLOPT_URL	=> $url,
 			CURLOPT_RETURNTRANSFER	=> true,
-			CURLOPT_SSL_OPTIONS			=> CURLSSLOPT_NATIVE_CA,
+			CURLOPT_SSL_OPTIONS	=> CURLSSLOPT_NATIVE_CA,
 			CURLOPT_TIMEOUT => 10,
+			CURLOPT_CONNECTTIMEOUT => 10,
 		];
 		curl_setopt_array($ch, $options);
 		$response = curl_exec($ch);

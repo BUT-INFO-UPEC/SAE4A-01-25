@@ -87,21 +87,21 @@ class ControllerGeneral extends AbstractController
 	 */
 	public static function infoStation(int $id): array
 	{
+		$valueInValue = str_pad($id, 5, "0", STR_PAD_LEFT);
+		$valueInValue = "'" . $valueInValue . "'";
 		$requette = new Constructeur_Requette_API(
-			["*"],
-			["numer_sta=" . (int)$id],
-			[],
-			"numer_sta"
+			["numer_sta"],
+			["numer_sta=" . $valueInValue]
 		);
 
-		$stations = Requetteur_API::fetchData($requette, "numer_sta", "nom_sta");
+		$stations = Requetteur_API::fetchData($requette);
 
 		if (empty($stations)) {
 			MsgRepository::newError("Erreur", "Aucune station trouvée avec cet ID.");
 			return [];
 		}
 
-		return $stations[0];
+		return $stations[1];
 	}
 
 	/**
