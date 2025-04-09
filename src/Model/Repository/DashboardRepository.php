@@ -347,7 +347,7 @@ class DashboardRepository extends AbstractRepository
 		$attribut2 = 42; // précipitations 24H
 		$aggregation2 = 2; // max
 		$groupping2 = 6; // Jour
-		$representation2 = 1; // graphique circulaire
+		$representation2 = 4; // 
 		$liste_composants[] = new Composant(
 			new Analysis(
 				null,
