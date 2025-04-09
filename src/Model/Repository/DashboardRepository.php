@@ -222,7 +222,7 @@ class DashboardRepository extends AbstractRepository
 				foreach ($dash->get_composants() as $item) {
 					$compo->try_delete($item);
 				}
-				$dash->setId(null);
+				$dash->setId($dash->get_original_dashboard_id());
 				return $dash;
 			} catch (PDOException $e) {
 				MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
