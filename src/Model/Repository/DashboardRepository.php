@@ -222,7 +222,7 @@ class DashboardRepository extends AbstractRepository
 				foreach ($dash->get_composants() as $item) {
 					$compo->try_delete($item);
 				}
-				$dash->setId(null);
+				$dash->setId($dash->get_original_dashboard_id());
 				return $dash;
 			} catch (PDOException $e) {
 				MsgRepository::newError("Erreur lors de la suppression du dashboard", "Le dashboard n'a pas pu être supprimé.\n" . $e->getMessage());
@@ -324,11 +324,13 @@ class DashboardRepository extends AbstractRepository
 		$aggregationConstructor = new AggregationRepository();
 		$grouppintConstructor = new GrouppingRepository();
 		$representationConstructor = new RepresentationRepository();
+		$liste_composants = [];
+
+		// composant 1
 		$attribut1 = 64; //température °C
-		$aggregation1 = 1;
+		$aggregation1 = 1; // moy
 		$groupping1 = 12; // TOTAL
 		$representation1 = 2; // donnée textuelle
-		$liste_composants = [];
 		$liste_composants[] = new Composant(
 			new Analysis(
 				null,
@@ -338,6 +340,23 @@ class DashboardRepository extends AbstractRepository
 				$representationConstructor->get_representation_by_id($representation1)
 			),
 			['titre'=>'Moyenne des températures', 'chartId'=>1],
+			null
+		);
+
+		// composant 2
+		$attribut2 = 42; // précipitations 24H
+		$aggregation2 = 2; // max
+		$groupping2 = 6; // Jour
+		$representation2 = 4; // courbe
+		$liste_composants[] = new Composant(
+			new Analysis(
+				null,
+				$attributsConstructor->get_attribut_by_id($attribut2),
+				$aggregationConstructor->get_aggregation_by_id($aggregation2),
+				$grouppintConstructor->get_groupping_by_id($groupping2),
+				$representationConstructor->get_representation_by_id($representation2)
+			),
+			['titre'=>'Maximum des précipitations par jour', 'chartId'=>2],
 			null
 		);
 		$dash = new Dashboard(
@@ -350,8 +369,8 @@ class DashboardRepository extends AbstractRepository
 			true,
 			true,
 			$liste_composants,
-			["numer_sta" => $sta_id],
-			["titre" => "dashboard station"]
+			["numer_sta" => [$sta_id]],
+			["Données de la station sur la semaine"]
 		);
 		return $dash;
 	}

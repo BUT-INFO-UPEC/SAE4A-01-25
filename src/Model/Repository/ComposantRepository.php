@@ -25,7 +25,7 @@ class ComposantRepository extends AbstractRepository
 		if ($composant->get_id() != null) { // Si le composant existe, le mettre a jour
 			(new AnalysisRepository)->try_create($composant->get_analysis());
 			$this->update($composant, $composant->get_id());
-			return null;
+			return $composant->get_id();
 		} else { // ajouter le composant a la BDD et récupérer l'ID
 			return $this->save_new($composant, $dashId);
 		}

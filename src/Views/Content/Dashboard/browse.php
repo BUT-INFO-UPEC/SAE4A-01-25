@@ -60,7 +60,7 @@
 <ul class="list-dash">
 	<?php foreach ($dashboards as $dash): ?>
 		<?php $lien = CONTROLLER_URL . "?controller=ControllerDashboard&action=visu_dashboard&dashId=" . $dash->get_id();
-		$lien2 = "?action=edit&dashId=" . $dash->get_id() ?>
+		$lien2 = "?controller=ControllerDashboard&action=edit&dashId=" . $dash->get_id() ?>
 		<li class="card">
 			<div class="dash">
 				<p><?= htmlspecialchars($dash->get_name()) ?></p>

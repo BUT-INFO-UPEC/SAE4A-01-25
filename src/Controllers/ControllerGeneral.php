@@ -90,18 +90,18 @@ class ControllerGeneral extends AbstractController
 		$valueInValue = str_pad($id, 5, "0", STR_PAD_LEFT);
 		$valueInValue = "'" . $valueInValue . "'";
 		$requette = new Constructeur_Requette_API(
-			["numer_sta"],
-			["numer_sta=" . $valueInValue]
+			["numer_sta", "nom", "libgeo", "nom_epci", "nom_dept"],
+			["numer_sta=" . $valueInValue],
 		);
 
-		$stations = Requetteur_API::fetchData($requette);
+		$stations = Requetteur_API::fetchData($requette, '', '', null, 1);
 
 		if (empty($stations)) {
 			MsgRepository::newError("Erreur", "Aucune station trouvée avec cet ID.");
 			return [];
 		}
 
-		return $stations[1];
+		return $stations[0];
 	}
 
 	/**
@@ -117,6 +117,7 @@ class ControllerGeneral extends AbstractController
 		// Récupération des informations de la station
 		$station = self::infoStation($id);
 		$dash = DashboardRepository::build_sta_dash($id);
+		$dash->buildData();
 
 		// Appel page
 		$titrePage = "Informations sur la station";
