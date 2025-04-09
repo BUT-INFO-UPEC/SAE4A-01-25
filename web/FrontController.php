@@ -40,11 +40,8 @@ if (isset($_COOKIE['acceptationCookies'])) {
 		session_start();
 		// echo $_SESSION['login'] ?? '';
 		// On recupère le controleur
-		$defaultController = $_COOKIE["CurrentContoller"] ?? "ControllerGeneral"; // Vérifier si l'utilisateur a déja été sur le site, si oui, il retourne sur ce qu'il etait en train de faire, sinon, page d'accueil
+		$defaultController = "ControllerGeneral";
 		$controller = $_GET["controller"] ?? $defaultController; // On vérifie si l'utilisateur se dirige vers un autre controleur spéxifié, sion on le mets sur celui décidé précédament
-
-		CookiesConf::setCookie("CurrentContoller", $controller);
-		$_COOKIE["CurrentContoller"] = $controller; //ajout manuel pour utilisation immédiate
 
 		// Extraire la partie du contrôleur apres'Controller' pour définir le model avec lequel on travail
 		$_SESSION['controller'] = substr($controller, 10);

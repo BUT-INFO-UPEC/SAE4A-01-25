@@ -1,4 +1,4 @@
-<a class="button" href="?action=edit" style="position: absolute; right: 0;">
+<a class="button" href="?controller=ControllerDashboard&action=edit" style="position: absolute; right: 0;">
 	modifier
 </a>
 
