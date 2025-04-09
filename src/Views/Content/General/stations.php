@@ -21,7 +21,7 @@
     </thead>
     <tbody>
         <?php foreach ($stations as $item) : ?>
-            <tr onclick="window.location.href='<?= BASE_URL ?>?controller=ControllerGeneral&action=info_station&id=<?= htmlspecialchars($item['station_id']) ?>'">
+            <tr onclick="window.location.href='<?= CONTROLLER_URL ?>?controller=ControllerGeneral&action=info_station&id=<?= htmlspecialchars($item['station_id']) ?>'">
                 <td><?= htmlspecialchars($item['station_name']) ?></td>
                 <td><?= htmlspecialchars($item['ville_name']) ?></td>
                 <td><?= htmlspecialchars($item['dept_name']) ?></td>

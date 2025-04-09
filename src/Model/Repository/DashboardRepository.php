@@ -10,6 +10,8 @@ use Src\Config\Utils\MsgRepository;
 use Src\Config\Utils\SessionManagement;
 use Src\Config\ServerConf\DatabaseConnection;
 use Src\Config\Utils\Utils;
+use Src\Model\DataObject\Analysis;
+use Src\Model\DataObject\Composant;
 use Src\Model\DataObject\Dashboard;
 
 class DashboardRepository extends AbstractRepository
@@ -313,5 +315,44 @@ class DashboardRepository extends AbstractRepository
 			$query .= " WHERE " . implode(" AND ", $conditions);
 		}
 		return DatabaseConnection::fetchAll($query, $params);
+	}
+
+	
+	static public function build_sta_dash(int $sta_id): Dashboard
+	{
+		$attributsConstructor = new AttributRepository();
+		$aggregationConstructor = new AggregationRepository();
+		$grouppintConstructor = new GrouppingRepository();
+		$representationConstructor = new RepresentationRepository();
+		$attribut1 = 64; //température °C
+		$aggregation1 = 1;
+		$groupping1 = 12; // TOTAL
+		$representation1 = 2; // donnée textuelle
+		$liste_composants = [];
+		$liste_composants[] = new Composant(
+			new Analysis(
+				null,
+				$attributsConstructor->get_attribut_by_id($attribut1),
+				$aggregationConstructor->get_aggregation_by_id($aggregation1),
+				$grouppintConstructor->get_groupping_by_id($groupping1),
+				$representationConstructor->get_representation_by_id($representation1)
+			),
+			['titre'=>'Moyenne des températures', 'chartId'=>1],
+			null
+		);
+		$dash = new Dashboard(
+			null,
+			0,
+			0,
+			0,
+			"0000-00-07",
+			"0000-00-00",
+			true,
+			true,
+			$liste_composants,
+			["numer_sta" => $sta_id],
+			["titre" => "dashboard station"]
+		);
+		return $dash;
 	}
 }

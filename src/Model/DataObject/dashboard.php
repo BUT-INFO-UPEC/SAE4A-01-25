@@ -36,7 +36,7 @@ class Dashboard extends AbstractDataObject
 	//      CONSTRUCTOR
 	// =======================
 
-	public function __construct(int $dashboard_id, int $privatisation, int $createurId, int $originalId, string $date_debut, string $date_fin, bool $date_debut_relatif, bool $date_fin_relatif, array $composants, array $critere_geo, array $param)
+	public function __construct(?int $dashboard_id, int $privatisation, int $createurId, int $originalId, string $date_debut, string $date_fin, bool $date_debut_relatif, bool $date_fin_relatif, array $composants, array $critere_geo, array $param)
 	{
 		$this->dashboardId = $dashboard_id;
 		$this->privatisation = $privatisation;
