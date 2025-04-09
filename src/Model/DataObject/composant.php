@@ -231,6 +231,7 @@ class Composant extends AbstractDataObject
 			// **Ajouter l'en-tête obligatoire pour Google Charts**
 			$formattedData = [[$keyValueSort, $this->keyTargetValue]]; // En-tête
 			if ($geo_file) {
+				$formattedData[0][] = "name";
 				$formattedData[0][] = 'lon';
 				$formattedData[0][] = 'lat';
 			}
@@ -239,7 +240,8 @@ class Composant extends AbstractDataObject
 				$key = (string) $key;
 				$var = [$key, $value];
 				if ($geo_file) {
-					$station = DatabaseConnection::fetchOne("SELECT longitude, latitude FROM stations where id = :id", [":id" => $key]);
+					$station = DatabaseConnection::fetchOne("SELECT name, longitude, latitude FROM stations where id = :id", [":id" => $key]);
+					$var[] = $station['name'];
 					$var[] = $station['longitude'];
 					$var[] = $station['latitude'];
 				}

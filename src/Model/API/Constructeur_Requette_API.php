@@ -10,7 +10,7 @@ class Constructeur_Requette_API
 	// =======================
 	//        ATTRIBUTES
 	// =======================
-	
+
 	private const BASE_URL = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records";
 	private array $select;
 	private ?array $where;
@@ -21,7 +21,7 @@ class Constructeur_Requette_API
 	private ?array $refine;
 	private ?array $exclude;
 	private string $lang;
-	private string $timezone;  
+	private string $timezone;
 	#endregion Attributs
 
 	// =======================
@@ -30,13 +30,13 @@ class Constructeur_Requette_API
 
 	public function __construct(
 		array $select,
-		array $where = null,
-		array $group_by = null,
+		array $where = [],
+		array $group_by = [],
 		string $order_by = '',
 		int $limit = 100,
 		int $offset = 0,
-		array $refine = null,
-		array $exclude = null,
+		array $refine = [],
+		array $exclude = [],
 		string $lang = "fr",
 		string $timezone = "Europe/Paris"
 	) {
@@ -58,7 +58,7 @@ class Constructeur_Requette_API
 	// =======================
 
 	/** Formate le paramètre select de la requette (qu'est-ce que la requette récupère comme données)
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getSelect(): ?string
@@ -67,7 +67,7 @@ class Constructeur_Requette_API
 	}
 
 	/** Formate le paramètre where de la requette (comment la requette selectionne les données a retourner -lequels)
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getWhere(): ?string
@@ -76,7 +76,7 @@ class Constructeur_Requette_API
 	}
 
 	/** Formate le paramètre groupby de la requette (groupe les données pour leur appliquer le critère d'agrégation)
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getGroupBy(): ?string
@@ -85,7 +85,7 @@ class Constructeur_Requette_API
 	}
 
 	/** Formate le paramètre orderby de la requette (définie l'ordre de la liste de données retournée)
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getOrderBy(): ?string
@@ -94,7 +94,7 @@ class Constructeur_Requette_API
 	}
 
 	/** Formate le paramètre limit de la requette (définie le nombre maximum de données par page)
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getLimit(): ?string
@@ -103,7 +103,7 @@ class Constructeur_Requette_API
 	}
 
 	/** Formate le paramètre offset de la requette (définie a partir de quel index de donnée la requette doit rnvoyer les données suivantes)
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getOffset(): ?string
@@ -129,7 +129,7 @@ class Constructeur_Requette_API
 	}
 
 	/** Désolé, aucune idée
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getExclude(): ?string
@@ -146,7 +146,7 @@ class Constructeur_Requette_API
 	}
 
 	/** Formate le paramètre lang de la requette (dans quelle langue les données doivent etre renvoyées)
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getLang()
@@ -155,7 +155,7 @@ class Constructeur_Requette_API
 	}
 
 	/** Formate le paramètre time_zone de la requette (pour prendre en compte le décalage horaire)
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function getTimeZone(): ?string
@@ -170,7 +170,7 @@ class Constructeur_Requette_API
 	// =======================
 
 	/** Récupère la prochaine page de la requette en décalant les données récupérées du nombre de données par page
-	 * 
+	 *
 	 * @return void
 	 */
 	public function nextPage(): void
