@@ -8,6 +8,7 @@ use Src\Config\ServerConf\DatabaseConnection;
 use Src\Config\Utils\MsgRepository;
 use Src\Config\Utils\SessionManagement;
 use Src\Model\API\Constructeur_Requette_API;
+use Src\Model\DataObject\Composant;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
 use Src\Model\API\Requetteur_API;
@@ -163,12 +164,11 @@ class ControllerGeneral extends AbstractController
 			$user = (new UtilisateurRepository)->getUserByMailMdp($email, $mdp);
 
 			if ($user !== null) {
-			$_SESSION['user'] = $user;
+				$_SESSION['user'] = $user;
 
-			UtilisateurRepository::updateNbConn();
+				UtilisateurRepository::updateNbConn();
 
-			MsgRepository::newSuccess("Connexion réussie.", "", MsgRepository::LAST_PAGE);
-
+				MsgRepository::newSuccess("Connexion réussie.", "", MsgRepository::LAST_PAGE);
 			} else {
 				MsgRepository::newError("Utilisateur introuvable.", "Identifiants incorrects.");
 			}

@@ -16,7 +16,7 @@ $svgContent = preg_replace_callback(
 	function ($matches) {
 		$attributes = $matches[1] . $matches[3];
 		$regionId = $matches[2];
-		return '<a href="?action=browse&region=' . urlencode($regionId) . '"><path' . $attributes . ' id="' . $regionId . '" /></a>';
+		return '<a href="?controller=ControllerDev&action=browse&region=' . urlencode($regionId) . '"><path' . $attributes . ' id="' . $regionId . '" /></a>';
 	},
 	$svgContent
 );

@@ -1,4 +1,4 @@
 .venv
 src/Config/Config/ServerParameters.php
-database/DATABASE.db
+database/*.db
 database/databaseUpdates.log
