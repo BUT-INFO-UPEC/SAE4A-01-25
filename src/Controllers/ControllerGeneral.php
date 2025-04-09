@@ -12,7 +12,7 @@ use Src\Model\DataObject\Composant;
 use Src\Model\DataObject\Utilisateur;
 use Src\Model\Repository\UtilisateurRepository;
 use Src\Model\API\Requetteur_API;
-
+use Src\Model\Repository\DashboardRepository;
 
 class ControllerGeneral extends AbstractController
 {
@@ -43,6 +43,96 @@ class ControllerGeneral extends AbstractController
 	// =======================
 	//    GET METHODS
 	// =======================
+
+	/**
+	 * Affiche la liste des stations disponible dans l'api
+	 *
+	 * @return void
+	 */
+	public static function stations(): void
+	{
+		// Appel page
+		$titrePage = "Stations";
+		$cheminVueBody = "stations.php";
+
+		// Requête SQL corrigée avec les noms de tables corrects
+		$query = "
+			SELECT
+				s.id AS station_id,
+				s.name AS station_name,
+				v.name AS ville_name,
+				e.name AS epci_name,
+				d.name AS dept_name,
+				r.name AS region_name
+			FROM stations s
+			JOIN villes v ON s.ville_id = v.id
+			JOIN epcis e ON v.epci_id = e.id
+			JOIN depts d ON e.dept_id = d.id
+			JOIN regions r ON d.reg_id = r.id
+		";
+
+		try {
+			$stations = DatabaseConnection::executeQuery($query);
+		} catch (PDOException $e) {
+			die("Erreur SQL : " . $e->getMessage());
+		}
+
+		require('../src/Views/Template/views.php');
+	}
+
+	/**
+	 * Recupère les informations d'une station dans l'api pour les envoier en une variable
+	 * @param int $id
+	 * @return void
+	 */
+	public static function infoStation(int $id): array
+	{
+		// Requête SQL corrigée avec les noms de tables corrects
+		$requette = new Constructeur_Requette_API(
+			["*"],
+			["numer_sta=" . $id],
+			["numero_sta"],
+			"numero_sta",
+			"10000"
+		);
+		$station = Requetteur_API::fetchData($requette, "numer_sta", "nom_sta");
+		$station = $station[0];
+
+		// Vérification de l'existence de la station
+		if (empty($station)) {
+			MsgRepository::newError("Erreur", "Aucune station trouvée avec cet ID.");
+			return [];
+		}
+
+		return $station;
+	}
+
+	/**
+	 * Affiche la page d'information sur une station
+	 *
+	 * @param int $id
+	 * @return void
+	 */
+	public static function info_station(): void
+	{
+
+		$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+		// Récupération des informations de la station
+		$station = self::infoStation($id);
+		$dash = DashboardRepository::build_sta_dash($id);
+
+		// Appel page
+		$titrePage = "Informations sur la station";
+		$cheminVueBody = "info_station.php";
+		require('../src/Views/Template/views.php');
+	}
+
+	public static function tuto(): void
+	{
+		$titrePage = "Tutoriel";
+		$cheminVueBody = "tuto.php";
+		require('../src/Views/Template/views.php');
+	}
 
 	#endregion get
 
@@ -180,105 +270,4 @@ class ControllerGeneral extends AbstractController
 		require('../src/Views/Template/views.php');
 	}
 	#endregion user
-
-	/**
-	 * Affiche la liste des stations disponible dans l'api
-	 *
-	 * @return void
-	 */
-	public static function stations(): void
-	{
-		// Appel page
-		$titrePage = "Stations";
-		$cheminVueBody = "stations.php";
-
-		// Requête SQL corrigée avec les noms de tables corrects
-		$query = "
-			SELECT
-				s.id AS station_id,
-				s.name AS station_name,
-				v.name AS ville_name,
-				e.name AS epci_name,
-				d.name AS dept_name,
-				r.name AS region_name
-			FROM stations s
-			JOIN villes v ON s.ville_id = v.id
-			JOIN epcis e ON v.epci_id = e.id
-			JOIN depts d ON e.dept_id = d.id
-			JOIN regions r ON d.reg_id = r.id
-		";
-
-		try {
-			$stations = DatabaseConnection::executeQuery($query);
-		} catch (PDOException $e) {
-			die("Erreur SQL : " . $e->getMessage());
-		}
-
-		require('../src/Views/Template/views.php');
-	}
-
-	/**
-	 * Recupère les informations d'une station dans l'api pour les envoier en une variable
-	 * @param int $id
-	 * @return void
-	 */
-	public static function infoStation(int $id): array
-	{
-		// Requête SQL corrigée avec les noms de tables corrects
-		$requette = new Constructeur_Requette_API(
-			["numer_sta"],
-			["numer_sta=" . $id],
-			["numer_sta"],
-			"numer_sta",
-			"1"
-		);
-		$station = Requetteur_API::fetchData($requette, "numer_sta", "numer_sta");
-		$station = $station[0];
-
-		// Vérification de l'existence de la station
-		if (empty($station)) {
-			MsgRepository::newError("Erreur", "Aucune station trouvée avec cet ID.");
-			return [];
-		}
-
-		return $station;
-	}
-
-	/**
-	 * Affiche la page d'information sur une station
-	 *
-	 * @return void
-	 */
-	public static function info_station(): void
-	{
-		try {
-			if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-				MsgRepository::newError("ID manquant ou invalide", "Aucune station sélectionnée.");
-				return;
-			}
-
-			$id = (int)$_GET['id'];
-
-			$station = self::infoStation($id);
-
-			if (empty($station)) {
-				return; // La méthode infoStation gère déjà l'erreur
-			}
-
-			$titrePage = "Informations sur la station";
-			$cheminVueBody = "info_station.php";
-
-			require('../src/Views/Template/views.php');
-		} catch (Exception $e) {
-			MsgRepository::newError("Erreur lors du chargement de la station", $e->getMessage());
-		}
-	}
-	#endregion
-
-	public static function tuto(): void
-	{
-		$titrePage = "Tutoriel";
-		$cheminVueBody = "tuto.php";
-		require('../src/Views/Template/views.php');
-	}
 }
