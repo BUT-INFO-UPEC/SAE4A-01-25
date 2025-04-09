@@ -63,4 +63,4 @@ if (!empty($_SESSION['MSGs']["undying"])) {
 	}
 }
 	?>
-	<a href="?action=clear_log"> Effacer l'historique des messages</a>
+	<a href="?controller=ControllerDev&action=clear_log"> Effacer l'historique des messages</a>
