@@ -3,6 +3,7 @@
 namespace Src\Model\DataObject;
 
 use Src\Config\ServerConf\DatabaseConnection;
+use Src\Config\Utils\MsgRepository;
 use Src\Config\Utils\SessionManagement;
 use Src\Config\Utils\Utils;
 use Src\Model\Repository\RepresentationRepository;
@@ -249,6 +250,7 @@ class Composant extends AbstractDataObject
 			}
 			$data = $formattedData;
 		}
+		// MsgRepository::Debug($data);
 
 		$this->data = $data;
 	}

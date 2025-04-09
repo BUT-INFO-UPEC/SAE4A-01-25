@@ -19,8 +19,8 @@ class Requetteur_API
 				// Construire l'URL de la requête
 				$url = $requette->formatUrl();
 
-				$advance = (sizeof($totalData)/100) + 1 ." / ".(($APITotal == 1) ? " ? ":$APITotal/100);
-				SessionManagement::get_curent_log_instance()->new_log("Requette $advance à l'API. url : ".$url);
+				$advance = (sizeof($totalData) / 100) + 1 . " / " . (($APITotal == 1) ? " ? " : $APITotal / 100);
+				SessionManagement::get_curent_log_instance()->new_log("Requette $advance à l'API. url : " . $url);
 
 				// Exécuter la requête avec CURL
 				$response = self::executeCurl($url);
@@ -33,7 +33,12 @@ class Requetteur_API
 				} elseif ($keyValueSort != "") {
 					foreach ($response["results"] as $data) {
 						if ($keyTargetValue	!= '') {
-							$totalData[$data[$keyValueSort]] = $data[$keyTargetValue];
+							$key_list = explode(',', preg_replace('/\s*,\s*/', ',', trim($keyValueSort)));
+							$key_value = [];
+							foreach ($key_list as $key) {
+								$key_value[] = $data[$key];
+							}
+							$totalData[implode("/",$key_value)] = $data[$keyTargetValue];
 						} else {
 							$totalData[$data[$keyValueSort]] = $data;
 						}
