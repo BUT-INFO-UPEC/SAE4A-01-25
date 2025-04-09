@@ -54,6 +54,10 @@ hr {
 	/* aligne le centent au centre */
 }
 
+.dashboard-card h4 {
+	width: 100%;
+}
+
 @media screen and (max-width: 768px) {
 	.dashboard-card {
 		width: 100%;
