@@ -226,11 +226,11 @@ class ControllerGeneral extends AbstractController
 	{
 		// Requête SQL corrigée avec les noms de tables corrects
 		$requette = new Constructeur_Requette_API(
-			["all"],
+			["numer_sta"],
 			["numer_sta=" . $id],
-			["numer _sta"],
-			"numer _sta",
-			"10000"
+			["numer_sta"],
+			"numer_sta",
+			"1"
 		);
 		$station = Requetteur_API::fetchData($requette, "numer_sta", "numer_sta");
 		$station = $station[0];

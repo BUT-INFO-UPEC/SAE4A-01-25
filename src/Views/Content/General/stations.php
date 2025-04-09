@@ -37,10 +37,9 @@
 				<td><?= htmlspecialchars($item['ville_name']) ?></td>
 				<td><?= htmlspecialchars($item['dept_name']) ?></td>
 				<td><?= htmlspecialchars($item['region_name']) ?></td>
-				<th>
-					<a href="<?= BASE_URL ?>?controller=ControllerGeneral&action=info_station&id=<?= $item['station_id'] ?>"></a>
-					<button class="btn btn-primary">Voir</button>
-				</th>
+				<td>
+					<a class="btn btn-primary" href="<?= CONTROLLER_URL ?>?controller=ControllerGeneral&action=info_station&id=<?= $item['station_id'] ?>">Voir</a>
+				</td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
