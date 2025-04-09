@@ -39,12 +39,12 @@
 
             // Extraction des en-têtes
             const headers = rawData[0];
-            
+
             // Trouver l'index de la valeur à visualiser (qui n'est ni numer_sta, ni lat, ni lon)
-            const valueHeader = headers.find(header => 
+            const valueHeader = headers.find(header =>
                 header !== 'numer_sta' && header !== 'lat' && header !== 'lon'
             );
-            
+
             // Construction d'un tableau d'objets à partir des données
             const stations = rawData.slice(1).map(row => {
                 const station = {};
@@ -62,12 +62,12 @@
             const minValue = Math.min(...values);
             const maxValue = Math.max(...values);
             const avgValue = (minValue + maxValue) / 2;
-            
+
             // Fonction pour déterminer la couleur en fonction de la valeur
             function getColor(value) {
                 // Interpolation entre bleu (min), jaune (moyenne), rouge (max)
                 const ratio = (value - minValue) / (maxValue - minValue);
-                
+
                 if (ratio < 0.5) {
                     // Bleu vers jaune
                     const r = Math.floor(ratio * 2 * 255);
@@ -82,7 +82,7 @@
                     return `rgb(${r}, ${g}, ${b})`;
                 }
             }
-            
+
             // Fonction pour déterminer le rayon en fonction de la valeur
             function getRadius(value) {
                 // Rayon proportionnel à la valeur (entre 5 et 15)
@@ -101,7 +101,7 @@
             // Ajout des cercles colorés pour chaque station
             stations.forEach(station => {
                 const value = station[valueHeader];
-                
+
                 L.circleMarker([station.lat, station.lon], {
                     radius: getRadius(value),
                     fillColor: getColor(value),
@@ -111,8 +111,10 @@
                     fillOpacity: 0.8
                 }).addTo(map)
                 .bindPopup(`
-                    <strong>Station ${station.numer_sta}</strong><br>
-                    ${valueHeader}: ${value.toFixed(2)}
+                    <strong>${station.name}</strong><br>
+                    ${valueHeader.replace(
+						/_/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2"
+					)}: ${value.toFixed(2)}
                 `);
             });
 
@@ -123,7 +125,7 @@
                 const div = L.DomUtil.create('div', 'legend');
                 const grades = [minValue, avgValue, maxValue];
                 const labels = [];
-                
+
                 // Génération du gradient de couleur pour la légende
                 div.innerHTML = `
                     <div><strong>${valueHeader}</strong></div>
@@ -134,7 +136,7 @@
                         <span>${maxValue.toFixed(2)}</span>
                     </div>
                 `;
-                
+
                 return div;
             };
 

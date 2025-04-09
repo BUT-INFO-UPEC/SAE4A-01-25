@@ -87,24 +87,21 @@ class ControllerGeneral extends AbstractController
 	 */
 	public static function infoStation(int $id): array
 	{
-		// Requête SQL corrigée avec les noms de tables corrects
 		$requette = new Constructeur_Requette_API(
 			["*"],
-			["numer_sta=" . $id],
-			["numero_sta"],
-			"numero_sta",
-			"10000"
+			["numer_sta=" . (int)$id],
+			[],
+			"numer_sta"
 		);
-		$station = Requetteur_API::fetchData($requette, "numer_sta", "nom_sta");
-		$station = $station[0];
 
-		// Vérification de l'existence de la station
-		if (empty($station)) {
+		$stations = Requetteur_API::fetchData($requette, "numer_sta", "nom_sta");
+
+		if (empty($stations)) {
 			MsgRepository::newError("Erreur", "Aucune station trouvée avec cet ID.");
 			return [];
 		}
 
-		return $station;
+		return $stations[0];
 	}
 
 	/**
