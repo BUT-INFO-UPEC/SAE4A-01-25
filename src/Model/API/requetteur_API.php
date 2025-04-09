@@ -14,6 +14,7 @@ class Requetteur_API
 	{
 		$totalData = [];
 		$APITotal = 1;
+		SessionManagement::get_curent_log_instance()->new_log("Requette API.");
 		try {
 			while (sizeof($totalData) < $APITotal) {
 				// Construire l'URL de la requête
@@ -24,28 +25,38 @@ class Requetteur_API
 
 				// Exécuter la requête avec CURL
 				$response = self::executeCurl($url);
-				if ($APITotal == 1) $APITotal = max(min(isset($response['total_count']) ? $response['total_count'] : 1, $limit), 1);
-
-				if ($alias == 'total') {
-					foreach ($response["results"] as $data) {
-						$totalData['total'] = $data[$keyTargetValue];
-					}
-				} elseif ($keyValueSort != "") {
-					foreach ($response["results"] as $data) {
-						if ($keyTargetValue	!= '') {
-							$key_list = explode(',', preg_replace('/\s*,\s*/', ',', trim($keyValueSort)));
-							$key_value = [];
-							foreach ($key_list as $key) {
-								$key_value[] = $data[$key];
-							}
-							$totalData[implode("/",$key_value)] = $data[$keyTargetValue];
-						} else {
-							$totalData[$data[$keyValueSort]] = $data;
-						}
-					}
+				// Si l'API retourne un tableau vide, on arrête proprement
+				if (empty($response['results'])) {
+					SessionManagement::get_curent_log_instance()->new_log("Aucune donnée retournée par l'API.");
+					return [$keyValueSort => 0];
 				} else {
-					// tout combiner
-					$totalData = array_merge($totalData, $response['results'] ?? []);
+					if ($APITotal == 1) $APITotal = max(min(isset($response['total_count']) ? $response['total_count'] : 1, $limit), 1);
+	
+					SessionManagement::get_curent_log_instance()->new_log($APITotal);
+					SessionManagement::get_curent_log_instance()->new_log(var_export($response, true));
+	
+					if ($alias == 'total') {
+						foreach ($response["results"] as $data) {
+							$totalData['total'] = $data[$keyTargetValue];
+						}
+					} elseif ($keyValueSort != "") {
+						foreach ($response["results"] as $data) {
+							if ($keyTargetValue	!= '') {
+								$key_list = explode(',', preg_replace('/\s*,\s*/', ',', trim($keyValueSort)));
+								$key_value = [];
+								foreach ($key_list as $key) {
+									$key_value[] = $data[$key];
+								}
+								$totalData[implode("/", $key_value)] = $data[$keyTargetValue];
+							} else {
+								$totalData[$data[$keyValueSort]] = $data;
+							}
+						}
+					} else {
+						// tout combiner
+						$totalData = array_merge($totalData, $response['results'] ?? []);
+					}
+
 				}
 			}
 		} catch (Exception $e) {
