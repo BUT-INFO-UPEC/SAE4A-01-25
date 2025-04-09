@@ -256,7 +256,6 @@ class Composant extends AbstractDataObject
 			}
 			$data = $formattedData;
 		}
-		// MsgRepository::Debug($data);
 
 		$this->data = $data;
 	}
@@ -267,10 +266,12 @@ class Composant extends AbstractDataObject
 	 *
 	 * @return array
 	 */
-	public function get_data(Dashboard $dash): array
+	public function get_data(Dashboard $dash = null): array
 	{
 		// Si les données sont déja définies, les retourner directement
 		if (isset($this->data)) return $this->data;
+
+		if (!$dash) throw new \Exception('Les données ne sont pas préparées et aucnu dashboard disponible pour la préparation de celles-ci.');
 
 		// Si les données ne sont pas encore téléchargées, les télécharger avant de les retournées
 		$this->prepare_data($dash);

@@ -4,23 +4,9 @@
 </div>
 
 <div id="info_station">
-	<table class="table table-striped table-hover">
-		<thead>
-			<tr>
-				<th>Nom Station</th>
-				<th>Ville</th>
-				<th>Départment</th>
-				<th>Région</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><?= $station['station_name'] ?></td>
-				<td><?= $station['ville_name'] ?></td>
-				<td><?= $station['dept_name'] ?></td>
-				<td><?= $station['region_name'] ?></td>
-			</tr>
-		</tbody>
-	</table>
+	<?php var_dump($station) ?>
 
+	<h2> <?= $dash->get_name() ?></h2>
+
+	<?php include(__DIR__ . "/../../Plugins/visual_dashboard_constructor.php"); ?>
 </div>
