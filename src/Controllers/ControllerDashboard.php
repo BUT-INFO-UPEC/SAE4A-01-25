@@ -36,8 +36,8 @@ class ControllerDashboard extends AbstractController
 	 */
 	static function new_dashboard(): void
 	{
-		// Initialisation sur le dashboard par défaut (id = 0)
-		$_GET['dashId'] =  1;
+		// Initialisation sur le dashboard par défaut (id = 2)
+		$_GET['dashId'] =  2;
 
 		// MsgRepository::newSuccess("Nouveau dashboard initialisé", "", MsgRepository::NO_REDIRECT);
 
