@@ -130,7 +130,7 @@
 
 				// Génération du gradient de couleur pour la légende
 				div.innerHTML = `
-                    <div><strong>${valueHeader}</strong></div>
+                    <div><strong>${valueHeader.replace(/_/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").replace(/0(?=C)/g, "°")}</strong></div>
                     <div style="background: linear-gradient(to right, blue, yellow, red); height: 20px; margin: 5px 0;"></div>
                     <div style="display: flex; justify-content: space-between;">
                         <span>${minValue.toFixed(2)}</span>
